@@ -86,35 +86,80 @@ var faces = (function (Raphael) {
     });
 
     mouth.push(function (paper, cx, cy) {
-        var e, x = cx - 75, y = cy;
+        // Thin smile
 
-        e = paper.path("M " + x + "," + y
-                     + "c 0,0 75,60 150,0")
-                 .attr({"stroke-width": 8});
+        var x = cx - 75, y = cy - 15;
+
+        paper.path("M " + x + "," + y
+                 + "c 0,0 75,60 150,0")
+             .attr({"stroke-width": 8});
+    });
+    mouth.push(function (paper, cx, cy) {
+        // Thin flat
+
+        var x = cx - 55, y = cy;
+
+        paper.path("M " + x + "," + y
+                 + "h 110")
+             .attr({"stroke-width": 8});
+    });
+    mouth.push(function (paper, cx, cy) {
+        // Open-mouthed smile, top teeth
+
+        var x = cx - 75, y = cy - 15;
+
+        paper.path("M " + x + "," + y
+                 + "c 0,0 75,100 150,0"
+                 + "h -150")
+             .attr({fill: "#000"});
+        paper.path("M " + (x + 16) + "," + (y + 8)
+                 + "l 16,16"
+                 + "h 86"
+                 + "l 16,-16"
+                 + "h -118")
+             .attr({fill: "#f0f0f0"});
     });
 
     hair.push(function (paper, fatness) {
-        var e;
+        // Normal short
 
-        e = paper.path("M 200,100"
-                     + "c 0,0 180,-10 176,150"
-                     + "c 0,0 -180,-150 -352,0"
-                     + "c 0,0 0,-160 176,-150")
-                 .attr({"stroke-width": 0,
-                        fill: "#000"})
-                 .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        paper.path("M 200,100"
+                 + "c 0,0 180,-10 176,150"
+                 + "c 0,0 -180,-150 -352,0"
+                 + "c 0,0 0,-160 176,-150")
+             .attr({"stroke-width": 0,
+                    fill: "#000"})
+             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
     hair.push(function (paper, fatness) {
-        var e;
+        // Flat top
 
-        e = paper.path("M 25,60"
-                     + "h 352"
-                     + "v 190"
-                     + "c 0,0 -180,-150 -352,0"
-                     + "v -190")
-                 .attr({"stroke-width": 0,
-                        fill: "#000"})
-                 .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        paper.path("M 25,60"
+                 + "h 352"
+                 + "v 190"
+                 + "c 0,0 -180,-150 -352,0"
+                 + "v -190")
+             .attr({"stroke-width": 0,
+                    fill: "#000"})
+             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+    });
+    hair.push(function (paper, fatness) {
+        // Afro
+
+        paper.path("M 25,250"
+                 + "a 210,150 0 1 1 352,0"
+                 + "c 0,0 -180,-150 -352,0")
+             .attr({"stroke-width": 0,
+                    fill: "#000"})
+             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+    });
+    hair.push(function (paper, fatness) {
+        // Cornrows
+
+        paper.path("M 74,209"
+                 + "v -50 m 50,35 v -80 m 50,70 v -82 m 50,82 v -82 m 50,93 v -80 m 50,90 v -50")
+             .attr({"stroke-width": 20})
+             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
     hair.push(function (paper, fatness) {
         // Intentionally left blank (bald)
@@ -211,7 +256,7 @@ var faces = (function (Raphael) {
         flip = Math.random() > 0.5 ? true : false;
         face.nose = {id: getId(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
 
-        face.mouth = {id: getId(mouth), cx: 200, cy: 385};
+        face.mouth = {id: getId(mouth), cx: 200, cy: 400};
 
         face.hair = {id: getId(hair)};
 
