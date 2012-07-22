@@ -62,7 +62,7 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
 
-    nose.push(function (paper, cx, cy) {
+    nose.push(function (paper, cx, cy, size, posY, flip) {
         var e, x = cx - 30, y = cy;
 
         e = paper.path("M " + x + "," + y
@@ -70,7 +70,7 @@ var faces = (function (Raphael) {
                      + "l 30,-30")
                  .attr({"stroke-width": "8px"});
     });
-    nose.push(function (paper, cx, cy) {
+    nose.push(function (paper, cx, cy, size, posY, flip) {
         // Do variable sized nose and mirroring randomly after I figure out how to not kill the stroke width when applying a transformation
 
         var e, x = cx, y = cy - 10;
@@ -78,6 +78,10 @@ var faces = (function (Raphael) {
         e = paper.path("M " + x + "," + y
                      + "c 0,0 50,-30 0,30")
                  .attr({"stroke-width": "8px"});
+
+        if (flip) {
+            e.transform("m -1 0 0 1 " + (x * 2) + " 0"); // e.transform("s -1,1");
+        }
     });
 
     mouth.push(function (paper, cx, cy) {
@@ -100,54 +104,96 @@ var faces = (function (Raphael) {
                  .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
 
-    return {
-        /**
-         * Generate a random face
-         * 
-         * @param {string} container id of the div that the face will appear in.
-         */
-        generate: function (container) {
-            var angle, color, colors, fatness, i, paper;
+    function getId(array) {
+        return Math.floor(Math.random() * array.length);
+    }
 
-            // Set fatness, biased towards skinny
-            fatness = Math.random() * 0.88;
-            if (fatness > 0.6) {
-                fatness = Math.random() * 0.88;
-                if (fatness > 0.7) {
-                    fatness = Math.random() * 0.88;
-                    if (fatness > 0.8) {
-                        fatness = Math.random() * 0.88;
-                    }
+
+    /**
+     * Display a face.
+     * 
+     * @param {string} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
+     * @param {Object} face Face object, such as one generated from faces.generate.
+     */
+    function display(container, face) {
+        var paper;
+
+        paper = new Raphael(document.getElementById(container), 400, 600);
+        head[face.head.id](paper, face.fatness, face.color);
+        eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
+        eyebrow[face.eyebrows[1].id](paper, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
+
+        eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
+        eye[face.eyes[1].id](paper, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
+
+        nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
+        mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
+        hair[face.hair.id](paper, face.fatness);
+    }
+
+    /**
+     * Generate a random face.
+     * 
+     * @param {string=} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
+     * @return {Object} Randomly generated face object.
+     */
+    function generate(container) {
+        var angle, colors, face, flip, i, id, paper;
+
+        face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
+
+        // Set fatness, biased towards skinny
+        face.fatness = Math.random() * 0.88;
+        if (face.fatness > 0.6) {
+            face.fatness = Math.random() * 0.88;
+            if (face.fatness > 0.7) {
+                face.fatness = Math.random() * 0.88;
+                if (face.fatness > 0.8) {
+                    face.fatness = Math.random() * 0.88;
                 }
             }
-
-            colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
-            i = Math.floor(Math.random() * colors.length);
-            if (i < 7) {
-                i = Math.floor(Math.random() * colors.length);
-                if (i < 6) {
-                    i = Math.floor(Math.random() * colors.length);
-                    if (i < 5) {
-                        i = Math.floor(Math.random() * colors.length);
-                    }
-                }
-            }
-            color = colors[i];
-
-            paper = new Raphael(document.getElementById(container), 400, 600);
-            head[0](paper, fatness, color);
-            eyebrow[0](paper, "l", 135, 250);
-            eyebrow[0](paper, "r", 265, 250);
-
-            i = Math.floor(Math.random() * eye.length);
-            angle = Math.random() * 60 - 30;
-            eye[i](paper, "l", 135, 280, angle);
-            eye[i](paper, "r", 265, 280, angle);
-
-            i = Math.floor(Math.random() * nose.length);
-            nose[i](paper, 200, 330);
-            mouth[0](paper, 200, 385);
-            hair[0](paper, fatness);
         }
+
+        colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
+        i = Math.floor(Math.random() * colors.length);
+        if (i < 7) {
+            i = Math.floor(Math.random() * colors.length);
+            if (i < 6) {
+                i = Math.floor(Math.random() * colors.length);
+                if (i < 5) {
+                    i = Math.floor(Math.random() * colors.length);
+                }
+            }
+        }
+        face.color = colors[i];
+
+        face.head = {id: getId(head)};
+
+        id = getId(eyebrow);
+        face.eyebrows[0] = {id: id, lr: "l", cx: 135, cy: 250};
+        face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
+
+        angle = Math.random() * 60 - 30;
+        id = getId(eye);
+        face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
+        face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
+
+        flip = Math.random() > 0.5 ? true : false;
+        face.nose = {id: getId(nose), lr: "l", cx: 200, cy: 330, size: undefined, posY: undefined, flip: flip};
+
+        face.mouth = {id: getId(mouth), cx: 200, cy: 385};
+
+        face.hair = {id: getId(hair)};
+
+        if (typeof container !== "undefined") {
+            display(container, face);
+        }
+
+        return face;
+    }
+
+    return {
+        display: display,
+        generate: generate
     };
 }(Raphael));
