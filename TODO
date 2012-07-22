@@ -1,6 +1,6 @@
 how big should the canvas be, and how much white space should there be?
 generate a couple options for each feature
-allow for saving parameters in an object and loading of a previously-generated face based on that object
+How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?
 
 FOR FIRST TRY:
 - head
@@ -18,5 +18,3 @@ THEN:
 - glasses
 - facial lines
 - facial hair
-
-How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?
