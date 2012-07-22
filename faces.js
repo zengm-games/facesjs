@@ -80,8 +80,7 @@ var faces = (function (Raphael) {
 
         if (flip) {
             e.transform("t -24,0 s -" + scale + "," + scale);
-        }
-        else {
+        } else {
             e.transform("s " + scale + "," + scale);
         }
     });
@@ -104,6 +103,21 @@ var faces = (function (Raphael) {
                  .attr({"stroke-width": 0,
                         fill: "#000"})
                  .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+    });
+    hair.push(function (paper, fatness) {
+        var e;
+
+        e = paper.path("M 25,60"
+                     + "h 352"
+                     + "v 190"
+                     + "c 0,0 -180,-150 -352,0"
+                     + "v -190")
+                 .attr({"stroke-width": 0,
+                        fill: "#000"})
+                 .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+    });
+    hair.push(function (paper, fatness) {
+        // Intentionally left blank (bald)
     });
 
     function getId(array) {
