@@ -1,0 +1,24 @@
+big problem: scaling loses stroke width http://stackoverflow.com/questions/11597441/how-to-apply-or-maintain-line-style-in-raphael-after-scaling
+how to scale the output to whatever size is requested?
+how big should the canvas be, and how much white space should there be?
+generate a couple options for each feature
+allow for saving parameters in an object and loading of a previously-generated face based on that object
+
+FOR FIRST TRY:
+- head
+  - have them all with the same top half (different bottom halfs, though, and then randomize the width and height of the head to create fat/skinny faces. the current one is the fattest possible
+- eye (duplicate on face)
+  - angle
+  - flip for left/right
+- eyebrow (duplicate on face)
+  - angle
+  - flip for left/right
+- nose
+- mouth
+THEN:
+- headbands
+- glasses
+- facial lines
+- facial hair
+
+How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?
