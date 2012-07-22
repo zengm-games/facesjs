@@ -27,7 +27,7 @@ var faces = (function (Raphael) {
                          + "c 0,0 63,-30 60,0");
         }
 
-        e.attr({"stroke-width": "8px"});
+        e.attr({"stroke-width": 8});
     });
 
     eye.push(function (paper, lr, cx, cy, angle) {
@@ -35,7 +35,7 @@ var faces = (function (Raphael) {
 
         paper.path("M " + x + "," + y
                  + "h 60")
-             .attr({"stroke-width": "8px"})
+             .attr({"stroke-width": 8})
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
@@ -43,7 +43,7 @@ var faces = (function (Raphael) {
 
         paper.path("M " + x + "," + y
                  + "a 30,20 0 1 1 0.1,0")
-             .attr({"stroke-width": "6px"})
+             .attr({"stroke-width": 6})
              .transform("r" + (lr === "l" ? angle : -angle));
 
         paper.path("M " + x + "," + (y - 12)
@@ -53,9 +53,9 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
-        var x = cx, y = cy + 20;
+        var x = cx, y = cy + 13;
 
-        paper.path("M " + x + "," + (y - 7)
+        paper.path("M " + x + "," + y
                  + "a 20,15 0 1 1 0.1,0")
              .attr({"stroke-width": 0,
                     fill: "#000"})
@@ -63,24 +63,26 @@ var faces = (function (Raphael) {
     });
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
-        var e, x = cx - 30, y = cy;
+        var e, x = cx - 30, y = cy, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
                      + "l 30,30"
                      + "l 30,-30")
-                 .attr({"stroke-width": "8px"});
+                 .attr({"stroke-width": 8})
+                 .transform("s " + scale + "," + scale);
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
-        // Do variable sized nose and mirroring randomly after I figure out how to not kill the stroke width when applying a transformation
-
-        var e, x = cx, y = cy - 10;
+        var e, x = cx, y = cy - 10, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
                      + "c 0,0 50,-30 0,30")
-                 .attr({"stroke-width": "8px"});
+                 .attr({"stroke-width": 8});
 
         if (flip) {
-            e.transform("m -1 0 0 1 " + (x * 2) + " 0"); // e.transform("s -1,1");
+            e.transform("t -24,0 s -" + scale + "," + scale);
+        }
+        else {
+            e.transform("s " + scale + "," + scale);
         }
     });
 
@@ -89,7 +91,7 @@ var faces = (function (Raphael) {
 
         e = paper.path("M " + x + "," + y
                      + "c 0,0 75,60 150,0")
-                 .attr({"stroke-width": "8px"});
+                 .attr({"stroke-width": 8});
     });
 
     hair.push(function (paper, fatness) {
@@ -193,7 +195,7 @@ var faces = (function (Raphael) {
         face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
 
         flip = Math.random() > 0.5 ? true : false;
-        face.nose = {id: getId(nose), lr: "l", cx: 200, cy: 330, size: undefined, posY: undefined, flip: flip};
+        face.nose = {id: getId(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
 
         face.mouth = {id: getId(mouth), cx: 200, cy: 385};
 
