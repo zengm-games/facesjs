@@ -1,5 +1,3 @@
-big problem: scaling loses stroke width http://stackoverflow.com/questions/11597441/how-to-apply-or-maintain-line-style-in-raphael-after-scaling
-how to scale the output to whatever size is requested?
 how big should the canvas be, and how much white space should there be?
 generate a couple options for each feature
 allow for saving parameters in an object and loading of a previously-generated face based on that object

@@ -39,7 +39,7 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
-        var angle, x = cx, y = cy + 20;
+        var x = cx, y = cy + 20;
 
         paper.path("M " + x + "," + y
                  + "a 30,20 0 1 1 0.1,0")
@@ -53,7 +53,7 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
-        var angle, x = cx, y = cy + 20;
+        var x = cx, y = cy + 20;
 
         paper.path("M " + x + "," + (y - 7)
                  + "a 20,15 0 1 1 0.1,0")
@@ -116,9 +116,23 @@ var faces = (function (Raphael) {
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
     function display(container, face) {
-        var paper;
+        var h, paper, w;
 
-        paper = new Raphael(document.getElementById(container), 400, 600);
+        container = document.getElementById(container);
+        if (container.offsetWidth > 0) {
+            w = container.offsetWidth;
+        } else {
+            w = 400;
+        }
+        if (container.offsetHeight > 0) {
+            h = container.offsetHeight;
+        } else {
+            h = w * 3 / 2;
+        }
+
+        paper = new Raphael(container, w, h);
+        paper.canvas.setAttribute("viewBox", "0 0 400 600");
+        paper.canvas.setAttribute("preserveAspectRatio", "xMinYMin meet");
         head[face.head.id](paper, face.fatness, face.color);
         eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
         eyebrow[face.eyebrows[1].id](paper, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
