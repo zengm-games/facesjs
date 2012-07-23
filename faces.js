@@ -203,7 +203,7 @@ var Faces = (function (Raphael) {
                  + "v -60"
                  + "m 40,80"
                  + "v -10")
-             .attr({"stroke-width": 20,
+             .attr({"stroke-width": 22,
                     "stroke-linecap": "round"})
              .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
