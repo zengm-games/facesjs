@@ -1,4 +1,4 @@
-var faces = (function (Raphael) {
+var Faces = (function (Raphael) {
     "use strict";
 
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
@@ -29,6 +29,8 @@ var faces = (function (Raphael) {
     });
 
     eye.push(function (paper, lr, cx, cy, angle) {
+        // Horizontal
+
         var x = cx - 30, y = cy;
 
         paper.path("M " + x + "," + y
@@ -37,11 +39,14 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
+        // Normal (circle with a dot in it)
+
         var x = cx, y = cy + 20;
 
         paper.path("M " + x + "," + y
                  + "a 30,20 0 1 1 0.1,0")
-             .attr({"stroke-width": 6})
+             .attr({"stroke-width": 6,
+                    fill: "#f0f0f0"})
              .transform("r" + (lr === "l" ? angle : -angle));
 
         paper.path("M " + x + "," + (y - 12)
@@ -51,6 +56,8 @@ var faces = (function (Raphael) {
              .transform("r" + (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
+        // Dot
+
         var x = cx, y = cy + 13;
 
         paper.path("M " + x + "," + y
@@ -132,6 +139,17 @@ var faces = (function (Raphael) {
                  + "h -118")
              .attr({fill: "#f0f0f0"});
     });
+    mouth.push(function (paper, cx, cy) {
+        // Generic open mouth
+
+        var x = cx - 55, y = cy;
+
+        paper.path("M " + x + "," + y
+                 + "a 54,10 0 1 1 110,0"
+                 + "a 54,20 0 1 1 -110,0")
+             .attr({"stroke-width": 0,
+                    fill: "#000"});
+    });
 
     hair.push(function (paper, fatness) {
         // Normal short
@@ -170,7 +188,21 @@ var faces = (function (Raphael) {
         // Cornrows
 
         paper.path("M 36,229"
-                 + "v -10 m 40,-10, v -60 m 50,37 v -75 m 50,65 v -76 m 50,76 v -76 m 50,93 v -75 m 50,92 v -60 m 40,80 v -10")
+                 + "v -10"
+                 + "m 40,-10"
+                 + "v -60"
+                 + "m 50,37"
+                 + "v -75"
+                 + "m 50,65"
+                 + "v -76"
+                 + "m 50,76"
+                 + "v -76"
+                 + "m 50,93"
+                 + "v -75"
+                 + "m 50,92"
+                 + "v -60"
+                 + "m 40,80"
+                 + "v -10")
              .attr({"stroke-width": 20,
                     "stroke-linecap": "round"})
              .transform("s " + (0.75 + 0.25 * fatness) + ",1");
@@ -193,6 +225,7 @@ var faces = (function (Raphael) {
         var h, paper, w;
 
         container = document.getElementById(container);
+        container.innerHTML = "";
         if (container.offsetWidth > 0) {
             w = container.offsetWidth;
         } else {
@@ -229,31 +262,9 @@ var faces = (function (Raphael) {
         var angle, colors, face, flip, i, id, paper;
 
         face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
-
-        // Set fatness, biased towards skinny
-        face.fatness = Math.random() * 0.88;
-        if (face.fatness > 0.6) {
-            face.fatness = Math.random() * 0.88;
-            if (face.fatness > 0.7) {
-                face.fatness = Math.random() * 0.88;
-                if (face.fatness > 0.8) {
-                    face.fatness = Math.random() * 0.88;
-                }
-            }
-        }
-
+        face.fatness = Math.random();
         colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
-        i = Math.floor(Math.random() * colors.length);
-        if (i < 7) {
-            i = Math.floor(Math.random() * colors.length);
-            if (i < 6) {
-                i = Math.floor(Math.random() * colors.length);
-                if (i < 5) {
-                    i = Math.floor(Math.random() * colors.length);
-                }
-            }
-        }
-        face.color = colors[i];
+        face.color = colors[getId(colors)];
 
         face.head = {id: getId(head)};
 
