@@ -4,16 +4,14 @@ var faces = (function (Raphael) {
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
 
     head.push(function (paper, fatness, color) {
-        var e;
-
-        e = paper.path("M 200,100"
-                     + "c 0,0 180,-10 180,200"
-                     + "c 0,0 0,210 -180,200"
-                     + "c 0,0 -180,10 -180,-200"
-                     + "c 0,0 0,-210 180,-200")
-                 .attr({"stroke-width": 0,
-                        fill: color})
-                 .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        paper.path("M 200,100"
+                 + "c 0,0 180,-10 180,200"
+                 + "c 0,0 0,210 -180,200"
+                 + "c 0,0 -180,10 -180,-200"
+                 + "c 0,0 0,-210 180,-200")
+             .attr({"stroke-width": 0,
+                    fill: color})
+             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
 
     eyebrow.push(function (paper, lr, cx, cy) {
@@ -63,6 +61,8 @@ var faces = (function (Raphael) {
     });
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
+        // V
+
         var e, x = cx - 30, y = cy, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
@@ -72,6 +72,8 @@ var faces = (function (Raphael) {
                  .transform("s " + scale + "," + scale);
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
+        // Pinnochio
+
         var e, x = cx, y = cy - 10, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
@@ -83,6 +85,17 @@ var faces = (function (Raphael) {
         } else {
             e.transform("s " + scale + "," + scale);
         }
+    });
+    nose.push(function (paper, cx, cy, size, posY, flip) {
+        // Big single
+
+        var e, x = cx - 9, y = cy - 25, scale = size + 0.5;
+
+        e = paper.path("M " + x + "," + y
+                     + "c 0,0 -20,60 9,55"
+                     + "c 0,0 29,5 9,-55")
+                 .attr({"stroke-width": 8})
+                 .transform("s " + scale + "," + scale);
     });
 
     mouth.push(function (paper, cx, cy) {
@@ -156,9 +169,10 @@ var faces = (function (Raphael) {
     hair.push(function (paper, fatness) {
         // Cornrows
 
-        paper.path("M 74,209"
-                 + "v -50 m 50,35 v -80 m 50,70 v -82 m 50,82 v -82 m 50,93 v -80 m 50,90 v -50")
-             .attr({"stroke-width": 20})
+        paper.path("M 36,229"
+                 + "v -10 m 40,-10, v -60 m 50,37 v -75 m 50,65 v -76 m 50,76 v -76 m 50,93 v -75 m 50,92 v -60 m 40,80 v -10")
+             .attr({"stroke-width": 20,
+                    "stroke-linecap": "round"})
              .transform("s " + (0.75 + 0.25 * fatness) + ",1");
     });
     hair.push(function (paper, fatness) {
@@ -168,7 +182,6 @@ var faces = (function (Raphael) {
     function getId(array) {
         return Math.floor(Math.random() * array.length);
     }
-
 
     /**
      * Display a face.
