@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Faces.js</title>
+    <title>faces.js</title>
     <meta charset="utf-8">
     <link href="http://fonts.googleapis.com/css?family=Arvo:400,400italic,700" rel="stylesheet" type="text/css">
     <style type="text/css">
@@ -41,13 +41,14 @@
       }
       #faces div.big {
         height: 362px;
+        float: right;
         width: 242px;
       }
     </style>
   </head>
   <body>
     <div id="container">
-      <h1>Faces.js</h1>
+      <h1>faces.js</h1>
       <h3>A JavaScript library for generating vector-based cartoon faces</h3>
       <div id="faces">
         <div id="c0" class="big"></div>
@@ -64,17 +65,17 @@
         <div id="c11"></div>
       </div>
       <p><i>To load new random faces, <a href="javascript:newFaces()">click here</a> or press "r" on your keyboard.</i></p>
-      <p>Faces.js is a JavaScript library that generates and displays cartoon faces, somewhat reminiscent of how the Nintendo Wii generates random Miis. Faces are drawn as scalable vector graphics (SVG) using <a href="http://raphaeljs.com/">Raphaël</a>, which is the only dependency. Each face is also represented by a small JavaScript object, which allows you to store that object and then draw the same face again later.</p>
+      <p>faces.js is a JavaScript library that generates and displays cartoon faces, somewhat reminiscent of how the Nintendo Wii generates random Miis. Faces are drawn as scalable vector graphics (SVG) using <a href="http://raphaeljs.com/">Raphaël</a>, which is the only dependency. Each face is also represented by a small JavaScript object, which allows you to store that object and then draw the same face again later.</p>
       <p>As you can probably tell, the number of options for each facial feature (eyes, nose, mouth, etc.) is fairly limited, and some of the current options are fairly crude. So <b><a href="https://github.com/jdscheff/facesjs">fork it on GitHub</a></b> and add some new options!</p>
       <h2>Basic Usage</h2>
       <p>Display a randomly-generated face in a div (first set the width and height of your div, and the face will be scaled to fill it):</p>
-      <pre><code>Faces.generate("myDivId");</code></pre>
+      <pre><code>faces.generate("myDivId");</code></pre>
       <p>Generate and save a random face object without displaying it:</p>
-      <pre><code>face = Faces.generate();</code></pre>
+      <pre><code>face = faces.generate();</code></pre>
       <p>Or, generate and save a random face object while displaying it (first set the width and height of your div, and the face will be scaled to fill it):</p>
-      <pre><code>face = Faces.generate("myDivId");</code></pre>
+      <pre><code>face = faces.generate("myDivId");</code></pre>
       <p>Display a saved face object in a div (first set the width and height of your div, and the face will be scaled to fill it):</p>
-      <pre><code>Faces.display("myDivId", face);</code></pre>
+      <pre><code>faces.display("myDivId", face);</code></pre>
 
       <h2>Download</h2>
       <p><a href="https://raw.github.com/jdscheff/facesjs/master/faces.js">faces.js</a></p>
@@ -89,7 +90,7 @@
         var i;
         for (i = 0; i < 12; i++) {
           document.getElementById("c" + i).style.backgroundColor = "#" + Math.random().toString(16).slice(2, 8);
-          Faces.generate("c" + i);
+          faces.generate("c" + i);
         }
       }
       newFaces(); // Generate faces for initial page load

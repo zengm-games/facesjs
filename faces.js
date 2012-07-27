@@ -1,4 +1,4 @@
-var Faces = (function (Raphael) {
+var faces = (function (Raphael) {
     "use strict";
 
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
