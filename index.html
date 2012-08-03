@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>faces.js</title>
+    <title>faces.js - A JavaScript library for generating vector-based cartoon faces</title>
     <meta charset="utf-8">
     <link href="http://fonts.googleapis.com/css?family=Arvo:400,400italic,700" rel="stylesheet" type="text/css">
     <style type="text/css">
@@ -17,8 +17,10 @@
       }
       pre {
         background-color: #fff;
-        font-size: 14px;
         padding: 2px;
+      }
+      code {
+        font-size: 14px;
       }
       a:hover {
         text-decoration: none;
@@ -73,22 +75,23 @@
       <p><i>To load new random faces, <a href="javascript:newFaces()">click here</a> or press "r" on your keyboard.</i></p>
       <p>faces.js is a JavaScript library that generates and displays cartoon faces, somewhat reminiscent of how the Nintendo Wii generates random Miis. Faces are drawn as scalable vector graphics (SVG) using <a href="http://raphaeljs.com/">Raphaël</a>, which is the only dependency. Each face is also represented by a small JavaScript object, which allows you to store that object and then draw the same face again later.</p>
       <p>As you can probably tell, the number of options for each facial feature (eyes, nose, mouth, etc.) is fairly limited, and some of the current options are fairly crude. So <b><a href="https://github.com/jdscheff/facesjs">fork it on GitHub</a></b> and add some new options!</p>
-      <h2>Basic Usage</h2>
-      <p>1. Display a randomly-generated face:</p>
+      <h2>Usage</h2>
+      <p>1. Display a randomly-generated face (the size of <code>#myDivId</code> determines the size of the displayed face):</p>
       <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
 &lt;script src="raphael-min.js">&lt;/script&gt;
 &lt;script src="faces.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   faces.generate("myDivId");
 &lt;/script&gt;</code></pre>
-      <p class="jsfiddle"><a href="">Try it on jsFiddle</a></p>
+      <p class="jsfiddle"><a href="http://jsfiddle.net/bfCNJ/">Try it on jsFiddle</a></p>
 
       <p>2. Generate and save a random face object without displaying it:</p>
-      <pre><code>&lt;script src="faces.js"&gt;&lt;/script&gt;
+      <pre><code>&lt;script src="raphael-min.js">&lt;/script&gt;
+&lt;script src="faces.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   var face = faces.generate();
 &lt;/script&gt;</code></pre>
-      <p class="jsfiddle"><a href="">Try it on jsFiddle</a></p>
+      <p class="jsfiddle"><a href="http://jsfiddle.net/ytve3/">Try it on jsFiddle</a></p>
 
       <p>3. Display a saved face object:</p>
       <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
@@ -97,7 +100,7 @@
 &lt;script&gt;
   faces.display("myDivId", face);
 &lt;/script&gt;</code></pre>
-      <p class="jsfiddle"><a href="">Try it on jsFiddle</a></p>
+      <p class="jsfiddle"><a href="http://jsfiddle.net/8SapQ/">Try it on jsFiddle</a></p>
 
       <p>4. Combining 2. and 3. into one line, generate and save a random face object while displaying it:</p>
       <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
@@ -106,7 +109,7 @@
 &lt;script&gt;
   var face = faces.generate("myDivId");
 &lt;/script&gt;</code></pre>
-      <p class="jsfiddle"><a href="">Try it on jsFiddle</a></p>
+      <p class="jsfiddle"><a href="http://jsfiddle.net/B2b6k/">Try it on jsFiddle</a></p>
 
       <h2>Download</h2>
       <p><a href="https://raw.github.com/jdscheff/facesjs/master/faces.js">faces.js</a></p>
