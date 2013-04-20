@@ -66,6 +66,22 @@ var faces = (function (Raphael) {
                     fill: "#000"})
              .transform("r" + (lr === "l" ? angle : -angle));
     });
+    eye.push(function (paper, lr, cx, cy, angle) {
+        // Arc eyelid
+
+        var x = cx, y = cy + 20;
+
+        paper.path("M " + x + "," + y
+                 + "a 17,17 0 1 1 0.1,0 z")
+             .attr({"stroke-width": 0,
+                    fill: "#000"})
+             .transform("r" + (lr === "l" ? angle : -angle));
+
+        paper.path("M " + (x - 40) + "," + (y - 14)
+                 + "c 36,-44 87,-4 87,-4")
+             .attr({"stroke-width": 4})
+             .transform("r" + (lr === "l" ? angle : -angle));
+    });
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // V
@@ -272,8 +288,9 @@ var faces = (function (Raphael) {
         face.eyebrows[0] = {id: id, lr: "l", cx: 135, cy: 250};
         face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
 
-        angle = Math.random() * 60 - 30;
-        id = getId(eye);
+        angle = Math.random() * 50 - 20;
+//        id = getId(eye);
+        id = 3;
         face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
         face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
 
