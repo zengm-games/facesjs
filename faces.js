@@ -166,6 +166,23 @@ var faces = (function (Raphael) {
              .attr({"stroke-width": 0,
                     fill: "#000"});
     });
+    mouth.push(function (paper, cx, cy) {
+        // Thin smile with ends
+
+        var x = cx - 75, y = cy - 15;
+
+        paper.path("M " + x + "," + y
+                 + "c 0,0 75,60 150,0")
+             .attr({"stroke-width": 8});
+
+        paper.path("M " + (x + 145) + "," + (y + 19)
+                 + "c 15.15229,-18.18274 3.03046,-32.32488 3.03046,-32.32488")
+             .attr({"stroke-width": 8});
+
+        paper.path("M " + (x + 5) + "," + (y + 19)
+                 + "c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488")
+             .attr({"stroke-width": 8});
+    });
 
     hair.push(function (paper, fatness) {
         // Normal short
@@ -289,8 +306,7 @@ var faces = (function (Raphael) {
         face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
 
         angle = Math.random() * 50 - 20;
-//        id = getId(eye);
-        id = 3;
+        id = getId(eye);
         face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
         face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
 
