@@ -23,7 +23,7 @@ var faces = (function () {
     // Scale relative to the center of bounding box of element e, like in Raphael.
     // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
     function scaleCentered(e, x, y) {
-        var bbox, cx, cy, tx, ty;
+        var bbox, cx, cy, strokeWidth, tx, ty;
 
         bbox = e.getBBox(1);
         cx = bbox.x + bbox.width / 2;
@@ -32,6 +32,12 @@ var faces = (function () {
         ty = (cy * (1 - y)) / y;
 
         e.setAttribute("transform", "scale(" + x + " " + y + "), translate(" + tx + " " + ty + ")");
+
+        // Keep apparent stroke width constant, similar to how Raphael does it (I think)
+        strokeWidth = e.getAttribute("stroke-width");
+        if (strokeWidth) {
+            e.setAttribute("stroke-width", strokeWidth / x);
+        }
     }
 
     // Defines the range of fat/skinny, relative to the original width of the default head.
