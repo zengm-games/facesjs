@@ -164,22 +164,24 @@ var faces = (function () {
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
     });
-    /*mouth.push(function (paper, cx, cy) {
+    mouth.push(function (paper, cx, cy) {
         // Open-mouthed smile, top teeth
         var e, x = cx - 75, y = cy - 15;
 
-        paper.path("M " + x + "," + y
-                 + "c 0,0 75,100 150,0"
-                 + "h -150")
-             .attr({fill: "#000"});
-        paper.path("M " + (x + 16) + "," + (y + 8)
-                 + "l 16,16"
-                 + "h 86"
-                 + "l 16,-16"
-                 + "h -118")
-             .attr({fill: "#f0f0f0"});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "c 0,0 75,100 150,0" +
+                       "h -150");
+
+        e = newPath(paper);
+        e.setAttribute("d", "M " + (x + 16) + "," + (y + 8) +
+                       "l 16,16" +
+                       "h 86" +
+                       "l 16,-16" +
+                       "h -118");
+        e.setAttribute("fill", "#f0f0f0");
     });
-    mouth.push(function (paper, cx, cy) {
+    /*mouth.push(function (paper, cx, cy) {
         // Generic open mouth
         var e, x = cx - 55, y = cy;
 
