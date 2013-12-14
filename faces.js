@@ -20,6 +20,14 @@ var faces = (function () {
         e.setAttribute("transform", "rotate(" + angle + " " + cx + " " + cy + ")");
     }
 
+    // Scale relative to the center of bounding box of element e, like in Raphael
+    function scaleCentered(e, x, y) {
+        var bbox;
+
+        bbox = e.getBBox(1);
+        e.setAttribute("transform", "translate(" + bbox.width / 2 * (1 - x) + " " + bbox.height / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
+    }
+
     head.push(function (paper, fatness, color) {
         var e, scale;
 
@@ -32,7 +40,7 @@ var faces = (function () {
                        "c 0,0 -180,10 -180,-200" +
                        "c 0,0 0,-210 180,-200");
         e.setAttribute("fill", color);
-        e.setAttribute("transform", "translate(" + 200 * (1 - scale) + " 0), scale(" + scale + " 1)");
+        scaleCentered(e, scale, 1);
     });
 
     eyebrow.push(function (paper, lr, cx, cy) {
@@ -227,7 +235,7 @@ var faces = (function () {
                        "c 0,0 180,-10 176,150" +
                        "c 0,0 -180,-150 -352,0" +
                        "c 0,0 0,-160 176,-150");
-        e.setAttribute("transform", "translate(" + 200 * (1 - scale) + " 0), scale(" + scale + " 1)");
+        scaleCentered(e, scale, 1);
     });
     /*hair.push(function (paper, fatness) {
         // Flat top
