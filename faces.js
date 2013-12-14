@@ -216,18 +216,20 @@ var faces = (function () {
         e.setAttribute("fill", "none");
     });
 
-    /*hair.push(function (paper, fatness) {
-        // Normal short
-
-        paper.path("M 200,100"
-                 + "c 0,0 180,-10 176,150"
-                 + "c 0,0 -180,-150 -352,0"
-                 + "c 0,0 0,-160 176,-150")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
-    });
     hair.push(function (paper, fatness) {
+        // Normal short
+        var e, scale;
+
+        scale = 0.75 + 0.25 * fatness;
+
+        e = newPath(paper);
+        e.setAttribute("d", "M 200,100" +
+                       "c 0,0 180,-10 176,150" +
+                       "c 0,0 -180,-150 -352,0" +
+                       "c 0,0 0,-160 176,-150");
+        e.setAttribute("transform", "translate(" + 200 * (1 - scale) + " 0), scale(" + scale + " 1)");
+    });
+    /*hair.push(function (paper, fatness) {
         // Flat top
 
         paper.path("M 25,60"
