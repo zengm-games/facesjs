@@ -1,6 +1,6 @@
 VANILLAJS
 scaling - how to center?
-  more generally.. how to do transformations? even rotation might be different.
+  e.head code works. abstract into a function if necessary
 
 ---
 

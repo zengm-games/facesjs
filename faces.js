@@ -4,32 +4,40 @@ var faces = (function () {
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
 
     head.push(function (paper, fatness, color) {
-        var e;
+        var e, scale;
+
         e = document.createElementNS("http://www.w3.org/2000/svg", "path");
         e.setAttribute("d", "M 200,100" +
                        "c 0,0 180,-10 180,200" +
                        "c 0,0 0,210 -180,200" +
                        "c 0,0 -180,10 -180,-200" +
                        "c 0,0 0,-210 180,-200");
-        e.setAttribute("stroke-width", "0");
         e.setAttribute("fill", color);
-        e.setAttribute("transform", "scale(" + (0.75 + 0.25 * fatness) + " 1)");
+
+        scale = 0.75 + 0.25 * fatness;
+        e.setAttribute("transform", "translate(" + 200 * (1 - scale) + " 0), scale(" + scale + " 1)");
+
         paper.appendChild(e);
-/*             .transform("s " + (0.75 + 0.25 * fatness) + ",1");*/
     });
 
     eyebrow.push(function (paper, lr, cx, cy) {
         var e, x = cx - 30, y = cy;
 
         if (lr === "l") {
-            e = paper.path("M " + x + "," + y
-                         + "c 0,0 -3,-30 60,0");
+            e = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            e.setAttribute("d", "M " + x + "," + y +
+                           "c 0,0 -3,-30 60,0");
         } else {
-            e = paper.path("M " + x + "," + y
-                         + "c 0,0 63,-30 60,0");
+            e = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            e.setAttribute("d", "M " + x + "," + y +
+                           "c 0,0 63,-30 60,0");
         }
 
-        e.attr({"stroke-width": 8});
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
+
+        paper.appendChild(e);
     });
 
     eye.push(function (paper, lr, cx, cy, angle) {
@@ -286,10 +294,10 @@ var faces = (function () {
         paper.setAttribute("preserveAspectRatio", "xMinYMin meet");
 
         head[face.head.id](paper, face.fatness, face.color);
-        /*eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
+        eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
         eyebrow[face.eyebrows[1].id](paper, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
 
-        eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
+        /*eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
         eye[face.eyes[1].id](paper, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
 
         nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
