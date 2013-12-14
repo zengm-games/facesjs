@@ -23,6 +23,8 @@ var faces = (function () {
     head.push(function (paper, fatness, color) {
         var e, scale;
 
+        scale = 0.75 + 0.25 * fatness;
+
         e = newPath(paper);
         e.setAttribute("d", "M 200,100" +
                        "c 0,0 180,-10 180,200" +
@@ -30,8 +32,6 @@ var faces = (function () {
                        "c 0,0 -180,10 -180,-200" +
                        "c 0,0 0,-210 180,-200");
         e.setAttribute("fill", color);
-
-        scale = 0.75 + 0.25 * fatness;
         e.setAttribute("transform", "translate(" + 200 * (1 - scale) + " 0), scale(" + scale + " 1)");
     });
 
@@ -46,7 +46,6 @@ var faces = (function () {
             e.setAttribute("d", "M " + x + "," + y +
                            "c 0,0 63,-30 60,0");
         }
-
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
@@ -59,29 +58,30 @@ var faces = (function () {
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "h 60");
-
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
         rotate(e, (lr === "l" ? angle : -angle));
     });
-/*    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push(function (paper, lr, cx, cy, angle) {
         // Normal (circle with a dot in it)
         var e, x = cx, y = cy + 20;
 
-        paper.path("M " + x + "," + y
-                 + "a 30,20 0 1 1 0.1,0")
-             .attr({"stroke-width": 6,
-                    fill: "#f0f0f0"})
-             .transform("r" + (lr === "l" ? angle : -angle));
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "a 30,20 0 1 1 0.1,0");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "6");
+        e.setAttribute("fill", "#f0f0f0");
+        rotate(e, (lr === "l" ? angle : -angle));
 
-        paper.path("M " + x + "," + (y - 12)
-                 + "a 12,8 0 1 1 0.1,0")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("r" + (lr === "l" ? angle : -angle));
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + (y - 12) +
+                       "a 12,8 0 1 1 0.1,0");
+        e.setAttribute("fill", "#000");
+        rotate(e, (lr === "l" ? angle : -angle));
     });
-    eye.push(function (paper, lr, cx, cy, angle) {
+/*    eye.push(function (paper, lr, cx, cy, angle) {
         // Dot
         var e, x = cx, y = cy + 13;
 
