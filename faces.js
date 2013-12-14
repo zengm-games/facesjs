@@ -78,7 +78,6 @@ var faces = (function () {
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + (y - 12) +
                        "a 12,8 0 1 1 0.1,0");
-        e.setAttribute("fill", "#000");
         rotate(e, (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
@@ -88,24 +87,25 @@ var faces = (function () {
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 20,15 0 1 1 0.1,0");
-        e.setAttribute("fill", "#000");
         rotate(e, (lr === "l" ? angle : -angle));
     });
-/*    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push(function (paper, lr, cx, cy, angle) {
         // Arc eyelid
         var e, x = cx, y = cy + 20;
 
-        paper.path("M " + x + "," + y
-                 + "a 17,17 0 1 1 0.1,0 z")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("r" + (lr === "l" ? angle : -angle));
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "a 17,17 0 1 1 0.1,0 z");
+        rotate(e, (lr === "l" ? angle : -angle));
 
-        paper.path("M " + (x - 40) + "," + (y - 14)
-                 + "c 36,-44 87,-4 87,-4")
-             .attr({"stroke-width": 4})
-             .transform("r" + (lr === "l" ? angle : -angle));
-    });*/
+        e = newPath(paper);
+        e.setAttribute("d", "M " + (x - 40) + "," + (y - 14) +
+                       "c 36,-44 87,-4 87,-4");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "4");
+        e.setAttribute("fill", "none");
+        rotate(e, (lr === "l" ? angle : -angle));
+    });
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // V
