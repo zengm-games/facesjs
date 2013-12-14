@@ -30,7 +30,7 @@ var faces = (function () {
         h = bbox.height;
         if (bbox.x < 0) {
             // Not totally sure why this fudge factor is necessary, but it only is needed for afros currently.
-            w += 3 * bbox.x;
+            w += 3.15 * bbox.x;
         }
         e.setAttribute("transform", "translate(" + w / 2 * (1 - x) + " " + h / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
     }
@@ -267,32 +267,35 @@ var faces = (function () {
                        "c 0,0 -180,-150 -352,0");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    /*hair.push(function (paper, fatness) {
+    hair.push(function (paper, fatness) {
         // Cornrows
+        var e;
 
-        paper.path("M 36,229"
-                 + "v -10"
-                 + "m 40,-10"
-                 + "v -60"
-                 + "m 50,37"
-                 + "v -75"
-                 + "m 50,65"
-                 + "v -76"
-                 + "m 50,76"
-                 + "v -76"
-                 + "m 50,93"
-                 + "v -75"
-                 + "m 50,92"
-                 + "v -60"
-                 + "m 40,80"
-                 + "v -10")
-             .attr({"stroke-width": 22,
-                    "stroke-linecap": "round"})
-             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        e = newPath(paper);
+        e.setAttribute("d", "M 36,229" +
+                       "v -10" +
+                       "m 40,-10" +
+                       "v -60" +
+                       "m 50,37" +
+                       "v -75" +
+                       "m 50,65" +
+                       "v -76" +
+                       "m 50,76" +
+                       "v -76" +
+                       "m 50,93" +
+                       "v -75" +
+                       "m 50,92" +
+                       "v -60" +
+                       "m 40,80" +
+                       "v -10");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-linecap", "round");
+        e.setAttribute("stroke-width", "22");
+        scaleCentered(e, fatScale(fatness), 1);
     });
     hair.push(function (paper, fatness) {
         // Intentionally left blank (bald)
-    });*/
+    });
 
     function getId(array) {
         return Math.floor(Math.random() * array.length);
