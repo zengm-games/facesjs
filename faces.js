@@ -190,22 +190,31 @@ var faces = (function () {
                        "a 54,10 0 1 1 110,0" +
                        "a 54,20 0 1 1 -110,0");
     });
-    /*mouth.push(function (paper, cx, cy) {
+    mouth.push(function (paper, cx, cy) {
         // Thin smile with ends
         var e, x = cx - 75, y = cy - 15;
 
-        paper.path("M " + x + "," + y
-                 + "c 0,0 75,60 150,0")
-             .attr({"stroke-width": 8});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "c 0,0 75,60 150,0");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
 
-        paper.path("M " + (x + 145) + "," + (y + 19)
-                 + "c 15.15229,-18.18274 3.03046,-32.32488 3.03046,-32.32488")
-             .attr({"stroke-width": 8});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + (x + 145) + "," + (y + 19) +
+                       "c 15.15229,-18.18274 3.03046,-32.32488 3.03046,-32.32488");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
 
-        paper.path("M " + (x + 5) + "," + (y + 19)
-                 + "c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488")
-             .attr({"stroke-width": 8});
-    });*/
+        e = newPath(paper);
+        e.setAttribute("d", "M " + (x + 5) + "," + (y + 19) +
+                       "c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
+    });
 
     hair.push(function (paper, fatness) {
         // Normal short
