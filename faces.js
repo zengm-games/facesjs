@@ -181,17 +181,16 @@ var faces = (function () {
                        "h -118");
         e.setAttribute("fill", "#f0f0f0");
     });
-    /*mouth.push(function (paper, cx, cy) {
+    mouth.push(function (paper, cx, cy) {
         // Generic open mouth
         var e, x = cx - 55, y = cy;
 
-        paper.path("M " + x + "," + y
-                 + "a 54,10 0 1 1 110,0"
-                 + "a 54,20 0 1 1 -110,0")
-             .attr({"stroke-width": 0,
-                    fill: "#000"});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "a 54,10 0 1 1 110,0" +
+                       "a 54,20 0 1 1 -110,0");
     });
-    mouth.push(function (paper, cx, cy) {
+    /*mouth.push(function (paper, cx, cy) {
         // Thin smile with ends
         var e, x = cx - 75, y = cy - 15;
 
