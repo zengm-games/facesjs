@@ -137,30 +137,41 @@ var faces = (function () {
         e.setAttribute("fill", "none");
         scaleCentered(e, scale, scale);
     });
-    /*nose.push(function (paper, cx, cy, size, posY, flip) {
+    nose.push(function (paper, cx, cy, size, posY, flip) {
         // Pinnochio
         var e, x = cx, y = cy - 10, scale = size + 0.5;
 
-        e = paper.path("M " + x + "," + y
-                     + "c 0,0 50,-30 0,30")
-                 .attr({"stroke-width": 8});
-
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "c 0,0 50,-30 0,30");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
         if (flip) {
+            scaleCentered(e, scale, scale);
+        } else {
+            scaleCentered(e, scale, scale);
+        }
+
+/*        if (flip) {
             e.transform("t -24,0 s -" + scale + "," + scale);
         } else {
             e.transform("s " + scale + "," + scale);
-        }
+        }*/
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // Big single
         var e, x = cx - 9, y = cy - 25, scale = size + 0.5;
 
-        e = paper.path("M " + x + "," + y
-                     + "c 0,0 -20,60 9,55"
-                     + "c 0,0 29,5 9,-55")
-                 .attr({"stroke-width": 8})
-                 .transform("s " + scale + "," + scale);
-    });*/
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "c 0,0 -20,60 9,55" +
+                       "c 0,0 29,5 9,-55");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
+        scaleCentered(e, scale, scale);
+    });
 
     mouth.push(function (paper, cx, cy) {
         // Thin smile
