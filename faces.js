@@ -36,7 +36,7 @@ var faces = (function () {
         // Keep apparent stroke width constant, similar to how Raphael does it (I think)
         strokeWidth = e.getAttribute("stroke-width");
         if (strokeWidth) {
-            e.setAttribute("stroke-width", strokeWidth / x);
+            e.setAttribute("stroke-width", strokeWidth / Math.abs(x));
         }
     }
 
@@ -148,22 +148,16 @@ var faces = (function () {
         var e, x = cx, y = cy - 10, scale = size + 0.5;
 
         e = newPath(paper);
-        e.setAttribute("d", "M " + x + "," + y +
+        e.setAttribute("d", "M " + (flip ? x - 48 : x) + "," + y +
                        "c 0,0 50,-30 0,30");
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
         if (flip) {
-            scaleCentered(e, scale, scale);
+            scaleCentered(e, -scale, scale);
         } else {
             scaleCentered(e, scale, scale);
         }
-
-/*        if (flip) {
-            e.transform("t -24,0 s -" + scale + "," + scale);
-        } else {
-            e.transform("s " + scale + "," + scale);
-        }*/
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // Big single
@@ -360,7 +354,7 @@ var faces = (function () {
      * @return {Object} Randomly generated face object.
      */
     function generate(container) {
-        var angle, colors, face, flip, i, id, paper;
+        var angle, colors, face, flip, id, paper;
 
         face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
         face.fatness = Math.random();
