@@ -11,7 +11,7 @@ var faces = (function () {
     }
 
     // Rotate around center of bounding box of element e, like in Raphael
-    function rotate(e, angle) {
+    function rotateCentered(e, angle) {
         var cx, cy, bbox;
 
         bbox = e.getBBox(1);
@@ -21,6 +21,7 @@ var faces = (function () {
     }
 
     // Scale relative to the center of bounding box of element e, like in Raphael
+    // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
     function scaleCentered(e, x, y) {
         var bbox;
 
@@ -69,7 +70,7 @@ var faces = (function () {
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
         // Normal (circle with a dot in it)
@@ -81,12 +82,12 @@ var faces = (function () {
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "6");
         e.setAttribute("fill", "#f0f0f0");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
 
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + (y - 12) +
                        "a 12,8 0 1 1 0.1,0");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
         // Dot
@@ -95,7 +96,7 @@ var faces = (function () {
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 20,15 0 1 1 0.1,0");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
     });
     eye.push(function (paper, lr, cx, cy, angle) {
         // Arc eyelid
@@ -104,7 +105,7 @@ var faces = (function () {
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 17,17 0 1 1 0.1,0 z");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
 
         e = newPath(paper);
         e.setAttribute("d", "M " + (x - 40) + "," + (y - 14) +
@@ -112,7 +113,7 @@ var faces = (function () {
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "4");
         e.setAttribute("fill", "none");
-        rotate(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e, (lr === "l" ? angle : -angle));
     });
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
