@@ -109,7 +109,6 @@ var faces = (function () {
 
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // V
-
         var e, x = cx - 30, y = cy, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
@@ -120,7 +119,6 @@ var faces = (function () {
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // Pinnochio
-
         var e, x = cx, y = cy - 10, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
@@ -135,7 +133,6 @@ var faces = (function () {
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // Big single
-
         var e, x = cx - 9, y = cy - 25, scale = size + 0.5;
 
         e = paper.path("M " + x + "," + y
@@ -147,17 +144,18 @@ var faces = (function () {
 
     mouth.push(function (paper, cx, cy) {
         // Thin smile
+        var e, x = cx - 75, y = cy - 15;
 
-        var x = cx - 75, y = cy - 15;
-
-        paper.path("M " + x + "," + y
-                 + "c 0,0 75,60 150,0")
-             .attr({"stroke-width": 8});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "c 0,0 75,60 150,0");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
     });
-    mouth.push(function (paper, cx, cy) {
+    /*mouth.push(function (paper, cx, cy) {
         // Thin flat
-
-        var x = cx - 55, y = cy;
+        var e, x = cx - 55, y = cy;
 
         paper.path("M " + x + "," + y
                  + "h 110")
@@ -165,8 +163,7 @@ var faces = (function () {
     });
     mouth.push(function (paper, cx, cy) {
         // Open-mouthed smile, top teeth
-
-        var x = cx - 75, y = cy - 15;
+        var e, x = cx - 75, y = cy - 15;
 
         paper.path("M " + x + "," + y
                  + "c 0,0 75,100 150,0"
@@ -181,8 +178,7 @@ var faces = (function () {
     });
     mouth.push(function (paper, cx, cy) {
         // Generic open mouth
-
-        var x = cx - 55, y = cy;
+        var e, x = cx - 55, y = cy;
 
         paper.path("M " + x + "," + y
                  + "a 54,10 0 1 1 110,0"
@@ -192,8 +188,7 @@ var faces = (function () {
     });
     mouth.push(function (paper, cx, cy) {
         // Thin smile with ends
-
-        var x = cx - 75, y = cy - 15;
+        var e, x = cx - 75, y = cy - 15;
 
         paper.path("M " + x + "," + y
                  + "c 0,0 75,60 150,0")
@@ -206,7 +201,7 @@ var faces = (function () {
         paper.path("M " + (x + 5) + "," + (y + 19)
                  + "c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488")
              .attr({"stroke-width": 8});
-    });
+    });*/
 
     hair.push(function (paper, fatness) {
         // Normal short
@@ -313,9 +308,9 @@ var faces = (function () {
         eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
         eye[face.eyes[1].id](paper, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
 
-        /*nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
+        //nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
         mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
-        hair[face.hair.id](paper, face.fatness);*/
+        //hair[face.hair.id](paper, face.fatness);
 
     }
 
