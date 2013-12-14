@@ -8,8 +8,8 @@ MIT License
 
 ## Links
 
-* Website: http://www.jeremyscheff.com/facesjs
+* Website: http://www.jeremyscheff.com/facesjs/
 
-* GitHub project: https://github.com/jdscheff/basketball-gm
+* GitHub project: https://github.com/jdscheff/facesjs
 
 * Main developer: Jeremy Scheff <jdscheff@gmail.com>

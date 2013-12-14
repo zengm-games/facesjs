@@ -1,3 +1,9 @@
+VANILLAJS
+scaling - how to center?
+  more generally.. how to do transformations? even rotation might be different.
+
+---
+
 generate a couple options for each feature
 randomize all sizes/angles/positions of features as appropriate
 How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?

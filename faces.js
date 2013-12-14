@@ -1,17 +1,21 @@
-var faces = (function (Raphael) {
+var faces = (function () {
     "use strict";
 
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
 
     head.push(function (paper, fatness, color) {
-        paper.path("M 200,100"
-                 + "c 0,0 180,-10 180,200"
-                 + "c 0,0 0,210 -180,200"
-                 + "c 0,0 -180,10 -180,-200"
-                 + "c 0,0 0,-210 180,-200")
-             .attr({"stroke-width": 0,
-                    fill: color})
-             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        var e;
+        e = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        e.setAttribute("d", "M 200,100" +
+                       "c 0,0 180,-10 180,200" +
+                       "c 0,0 0,210 -180,200" +
+                       "c 0,0 -180,10 -180,-200" +
+                       "c 0,0 0,-210 180,-200");
+        e.setAttribute("stroke-width", "0");
+        e.setAttribute("fill", color);
+        e.setAttribute("transform", "scale(" + (0.75 + 0.25 * fatness) + " 1)");
+        paper.appendChild(e);
+/*             .transform("s " + (0.75 + 0.25 * fatness) + ",1");*/
     });
 
     eyebrow.push(function (paper, lr, cx, cy) {
@@ -270,11 +274,19 @@ var faces = (function (Raphael) {
             h = w * 3 / 2;
         }
 
-        paper = new Raphael(container, w, h);
+        /*paper = new Raphael(container, w, h);
         paper.canvas.setAttribute("viewBox", "0 0 400 600");
-        paper.canvas.setAttribute("preserveAspectRatio", "xMinYMin meet");
+        paper.canvas.setAttribute("preserveAspectRatio", "xMinYMin meet");*/
+        paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        paper.setAttribute("version", "1.2");
+        paper.setAttribute("baseProfile", "tiny");
+        paper.setAttribute("width", "100%");
+        paper.setAttribute("height", "100%");
+        paper.setAttribute("viewBox", "0 0 400 600");
+        paper.setAttribute("preserveAspectRatio", "xMinYMin meet");
+
         head[face.head.id](paper, face.fatness, face.color);
-        eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
+        /*eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
         eyebrow[face.eyebrows[1].id](paper, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
 
         eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
@@ -282,7 +294,9 @@ var faces = (function (Raphael) {
 
         nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
         mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
-        hair[face.hair.id](paper, face.fatness);
+        hair[face.hair.id](paper, face.fatness);*/
+
+        container.appendChild(paper);
     }
 
     /**
@@ -328,4 +342,4 @@ var faces = (function (Raphael) {
         display: display,
         generate: generate
     };
-}(Raphael));
+}());
