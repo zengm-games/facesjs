@@ -129,13 +129,16 @@ var faces = (function () {
         // V
         var e, x = cx - 30, y = cy, scale = size + 0.5;
 
-        e = paper.path("M " + x + "," + y
-                     + "l 30,30"
-                     + "l 30,-30")
-                 .attr({"stroke-width": 8})
-                 .transform("s " + scale + "," + scale);
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "l 30,30" +
+                       "l 30,-30");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
+        scaleCentered(e, scale, scale);
     });
-    nose.push(function (paper, cx, cy, size, posY, flip) {
+    /*nose.push(function (paper, cx, cy, size, posY, flip) {
         // Pinnochio
         var e, x = cx, y = cy - 10, scale = size + 0.5;
 
@@ -158,7 +161,7 @@ var faces = (function () {
                      + "c 0,0 29,5 9,-55")
                  .attr({"stroke-width": 8})
                  .transform("s " + scale + "," + scale);
-    });
+    });*/
 
     mouth.push(function (paper, cx, cy) {
         // Thin smile
@@ -312,16 +315,6 @@ var faces = (function () {
 
         container = document.getElementById(container);
         container.innerHTML = "";
-        /*if (container.offsetWidth > 0) {
-            w = container.offsetWidth;
-        } else {
-            w = 400;
-        }
-        if (container.offsetHeight > 0) {
-            h = container.offsetHeight;
-        } else {
-            h = w * 3 / 2;
-        }*/
 
         paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         paper.setAttribute("version", "1.2");
@@ -339,7 +332,7 @@ var faces = (function () {
         eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
         eye[face.eyes[1].id](paper, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
 
-        //nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
+        nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
         mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
         hair[face.hair.id](paper, face.fatness);
     }
