@@ -10,7 +10,7 @@ var faces = (function () {
         return e;
     }
 
-    // Rotate around center of bounding box of element e, like in Raphael
+    // Rotate around center of bounding box of element e, like in Raphael.
     function rotateCentered(e, angle) {
         var cx, cy, bbox;
 
@@ -20,7 +20,7 @@ var faces = (function () {
         e.setAttribute("transform", "rotate(" + angle + " " + cx + " " + cy + ")");
     }
 
-    // Scale relative to the center of bounding box of element e, like in Raphael
+    // Scale relative to the center of bounding box of element e, like in Raphael.
     // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
     function scaleCentered(e, x, y) {
         var bbox;
@@ -29,10 +29,13 @@ var faces = (function () {
         e.setAttribute("transform", "translate(" + bbox.width / 2 * (1 - x) + " " + bbox.height / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
     }
 
-    head.push(function (paper, fatness, color) {
-        var e, scale;
+    // Defines the range of fat/skinny, relative to the original width of the default head.
+    function fatScale(fatness) {
+        return 0.75 + 0.25 * fatness;
+    }
 
-        scale = 0.75 + 0.25 * fatness;
+    head.push(function (paper, fatness, color) {
+        var e;
 
         e = newPath(paper);
         e.setAttribute("d", "M 200,100" +
@@ -41,7 +44,7 @@ var faces = (function () {
                        "c 0,0 -180,10 -180,-200" +
                        "c 0,0 0,-210 180,-200");
         e.setAttribute("fill", color);
-        scaleCentered(e, scale, 1);
+        scaleCentered(e, fatScale(fatness), 1);
     });
 
     eyebrow.push(function (paper, lr, cx, cy) {
@@ -227,30 +230,28 @@ var faces = (function () {
 
     hair.push(function (paper, fatness) {
         // Normal short
-        var e, scale;
-
-        scale = 0.75 + 0.25 * fatness;
+        var e;
 
         e = newPath(paper);
         e.setAttribute("d", "M 200,100" +
                        "c 0,0 180,-10 176,150" +
                        "c 0,0 -180,-150 -352,0" +
                        "c 0,0 0,-160 176,-150");
-        scaleCentered(e, scale, 1);
-    });
-    /*hair.push(function (paper, fatness) {
-        // Flat top
-
-        paper.path("M 25,60"
-                 + "h 352"
-                 + "v 190"
-                 + "c 0,0 -180,-150 -352,0"
-                 + "v -190")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
+        scaleCentered(e, fatScale(fatness), 1);
     });
     hair.push(function (paper, fatness) {
+        // Flat top
+        var e;
+
+        e = newPath(paper);
+        e.setAttribute("d", "M 25,60" +
+                       "h 352" +
+                       "v 190" +
+                       "c 0,0 -180,-150 -352,0" +
+                       "v -190");
+        scaleCentered(e, fatScale(fatness), 1);
+    });
+    /*hair.push(function (paper, fatness) {
         // Afro
 
         paper.path("M 25,250"
