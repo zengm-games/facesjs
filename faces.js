@@ -153,15 +153,18 @@ var faces = (function () {
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
     });
-    /*mouth.push(function (paper, cx, cy) {
+    mouth.push(function (paper, cx, cy) {
         // Thin flat
         var e, x = cx - 55, y = cy;
 
-        paper.path("M " + x + "," + y
-                 + "h 110")
-             .attr({"stroke-width": 8});
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "h 110");
+        e.setAttribute("stroke", "#000");
+        e.setAttribute("stroke-width", "8");
+        e.setAttribute("fill", "none");
     });
-    mouth.push(function (paper, cx, cy) {
+    /*mouth.push(function (paper, cx, cy) {
         // Open-mouthed smile, top teeth
         var e, x = cx - 75, y = cy - 15;
 
