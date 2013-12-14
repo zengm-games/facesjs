@@ -12,7 +12,7 @@ var faces = (function () {
 
     // Rotate around center of bounding box of element e, like in Raphael.
     function rotateCentered(e, angle) {
-        var cx, cy, bbox;
+        var bbox, cx, cy;
 
         bbox = e.getBBox(1);
         cx = bbox.x + bbox.width / 2;
@@ -23,16 +23,15 @@ var faces = (function () {
     // Scale relative to the center of bounding box of element e, like in Raphael.
     // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
     function scaleCentered(e, x, y) {
-        var bbox, h, w;
+        var bbox, cx, cy, tx, ty;
 
         bbox = e.getBBox(1);
-        w = bbox.width;
-        h = bbox.height;
-        if (bbox.x < 0) {
-            // Not totally sure why this fudge factor is necessary, but it only is needed for afros currently.
-            w += 3.15 * bbox.x;
-        }
-        e.setAttribute("transform", "translate(" + w / 2 * (1 - x) + " " + h / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
+        cx = bbox.x + bbox.width / 2;
+        cy = bbox.y + bbox.height / 2;
+        tx = (cx * (1 - x)) / x;
+        ty = (cy * (1 - y)) / y;
+
+        e.setAttribute("transform", "scale(" + x + " " + y + "), translate(" + tx + " " + ty + ")");
     }
 
     // Defines the range of fat/skinny, relative to the original width of the default head.
