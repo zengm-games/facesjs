@@ -81,17 +81,17 @@ var faces = (function () {
         e.setAttribute("fill", "#000");
         rotate(e, (lr === "l" ? angle : -angle));
     });
-/*    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push(function (paper, lr, cx, cy, angle) {
         // Dot
         var e, x = cx, y = cy + 13;
 
-        paper.path("M " + x + "," + y
-                 + "a 20,15 0 1 1 0.1,0")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("r" + (lr === "l" ? angle : -angle));
+        e = newPath(paper);
+        e.setAttribute("d", "M " + x + "," + y +
+                       "a 20,15 0 1 1 0.1,0");
+        e.setAttribute("fill", "#000");
+        rotate(e, (lr === "l" ? angle : -angle));
     });
-    eye.push(function (paper, lr, cx, cy, angle) {
+/*    eye.push(function (paper, lr, cx, cy, angle) {
         // Arc eyelid
         var e, x = cx, y = cy + 20;
 
