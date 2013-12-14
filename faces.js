@@ -216,7 +216,7 @@ var faces = (function () {
         e.setAttribute("fill", "none");
     });
 
-    hair.push(function (paper, fatness) {
+    /*hair.push(function (paper, fatness) {
         // Normal short
 
         paper.path("M 200,100"
@@ -271,7 +271,7 @@ var faces = (function () {
              .attr({"stroke-width": 22,
                     "stroke-linecap": "round"})
              .transform("s " + (0.75 + 0.25 * fatness) + ",1");
-    });
+    });*/
     hair.push(function (paper, fatness) {
         // Intentionally left blank (bald)
     });
@@ -287,11 +287,11 @@ var faces = (function () {
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
     function display(container, face) {
-        var h, paper, w;
+        var paper;
 
         container = document.getElementById(container);
         container.innerHTML = "";
-        if (container.offsetWidth > 0) {
+        /*if (container.offsetWidth > 0) {
             w = container.offsetWidth;
         } else {
             w = 400;
@@ -300,11 +300,8 @@ var faces = (function () {
             h = container.offsetHeight;
         } else {
             h = w * 3 / 2;
-        }
+        }*/
 
-        /*paper = new Raphael(container, w, h);
-        paper.canvas.setAttribute("viewBox", "0 0 400 600");
-        paper.canvas.setAttribute("preserveAspectRatio", "xMinYMin meet");*/
         paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         paper.setAttribute("version", "1.2");
         paper.setAttribute("baseProfile", "tiny");
@@ -323,8 +320,7 @@ var faces = (function () {
 
         //nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
         mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
-        //hair[face.hair.id](paper, face.fatness);
-
+        hair[face.hair.id](paper, face.fatness);
     }
 
     /**
