@@ -23,10 +23,16 @@ var faces = (function () {
     // Scale relative to the center of bounding box of element e, like in Raphael.
     // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
     function scaleCentered(e, x, y) {
-        var bbox;
+        var bbox, h, w;
 
         bbox = e.getBBox(1);
-        e.setAttribute("transform", "translate(" + bbox.width / 2 * (1 - x) + " " + bbox.height / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
+        w = bbox.width;
+        h = bbox.height;
+        if (bbox.x < 0) {
+            // Not totally sure why this fudge factor is necessary, but it only is needed for afros currently.
+            w += 3 * bbox.x;
+        }
+        e.setAttribute("transform", "translate(" + w / 2 * (1 - x) + " " + h / 2 * (1 - y) + "), scale(" + x + " " + y + ")");
     }
 
     // Defines the range of fat/skinny, relative to the original width of the default head.
@@ -251,17 +257,17 @@ var faces = (function () {
                        "v -190");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    /*hair.push(function (paper, fatness) {
-        // Afro
-
-        paper.path("M 25,250"
-                 + "a 210,150 0 1 1 352,0"
-                 + "c 0,0 -180,-150 -352,0")
-             .attr({"stroke-width": 0,
-                    fill: "#000"})
-             .transform("s " + (0.75 + 0.25 * fatness) + ",1");
-    });
     hair.push(function (paper, fatness) {
+        // Afro
+        var e;
+
+        e = newPath(paper);
+        e.setAttribute("d", "M 25,250" +
+                       "a 210,150 0 1 1 352,0" +
+                       "c 0,0 -180,-150 -352,0");
+        scaleCentered(e, fatScale(fatness), 1);
+    });
+    /*hair.push(function (paper, fatness) {
         // Cornrows
 
         paper.path("M 36,229"
@@ -283,10 +289,10 @@ var faces = (function () {
              .attr({"stroke-width": 22,
                     "stroke-linecap": "round"})
              .transform("s " + (0.75 + 0.25 * fatness) + ",1");
-    });*/
+    });
     hair.push(function (paper, fatness) {
         // Intentionally left blank (bald)
-    });
+    });*/
 
     function getId(array) {
         return Math.floor(Math.random() * array.length);
