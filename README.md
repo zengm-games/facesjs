@@ -8,8 +8,8 @@ MIT License
 
 ## Links
 
-* Website: http://www.jeremyscheff.com/facesjs/
+* Website: http://dumbmatter.com/facesjs/
 
-* GitHub project: https://github.com/jdscheff/facesjs
+* GitHub project: https://github.com/dumbmatter/facesjs
 
 * Main developer: Jeremy Scheff <jdscheff@gmail.com>
