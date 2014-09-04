@@ -14,7 +14,7 @@ var faces = (function () {
     function rotateCentered(e, angle) {
         var bbox, cx, cy;
 
-        bbox = e.getBBox(1);
+        bbox = e.getBBox();
         cx = bbox.x + bbox.width / 2;
         cy = bbox.y + bbox.height / 2;
         e.setAttribute("transform", "rotate(" + angle + " " + cx + " " + cy + ")");
@@ -25,7 +25,7 @@ var faces = (function () {
     function scaleCentered(e, x, y) {
         var bbox, cx, cy, strokeWidth, tx, ty;
 
-        bbox = e.getBBox(1);
+        bbox = e.getBBox();
         cx = bbox.x + bbox.width / 2;
         cy = bbox.y + bbox.height / 2;
         tx = (cx * (1 - x)) / x;
