@@ -1,4 +1,4 @@
-var faces = (function () {
+window.faces = (function () {
     "use strict";
 
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
@@ -130,7 +130,7 @@ var faces = (function () {
         rotateCentered(e, (lr === "l" ? angle : -angle));
     });
 
-    nose.push(function (paper, cx, cy, size, posY, flip) {
+    nose.push(function (paper, cx, cy, size) {
         // V
         var e, x = cx - 30, y = cy, scale = size + 0.5;
 
@@ -159,7 +159,7 @@ var faces = (function () {
             scaleCentered(e, scale, scale);
         }
     });
-    nose.push(function (paper, cx, cy, size, posY, flip) {
+    nose.push(function (paper, cx, cy, size) {
         // Big single
         var e, x = cx - 9, y = cy - 25, scale = size + 0.5;
 
@@ -306,7 +306,7 @@ var faces = (function () {
         e.setAttribute("stroke-width", "22");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    hair.push(function (paper, fatness) {
+    hair.push(function () {
         // Intentionally left blank (bald)
     });
 
@@ -316,7 +316,7 @@ var faces = (function () {
 
     /**
      * Display a face.
-     * 
+     *
      * @param {string} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
@@ -349,12 +349,12 @@ var faces = (function () {
 
     /**
      * Generate a random face.
-     * 
+     *
      * @param {string=} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
      * @return {Object} Randomly generated face object.
      */
     function generate(container) {
-        var angle, colors, face, flip, id, paper;
+        var angle, colors, face, flip, id;
 
         face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
         face.fatness = Math.random();
