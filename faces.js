@@ -132,7 +132,7 @@ window.faces = (function () {
 
     nose.push(function (paper, cx, cy, size) {
         // V
-        var e, x = cx - 30, y = cy, scale = size + 0.5;
+        var e, scale = size + 0.5, x = cx - 30, y = cy;
 
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
@@ -145,7 +145,7 @@ window.faces = (function () {
     });
     nose.push(function (paper, cx, cy, size, posY, flip) {
         // Pinnochio
-        var e, x = cx, y = cy - 10, scale = size + 0.5;
+        var e, scale = size + 0.5, x = cx, y = cy - 10;
 
         e = newPath(paper);
         e.setAttribute("d", "M " + (flip ? x - 48 : x) + "," + y +
@@ -161,7 +161,7 @@ window.faces = (function () {
     });
     nose.push(function (paper, cx, cy, size) {
         // Big single
-        var e, x = cx - 9, y = cy - 25, scale = size + 0.5;
+        var e, scale = size + 0.5, x = cx - 9, y = cy - 25;
 
         e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
