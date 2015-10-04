@@ -1,0 +1,20 @@
+{
+  "name": "facesjs",
+  "version": "1.0.0",
+  "description": "A JavaScript library for generating vector-based cartoon faces",
+  "main": "faces.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dumbmatter/facesjs.git"
+  },
+  "author": "Jeremy Scheff <jdscheff@gmail.com> (http://dumbmatter.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dumbmatter/facesjs/issues"
+  },
+  "keywords": ["faces", "cartoon", "mii"],
+  "homepage": "http://dumbmatter.com/facesjs/"
+}
