@@ -1,6 +1,6 @@
 {
   "name": "facesjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JavaScript library for generating vector-based cartoon faces",
   "main": "faces.js",
   "scripts": {
@@ -15,6 +15,10 @@
   "bugs": {
     "url": "https://github.com/dumbmatter/facesjs/issues"
   },
-  "keywords": ["faces", "cartoon", "mii"],
+  "keywords": [
+    "faces",
+    "cartoon",
+    "mii"
+  ],
   "homepage": "http://dumbmatter.com/facesjs/"
 }
