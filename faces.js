@@ -330,13 +330,15 @@
     /**
      * Display a face.
      *
-     * @param {string} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
+     * @param {string|Object} container Either the DOM element of the div that the face will appear in, or a string containing its id.
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
     function display(container, face) {
         var paper;
 
-        container = document.getElementById(container);
+        if (typeof container === 'string') {
+            container = document.getElementById(container);
+        }
         container.innerHTML = "";
 
         paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -363,7 +365,7 @@
     /**
      * Generate a random face.
      *
-     * @param {string=} container id of the div that the face will appear in. If not given, no face is drawn and the face object is simply returned.
+     * @param {string|Object=} container Either the DOM element of the div that the face will appear in, or a string containing its id. If not given, no face is drawn and the face object is simply returned.
      * @return {Object} Randomly generated face object.
      */
     function generate(container) {
