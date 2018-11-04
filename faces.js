@@ -1,4 +1,4 @@
-(function (root, factory) {
+((root, factory) => {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define([], factory);
@@ -11,57 +11,55 @@
         // Browser globals (root is window)
         root.faces = factory();
     }
-}(this, function () {
+})(this, () => {
     "use strict";
 
-    var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
+    const eye = []
+    const eyebrow = []
+    const hair = []
+    const head = []
+    const mouth = []
+    const nose = [];
 
-    function newPath(paper) {
-        var e;
-        e = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const newPath = (paper) => {
+        const e = document.createElementNS("http://www.w3.org/2000/svg", "path");
         paper.appendChild(e);
         return e;
-    }
+    };
 
     // Rotate around center of bounding box of element e, like in Raphael.
-    function rotateCentered(e, angle) {
-        var bbox, cx, cy;
-
-        bbox = e.getBBox();
-        cx = bbox.x + bbox.width / 2;
-        cy = bbox.y + bbox.height / 2;
+    const rotateCentered = (e, angle) => {
+        const bbox = e.getBBox();
+        const cx = bbox.x + bbox.width / 2;
+        const cy = bbox.y + bbox.height / 2;
         e.setAttribute("transform", "rotate(" + angle + " " + cx + " " + cy + ")");
-    }
+    };
 
     // Scale relative to the center of bounding box of element e, like in Raphael.
     // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
-    function scaleCentered(e, x, y) {
-        var bbox, cx, cy, strokeWidth, tx, ty;
-
-        bbox = e.getBBox();
-        cx = bbox.x + bbox.width / 2;
-        cy = bbox.y + bbox.height / 2;
-        tx = (cx * (1 - x)) / x;
-        ty = (cy * (1 - y)) / y;
+    const scaleCentered = (e, x, y) => {
+        const bbox = e.getBBox();
+        const cx = bbox.x + bbox.width / 2;
+        const cy = bbox.y + bbox.height / 2;
+        const tx = (cx * (1 - x)) / x;
+        const ty = (cy * (1 - y)) / y;
 
         e.setAttribute("transform", "scale(" + x + " " + y + "), translate(" + tx + " " + ty + ")");
 
         // Keep apparent stroke width constant, similar to how Raphael does it (I think)
-        strokeWidth = e.getAttribute("stroke-width");
+        const strokeWidth = e.getAttribute("stroke-width");
         if (strokeWidth) {
             e.setAttribute("stroke-width", strokeWidth / Math.abs(x));
         }
-    }
+    };
 
     // Defines the range of fat/skinny, relative to the original width of the default head.
-    function fatScale(fatness) {
+    const fatScale = (fatness) => {
         return 0.75 + 0.25 * fatness;
-    }
+    };
 
-    head.push(function (paper, fatness, color) {
-        var e;
-
-        e = newPath(paper);
+    head.push((paper, fatness, color) => {
+        const e = newPath(paper);
         e.setAttribute("d", "M 200,100" +
                        "c 0,0 180,-10 180,200" +
                        "c 0,0 0,210 -180,200" +
@@ -71,10 +69,11 @@
         scaleCentered(e, fatScale(fatness), 1);
     });
 
-    eyebrow.push(function (paper, lr, cx, cy) {
-        var e, x = cx - 30, y = cy;
+    eyebrow.push((paper, lr, cx, cy) => {
+        const x = cx - 30;
+        const y = cy;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         if (lr === "l") {
             e.setAttribute("d", "M " + x + "," + y +
                            "c 0,0 -3,-30 60,0");
@@ -87,11 +86,12 @@
         e.setAttribute("fill", "none");
     });
 
-    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push((paper, lr, cx, cy, angle) => {
         // Horizontal
-        var e, x = cx - 30, y = cy;
+        const x = cx - 30;
+        const y = cy;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "h 60");
         e.setAttribute("stroke", "#000");
@@ -99,11 +99,12 @@
         e.setAttribute("fill", "none");
         rotateCentered(e, (lr === "l" ? angle : -angle));
     });
-    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push((paper, lr, cx, cy, angle) => {
         // Normal (circle with a dot in it)
-        var e, x = cx, y = cy + 20;
+        const x = cx;
+        const y = cy + 20;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 30,20 0 1 1 0.1,0");
         e.setAttribute("stroke", "#000");
@@ -111,43 +112,47 @@
         e.setAttribute("fill", "#f0f0f0");
         rotateCentered(e, (lr === "l" ? angle : -angle));
 
-        e = newPath(paper);
-        e.setAttribute("d", "M " + x + "," + (y - 12) +
+        const e2 = newPath(paper);
+        e2.setAttribute("d", "M " + x + "," + (y - 12) +
                        "a 12,8 0 1 1 0.1,0");
-        rotateCentered(e, (lr === "l" ? angle : -angle));
+        rotateCentered(e2, (lr === "l" ? angle : -angle));
     });
-    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push((paper, lr, cx, cy, angle) => {
         // Dot
-        var e, x = cx, y = cy + 13;
+        const x = cx;
+        const y = cy + 13;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 20,15 0 1 1 0.1,0");
         rotateCentered(e, (lr === "l" ? angle : -angle));
     });
-    eye.push(function (paper, lr, cx, cy, angle) {
+    eye.push((paper, lr, cx, cy, angle) => {
         // Arc eyelid
-        var e, x = cx, y = cy + 20;
+        const x = cx;
+        const y = cy + 20;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 17,17 0 1 1 0.1,0 z");
         rotateCentered(e, (lr === "l" ? angle : -angle));
 
-        e = newPath(paper);
-        e.setAttribute("d", "M " + (x - 40) + "," + (y - 14) +
+        const e2 = newPath(paper);
+        e2.setAttribute("d", "M " + (x - 40) + "," + (y - 14) +
                        "c 36,-44 87,-4 87,-4");
-        e.setAttribute("stroke", "#000");
-        e.setAttribute("stroke-width", "4");
-        e.setAttribute("fill", "none");
+        e2.setAttribute("stroke", "#000");
+        e2.setAttribute("stroke-width", "4");
+        e2.setAttribute("fill", "none");
         rotateCentered(e, (lr === "l" ? angle : -angle));
     });
 
-    nose.push(function (paper, cx, cy, size) {
+    nose.push((paper, cx, cy, size) => {
         // V
-        var e, scale = size + 0.5, x = cx - 30, y = cy;
+        const scale = size + 0.5;
+        const x = cx - 30;
+        const y = cy;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "l 30,30" +
                        "l 30,-30");
@@ -156,11 +161,13 @@
         e.setAttribute("fill", "none");
         scaleCentered(e, scale, scale);
     });
-    nose.push(function (paper, cx, cy, size, posY, flip) {
+    nose.push((paper, cx, cy, size, posY, flip) => {
         // Pinnochio
-        var e, scale = size + 0.5, x = cx, y = cy - 10;
+        const scale = size + 0.5;
+        const x = cx;
+        const y = cy - 10;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + (flip ? x - 48 : x) + "," + y +
                        "c 0,0 50,-30 0,30");
         e.setAttribute("stroke", "#000");
@@ -172,11 +179,13 @@
             scaleCentered(e, scale, scale);
         }
     });
-    nose.push(function (paper, cx, cy, size) {
+    nose.push((paper, cx, cy, size) => {
         // Big single
-        var e, scale = size + 0.5, x = cx - 9, y = cy - 25;
+        const scale = size + 0.5;
+        const x = cx - 9;
+        const y = cy - 25;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "c 0,0 -20,60 9,55" +
                        "c 0,0 29,5 9,-55");
@@ -186,96 +195,97 @@
         scaleCentered(e, scale, scale);
     });
 
-    mouth.push(function (paper, cx, cy) {
+    mouth.push((paper, cx, cy) => {
         // Thin smile
-        var e, x = cx - 75, y = cy - 15;
+        const x = cx - 75;
+        const y = cy - 15;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "c 0,0 75,60 150,0");
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
     });
-    mouth.push(function (paper, cx, cy) {
+    mouth.push((paper, cx, cy) => {
         // Thin flat
-        var e, x = cx - 55, y = cy;
+        const x = cx - 55
+        const y = cy;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "h 110");
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
     });
-    mouth.push(function (paper, cx, cy) {
+    mouth.push((paper, cx, cy) => {
         // Open-mouthed smile, top teeth
-        var e, x = cx - 75, y = cy - 15;
+        const x = cx - 75;
+        const y = cy - 15;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "c 0,0 75,100 150,0" +
                        "h -150");
 
-        e = newPath(paper);
-        e.setAttribute("d", "M " + (x + 16) + "," + (y + 8) +
+        const e2 = newPath(paper);
+        e2.setAttribute("d", "M " + (x + 16) + "," + (y + 8) +
                        "l 16,16" +
                        "h 86" +
                        "l 16,-16" +
                        "h -118");
-        e.setAttribute("fill", "#f0f0f0");
+        e2.setAttribute("fill", "#f0f0f0");
     });
-    mouth.push(function (paper, cx, cy) {
+    mouth.push((paper, cx, cy) => {
         // Generic open mouth
-        var e, x = cx - 55, y = cy;
+        const x = cx - 55;
+        const y = cy;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "a 54,10 0 1 1 110,0" +
                        "a 54,20 0 1 1 -110,0");
     });
-    mouth.push(function (paper, cx, cy) {
+    mouth.push((paper, cx, cy) => {
         // Thin smile with ends
-        var e, x = cx - 75, y = cy - 15;
+        const x = cx - 75;
+        const y = cy - 15;
 
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M " + x + "," + y +
                        "c 0,0 75,60 150,0");
         e.setAttribute("stroke", "#000");
         e.setAttribute("stroke-width", "8");
         e.setAttribute("fill", "none");
 
-        e = newPath(paper);
-        e.setAttribute("d", "M " + (x + 145) + "," + (y + 19) +
+        const e2 = newPath(paper);
+        e2.setAttribute("d", "M " + (x + 145) + "," + (y + 19) +
                        "c 15.15229,-18.18274 3.03046,-32.32488 3.03046,-32.32488");
-        e.setAttribute("stroke", "#000");
-        e.setAttribute("stroke-width", "8");
-        e.setAttribute("fill", "none");
+        e2.setAttribute("stroke", "#000");
+        e2.setAttribute("stroke-width", "8");
+        e2.setAttribute("fill", "none");
 
-        e = newPath(paper);
-        e.setAttribute("d", "M " + (x + 5) + "," + (y + 19) +
+        const e3 = newPath(paper);
+        e3.setAttribute("d", "M " + (x + 5) + "," + (y + 19) +
                        "c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488");
-        e.setAttribute("stroke", "#000");
-        e.setAttribute("stroke-width", "8");
-        e.setAttribute("fill", "none");
+        e3.setAttribute("stroke", "#000");
+        e3.setAttribute("stroke-width", "8");
+        e3.setAttribute("fill", "none");
     });
 
-    hair.push(function (paper, fatness) {
+    hair.push((paper, fatness) => {
         // Normal short
-        var e;
-
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M 200,100" +
                        "c 0,0 180,-10 176,150" +
                        "c 0,0 -180,-150 -352,0" +
                        "c 0,0 0,-160 176,-150");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    hair.push(function (paper, fatness) {
+    hair.push((paper, fatness) => {
         // Flat top
-        var e;
-
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M 25,60" +
                        "h 352" +
                        "v 190" +
@@ -283,21 +293,17 @@
                        "v -190");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    hair.push(function (paper, fatness) {
+    hair.push((paper, fatness) => {
         // Afro
-        var e;
-
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M 25,250" +
                        "a 210,150 0 1 1 352,0" +
                        "c 0,0 -180,-150 -352,0");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    hair.push(function (paper, fatness) {
+    hair.push((paper, fatness) => {
         // Cornrows
-        var e;
-
-        e = newPath(paper);
+        const e = newPath(paper);
         e.setAttribute("d", "M 36,229" +
                        "v -10" +
                        "m 40,-10" +
@@ -319,13 +325,13 @@
         e.setAttribute("stroke-width", "22");
         scaleCentered(e, fatScale(fatness), 1);
     });
-    hair.push(function () {
+    hair.push(() => {
         // Intentionally left blank (bald)
     });
 
-    function getId(array) {
+    const getID = (array) => {
         return Math.floor(Math.random() * array.length);
-    }
+    };
 
     /**
      * Display a face.
@@ -333,7 +339,7 @@
      * @param {string|Object} container Either the DOM element of the div that the face will appear in, or a string containing its id.
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
-    function display(container, face) {
+    const display = (container, face) => {
         var paper;
 
         if (typeof container === 'string') {
@@ -360,7 +366,7 @@
         nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
         mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
         hair[face.hair.id](paper, face.fatness);
-    }
+    };
 
     /**
      * Generate a random face.
@@ -368,41 +374,41 @@
      * @param {string|Object=} container Either the DOM element of the div that the face will appear in, or a string containing its id. If not given, no face is drawn and the face object is simply returned.
      * @return {Object} Randomly generated face object.
      */
-    function generate(container) {
+    const generate = (container) => {
         var angle, colors, face, flip, id;
 
         face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
         face.fatness = Math.random();
         colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
-        face.color = colors[getId(colors)];
+        face.color = colors[getID(colors)];
 
-        face.head = {id: getId(head)};
+        face.head = {id: getID(head)};
 
-        id = getId(eyebrow);
+        id = getID(eyebrow);
         face.eyebrows[0] = {id: id, lr: "l", cx: 135, cy: 250};
         face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
 
         angle = Math.random() * 50 - 20;
-        id = getId(eye);
+        id = getID(eye);
         face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
         face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
 
         flip = Math.random() > 0.5 ? true : false;
-        face.nose = {id: getId(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
+        face.nose = {id: getID(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
 
-        face.mouth = {id: getId(mouth), cx: 200, cy: 400};
+        face.mouth = {id: getID(mouth), cx: 200, cy: 400};
 
-        face.hair = {id: getId(hair)};
+        face.hair = {id: getID(hair)};
 
         if (typeof container !== "undefined") {
             display(container, face);
         }
 
         return face;
-    }
+    };
 
     return {
         display: display,
         generate: generate
     };
-}));
+});
