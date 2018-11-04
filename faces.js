@@ -14,11 +14,11 @@
 })(this, () => {
     "use strict";
 
-    const eye = []
-    const eyebrow = []
-    const hair = []
-    const head = []
-    const mouth = []
+    const eye = [];
+    const eyebrow = [];
+    const hair = [];
+    const head = [];
+    const mouth = [];
     const nose = [];
 
     const newPath = (paper) => {
@@ -340,14 +340,12 @@
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
     const display = (container, face) => {
-        var paper;
-
         if (typeof container === 'string') {
             container = document.getElementById(container);
         }
         container.innerHTML = "";
 
-        paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         paper.setAttribute("version", "1.2");
         paper.setAttribute("baseProfile", "tiny");
         paper.setAttribute("width", "100%");
@@ -375,25 +373,23 @@
      * @return {Object} Randomly generated face object.
      */
     const generate = (container) => {
-        var angle, colors, face, flip, id;
-
-        face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
+        const face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
         face.fatness = Math.random();
-        colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
+        const colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
         face.color = colors[getID(colors)];
 
         face.head = {id: getID(head)};
 
-        id = getID(eyebrow);
+        const id = getID(eyebrow);
         face.eyebrows[0] = {id: id, lr: "l", cx: 135, cy: 250};
         face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
 
-        angle = Math.random() * 50 - 20;
+        const angle = Math.random() * 50 - 20;
         id = getID(eye);
         face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
         face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
 
-        flip = Math.random() > 0.5 ? true : false;
+        const flip = Math.random() > 0.5 ? true : false;
         face.nose = {id: getID(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
 
         face.mouth = {id: getID(mouth), cx: 200, cy: 400};
