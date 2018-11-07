@@ -385,9 +385,9 @@
         face.eyebrows[1] = {id: id, lr: "r", cx: 265, cy: 250};
 
         const angle = Math.random() * 50 - 20;
-        id = getID(eye);
-        face.eyes[0] = {id: id, lr: "l", cx: 135, cy: 280, angle: angle};
-        face.eyes[1] = {id: id, lr: "r", cx: 265, cy: 280, angle: angle};
+        const id2 = getID(eye);
+        face.eyes[0] = {id: id2, lr: "l", cx: 135, cy: 280, angle: angle};
+        face.eyes[1] = {id: id2, lr: "r", cx: 265, cy: 280, angle: angle};
 
         const flip = Math.random() > 0.5 ? true : false;
         face.nose = {id: getID(nose), lr: "l", cx: 200, cy: 330, size: Math.random(), posY: undefined, flip: flip};
