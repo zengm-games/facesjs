@@ -1,5 +1,9 @@
 import svgs from "./svgs";
 
+const addWrapper = svg => {
+  return `<g>${svg}</g>`;
+};
+
 const rotateCentered = (element, angle) => {
   const bbox = element.getBBox();
   const cx = bbox.x + bbox.width / 2;
@@ -12,8 +16,12 @@ const rotateCentered = (element, angle) => {
   );
 };
 
-const wrapTranslate = (coords, svg) => {
-  return `<g transform="translate(${coords})">${svg}</g>`;
+const translate = (element, coords) => {
+  const oldTransform = element.getAttribute("transform");
+  element.setAttribute(
+    "transform",
+    `${oldTransform ? `${oldTransform} ` : ""}translate(${coords})`
+  );
 };
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
@@ -30,7 +38,7 @@ const scaleCentered = (element, x, y) => {
     "transform",
     `${
       oldTransform ? `${oldTransform} ` : ""
-    }scale(${x} ${y}), translate(${tx} ${ty})`
+    }scale(${x} ${y}) translate(${tx} ${ty})`
   );
 
   // Keep apparent stroke width constant, similar to how Raphael does it (I think)
@@ -53,9 +61,10 @@ const drawHead = (paper, face) => {
 
 const drawEyes = (paper, face) => {
   const eyeSVG = svgs.eye[face.eye.id];
-  const positions = ["100,280", "250,280"];
+  const positions = ["100 280", "250 280"];
   for (let i = 0; i < positions.length; i++) {
-    paper.insertAdjacentHTML("beforeend", wrapTranslate(positions[i], eyeSVG));
+    paper.insertAdjacentHTML("beforeend", addWrapper(eyeSVG));
+    translate(paper.lastChild, positions[i]);
     rotateCentered(paper.lastChild, (i === 0 ? 1 : -1) * face.eye.angle);
   }
 };

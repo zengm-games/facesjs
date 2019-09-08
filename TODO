@@ -1,3 +1,5 @@
+for eyes, write to SVG first and adjust to center it (x and y) based on bb
+
 implement other facial features and options
 
 do any need type-specific metadata? like "this type of eye needs some other paramter to render"?
