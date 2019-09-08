@@ -1,4 +1,5 @@
-rest of noses
+noses
+- pinnochio shouldn't be centered, it should have its right/left edge centered (depending on flip)
 
 implement other facial features and options
 
@@ -30,6 +31,7 @@ round decimals
 
 blog
 - backwards compatible, if interesting
+- reddit
 
 ---
 
