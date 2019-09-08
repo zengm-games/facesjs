@@ -80,6 +80,19 @@ const drawEyebrows = (paper, face) => {
   }
 };
 
+const drawNose = (paper, face) => {
+  const noseSVG = svgs.nose[face.nose.id];
+  paper.insertAdjacentHTML("beforeend", addWrapper(noseSVG));
+  translateCentered(paper.lastChild, 200, 350);
+
+  const scale = face.nose.size + 0.5;
+  if (face.nose.flip) {
+    scaleCentered(paper.lastChild, -scale, scale);
+  } else {
+    scaleCentered(paper.lastChild, scale, scale);
+  }
+};
+
 const display = (container, face) => {
   if (typeof container === "string") {
     container = document.getElementById(container);
@@ -100,6 +113,7 @@ const display = (container, face) => {
   drawHead(paper, face);
   drawEyes(paper, face);
   drawEyebrows(paper, face);
+  drawNose(paper, face);
 
   /*    head[face.head.id](paper, face.fatness, face.color);
     eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);

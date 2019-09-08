@@ -1,6 +1,12 @@
+rest of noses
+
 implement other facial features and options
 
+DRY for draw* functions
+
 do any need type-specific metadata? like "this type of eye needs some other paramter to render"?
+
+add size option to other features, like nose
 
 make backwards compatible
 - version param in face
@@ -11,6 +17,9 @@ get smarter about processing SVGs, like what if doctype of svg tag is spread ove
 build gui editor, add to README
 - yarn start
 - hot reloading (or params in query string)
+
+documentation in readme about how to add/change facial features
+- size matters
 
 es5 and es6 builds
 - es6 needs no build, just src directly?
