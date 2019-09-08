@@ -1,12 +1,8 @@
 version 2 - all SVGs in external files, load from there and assemble for each face
 
-fatness
+implement other facial features and options
 
-would need to still have some metadata defined, for example for how eyes have different offsets?
-- maybe somehow finding bounding box and centering that would be good enough
- - demonstrate ability to load face, shrink based on fatness, and place eyes (with variable distance and rotation)
-- or could give the svgs normal names, and specify optional metadata in JS
-  - each folder could have a default (like placement of 2 eyes in specific locations), but could also override individuals (like if there was an "accessories" folder)
+do any need type-specific metadata? like "this type of eye needs some other paramter to render"?
 
 make backwards compatible
 - version param in face

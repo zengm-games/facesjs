@@ -4,17 +4,44 @@ const rotateCentered = (element, angle) => {
     const bbox = element.getBBox();
     const cx = bbox.x + bbox.width / 2;
     const cy = bbox.y + bbox.height / 2;
-    element.setAttribute("transform", `${element.getAttribute("transform")} rotate(${angle} ${cx} ${cy})`);
+
+    const oldTransform = element.getAttribute("transform");
+    element.setAttribute("transform", `${oldTransform ? `${oldTransform} ` : ""}rotate(${angle} ${cx} ${cy})`);
 };
 
 const wrapTranslate = (coords, svg) => {
     return `<g transform="translate(${coords})">${svg}</g>`
-}
+};
+
+// Scale relative to the center of bounding box of element e, like in Raphael.
+// Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
+const scaleCentered = (element, x, y) => {
+    const bbox = element.getBBox();
+    const cx = bbox.x + bbox.width / 2;
+    const cy = bbox.y + bbox.height / 2;
+    const tx = (cx * (1 - x)) / x;
+    const ty = (cy * (1 - y)) / y;
+
+    const oldTransform = element.getAttribute("transform");
+    element.setAttribute("transform", `${oldTransform ? `${oldTransform} ` : ""}scale(${x} ${y}), translate(${tx} ${ty})`);
+
+    // Keep apparent stroke width constant, similar to how Raphael does it (I think)
+    const strokeWidth = element.getAttribute("stroke-width");
+    if (strokeWidth) {
+        element.setAttribute("stroke-width", strokeWidth / Math.abs(x));
+    }
+};
+
+// Defines the range of fat/skinny, relative to the original width of the default head.
+const fatScale = (fatness) => {
+    return 0.75 + 0.25 * fatness;
+};
 
 const drawHead = (paper, face) => {
     const headSVG = svgs.head[face.head.id]
         .replace("$[color]", face.head.color);
     paper.insertAdjacentHTML("beforeend", headSVG);
+    scaleCentered(paper.lastChild, fatScale(face.fatness), 1);
 };
 
 const drawEyes = (paper, face) => {
