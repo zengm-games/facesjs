@@ -90,7 +90,7 @@ const drawMouth = (svg, feature) => {
 const drawNose = (svg, feature) => {
   const featureSVGString = svgs.nose[feature.id];
   svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-  translateCentered(svg.lastChild, 200, 350);
+  translateCentered(svg.lastChild, 200, 335);
 
   const scale = feature.size + 0.5;
   if (feature.flip) {
