@@ -20,8 +20,13 @@ const rotateCentered = (element, angle) => {
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
-const translate = (element, coords) => {
-  addTransform(element, `translate(${coords})`);
+// Translate element such that its center is at (x, y)
+const translateCentered = (element, x, y) => {
+  const bbox = element.getBBox();
+  const cx = bbox.x + bbox.width / 2;
+  const cy = bbox.y + bbox.height / 2;
+
+  addTransform(element, `translate(${x - cx} ${y - cy})`);
 };
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
@@ -55,10 +60,10 @@ const drawHead = (paper, face) => {
 
 const drawEyes = (paper, face) => {
   const eyeSVG = svgs.eye[face.eye.id];
-  const positions = ["100 280", "250 280"];
+  const positions = [[125, 280], [275, 280]];
   for (let i = 0; i < positions.length; i++) {
     paper.insertAdjacentHTML("beforeend", addWrapper(eyeSVG));
-    translate(paper.lastChild, positions[i]);
+    translateCentered(paper.lastChild, positions[i][0], positions[i][1]);
     rotateCentered(paper.lastChild, (i === 0 ? 1 : -1) * face.eye.angle);
   }
 };
