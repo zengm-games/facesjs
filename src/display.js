@@ -103,7 +103,6 @@ const drawNose = (svg, feature) => {
 const drawHair = (svg, feature, fatness) => {
   const featureSVGString = svgs.hair[feature.id].replace();
   svg.insertAdjacentHTML("beforeend", featureSVGString);
-  translateCentered(svg.lastChild, 200, 175);
   scaleCentered(svg.lastChild, fatScale(fatness), 1);
 };
 

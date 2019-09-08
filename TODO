@@ -1,9 +1,5 @@
-hair
-
 do any need type-specific metadata? like "this type of eye needs some other paramter to render"?
 - pinnochio shouldn't be centered, it should have its right/left edge centered (depending on flip)
-- hair needs something special ugh
-  - could treat it as special, along with head, and require absolute positioning there
 
 DRY for draw* functions
 
