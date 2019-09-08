@@ -1,5 +1,4 @@
-*~
-*.sublime-project
-*.sublime-workspace
-drawing.svg
-test.html
+node_modules
+build
+src/svgs.js
+yarn-error.log

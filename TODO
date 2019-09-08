@@ -1,3 +1,26 @@
+version 2 - all SVGs in external files, load from there and assemble for each face
+
+fatness
+
+would need to still have some metadata defined, for example for how eyes have different offsets?
+- maybe somehow finding bounding box and centering that would be good enough
+ - demonstrate ability to load face, shrink based on fatness, and place eyes (with variable distance and rotation)
+- or could give the svgs normal names, and specify optional metadata in JS
+  - each folder could have a default (like placement of 2 eyes in specific locations), but could also override individuals (like if there was an "accessories" folder)
+
+make backwards compatible
+- version param in face
+
+es5 and es6 builds
+- es6 needs no build, just src directly?
+- es5 rollup switch from iife to cjs, no name needed
+
+prettier
+
+round decimals
+
+---
+
 generate a couple options for each feature
 randomize all sizes/angles/positions of features as appropriate
 How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?

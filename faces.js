@@ -340,7 +340,7 @@
      * @param {Object} face Face object, such as one generated from faces.generate.
      */
     const display = (container, face) => {
-        if (typeof container === 'string') {
+        if (typeof container === "string") {
             container = document.getElementById(container);
         }
         container.innerHTML = "";
