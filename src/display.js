@@ -4,24 +4,24 @@ const addWrapper = svg => {
   return `<g>${svg}</g>`;
 };
 
+const addTransform = (element, newTransform) => {
+  const oldTransform = element.getAttribute("transform");
+  element.setAttribute(
+    "transform",
+    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`
+  );
+};
+
 const rotateCentered = (element, angle) => {
   const bbox = element.getBBox();
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
 
-  const oldTransform = element.getAttribute("transform");
-  element.setAttribute(
-    "transform",
-    `${oldTransform ? `${oldTransform} ` : ""}rotate(${angle} ${cx} ${cy})`
-  );
+  addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
 const translate = (element, coords) => {
-  const oldTransform = element.getAttribute("transform");
-  element.setAttribute(
-    "transform",
-    `${oldTransform ? `${oldTransform} ` : ""}translate(${coords})`
-  );
+  addTransform(element, `translate(${coords})`);
 };
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
@@ -33,13 +33,7 @@ const scaleCentered = (element, x, y) => {
   const tx = (cx * (1 - x)) / x;
   const ty = (cy * (1 - y)) / y;
 
-  const oldTransform = element.getAttribute("transform");
-  element.setAttribute(
-    "transform",
-    `${
-      oldTransform ? `${oldTransform} ` : ""
-    }scale(${x} ${y}) translate(${tx} ${ty})`
-  );
+  addTransform(element, `scale(${x} ${y}) translate(${tx} ${ty})`);
 
   // Keep apparent stroke width constant, similar to how Raphael does it (I think)
   const strokeWidth = element.getAttribute("stroke-width");
@@ -87,8 +81,6 @@ const display = (container, face) => {
   container.appendChild(paper);
 
   drawHead(paper, face);
-
-  const eye = svgs.eye[face.eye.id];
   drawEyes(paper, face);
 
   /*    head[face.head.id](paper, face.fatness, face.color);
