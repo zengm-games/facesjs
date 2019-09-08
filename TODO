@@ -1,11 +1,9 @@
-noses
-- pinnochio shouldn't be centered, it should have its right/left edge centered (depending on flip)
-
-implement other facial features and options
+hair
 
 DRY for draw* functions
 
 do any need type-specific metadata? like "this type of eye needs some other paramter to render"?
+- pinnochio shouldn't be centered, it should have its right/left edge centered (depending on flip)
 
 add size option to other features, like nose
 

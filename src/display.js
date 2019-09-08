@@ -1,8 +1,6 @@
 import svgs from "./svgs";
 
-const addWrapper = svg => {
-  return `<g>${svg}</g>`;
-};
+const addWrapper = svgString => `<g>${svgString}</g>`;
 
 const addTransform = (element, newTransform) => {
   const oldTransform = element.getAttribute("transform");
@@ -52,44 +50,54 @@ const fatScale = fatness => {
   return 0.75 + 0.25 * fatness;
 };
 
-const drawHead = (paper, face) => {
-  const headSVG = svgs.head[face.head.id].replace("$[color]", face.head.color);
-  paper.insertAdjacentHTML("beforeend", headSVG);
-  scaleCentered(paper.lastChild, fatScale(face.fatness), 1);
+const drawHead = (svg, face) => {
+  const featureSVGString = svgs.head[face.head.id].replace(
+    "$[color]",
+    face.head.color
+  );
+  svg.insertAdjacentHTML("beforeend", featureSVGString);
+  scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
 };
 
-const drawEyes = (paper, face) => {
-  const eyeSVG = svgs.eye[face.eye.id];
+const drawEyes = (svg, feature) => {
+  const featureSVGString = svgs.eye[feature.id];
   const positions = [[125, 280], [275, 280]];
   for (let i = 0; i < positions.length; i++) {
-    paper.insertAdjacentHTML("beforeend", addWrapper(eyeSVG));
-    translateCentered(paper.lastChild, positions[i][0], positions[i][1]);
-    rotateCentered(paper.lastChild, (i === 0 ? 1 : -1) * face.eye.angle);
+    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+    translateCentered(svg.lastChild, positions[i][0], positions[i][1]);
+    rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
   }
 };
 
-const drawEyebrows = (paper, face) => {
-  const eyebrowSVG = svgs.eyebrow[face.eyebrow.id];
+const drawEyebrows = (svg, feature) => {
+  const featureSVGString = svgs.eyebrow[feature.id];
   const positions = [[125, 240], [275, 240]];
   for (let i = 0; i < positions.length; i++) {
-    paper.insertAdjacentHTML("beforeend", addWrapper(eyebrowSVG));
-    translateCentered(paper.lastChild, positions[i][0], positions[i][1]);
+    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+    translateCentered(svg.lastChild, positions[i][0], positions[i][1]);
     if (i === 1) {
-      scaleCentered(paper.lastChild, -1, 1);
+      scaleCentered(svg.lastChild, -1, 1);
     }
   }
 };
 
-const drawNose = (paper, face) => {
-  const noseSVG = svgs.nose[face.nose.id];
-  paper.insertAdjacentHTML("beforeend", addWrapper(noseSVG));
-  translateCentered(paper.lastChild, 200, 350);
+const drawMouth = (svg, feature) => {
+  const featureSVGString = svgs.mouth[feature.id];
+  console.log("drawMouth", featureSVGString);
+  svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+  translateCentered(svg.lastChild, 200, 410);
+};
 
-  const scale = face.nose.size + 0.5;
-  if (face.nose.flip) {
-    scaleCentered(paper.lastChild, -scale, scale);
+const drawNose = (svg, feature) => {
+  const featureSVGString = svgs.nose[feature.id];
+  svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+  translateCentered(svg.lastChild, 200, 350);
+
+  const scale = feature.size + 0.5;
+  if (feature.flip) {
+    scaleCentered(svg.lastChild, -scale, scale);
   } else {
-    scaleCentered(paper.lastChild, scale, scale);
+    scaleCentered(svg.lastChild, scale, scale);
   }
 };
 
@@ -99,32 +107,33 @@ const display = (container, face) => {
   }
   container.innerHTML = "";
 
-  const paper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  paper.setAttribute("version", "1.2");
-  paper.setAttribute("baseProfile", "tiny");
-  paper.setAttribute("width", "100%");
-  paper.setAttribute("height", "100%");
-  paper.setAttribute("viewBox", "0 0 400 600");
-  paper.setAttribute("preserveAspectRatio", "xMinYMin meet");
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("version", "1.2");
+  svg.setAttribute("baseProfile", "tiny");
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+  svg.setAttribute("viewBox", "0 0 400 600");
+  svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
 
   // Needs to be in the DOM here so getBBox will work
-  container.appendChild(paper);
+  container.appendChild(svg);
 
-  drawHead(paper, face);
-  drawEyes(paper, face);
-  drawEyebrows(paper, face);
-  drawNose(paper, face);
+  drawHead(svg, face);
+  drawEyes(svg, face.eye);
+  drawEyebrows(svg, face.eyebrow);
+  drawMouth(svg, face.mouth);
+  drawNose(svg, face.nose);
 
-  /*    head[face.head.id](paper, face.fatness, face.color);
-    eyebrow[face.eyebrows[0].id](paper, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
-    eyebrow[face.eyebrows[1].id](paper, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
+  /*    head[face.head.id](svg, face.fatness, face.color);
+    eyebrow[face.eyebrows[0].id](svg, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
+    eyebrow[face.eyebrows[1].id](svg, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
 
-    eye[face.eyes[0].id](paper, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
-    eye[face.eyes[1].id](paper, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
+    eye[face.eyes[0].id](svg, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
+    eye[face.eyes[1].id](svg, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
 
-    nose[face.nose.id](paper, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
-    mouth[face.mouth.id](paper, face.mouth.cx, face.mouth.cy);
-    hair[face.hair.id](paper, face.fatness);*/
+    nose[face.nose.id](svg, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
+    mouth[face.mouth.id](svg, face.mouth.cx, face.mouth.cy);
+    hair[face.hair.id](svg, face.fatness);*/
 };
 
 export default display;

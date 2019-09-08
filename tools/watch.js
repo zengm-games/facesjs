@@ -6,18 +6,15 @@ const processSVGs = require("./process-svgs");
 
 processSVGs();
 
-// One-liner for current directory, ignores .dotfiles
 chokidar
   .watch(path.join(__dirname, "..", "svg"), {
     ignoreInitial: true
   })
   .on("all", (event, path) => {
-    console.log(event, path);
     processSVGs();
   });
 
 const watcher = rollup.watch(rollupConfig);
-
 watcher.on("event", event => {
   if (event.code === "END") {
     console.log(
