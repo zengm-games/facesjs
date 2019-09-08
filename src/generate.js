@@ -30,6 +30,7 @@ const generate = () => {
   const angle = Math.random() * 50 - 20;
   face.eye = { id: getID("eye"), angle };
   face.eyebrow = { id: getID("eyebrow") };
+  face.hair = { id: getID("hair") };
   face.mouth = { id: getID("mouth") };
   face.nose = {
     id: getID("nose"),

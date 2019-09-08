@@ -50,13 +50,13 @@ const fatScale = fatness => {
   return 0.75 + 0.25 * fatness;
 };
 
-const drawHead = (svg, face) => {
-  const featureSVGString = svgs.head[face.head.id].replace(
+const drawHead = (svg, feature, fatness) => {
+  const featureSVGString = svgs.head[feature.id].replace(
     "$[color]",
-    face.head.color
+    feature.color
   );
   svg.insertAdjacentHTML("beforeend", featureSVGString);
-  scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
+  scaleCentered(svg.lastChild, fatScale(fatness), 1);
 };
 
 const drawEyes = (svg, feature) => {
@@ -83,7 +83,6 @@ const drawEyebrows = (svg, feature) => {
 
 const drawMouth = (svg, feature) => {
   const featureSVGString = svgs.mouth[feature.id];
-  console.log("drawMouth", featureSVGString);
   svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
   translateCentered(svg.lastChild, 200, 410);
 };
@@ -99,6 +98,13 @@ const drawNose = (svg, feature) => {
   } else {
     scaleCentered(svg.lastChild, scale, scale);
   }
+};
+
+const drawHair = (svg, feature, fatness) => {
+  const featureSVGString = svgs.hair[feature.id].replace();
+  svg.insertAdjacentHTML("beforeend", featureSVGString);
+  translateCentered(svg.lastChild, 200, 175);
+  scaleCentered(svg.lastChild, fatScale(fatness), 1);
 };
 
 const display = (container, face) => {
@@ -118,11 +124,12 @@ const display = (container, face) => {
   // Needs to be in the DOM here so getBBox will work
   container.appendChild(svg);
 
-  drawHead(svg, face);
+  drawHead(svg, face.head, face.fatness);
   drawEyes(svg, face.eye);
   drawEyebrows(svg, face.eyebrow);
   drawMouth(svg, face.mouth);
   drawNose(svg, face.nose);
+  drawHair(svg, face.hair, face.fatness);
 
   /*    head[face.head.id](svg, face.fatness, face.color);
     eyebrow[face.eyebrows[0].id](svg, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
