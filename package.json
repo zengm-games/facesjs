@@ -23,8 +23,19 @@
   ],
   "homepage": "http://dumbmatter.com/facesjs/",
   "devDependencies": {
+    "husky": "^3.0.5",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "rollup": "^1.20.3",
     "split-lines": "^2.0.0"
   },
-  "files": ["src", "build"]
+  "files": [
+    "src",
+    "build"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }

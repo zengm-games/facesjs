@@ -1,4 +1,6 @@
-version 2 - all SVGs in external files, load from there and assemble for each face
+watch
+- rollup watch
+- svg watch
 
 implement other facial features and options
 
@@ -6,14 +8,19 @@ do any need type-specific metadata? like "this type of eye needs some other para
 
 make backwards compatible
 - version param in face
+- if necessary, depend on v1 for this
 
 es5 and es6 builds
 - es6 needs no build, just src directly?
 - es5 rollup switch from iife to cjs, no name needed
+  - or just babel, no rollup
 
-prettier
+build gui editor, add to README
 
 round decimals
+
+blog
+- backwards compatible, if interesting
 
 ---
 
