@@ -5,7 +5,7 @@ const getID = type => {
   return keys[Math.floor(Math.random() * keys.length)];
 };
 
-const colors = [
+const skinColors = [
   "#f2d6cb",
   "#ddb7a0",
   "#ce967d",
@@ -24,7 +24,7 @@ const generate = () => {
     fatness: Math.random(),
     head: {
       id: getID("head"),
-      color: colors[Math.floor(Math.random() * colors.length)]
+      color: skinColors[Math.floor(Math.random() * skinColors.length)]
     },
     eye: { id: getID("eye"), angle: eyeAngle },
     eyebrow: { id: getID("eyebrow") },

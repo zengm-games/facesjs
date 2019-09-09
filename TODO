@@ -21,6 +21,7 @@ es5 and es6 builds
 - es6 needs no build, just src directly?
 - es5 rollup switch from iife to cjs, no name needed
   - or just babel, no rollup
+  - babel is needed, though
 
 round decimals
 

@@ -152,17 +152,6 @@ const display = (container, face) => {
   drawMouth(svg, face.mouth);
   drawNose(svg, face.nose);
   drawHair(svg, face.hair, face.fatness);
-
-  /*    head[face.head.id](svg, face.fatness, face.color);
-    eyebrow[face.eyebrows[0].id](svg, face.eyebrows[0].lr, face.eyebrows[0].cx, face.eyebrows[0].cy);
-    eyebrow[face.eyebrows[1].id](svg, face.eyebrows[1].lr, face.eyebrows[1].cx, face.eyebrows[1].cy);
-
-    eye[face.eyes[0].id](svg, face.eyes[0].lr, face.eyes[0].cx, face.eyes[0].cy, face.eyes[0].angle);
-    eye[face.eyes[1].id](svg, face.eyes[1].lr, face.eyes[1].cx, face.eyes[1].cy, face.eyes[1].angle);
-
-    nose[face.nose.id](svg, face.nose.cx, face.nose.cy, face.nose.size, face.nose.posY, face.nose.flip);
-    mouth[face.mouth.id](svg, face.mouth.cx, face.mouth.cy);
-    hair[face.hair.id](svg, face.fatness);*/
 };
 
 export default display;
