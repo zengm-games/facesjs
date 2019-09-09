@@ -1,3 +1,21 @@
+build gui/editor/viewer, add to README
+- can this be simple, or do i need a bundler, build step, watch step, etc?
+  - might as well go with bundler
+  - for watch, reuse existing code as much as possible
+  - reuse existing code as much as possible. bundler and watch are only needed here
+- yarn start - handle watching too
+- hot reloading (or params in query string)
+
+es5 (main, cjs) and es6 (module, esm) builds
+- es6 needs no build, just src directly?
+  - no, still babel, just with no module->require
+- es5 rollup switch from iife to cjs, no name needed
+  - or just babel, no rollup
+  - babel is needed, though
+- https://gist.github.com/ncochard/6cce17272a069fdb4ac92569d85508f4
+- https://github.com/rollup/rollup/wiki/pkg.module
+- no watch needed, that can be just for gui
+
 get smarter about processing SVGs, like what if doctype of svg tag is spread over multiple lines?
 - https://github.com/Leonidas-from-XIV/node-xml2js but claims builder is not very good in issues
 - https://github.com/buglabs/node-xml2json looks nice, but windows support
@@ -9,24 +27,16 @@ get smarter about processing SVGs, like what if doctype of svg tag is spread ove
   - js2svg is custom - could also use!
   - could use whole module directly https://github.com/svg/svgo/blob/master/examples/test.js
 
+try making a new svg in inkscape, does it actually work?
+
 make backwards compatible
 - version param in face
 - if necessary, depend on v1 for this
-
-build gui editor, add to README
-- yarn start
-- hot reloading (or params in query string)
 
 documentation in readme about how to add/change facial features
 - size matters
 - for head/hair, positioning matters
 - pinnochio special case, can do others or generalize if necessary
-
-es5 and es6 builds
-- es6 needs no build, just src directly?
-- es5 rollup switch from iife to cjs, no name needed
-  - or just babel, no rollup
-  - babel is needed, though
 
 round decimals
 
