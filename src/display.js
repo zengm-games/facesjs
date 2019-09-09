@@ -144,7 +144,7 @@ const display = (container, face) => {
     },
     {
       name: "nose",
-      positions: [[200, 335]]
+      positions: [[200, 345]]
     },
     {
       name: "hair",

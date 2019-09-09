@@ -1,4 +1,4 @@
 node_modules
-build
+viewer/build
 src/svgs.js
 yarn-error.log

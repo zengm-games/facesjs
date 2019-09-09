@@ -17,11 +17,13 @@ const skinColors = [
   "#5c3937"
 ];
 
+const randomRounded = () => Math.round(Math.random() * 100) / 100;
+
 const generate = () => {
-  const eyeAngle = Math.random() * 50 - 20;
+  const eyeAngle = Math.round(Math.random() * 50 - 20);
 
   const face = {
-    fatness: Math.random(),
+    fatness: randomRounded(),
     head: {
       id: getID("head"),
       color: skinColors[Math.floor(Math.random() * skinColors.length)]
@@ -33,7 +35,7 @@ const generate = () => {
     nose: {
       id: getID("nose"),
       flip: Math.random() < 0.5,
-      size: Math.random()
+      size: randomRounded()
     }
   };
 

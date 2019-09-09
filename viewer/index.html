@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>faces.js viewer</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <style>
+      .mb-lots {
+        margin-bottom: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>faces.js viewer</h1>
+      <div class="d-flex">
+        <div class="mr-3">
+          <form>
+            <div class="row">
+              <div class="col">
+                <h4>Head</h4>
+                <div class="form-group">
+                  <select class="form-control" id="head-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="head-color">Skin color</label>
+                  <input type="text" class="form-control" id="head-color" />
+                </div>
+                <div class="form-group mb-lots">
+                  <label for="fatness">Fatness</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="fatness"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                  />
+                </div>
+                <h4>Hair</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="hair-id"> </select>
+                </div>
+                <h4>Eyebrows</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="eyebrow-id"> </select>
+                </div>
+              </div>
+              <div class="col">
+                <h4>Eyes</h4>
+                <div class="form-group">
+                  <select class="form-control" id="eye-id"> </select>
+                </div>
+                <div class="form-group mb-lots">
+                  <label for="eye-angle">Angle</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="eye-angle"
+                    min="-20"
+                    max="30"
+                    step="2"
+                  />
+                </div>
+                <h4>Nose</h4>
+                <div class="form-group">
+                  <select class="form-control" id="nose-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="nose-size">Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="nose-size"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                  />
+                </div>
+                <div class="form-group form-check mb-lots">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="nose-flip"
+                  />
+                  <label class="form-check-label" for="nose-flip">
+                    Flip
+                  </label>
+                </div>
+                <h4>Mouth</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="mouth-id"> </select>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg mt-4"
+              id="randomize"
+            >
+              Randomize
+            </button>
+          </div>
+        </div>
+        <div class="content">
+          <div
+            id="face"
+            style="background-color: lightgray; max-width: 300px"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="build/viewer.js"></script>
+</html>
