@@ -55,7 +55,6 @@ const translate = (element, x, y, xAlign = "center", yAlign = "center") => {
   } else {
     cy = bbox.y + bbox.height / 2;
   }
-  console.log(xAlign, bbox.x, cx);
 
   addTransform(element, `translate(${x - cx} ${y - cy})`);
 };
@@ -94,13 +93,12 @@ const drawFeature = (svg, face, info) => {
       rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
     }
 
-    if (feature.hasOwnProperty("size")) {
-      const scale = feature.size + 0.5;
-      if (feature.flip) {
-        scaleCentered(svg.lastChild, -scale, scale);
-      } else {
-        scaleCentered(svg.lastChild, scale, scale);
-      }
+    // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
+    const scale = feature.hasOwnProperty("size") ? feature.size + 0.5 : 1;
+    if (feature.flip || i === 1) {
+      scaleCentered(svg.lastChild, -scale, scale);
+    } else if (scale !== 1) {
+      scaleCentered(svg.lastChild, scale, scale);
     }
   }
 
