@@ -3,8 +3,23 @@ import generate from "../src/generate";
 import svgs from "../src/svgs";
 
 const faceWrapper = document.getElementById("face");
-let face = generate();
-display(faceWrapper, face);
+console.log(location.hash);
+let face;
+if (location.hash.length <= 1) {
+  face = generate();
+} else {
+  try {
+    face = JSON.parse(atob(location.hash.slice(1)));
+  } catch (error) {
+    console.error(error);
+    face = generate();
+  }
+}
+
+const updateDisplay = () => {
+  display(faceWrapper, face);
+  history.replaceState(undefined, undefined, `#${btoa(JSON.stringify(face))}`);
+};
 
 const initializeSelectOptions = () => {
   for (const feature of Object.keys(svgs)) {
@@ -75,17 +90,18 @@ const listenForChanges = () => {
         throw new Error(`Invalid ID ${event.target.id}`);
       }
 
-      display(faceWrapper, face);
+      updateDisplay();
     });
   }
 
   document.getElementById("randomize").addEventListener("click", () => {
     face = generate();
     initializeFormValues();
-    display(faceWrapper, face);
+    updateDisplay();
   });
 };
 
+updateDisplay();
 initializeSelectOptions();
 initializeFormValues();
 listenForChanges();
