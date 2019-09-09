@@ -1,10 +1,17 @@
-add size option to other features, like nose
+get smarter about processing SVGs, like what if doctype of svg tag is spread over multiple lines?
+- https://github.com/Leonidas-from-XIV/node-xml2js but claims builder is not very good in issues
+- https://github.com/buglabs/node-xml2json looks nice, but windows support
+- https://github.com/nashwaan/xml-js maybe preferrable to above
+- could write my own. "just" needs to identify and remove the doctype and <svg> open/close tags, the rest doesn't even need to be parsed
+  - but full parse can bring compression
+- what does https://github.com/svg/svgo do?
+  - node-sax for parsing (i could simply require and use their svg2js function)
+  - js2svg is custom - could also use!
+  - could use whole module directly https://github.com/svg/svgo/blob/master/examples/test.js
 
 make backwards compatible
 - version param in face
 - if necessary, depend on v1 for this
-
-get smarter about processing SVGs, like what if doctype of svg tag is spread over multiple lines?
 
 build gui editor, add to README
 - yarn start
@@ -29,23 +36,15 @@ blog
 
 ---
 
+add size option to other features, like nose
+
+---
+
 generate a couple options for each feature
 randomize all sizes/angles/positions of features as appropriate
 How do I generalize fatness and skin color and whatever in general while allowing for bbgm-specific values to be set?
 how to link skin color and hair color?
 
-FOR FIRST TRY:
-- head
-  - have them all with the same top half (different bottom halfs, though, and then randomize the width and height of the head to create fat/skinny faces. the current one is the fattest possible
-- eye (duplicate on face)
-  - angle
-  - flip for left/right
-- eyebrow (duplicate on face)
-  - angle
-  - flip for left/right
-- nose
-- mouth
-THEN:
 - headbands
 - glasses
 - facial lines
