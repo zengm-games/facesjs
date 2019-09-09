@@ -61,72 +61,52 @@ const translate = (element, x, y, xAlign = "center", yAlign = "center") => {
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
-const fatScale = fatness => {
-  return 0.75 + 0.25 * fatness;
-};
+const fatScale = fatness => 0.75 + 0.25 * fatness;
 
-const drawHead = (svg, feature, fatness) => {
-  const featureSVGString = svgs.head[feature.id].replace(
-    "$[color]",
-    feature.color
-  );
-  svg.insertAdjacentHTML("beforeend", featureSVGString);
-  scaleCentered(svg.lastChild, fatScale(fatness), 1);
-};
-
-const drawEyes = (svg, feature) => {
-  const featureSVGString = svgs.eye[feature.id];
-  const positions = [[125, 280], [275, 280]];
-  for (let i = 0; i < positions.length; i++) {
-    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-    translate(svg.lastChild, positions[i][0], positions[i][1]);
-    rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
+const drawFeature = (svg, face, info) => {
+  const feature = face[info.name];
+  let featureSVGString = svgs[info.name][feature.id];
+  if (feature.color) {
+    featureSVGString = featureSVGString.replace("$[color]", feature.color);
   }
-};
 
-const drawEyebrows = (svg, feature) => {
-  const featureSVGString = svgs.eyebrow[feature.id];
-  const positions = [[125, 240], [275, 240]];
-  for (let i = 0; i < positions.length; i++) {
+  for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-    translate(svg.lastChild, positions[i][0], positions[i][1]);
-    if (i === 1) {
-      scaleCentered(svg.lastChild, -1, 1);
+
+    if (info.positions[i] !== null) {
+      // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
+      let xAlign;
+      if (feature.id === "pinocchio") {
+        xAlign = feature.flip ? "right" : "left";
+      } else {
+        xAlign = "center";
+      }
+
+      translate(
+        svg.lastChild,
+        info.positions[i][0],
+        info.positions[i][1],
+        xAlign
+      );
+    }
+
+    if (feature.hasOwnProperty("angle")) {
+      rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
+    }
+
+    if (feature.hasOwnProperty("size")) {
+      const scale = feature.size + 0.5;
+      if (feature.flip) {
+        scaleCentered(svg.lastChild, -scale, scale);
+      } else {
+        scaleCentered(svg.lastChild, scale, scale);
+      }
     }
   }
-};
 
-const drawMouth = (svg, feature) => {
-  const featureSVGString = svgs.mouth[feature.id];
-  svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-  translate(svg.lastChild, 200, 410);
-};
-
-const drawNose = (svg, feature) => {
-  const featureSVGString = svgs.nose[feature.id];
-  svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-
-  // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
-  let xAlign;
-  if (feature.id === "pinocchio") {
-    xAlign = feature.flip ? "right" : "left";
-  } else {
-    xAlign = "center";
+  if (info.scaleFatness) {
+    scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
   }
-  translate(svg.lastChild, 200, 335, xAlign);
-
-  const scale = feature.size + 0.5;
-  if (feature.flip) {
-    scaleCentered(svg.lastChild, -scale, scale);
-  } else {
-    scaleCentered(svg.lastChild, scale, scale);
-  }
-};
-
-const drawHair = (svg, feature, fatness) => {
-  const featureSVGString = svgs.hair[feature.id].replace();
-  svg.insertAdjacentHTML("beforeend", featureSVGString);
-  scaleCentered(svg.lastChild, fatScale(fatness), 1);
 };
 
 const display = (container, face) => {
@@ -146,12 +126,38 @@ const display = (container, face) => {
   // Needs to be in the DOM here so getBBox will work
   container.appendChild(svg);
 
-  drawHead(svg, face.head, face.fatness);
-  drawEyes(svg, face.eye);
-  drawEyebrows(svg, face.eyebrow);
-  drawMouth(svg, face.mouth);
-  drawNose(svg, face.nose);
-  drawHair(svg, face.hair, face.fatness);
+  const featureInfos = [
+    {
+      name: "head",
+      positions: [null], // Meaning it just gets placed into the SVG with no translation
+      scaleFatness: true
+    },
+    {
+      name: "eye",
+      positions: [[125, 280], [275, 280]]
+    },
+    {
+      name: "eyebrow",
+      positions: [[125, 240], [275, 240]]
+    },
+    {
+      name: "mouth",
+      positions: [[200, 410]]
+    },
+    {
+      name: "nose",
+      positions: [[200, 335]]
+    },
+    {
+      name: "hair",
+      positions: [null],
+      scaleFatness: true
+    }
+  ];
+
+  for (const info of featureInfos) {
+    drawFeature(svg, face, info);
+  }
 };
 
 export default display;
