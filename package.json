@@ -40,5 +40,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "ws": "^7.1.2"
   }
 }

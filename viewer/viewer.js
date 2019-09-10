@@ -3,7 +3,6 @@ import generate from "../src/generate";
 import svgs from "../src/svgs";
 
 const faceWrapper = document.getElementById("face");
-console.log(location.hash);
 let face;
 if (location.hash.length <= 1) {
   face = generate();
@@ -105,3 +104,11 @@ updateDisplay();
 initializeSelectOptions();
 initializeFormValues();
 listenForChanges();
+
+// Reload when something changes
+const socket = new WebSocket("ws://localhost:3001/");
+socket.addEventListener("message", event => {
+  if (event.data === "reload") {
+    location.reload();
+  }
+});
