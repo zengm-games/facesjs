@@ -10,14 +10,20 @@
       crossorigin="anonymous"
     />
     <style>
+      .wrapper {
+        max-width: 700px;
+      }
       .mb-lots {
         margin-bottom: 3rem;
+      }
+      #face {
+        background-color: lightgray;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>faces.js viewer</h1>
+    <div class="wrapper mx-auto">
+      <h1 class="mb-4">faces.js viewer</h1>
       <div class="d-flex">
         <div class="mr-3">
           <form>
@@ -112,10 +118,7 @@
           </div>
         </div>
         <div class="content">
-          <div
-            id="face"
-            style="background-color: lightgray; max-width: 300px"
-          ></div>
+          <div id="face"></div>
         </div>
       </div>
     </div>

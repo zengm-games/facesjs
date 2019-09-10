@@ -1,5 +1,4 @@
 viewer
-- center
 - yarn start
   - watch
   - open browser with hot reloading
