@@ -5,8 +5,8 @@
   "main": "faces.js",
   "scripts": {
     "build": "node tools/process-svgs.js && rm -rf build && mkdir build && rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "node tools/watch.js"
+    "start": "node tools/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

@@ -1,9 +1,9 @@
 viewer
+- center
 - yarn start
   - watch
-  - start server
   - open browser with hot reloading
-- reload browser on watch
+  - web socket reload browser on watch
 
 es5 (main, cjs) and es6 (module, esm) builds
 - es6 needs no build, just src directly?

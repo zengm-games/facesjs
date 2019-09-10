@@ -18,7 +18,9 @@ const watcher = rollup.watch(rollupConfig);
 watcher.on("event", event => {
   if (event.code === "END") {
     console.log(
-      `Wrote new build/index.js at ${new Date().toLocaleTimeString()}`
+      `Wrote new ${
+        rollupConfig.output.file
+      } at ${new Date().toLocaleTimeString()}`
     );
   } else if (event.code === "ERROR" || event.code === "FATAL") {
     console.log(event);
