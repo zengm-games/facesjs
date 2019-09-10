@@ -1,16 +1,3 @@
-get smarter about processing SVGs, like what if doctype of svg tag is spread over multiple lines?
-- https://github.com/Leonidas-from-XIV/node-xml2js but claims builder is not very good in issues
-- https://github.com/buglabs/node-xml2json looks nice, but windows support
-- https://github.com/nashwaan/xml-js maybe preferrable to above
-- could write my own. "just" needs to identify and remove the doctype and <svg> open/close tags, the rest doesn't even need to be parsed
-  - but full parse can bring compression
-- what does https://github.com/svg/svgo do?
-  - node-sax for parsing (i could simply require and use their svg2js function)
-  - js2svg is custom - could also use!
-  - could use whole module directly https://github.com/svg/svgo/blob/master/examples/test.js
-
-try making a new svg in inkscape, does it actually work?
-
 make backwards compatible
 - version param in face
 - if necessary, depend on v1 for this
