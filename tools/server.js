@@ -1,6 +1,8 @@
 const fs = require("fs");
 const http = require("http");
+const open = require("open");
 const path = require("path");
+require("./watch");
 
 const port = 3000;
 
@@ -41,8 +43,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(port, "localhost", () => {
+server.listen(port, "localhost", async () => {
   console.log(`faces.js viewer running at http://localhost:${port}`);
-
-  require("./watch");
+  await open(`http://localhost:${port}`);
 });

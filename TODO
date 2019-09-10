@@ -1,7 +1,5 @@
 viewer
 - yarn start
-  - watch
-  - open browser with hot reloading
   - web socket reload browser on watch
 
 es5 (main, cjs) and es6 (module, esm) builds
