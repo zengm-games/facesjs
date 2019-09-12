@@ -4,6 +4,8 @@ make backwards compatible
 - version param in face
 - if necessary, depend on v1 for this
 
+remove old files from root folder
+
 update index.html
 
 blog
