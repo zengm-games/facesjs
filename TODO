@@ -1,22 +1,8 @@
+generate does not need full text of SVGs, just names of things
+
 make backwards compatible
 - version param in face
 - if necessary, depend on v1 for this
-
-es5 (main, cjs) and es6 (module, esm) builds
-- es6 needs no build, just src directly?
-  - no, still babel, just with no module->require
-- es5 rollup switch from iife to cjs, no name needed
-  - or just babel, no rollup
-  - babel is needed, though
-- https://gist.github.com/ncochard/6cce17272a069fdb4ac92569d85508f4
-- https://github.com/rollup/rollup/wiki/pkg.module
-- no watch needed, that can be just for gui
-
-documentation in readme about how to add/change facial features
-- size matters
-- for head/hair, positioning matters
-- pinnochio special case, can do others or generalize if necessary
-- viewer - automatic reload
 
 update index.html
 

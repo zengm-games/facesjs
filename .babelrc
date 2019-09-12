@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    "@babel/plugin-transform-for-of",
+    "@babel/plugin-transform-parameters"
+  ],
+  "env": {
+    "commonjs": {
+      "plugins": ["@babel/plugin-transform-modules-commonjs"]
+    }
+  }
+}
