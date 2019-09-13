@@ -2,7 +2,9 @@
 
 A JavaScript library for generating vector-based cartoon faces
 
-[View a demo here.](http://dumbmatter.com/facesjs/)
+[![](examples.png)](http://dumbmatter.com/facesjs/)
+
+[See a live demo here.](http://dumbmatter.com/facesjs/)
 
 ## Why?
 
