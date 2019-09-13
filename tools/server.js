@@ -14,7 +14,7 @@ const runHTTPServer = () => {
     ".js": "text/javascript"
   };
   const sendFile = (res, filename) => {
-    const filepath = path.join(__dirname, "..", "viewer", filename);
+    const filepath = path.join(__dirname, "..", "public", filename);
     if (!fs.existsSync(filepath)) {
       res.writeHead(400, { "Content-Type": "text/html" });
       res.end("404");
@@ -47,8 +47,8 @@ const runHTTPServer = () => {
   });
 
   server.listen(port, "localhost", async () => {
-    console.log(`faces.js viewer running at http://localhost:${port}`);
-    await open(`http://localhost:${port}`);
+    console.log(`faces.js running at http://localhost:${port}`);
+    await open(`http://localhost:${port}/editor.html`);
   });
 };
 
@@ -68,12 +68,12 @@ const runWebSocketServer = () => {
   });
 
   chokidar
-    .watch(path.join(__dirname, "..", "viewer"), {
+    .watch(path.join(__dirname, "..", "public"), {
       ignoreInitial: true
     })
     .on("all", (event, path) => {
       // Ignore this, it'll be included in bundle and trigger another one
-      if (path.includes("viewer/viewer.js")) {
+      if (path.includes("public/bundle.js")) {
         return;
       }
 

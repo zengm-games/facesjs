@@ -1,7 +1,7 @@
 module.exports = {
-  input: "viewer/viewer.js",
+  input: "public/bundle.js",
   output: {
-    file: "viewer/build/viewer.js",
+    file: "public/build/bundle.js",
     format: "iife",
     name: "faces"
   },
