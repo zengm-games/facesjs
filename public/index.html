@@ -106,55 +106,36 @@
       </p>
       <h2>Usage</h2>
       <p>
-        1. Display a randomly-generated face (the size of
-        <code>#myDivId</code> determines the size of the displayed face):
+        1. Install from npm:
       </p>
-      <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
-&lt;script src="faces.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  faces.generate("myDivId");
-&lt;/script&gt;</code></pre>
-      <p class="jsfiddle">
-        <a href="http://jsfiddle.net/bfCNJ/3/">Try it on jsFiddle</a>
-      </p>
-
-      <p>2. Generate and save a random face object without displaying it:</p>
-      <pre><code>&lt;script src="faces.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  var face = faces.generate();
-&lt;/script&gt;</code></pre>
-      <p class="jsfiddle">
-        <a href="http://jsfiddle.net/ytve3/2/">Try it on jsFiddle</a>
-      </p>
-
-      <p>3. Display a saved face object:</p>
-      <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
-&lt;script src="faces.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  faces.display("myDivId", face);
-&lt;/script&gt;</code></pre>
-      <p class="jsfiddle">
-        <a href="http://jsfiddle.net/8SapQ/6/">Try it on jsFiddle</a>
-      </p>
-
+      <pre><code>$ npm install --save facesjs</code></pre>
       <p>
-        4. Combining 2. and 3. into one line, generate and save a random face
-        object while displaying it:
+        Or yarn:
       </p>
-      <pre><code>&lt;div id="myDivId"&gt;&lt;/div&gt;
-&lt;script src="faces.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  var face = faces.generate("myDivId");
-&lt;/script&gt;</code></pre>
-      <p class="jsfiddle">
-        <a href="http://jsfiddle.net/B2b6k/7/">Try it on jsFiddle</a>
-      </p>
-
-      <h2>Download</h2>
+      <pre><code>$ yarn add facesjs</code></pre>
       <p>
-        <a href="https://raw.github.com/dumbmatter/facesjs/master/faces.js"
-          >faces.js</a
-        >
+        2. Display a randomly-generated face (the size of the
+        <code>#my-div-id</code> div determines the size of the displayed face):
+      </p>
+      <pre><code>import { display, generate } from "facesjs";
+
+// Generate a random face
+const face = generate();
+
+// Display in a div with id "my-div-id"
+display("my-div-id", face);
+</code></pre>
+
+      <h2>More</h2>
+      <p>
+        See all the available options in
+        <a href="editor.html">the faces.js editor</a>.
+      </p>
+      <p>
+        For more docuemntation and information,
+        <a href="https://github.com/dumbmatter/facesjs"
+          >see the README on GitHub</a
+        >.
       </p>
     </div>
 
@@ -165,7 +146,7 @@
         alt="Fork me on GitHub"
     /></a>
 
-    <script src="faces.js"></script>
+    <script src="build/bundle.js"></script>
     <script>
       function newFaces() {
         var i;
@@ -175,7 +156,8 @@
             Math.random()
               .toString(16)
               .slice(2, 8);
-          faces.generate("c" + i);
+          var face = generate();
+          display("c" + i, face);
         }
       }
       newFaces(); // Generate faces for initial page load
