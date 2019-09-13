@@ -19,6 +19,17 @@ const rotateCentered = (element, angle) => {
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
+const scaleStrokeWidthAndChildren = (element, factor) => {
+  const strokeWidth = element.getAttribute("stroke-width");
+  if (strokeWidth) {
+    element.setAttribute("stroke-width", strokeWidth / factor);
+  }
+  const children = element.childNodes;
+  for (let i = 0; i < children.length; i++) {
+    scaleStrokeWidthAndChildren(children[i], factor);
+  }
+};
+
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
 const scaleCentered = (element, x, y) => {
@@ -31,9 +42,13 @@ const scaleCentered = (element, x, y) => {
   addTransform(element, `scale(${x} ${y}) translate(${tx} ${ty})`);
 
   // Keep apparent stroke width constant, similar to how Raphael does it (I think)
-  const strokeWidth = element.getAttribute("stroke-width");
-  if (strokeWidth) {
-    element.setAttribute("stroke-width", strokeWidth / Math.abs(x));
+  if (
+    Math.abs(x) !== 1 ||
+    Math.abs(y) !== 1 ||
+    Math.abs(x) + Math.abs(y) !== 2
+  ) {
+    const factor = (Math.abs(x) + Math.abs(y)) / 2;
+    scaleStrokeWidthAndChildren(element, factor);
   }
 };
 
