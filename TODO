@@ -1,8 +1,9 @@
-remove old files from root folder
-
 image in readme, linking to index.html
 
 update index.html
+- how include js? need bundler? or make umd version?
+- could reuse viewer.js, which exports faces. just have switch to disable web socket
+- or put both in "public" folder, as index.html and editor.html. link from index.html to editor.html
 
 blog
 - backwards compatible, if interesting
