@@ -4,6 +4,9 @@ const SVGO = require("svgo");
 
 const svgo = new SVGO();
 
+const warning =
+  "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";
+
 const processSVGs = async () => {
   const svgFolder = path.join(__dirname, "..", "svg");
 
@@ -29,12 +32,25 @@ const processSVGs = async () => {
     }
   }
 
-  const json = JSON.stringify(svgs, null, 2);
   fs.writeFileSync(
     path.join(__dirname, "..", "src", "svgs.js"),
-    `// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js\n\nexport default ${json};`
+    `${warning}\n\nexport default ${JSON.stringify(svgs)};`
   );
-  console.log(`Wrote new src/svgs.js at ${new Date().toLocaleTimeString()}`);
+
+  const svgsIndex = {
+    ...svgs
+  };
+  for (const key of Object.keys(svgsIndex)) {
+    svgsIndex[key] = Object.keys(svgsIndex[key]);
+  }
+  fs.writeFileSync(
+    path.join(__dirname, "..", "src", "svgs-index.js"),
+    `${warning}\n\nexport default ${JSON.stringify(svgsIndex)};`
+  );
+
+  console.log(
+    `Wrote new src/svgs.js and src/svgs-index.js at ${new Date().toLocaleTimeString()}`
+  );
 };
 
 if (require.main === module) {

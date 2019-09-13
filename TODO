@@ -1,10 +1,9 @@
-generate does not need full text of SVGs, just names of things
-
 make backwards compatible
-- version param in face
-- if necessary, depend on v1 for this
+- translate old format to new
 
 remove old files from root folder
+
+image in readme, linking to index.html
 
 update index.html
 

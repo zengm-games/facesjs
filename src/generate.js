@@ -1,8 +1,7 @@
-import svgs from "./svgs";
+import svgsIndex from "./svgs-index";
 
 const getID = type => {
-  const keys = Object.keys(svgs[type]);
-  return keys[Math.floor(Math.random() * keys.length)];
+  return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
 const skinColors = [

@@ -1,6 +1,6 @@
 import display from "../src/display";
 import generate from "../src/generate";
-import svgs from "../src/svgs";
+import svgsIndex from "../src/svgs-index";
 
 const faceWrapper = document.getElementById("face");
 let face;
@@ -21,8 +21,8 @@ const updateDisplay = () => {
 };
 
 const initializeSelectOptions = () => {
-  for (const feature of Object.keys(svgs)) {
-    const options = Object.keys(svgs[feature]);
+  for (const feature of Object.keys(svgsIndex)) {
+    const options = svgsIndex[feature];
     const selectElement = document.getElementById(`${feature}-id`);
     for (const option of options) {
       const optionElement = document.createElement("option");
