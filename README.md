@@ -84,8 +84,8 @@ or CommonJS:
 
 Or, import them directly if you don't trust your bundler :). ES modules:
 
-    import generate from "facesjs/generate";
+    import generate from "facesjs/build/esmodules/generate";
 
 or CommonJS:
 
-    const display = require("facesjs/display");
+    const display = require("facesjs/build/commonjs/display");
