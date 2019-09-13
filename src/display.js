@@ -1,3 +1,4 @@
+import convertFromV1 from "./convertFromV1";
 import svgs from "./svgs";
 
 const addWrapper = svgString => `<g>${svgString}</g>`;
@@ -113,6 +114,10 @@ const display = (container, face) => {
   }
   container.innerHTML = "";
 
+  if (typeof face.head.id === "number") {
+    face = convertFromV1(face);
+  }
+
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("version", "1.2");
   svg.setAttribute("baseProfile", "tiny");
@@ -132,11 +137,11 @@ const display = (container, face) => {
     },
     {
       name: "eye",
-      positions: [[125, 280], [275, 280]]
+      positions: [[135, 280], [265, 280]]
     },
     {
       name: "eyebrow",
-      positions: [[125, 240], [275, 240]]
+      positions: [[135, 240], [265, 240]]
     },
     {
       name: "mouth",

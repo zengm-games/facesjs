@@ -3,4 +3,5 @@ node_modules
 viewer/build
 src/svgs.js
 src/svgs-index.js
+test.html
 yarn-error.log

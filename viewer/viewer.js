@@ -16,6 +16,7 @@ if (location.hash.length <= 1) {
 }
 
 const updateDisplay = () => {
+  console.log(face);
   display(faceWrapper, face);
   history.replaceState(undefined, undefined, `#${btoa(JSON.stringify(face))}`);
 };

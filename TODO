@@ -1,5 +1,6 @@
-make backwards compatible
-- translate old format to new
+commonjs exports have extra .default?
+
+thickness of lines on shrunken nose not constant, but used to be in old version?
 
 remove old files from root folder
 
