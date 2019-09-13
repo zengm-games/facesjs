@@ -122,19 +122,19 @@
     const faceWrapper = document.getElementById("face");
     let face;
     if (location.hash.length <= 1) {
-      face = generate();
+      face = faces.generate();
     } else {
       try {
         face = JSON.parse(atob(location.hash.slice(1)));
       } catch (error) {
         console.error(error);
-        face = generate();
+        face = faces.generate();
       }
     }
 
     const updateDisplay = () => {
       console.log(face);
-      display(faceWrapper, face);
+      faces.display(faceWrapper, face);
       history.replaceState(
         undefined,
         undefined,
@@ -143,8 +143,8 @@
     };
 
     const initializeSelectOptions = () => {
-      for (const feature of Object.keys(svgsIndex)) {
-        const options = svgsIndex[feature];
+      for (const feature of Object.keys(faces.svgsIndex)) {
+        const options = faces.svgsIndex[feature];
         const selectElement = document.getElementById(`${feature}-id`);
         for (const option of options) {
           const optionElement = document.createElement("option");
@@ -221,7 +221,7 @@
       }
 
       document.getElementById("randomize").addEventListener("click", () => {
-        face = generate();
+        face = faces.generate();
         initializeFormValues();
         updateDisplay();
       });

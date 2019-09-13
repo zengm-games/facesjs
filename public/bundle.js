@@ -1,7 +1,3 @@
-import display from "../src/display";
-import generate from "../src/generate";
-import svgsIndex from "../src/svgs-index";
-
-window.display = display;
-window.generate = generate;
-window.svgsIndex = svgsIndex;
+export { default as display } from "../src/display";
+export { default as generate } from "../src/generate";
+export { default as svgsIndex } from "../src/svgs-index";
