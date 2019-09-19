@@ -69,6 +69,7 @@ const randomRounded = () => Math.round(Math.random() * 100) / 100;
 const generate = () => {
     const eyeAngle = Math.round(Math.random() * 50 - 20);
     const eyebrowAngle = Math.round(Math.random() * 50 - 20);
+    const hairColor = hairColors[Math.floor(Math.random() * hairColors.length)];
 
     const face = {
         fatness: randomRounded(),
@@ -77,8 +78,8 @@ const generate = () => {
             color: skinColors[Math.floor(Math.random() * skinColors.length)]
         },
         eye: {id: getID("eye"), angle: eyeAngle},
-        eyebrow: {id: getID("eyebrow"), size: randomRounded(), angle: eyebrowAngle},
-        hair: {id: getID("hair"), color: hairColors[Math.floor(Math.random() * hairColors.length)]},
+        eyebrow: {id: getID("eyebrow"), size: randomRounded(), angle: eyebrowAngle, color: hairColor},
+        hair: {id: getID("hair"), color: hairColor},
         mouth: {id: getID("mouth"), flip: Math.random() < 0.5, size: randomRounded()},
         nose: {
             id: getID("nose"),
