@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny">
-    <path d="M 50,50 c 0,0 -20,60 9,55 c 0,0 29,5 9,-55" fill="none" stroke="#000" stroke-width="8" />
+    <path d="M 50,50 c 0,0 -20,60 9,55 c 0,0 29,5 9,-55" fill="none" stroke="#000" stroke-width="5" />
 </svg>

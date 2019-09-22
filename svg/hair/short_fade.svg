@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<g id="Hair">
+		<path id="Short Fade" class="shp0" d="M70 195C70 165 100 100 200 100C300 100 330 165 330 195C330 200 320 200 310 190C300 180 250 200 200 200C150 200 100 180 90 190C80 200 70 200 70 195Z" fill="$[color]" stroke="#000" stroke-width="4"/>
+	</g>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<g id="Heads">
+		<path id="Head 1" class="shp0" d="M200 100C270 100 350 160 350 300C350 430 260 500 200 500C140 500 50 430 50 300C50 160 130 100 200 100Z" fill="$[color]" stroke="#000" stroke-width="6"/>
+	</g>
+</svg>

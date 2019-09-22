@@ -151,11 +151,8 @@ display("my-div-id", face);
       function newFaces() {
         var i;
         for (i = 0; i < 12; i++) {
-          document.getElementById("c" + i).style.backgroundColor =
-            "#" +
-            Math.random()
-              .toString(16)
-              .slice(2, 8);
+          document.getElementById("c" + i).style.backgroundImage =
+            "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
           var face = faces.generate();
           faces.display("c" + i, face);
         }

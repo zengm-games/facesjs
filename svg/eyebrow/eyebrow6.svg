@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 30" width="90" height="30">
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: none;stroke: #000000;stroke-linecap:round;stroke-linejoin:round } 
+	</style>
+	<path id="Shape 7" class="shp0" d="M80 20L40 10L10 20L40 10" stroke-width="$[width]"/>
+</svg>

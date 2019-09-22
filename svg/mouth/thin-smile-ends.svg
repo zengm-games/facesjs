@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny">
-    <path d="M 20,20 c 0,0 75,60 150,0" fill="none" stroke="#000" stroke-width="8" />
-    <path d="M 165,39 c 15.15229,-18.18274 3.03046,-32.32488 3.03046,-32.32488" fill="none" stroke="#000" stroke-width="8" />
-    <path d="M 25,39 c -15.15229,-18.18274 -3.03046,-32.32488 -3.03046,-32.32488" fill="none" stroke="#000" stroke-width="8" />
-</svg>

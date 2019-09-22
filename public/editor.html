@@ -46,9 +46,69 @@
                 <div class="form-group mb-lots">
                   <select class="form-control" id="hair-id"> </select>
                 </div>
+                <div class="form-group">
+                  <label for="hair-color">Hair color</label>
+                  <input type="text" class="form-control" id="hair-color" />
+                </div>
                 <h4>Eyebrows</h4>
                 <div class="form-group mb-lots">
                   <select class="form-control" id="eyebrow-id"> </select>
+                </div>
+                <div class="form-group mb-lots">
+                  <label for="eyebrow-angle">Angle</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="eyebrow-angle"
+                    min="-15"
+                    max="20"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group mb-lots">
+                  <label for="eyebrow-thickness">Thickness</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="eyebrow-thickness"
+                    min="0"
+                    max="15"
+                    step=".5"
+                  />
+                </div>
+                <h4>Eye Lines</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="eyeline-id"> </select>
+                </div>
+                <h4>Smile Lines</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="smileline-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="smileline-size">Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="smileline-size"
+                    min=".5"
+                    max="1.5"
+                    step="0.01"
+                  />
+                </div>
+                <h4>Misc Lines</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="miscline-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="miscline-size">Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="miscline-size"
+                    min=".5"
+                    max="1.5"
+                    step="0.01"
+                  />
                 </div>
               </div>
               <div class="col">
@@ -62,8 +122,8 @@
                     type="number"
                     class="form-control"
                     id="eye-angle"
-                    min="-20"
-                    max="30"
+                    min="-15"
+                    max="20"
                     step="1"
                   />
                 </div>
@@ -77,8 +137,8 @@
                     type="number"
                     class="form-control"
                     id="nose-size"
-                    min="0"
-                    max="1"
+                    min=".5"
+                    max="1.25"
                     step="0.01"
                   />
                 </div>
@@ -93,9 +153,59 @@
                     Flip
                   </label>
                 </div>
+
                 <h4>Mouth</h4>
                 <div class="form-group mb-lots">
                   <select class="form-control" id="mouth-id"> </select>
+                </div>
+                <div class="form-group form-check mb-lots">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="mouth-flip"
+                  />
+                  <label class="form-check-label" for="mouth-flip">
+                    Flip
+                  </label>
+                </div>
+
+                <h4>Body</h4>
+                <div class="form-group">
+                  <select class="form-control" id="body-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="head-color">Skin color</label>
+                  <input type="text" class="form-control" id="body-color" />
+                </div>
+
+                <h4>Jersey</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="jersey-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="jersey-color">Jersey color</label>
+                  <input type="text" class="form-control" id="jersey-color" />
+                </div>
+
+                <h4>Ear</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="ear-id"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="ear-color">Ear color</label>
+                  <input type="text" class="form-control" id="ear-color" />
+                </div>
+                <div class="form-group">
+                  <label for="ear-size">Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="ear-size"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                  />
                 </div>
               </div>
             </div>
