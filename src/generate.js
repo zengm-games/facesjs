@@ -48,21 +48,21 @@ const generate = () => {
     },
     head: {
       id: getID("head"),
-      color: skinColor
-      // shave: `rgba(0,0,0,${randomRounded() / 2})`
+      color: skinColor,
+      shave: `rgba(0,0,0,${Math.random() < 0.5 ? randomRounded() / 5 : 0})`
     },
     eyeline: {
       id: getID("eyeline")
     },
     smileline: {
-      id: getID("smileline"),
+      id: Math.random() < 0.75 ? getID("smileline") : "none",
       size: 0.5 + randomRounded()
     },
     miscline: {
-      id: getID("miscline")
+      id: Math.random() < 0.5 ? getID("miscline") : "none"
     },
     facialhair: {
-      id: getID("facialhair"),
+      id: Math.random() < 0.5 ? getID("facialhair") : "none",
       color: hairColor
     },
     eye: { id: getID("eye"), angle: eyeAngle },

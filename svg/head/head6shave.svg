@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<path id="Head 6" d="M200 100C300 100 350 160 350 300C350 370 320 450 310 460C300 470 250 500 200 500C150 500 100 470 90 460C80 450 50 370 50 300C50 160 100 100 200 100Z" fill="$[color]" stroke="#000" stroke-width="6"/>
+	<path id="Head 6 copy" d="M200 405C270 405 340 350 340 350L350 300C350 370 320 450 310 460C300 470 250 500 200 500C150 500 100 470 90 460C80 450 50 370 50 300L60 350C60 350 130 405 200 405Z" fill="$[shave]" stroke="none" stroke-width="none"/>
+</svg>
