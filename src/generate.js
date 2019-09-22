@@ -55,11 +55,15 @@ const generate = () => {
       id: getID("eyeline")
     },
     smileline: {
-      id: Math.random() > 0.75 ? "none" : getID("smileline"),
+      id: getID("smileline"),
       size: 0.5 + randomRounded()
     },
     miscline: {
-      id: Math.random() > 0.75 ? "none" : getID("miscline")
+      id: getID("miscline")
+    },
+    facialhair: {
+      id: getID("facialhair"),
+      color: hairColor
     },
     eye: { id: getID("eye"), angle: eyeAngle },
     eyebrow: {

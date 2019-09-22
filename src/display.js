@@ -194,6 +194,11 @@ const display = (container, face) => {
       positions: [null]
     },
     {
+      name: "facialhair",
+      positions: [null],
+      scaleFatness: true
+    },
+    {
       name: "eye",
       positions: [[140, 325], [260, 325]] // x = between 135 and 150
     },
