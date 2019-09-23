@@ -49,7 +49,7 @@ const generate = () => {
     head: {
       id: getID("head"),
       color: skinColor,
-      shave: `rgba(0,0,0,${Math.random() < 0.5 ? randomRounded() / 5 : 0})`
+      shave: `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`
     },
     eyeline: {
       id: getID("eyeline")
