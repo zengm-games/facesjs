@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: none;stroke: #000000;stroke-linecap:round;stroke-linejoin:round } 
-	</style>
 	<g id="Eyebrows">
-		<path id="Shape 7" class="shp0" d="M230 290L270 280L300 290L270 280" stroke-width="$[width]"/>
+		<path id="Shape 8" class="shp0" d="M235 280L300 285L295 272.55L240 275L235 280Z" fill="$[color]" stroke="#000" stroke-width="1"/>
 	</g>
 </svg>

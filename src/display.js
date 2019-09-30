@@ -90,7 +90,11 @@ const drawFeature = (svg, face, info) => {
   }
 
   if (feature.shave) {
-    featureSVGString = featureSVGString.replace("$[shave]", feature.shave);
+    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
+  }
+
+  if (feature.shave) {
+    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
   for (let i = 0; i < info.positions.length; i++) {

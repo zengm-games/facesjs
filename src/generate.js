@@ -49,11 +49,7 @@ const generate = () => {
     head: {
       id: getID("head"),
       color: skinColor,
-      shave: `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`,
-      baldness: [
-        `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`,
-        `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`
-      ]
+      shave: `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`
     },
     eyeline: {
       id: getID("eyeline")
@@ -73,6 +69,7 @@ const generate = () => {
     eyebrow: {
       id: getID("eyebrow"),
       angle: Math.round(Math.random() * 35 - 15),
+      color: hairColor,
       thickness: 3 + Math.random() * 12
     },
     hair: {

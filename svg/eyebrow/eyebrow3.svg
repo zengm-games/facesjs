@@ -1,7 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 25" width="85" height="25">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 2.5 } 
-	</style>
-	<path id="Shape 15" class="shp0" d="M83 13C83 3 73 3 73 3C48 -2 17.46 8.36 3 18C43 13 53 23 78 23C78 23 83 23 83 13Z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 17" width="78" height="17">
+<path id="Shape 10" class="shp0" d="M73 13C77.85 11.79 73 3 63 3C53 3 3 8 3 8C3 8 53 18 73 13Z" fill="$[color]" stroke="#000" stroke-width="1"/>
 </svg>

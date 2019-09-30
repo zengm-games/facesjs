@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: #000000 } 
-	</style>
-	<path id="dot1" class="shp0" d="M285 380C282.24 380 280 377.76 280 375C280 372.24 282.24 370 285 370C287.76 370 290 372.24 290 375C290 377.76 287.76 380 285 380Z" />
-</svg>

@@ -1,19 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 23" width="41" height="23">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: #000000;stroke: #000000;stroke-width: 5 } 
-		.shp1 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 8 } 
-		.shp2 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 6.5 } 
-		.shp3 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 5 } 
-		.shp4 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 3.5 } 
-		.shp5 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-width: 2.5 } 
-	</style>
-	<g id="eyebrow4">
-		<path id="Shape 9" class="shp0" d="" />
-		<path id="Shape 10" class="shp1" d="M37 19L32 4" />
-		<path id="Shape 11" class="shp2" d="M25.5 14L22 4" />
-		<path id="Shape 12" class="shp3" d="M17 11.78L13.67 4" />
-		<path id="Shape 13" class="shp4" d="M8.75 9C9.08 9 7 4 7 4" />
-		<path id="Shape 14" class="shp5" d="M3.5 7.53C3.5 7.8 1.17 4 1.17 4" />
-	</g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 17" width="62" height="17">
+	<path id="Shape 10" class="shp0" d="M61 16L61 6L31 1L1 6L1 16L31 11L61 16Z" fill="$[color]" stroke="#000" stroke-width="1"/>
 </svg>
