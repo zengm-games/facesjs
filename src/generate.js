@@ -84,6 +84,10 @@ const generate = () => {
       id: getID("nose"),
       flip: isFlipped,
       size: 0.5 + randomRounded() * 0.75
+    },
+    accessories: {
+      id: Math.random() < 0.2 ? getID("accessories") : "none",
+      color: jerseyColor
     }
   };
 

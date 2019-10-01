@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<g id="headband-high">
+		<path id="headband" d="M350 300C340 300 320 210 200 210C80 210 60 300 50 300C40 290 40 260 50 250C50 250 80 160 200 160C320 160 350 250 350 250C360 260 360 290 350 300Z" fill="$[color]" stroke="#000" stroke-width="4"/>
+		<path id="stripe" d="M45 280L45 270C45 270 80 180 200 180C320 180 355 270 355 270L355 280C350 280 320 190 200 190C80 190 50 280 45 280Z" fill="#fff" stroke="#000" stroke-width="1"/>
+	</g>
+</svg>

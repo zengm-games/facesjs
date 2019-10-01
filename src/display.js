@@ -222,6 +222,11 @@ const display = (container, face) => {
       name: "hair",
       positions: [null],
       scaleFatness: true
+    },
+    {
+      name: "accessories",
+      positions: [null],
+      scaleFatness: true
     }
   ];
 
