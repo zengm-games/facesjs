@@ -84,10 +84,6 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[color]", feature.color);
   }
 
-  if (feature.thickness) {
-    featureSVGString = featureSVGString.replace("$[width]", feature.thickness);
-  }
-
   if (feature.shave) {
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
   }
