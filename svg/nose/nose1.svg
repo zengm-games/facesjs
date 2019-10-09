@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: none;stroke: #000000;stroke-width: 5 } 
-	</style>
 	<g id="Nose">
-		<path id="Nose 1" class="shp0" d="M170 390C170 390 180 380 190 390C200 400 200 400 210 390C220 380 230 390 230 390" />
+		<path id="Nose 1" d="M170 390C170 390 180 380 190 390C200 400 200 400 210 390C220 380 230 390 230 390" fill="$[color]" stroke="#000" stroke-width="5"/>
 	</g>
 </svg>

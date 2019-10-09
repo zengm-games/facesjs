@@ -109,6 +109,7 @@ const generate = () => {
     nose: {
       id: getID("nose"),
       flip: isFlipped,
+      color: skinColor,
       size: 0.5 + randomRounded() * 0.75
     },
     accessories: {

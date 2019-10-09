@@ -225,7 +225,7 @@ const display = (container, face) => {
     },
     {
       name: "eye",
-      positions: [[140, 325], [260, 325]] // x = between 135 and 150
+      positions: [[140, 325], [260, 325]]
     },
     {
       name: "eyebrow",
