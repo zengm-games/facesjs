@@ -73,20 +73,10 @@
                   <label for="hair-color">Hair color</label>
                   <input type="text" class="form-control" id="hair-color" />
                 </div>
-                <h4>Eyes</h4>
-                <div class="form-group">
-                  <select class="form-control" id="eye-id"> </select>
-                </div>
+
+                <h4>Eye Lines</h4>
                 <div class="form-group mb-lots">
-                  <label for="eye-angle">Angle</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="eye-angle"
-                    min="-15"
-                    max="20"
-                    step="1"
-                  />
+                  <select class="form-control" id="eyeline-id"> </select>
                 </div>
               </div>
               <div class="col">
@@ -110,9 +100,20 @@
                   />
                 </div>
 
-                <h4>Eye Lines</h4>
+                <h4>Eyes</h4>
+                <div class="form-group">
+                  <select class="form-control" id="eye-id"> </select>
+                </div>
                 <div class="form-group mb-lots">
-                  <select class="form-control" id="eyeline-id"> </select>
+                  <label for="eye-angle">Angle</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="eye-angle"
+                    min="-15"
+                    max="20"
+                    step="1"
+                  />
                 </div>
 
                 <h4>Smile Lines</h4>
@@ -130,13 +131,13 @@
                     step="0.01"
                   />
                 </div>
-
+              </div>
+              <div class="col">
                 <h4>Misc Lines</h4>
                 <div class="form-group mb-lots">
                   <select class="form-control" id="miscline-id"> </select>
                 </div>
-              </div>
-              <div class="col">
+
                 <h4>Facial Hair</h4>
                 <div class="form-group">
                   <select class="form-control" id="facialhair-id"> </select>
@@ -180,7 +181,8 @@
                     Flip
                   </label>
                 </div>
-
+              </div>
+              <div class="col">
                 <h4>Mouth</h4>
                 <div class="form-group">
                   <select class="form-control" id="mouth-id"> </select>
@@ -196,38 +198,14 @@
                     Flip
                   </label>
                 </div>
-              </div>
-              <div class="col">
-                <div class="hidden">
-                  <h4>Body</h4>
-                  <div class="form-group">
-                    <select class="form-control" id="body-id"> </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="body-color">Skin color</label>
-                    <input type="text" class="form-control" id="body-color" />
-                  </div>
-                </div>
 
-                <h4>Jersey</h4>
+                <h4>Body</h4>
                 <div class="form-group">
-                  <select class="form-control" id="jersey-id"> </select>
+                  <select class="form-control" id="body-id"> </select>
                 </div>
-                <div class="form-group">
-                  <label for="jersey-primary">Primary color</label>
-                  <input type="text" class="form-control" id="jersey-primary" />
-                </div>
-                <div class="form-group">
-                  <label for="jersey-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="jersey-secondary"
-                  />
-                </div>
-                <div class="form-group  mb-lots">
-                  <label for="jersey-accent">Accent color</label>
-                  <input type="text" class="form-control" id="jersey-accent" />
+                <div class="form-group mb-lots">
+                  <label for="body-color">Skin color</label>
+                  <input type="text" class="form-control" id="body-color" />
                 </div>
 
                 <h4>Ear</h4>
@@ -252,57 +230,32 @@
               </div>
               <div class="col">
                 <h4>Accessories</h4>
-                <div class="form-group">
-                  <select class="form-control" id="accessories-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="accessories-primary">Primary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-primary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="accessories-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-secondary"
-                  />
-                </div>
                 <div class="form-group mb-lots">
-                  <label for="accessories-accent">Accent color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-accent"
-                  />
+                  <select class="form-control" id="accessories-id"> </select>
                 </div>
 
                 <h4>Glasses</h4>
-                <div class="form-group">
+                <div class="form-group mb-lots">
                   <select class="form-control" id="glasses-id"> </select>
                 </div>
+
+                <h4>Jersey</h4>
+                <div class="form-group mb-lots">
+                  <select class="form-control" id="jersey-id"> </select>
+                </div>
+
+                <h4>Team Colors</h4>
                 <div class="form-group">
-                  <label for="glasses-primary">Primary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="glasses-primary"
-                  />
+                  <label for="teamColors-0">Primary</label>
+                  <input type="text" class="form-control" id="teamColors-0" />
                 </div>
                 <div class="form-group">
-                  <label for="glasses-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="glasses-secondary"
-                  />
+                  <label for="teamColors-1">Secondary</label>
+                  <input type="text" class="form-control" id="teamColors-1" />
                 </div>
                 <div class="form-group mb-lots">
-                  <label for="glasses-accent">Accent color</label>
-                  <input type="text" class="form-control" id="glasses-accent" />
+                  <label for="teamColors-2">Accent</label>
+                  <input type="text" class="form-control" id="teamColors-2" />
                 </div>
               </div>
             </div>

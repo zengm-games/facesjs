@@ -42,6 +42,8 @@ const colors = [
   { skin: "#5c3937", hair: ["#272421"] }
 ];
 
+const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
+
 const roundTwoDecimals = x => Math.round(x * 100) / 100;
 
 const generate = () => {
@@ -51,21 +53,17 @@ const generate = () => {
   const skinColor = palette.skin;
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
-  const jerseyColor = "#d8519d";
-  const teamColor = ["#0d435e", "#f0494a", "#cccccc"];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
     fatness: roundTwoDecimals(Math.random()),
+    teamColors: defaultTeamColors,
     body: {
       id: getID("body"),
       color: skinColor
     },
     jersey: {
-      id: getID("jersey"),
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: getID("jersey")
     },
     ear: {
       id: getID("ear"),
@@ -114,16 +112,10 @@ const generate = () => {
       size: roundTwoDecimals(0.5 + Math.random() * 0.75)
     },
     glasses: {
-      id: Math.random() < 0.1 ? getID("glasses") : "none",
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: Math.random() < 0.1 ? getID("glasses") : "none"
     },
     accessories: {
-      id: Math.random() < 0.2 ? getID("accessories") : "none",
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: Math.random() < 0.2 ? getID("accessories") : "none"
     }
   };
 

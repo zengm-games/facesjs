@@ -96,26 +96,18 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
-  if (feature.primary) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[primary\]/g,
-      feature.primary
-    );
-  }
-
-  if (feature.secondary) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[secondary\]/g,
-      feature.secondary
-    );
-  }
-
-  if (feature.accent) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[accent\]/g,
-      feature.accent
-    );
-  }
+  featureSVGString = featureSVGString.replace(
+    /\$\[primary\]/g,
+    face.teamColors[0]
+  );
+  featureSVGString = featureSVGString.replace(
+    /\$\[secondary\]/g,
+    face.teamColors[1]
+  );
+  featureSVGString = featureSVGString.replace(
+    /\$\[accent\]/g,
+    face.teamColors[2]
+  );
 
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
