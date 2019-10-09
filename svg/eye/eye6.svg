@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 40" width="80" height="40">
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: #ffffff } 
+		.shp1 { fill: #000000 } 
+		.shp2 { fill: none;stroke: #000000;stroke-width: 5 } 
+	</style>
+	<g id="eye6">
+		<path id="Shape 9" class="shp0" d="M73.63 30.14C73.63 30.14 62.25 5.74 32.3 7.42C12.33 8.54 7.9 18.8 7.9 18.8L13.73 33.5C43.96 36.81 73.63 30.14 73.63 30.14Z" />
+		<path id="Shape 9" class="shp1" d="M40.63 30.99C46.15 30.68 50.36 25.97 50.05 20.44C49.74 14.92 45.03 10.71 39.51 11.02C33.99 11.33 29.78 16.04 30.08 21.56C30.39 27.08 35.11 31.3 40.63 30.99Z" />
+		<path id="Outline" class="shp2" d="M73.63 30.14C73.63 30.14 72.51 10.17 32.3 7.42C12.33 8.54 7.9 18.8 7.9 18.8L13.73 33.5" />
+	</g>
+</svg>
