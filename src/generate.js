@@ -67,12 +67,10 @@ const generate = () => {
     },
     ear: {
       id: getID("ear"),
-      color: skinColor,
       size: roundTwoDecimals(0.75 + Math.random() * 0.5)
     },
     head: {
       id: getID("head"),
-      color: skinColor,
       shave: `rgba(0,0,0,${
         Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
       })`
@@ -88,14 +86,12 @@ const generate = () => {
       id: Math.random() < 0.5 ? getID("miscLine") : "none"
     },
     facialHair: {
-      id: Math.random() < 0.5 ? getID("facialHair") : "none",
-      color: hairColor
+      id: Math.random() < 0.5 ? getID("facialHair") : "none"
     },
     eye: { id: getID("eye"), angle: eyeAngle },
     eyebrow: {
       id: getID("eyebrow"),
-      angle: Math.round(Math.random() * 35 - 15),
-      color: hairColor
+      angle: Math.round(Math.random() * 35 - 15)
     },
     hair: {
       id: getID("hair"),
@@ -108,7 +104,6 @@ const generate = () => {
     nose: {
       id: getID("nose"),
       flip: isFlipped,
-      color: skinColor,
       size: roundTwoDecimals(0.5 + Math.random() * 0.75)
     },
     glasses: {

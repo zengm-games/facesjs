@@ -1,3 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<path id="Nose8" class="nose" d="M186.89 385.17C186.89 385.17 182.18 371.06 201 371.06C219.82 371.06 215.11 385.17 215.11 385.17M201 371.06L201 352.24" fill="$[color]" stroke="#000" stroke-width="5"/>
+	<path id="Nose8" class="nose" d="M186.89 385.17C186.89 385.17 182.18 371.06 201 371.06C219.82 371.06 215.11 385.17 215.11 385.17M201 371.06L201 352.24" fill="$[skinColor]" stroke="#000" stroke-width="5"/>
 </svg>

@@ -80,9 +80,6 @@ const fatScale = fatness => 0.8 + 0.2 * fatness;
 const drawFeature = (svg, face, info) => {
   const feature = face[info.name];
   let featureSVGString = svgs[info.name][feature.id];
-  if (feature.color) {
-    featureSVGString = featureSVGString.replace("$[color]", feature.color);
-  }
 
   if (feature.shave) {
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
@@ -92,6 +89,8 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
+  featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
+  featureSVGString = featureSVGString.replace("$[hairColor]", face.hair.color);
   featureSVGString = featureSVGString.replace(
     /\$\[primary\]/g,
     face.teamColors[0]
