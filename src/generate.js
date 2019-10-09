@@ -1,10 +1,9 @@
+import override from "./override";
 import svgsIndex from "./svgs-index";
 
 const getID = type => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
-
-// hair: ["#272421", "#423125", "#b55239", "#e9c67b", "#D7BF91"]
 
 const colors = [
   {
@@ -46,7 +45,7 @@ const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = x => Math.round(x * 100) / 100;
 
-const generate = () => {
+const generate = overrides => {
   const eyeAngle = Math.round(Math.random() * 25 - 10);
 
   const palette = colors[Math.floor(Math.random() * colors.length)];
@@ -113,6 +112,8 @@ const generate = () => {
       id: Math.random() < 0.2 ? getID("accessories") : "none"
     }
   };
+
+  override(face, overrides);
 
   return face;
 };

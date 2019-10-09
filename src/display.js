@@ -1,3 +1,4 @@
+import override from "./override";
 import svgs from "./svgs";
 
 const addWrapper = svgString => `<g>${svgString}</g>`;
@@ -152,7 +153,9 @@ const drawFeature = (svg, face, info) => {
   }
 };
 
-const display = (container, face) => {
+const display = (container, face, overrides) => {
+  override(face, overrides);
+
   if (typeof container === "string") {
     container = document.getElementById(container);
   }
