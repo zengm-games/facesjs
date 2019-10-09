@@ -111,14 +111,14 @@ const generate = () => {
       color: skinColor,
       size: 0.5 + randomRounded() * 0.75
     },
-    accessories: {
-      id: Math.random() < 0.2 ? getID("accessories") : "none",
+    glasses: {
+      id: Math.random() < 0.1 ? getID("glasses") : "none",
       primary: teamColor[0],
       secondary: teamColor[1],
       accent: teamColor[2]
     },
-    glasses: {
-      id: Math.random() < 0.1 ? getID("glasses") : "none",
+    accessories: {
+      id: Math.random() < 0.2 ? getID("accessories") : "none",
       primary: teamColor[0],
       secondary: teamColor[1],
       accent: teamColor[2]

@@ -245,12 +245,12 @@ const display = (container, face) => {
       scaleFatness: true
     },
     {
-      name: "accessories",
+      name: "glasses",
       positions: [null],
       scaleFatness: true
     },
     {
-      name: "glasses",
+      name: "accessories",
       positions: [null],
       scaleFatness: true
     }
