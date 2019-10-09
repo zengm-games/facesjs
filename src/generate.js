@@ -77,18 +77,18 @@ const generate = () => {
         Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
       })`
     },
-    eyeline: {
-      id: Math.random() < 0.75 ? getID("eyeline") : "none"
+    eyeLine: {
+      id: Math.random() < 0.75 ? getID("eyeLine") : "none"
     },
-    smileline: {
-      id: Math.random() < 0.75 ? getID("smileline") : "none",
+    smileLine: {
+      id: Math.random() < 0.75 ? getID("smileLine") : "none",
       size: roundTwoDecimals(0.5 + Math.random())
     },
-    miscline: {
-      id: Math.random() < 0.5 ? getID("miscline") : "none"
+    miscLine: {
+      id: Math.random() < 0.5 ? getID("miscLine") : "none"
     },
-    facialhair: {
-      id: Math.random() < 0.5 ? getID("facialhair") : "none",
+    facialHair: {
+      id: Math.random() < 0.5 ? getID("facialHair") : "none",
       color: hairColor
     },
     eye: { id: getID("eye"), angle: eyeAngle },

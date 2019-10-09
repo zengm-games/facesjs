@@ -194,19 +194,19 @@ const display = (container, face) => {
       scaleFatness: true
     },
     {
-      name: "eyeline",
+      name: "eyeLine",
       positions: [null]
     },
     {
-      name: "smileline",
+      name: "smileLine",
       positions: [[150, 435], [250, 435]]
     },
     {
-      name: "miscline",
+      name: "miscLine",
       positions: [null]
     },
     {
-      name: "facialhair",
+      name: "facialHair",
       positions: [null],
       scaleFatness: true
     },
