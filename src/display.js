@@ -97,6 +97,27 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
+  if (feature.primary) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[primary\]/g,
+      feature.primary
+    );
+  }
+
+  if (feature.secondary) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[secondary\]/g,
+      feature.secondary
+    );
+  }
+
+  if (feature.accent) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[accent\]/g,
+      feature.accent
+    );
+  }
+
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
@@ -177,7 +198,7 @@ const display = (container, face) => {
     },
     {
       name: "ear",
-      positions: [[65, 340], [335, 340]],
+      positions: [[55, 340], [345, 340]],
       scaleFatness: true
     },
     {
@@ -187,7 +208,7 @@ const display = (container, face) => {
     },
     {
       name: "eyeline",
-      positions: [[140, 325], [260, 325]]
+      positions: [null]
     },
     {
       name: "smileline",
@@ -225,6 +246,11 @@ const display = (container, face) => {
     },
     {
       name: "accessories",
+      positions: [null],
+      scaleFatness: true
+    },
+    {
+      name: "glasses",
       positions: [null],
       scaleFatness: true
     }

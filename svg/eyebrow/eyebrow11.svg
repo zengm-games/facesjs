@@ -1,4 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 18" width="78" height="18">
-
-	<path id="eyebrow11" class="shp0" d="M73 13C81 5 73 1 73 1C73 1 45 5 37 5C27 5 1 5 1 5C1 5 21 17 41 17C53 17 69 17 73 13Z" fill="$[color]" stroke="#000" stroke-width="1"/>
+	<path id="eyebrow11" d="M73 13C81 5 73 1 73 1C73 1 45 5 37 5C27 5 1 5 1 5C1 5 21 17 41 17C53 17 69 17 73 13Z" fill="$[color]" stroke="#000" stroke-width="1"/>
 </svg>

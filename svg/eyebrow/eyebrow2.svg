@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
 	<g id="Eyebrows">
-		<path id="Shape 8" class="shp0" d="M235 280L300 285L295 272.55L240 275L235 280Z" fill="$[color]" stroke="#000" stroke-width="1"/>
+		<path id="eyebrow2" d="M235 280L300 285L295 272.55L240 275L235 280Z" fill="$[color]" stroke="#000" stroke-width="1"/>
 	</g>
 </svg>

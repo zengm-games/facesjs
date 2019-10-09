@@ -4,7 +4,7 @@
 		.shp0 { fill: #ffffff;stroke: #000000;stroke-width: 5 } 
 		.shp1 { fill: #000000;stroke: #000000;stroke-width: 5 } 
 	</style>
-	<g id="Eye 2">
+	<g id="eye1">
 		<path id="Shape 7" class="shp0" d="M63 43C63 43 58 53 28 53C-2 53 3 43 3 43C3 43 3 3 33 3C63 3 63 43 63 43Z" />
 		<path id="Shape 7" class="shp1" d="M33 38C23 38 23 18 33 18C43 18 43 38 33 38Z" />
 	</g>
