@@ -99,3 +99,7 @@ Or, import them directly if you don't trust your bundler :). ES modules:
 or CommonJS:
 
     const display = require("facesjs/build/commonjs/display");
+
+## Credits
+
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code and [TravisJB89](https://github.com/TravisJB89) made most of the graphics.
