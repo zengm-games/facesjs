@@ -183,7 +183,7 @@ const display = (container, face, overrides) => {
     },
     {
       name: "ear",
-      positions: [[55, 340], [345, 340]],
+      positions: [[55, 325], [345, 325]],
       scaleFatness: true
     },
     {
@@ -210,11 +210,11 @@ const display = (container, face, overrides) => {
     },
     {
       name: "eye",
-      positions: [[140, 325], [260, 325]]
+      positions: [[140, 310], [260, 310]]
     },
     {
       name: "eyebrow",
-      positions: [[140, 280], [260, 280]]
+      positions: [[140, 265], [260, 265]]
     },
     {
       name: "mouth",
@@ -222,7 +222,7 @@ const display = (container, face, overrides) => {
     },
     {
       name: "nose",
-      positions: [[200, 375]]
+      positions: [[200, 370]]
     },
     {
       name: "hair",
