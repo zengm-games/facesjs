@@ -1,4 +1,3 @@
-import convertFromV1 from "./convertFromV1";
 import svgs from "./svgs";
 
 const addWrapper = svgString => `<g>${svgString}</g>`;
@@ -171,10 +170,6 @@ const display = (container, face) => {
     container = document.getElementById(container);
   }
   container.innerHTML = "";
-
-  if (typeof face.head.id === "number") {
-    face = convertFromV1(face);
-  }
 
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("version", "1.2");

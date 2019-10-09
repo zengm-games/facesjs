@@ -42,10 +42,10 @@ const colors = [
   { skin: "#5c3937", hair: ["#272421"] }
 ];
 
-const randomRounded = () => Math.round(Math.random() * 100) / 100;
+const roundTwoDecimals = x => Math.round(x * 100) / 100;
 
 const generate = () => {
-  const eyeAngle = randomRounded() * 25 - 10;
+  const eyeAngle = Math.round(Math.random() * 25 - 10);
 
   const palette = colors[Math.floor(Math.random() * colors.length)];
   const skinColor = palette.skin;
@@ -56,7 +56,7 @@ const generate = () => {
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    fatness: randomRounded(),
+    fatness: roundTwoDecimals(Math.random()),
     body: {
       id: getID("body"),
       color: skinColor
@@ -70,19 +70,21 @@ const generate = () => {
     ear: {
       id: getID("ear"),
       color: skinColor,
-      size: 0.75 + randomRounded() * 0.5
+      size: roundTwoDecimals(0.75 + Math.random() * 0.5)
     },
     head: {
       id: getID("head"),
       color: skinColor,
-      shave: `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`
+      shave: `rgba(0,0,0,${
+        Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
+      })`
     },
     eyeline: {
       id: Math.random() < 0.75 ? getID("eyeline") : "none"
     },
     smileline: {
       id: Math.random() < 0.75 ? getID("smileline") : "none",
-      size: 0.5 + randomRounded()
+      size: roundTwoDecimals(0.5 + Math.random())
     },
     miscline: {
       id: Math.random() < 0.5 ? getID("miscline") : "none"
@@ -109,7 +111,7 @@ const generate = () => {
       id: getID("nose"),
       flip: isFlipped,
       color: skinColor,
-      size: 0.5 + randomRounded() * 0.75
+      size: roundTwoDecimals(0.5 + Math.random() * 0.75)
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses") : "none",
