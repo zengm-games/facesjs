@@ -15,8 +15,6 @@ const override = (obj, overrides) => {
       override(obj[key], value);
     }
   }
-
-  console.log(obj);
 };
 
 export default override;
