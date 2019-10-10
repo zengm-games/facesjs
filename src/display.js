@@ -76,7 +76,7 @@ const translate = (element, x, y, xAlign = "center", yAlign = "center") => {
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
-const fatScale = fatness => 0.75 + 0.25 * fatness;
+const fatScale = fatness => 0.8 + 0.2 * fatness;
 
 const drawFeature = (svg, face, info) => {
   const feature = face[info.name];
@@ -85,13 +85,46 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[color]", feature.color);
   }
 
+  if (feature.thickness) {
+    featureSVGString = featureSVGString.replace("$[width]", feature.thickness);
+  }
+
+  if (feature.shave) {
+    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
+  }
+
+  if (feature.shave) {
+    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
+  }
+
+  if (feature.primary) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[primary\]/g,
+      feature.primary
+    );
+  }
+
+  if (feature.secondary) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[secondary\]/g,
+      feature.secondary
+    );
+  }
+
+  if (feature.accent) {
+    featureSVGString = featureSVGString.replace(
+      /\$\[accent\]/g,
+      feature.accent
+    );
+  }
+
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
     if (info.positions[i] !== null) {
       // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
       let xAlign;
-      if (feature.id === "pinocchio") {
+      if (feature.id === "nose4" || feature.id === "pinocchio") {
         xAlign = feature.flip ? "right" : "left";
       } else {
         xAlign = "center";
@@ -110,15 +143,25 @@ const drawFeature = (svg, face, info) => {
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
-    const scale = feature.hasOwnProperty("size") ? feature.size + 0.5 : 1;
+    const scale = feature.hasOwnProperty("size") ? feature.size : 1;
     if (feature.flip || i === 1) {
       scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
       scaleCentered(svg.lastChild, scale, scale);
     }
+
+    if (info.scaleFatness && info.positions[0] !== null) {
+      // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
+      const distance = (78 - 47) * (1 - face.fatness);
+      translate(svg.lastChild, distance, 0, "left", "top");
+    }
   }
 
-  if (info.scaleFatness) {
+  if (
+    info.scaleFatness &&
+    info.positions.length === 1 &&
+    info.positions[0] === null
+  ) {
     scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
   }
 };
@@ -146,28 +189,68 @@ const display = (container, face) => {
 
   const featureInfos = [
     {
+      name: "body",
+      positions: [null]
+    },
+    {
+      name: "jersey",
+      positions: [null]
+    },
+    {
+      name: "ear",
+      positions: [[55, 340], [345, 340]],
+      scaleFatness: true
+    },
+    {
       name: "head",
       positions: [null], // Meaning it just gets placed into the SVG with no translation
       scaleFatness: true
     },
     {
+      name: "eyeline",
+      positions: [null]
+    },
+    {
+      name: "smileline",
+      positions: [[150, 435], [250, 435]]
+    },
+    {
+      name: "miscline",
+      positions: [null]
+    },
+    {
+      name: "facialhair",
+      positions: [null],
+      scaleFatness: true
+    },
+    {
       name: "eye",
-      positions: [[135, 280], [265, 280]]
+      positions: [[140, 325], [260, 325]]
     },
     {
       name: "eyebrow",
-      positions: [[135, 240], [265, 240]]
+      positions: [[140, 280], [260, 280]]
     },
     {
       name: "mouth",
-      positions: [[200, 410]]
+      positions: [[200, 440]]
     },
     {
       name: "nose",
-      positions: [[200, 345]]
+      positions: [[200, 375]]
     },
     {
       name: "hair",
+      positions: [null],
+      scaleFatness: true
+    },
+    {
+      name: "glasses",
+      positions: [null],
+      scaleFatness: true
+    },
+    {
+      name: "accessories",
       positions: [null],
       scaleFatness: true
     }

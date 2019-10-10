@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<g id="basketball 4">
+		<path id="jersey" class="jersey" d="M80 610C80 610 90 580 90 520C110 510 110 510 110 510C110 510 120 590 200 590C280 590 290 510 290 510C290 510 290 510 310 520C310 580 320 610 320 610L80 610Z" fill="$[primary]" stroke="#000000" stroke-width="6"/>
+		<g id="pinstripes">
+			<path id="pinstripes" class="pinstripes" d="M95 610L95 517.55M105 610L105 512.05M115 515L115 610M125 550L125 612.05M135 565L135 610M145 575L145 610M155 580L155 610M165 585L165 610M175 590L175 610M185 590L185 610M195 590L195 610M305 610L305 517.55M295 610L295 512.05M285 515L285 610M275 550L275 612.05M265 565L265 610M255 575L255 610M245 580L245 610M235 585L235 610M225 590L225 610M215 590L215 610M205 590L205 610" fill="none" stroke="$[accent]" stroke-width="2"/>
+		</g>
+		<path id="stripe-outline" class="outline" d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="#000000" stroke-width="16"/>
+		<path id="stripe-accent" class="stripe-accent" d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 512C110 512 125 590 200 590C275 590 290 512 290 512" fill="none" stroke="$[accent]" stroke-width="8"/>
+		<path id="stripe-primary" class="stripe-primary" d="M86 522C86 582 76 610 76 610M314 522C314 582 324 610 324 610M114 510C114 510 125 586 200 586C275 586 286 510 286 510" fill="none" stroke="$[primary]" stroke-width="4"/>
+		<path id="stripe-secondary" class="stripe-secondary" d="M94 518C94 578 84 610 84 610M306 518C306 578 316 610 316 610M106 514C106 514 118 594 200 594C282 594 294 514 294 514" fill="none" stroke="$[secondary]" stroke-width="4"/>
+	</g>
+</svg>
