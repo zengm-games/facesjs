@@ -14,311 +14,256 @@
         margin-bottom: 3rem;
       }
 
-      .hidden {
-        display: none;
+      #face {
+        height: 600px;
+        width: 400px;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1 class="mb-4">faces.js editor</h1>
+    <div class="container-fluid">
       <div class="row">
         <div class="col">
-          <form>
-            <div class="row">
-              <div class="col">
-                <!-- HEAD -->
-                <h4>Head</h4>
-                <div class="form-group">
-                  <select class="form-control" id="head-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="head-color">Skin color</label>
-                  <input type="text" class="form-control" id="head-color" />
-                </div>
-                <div class="form-group">
-                  <label for="head-shave">Shave</label>
-                  <input type="text" class="form-control" id="head-shave" />
-                </div>
-                <div class="form-group mb-lots">
-                  <label for="fatness">Fatness</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="fatness"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                  />
-                </div>
-
-                <!-- HAIR -->
-                <h4>Hair</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="hair-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="hair-color">Hair color</label>
-                  <input type="text" class="form-control" id="hair-color" />
-                </div>
-
-                <!-- EYEBROWS -->
-                <h4>Eyebrows</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="eyebrow-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="eyebrow-color">Hair color</label>
-                  <input type="text" class="form-control" id="eyebrow-color" />
-                </div>
-                <div class="form-group mb-lots">
-                  <label for="eyebrow-angle">Angle</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="eyebrow-angle"
-                    min="-15"
-                    max="20"
-                    step="1"
-                  />
-                </div>
-
-                <!-- EYES -->
-                <h4>Eyes</h4>
-                <div class="form-group">
-                  <select class="form-control" id="eye-id"> </select>
-                </div>
-                <div class="form-group mb-lots">
-                  <label for="eye-angle">Angle</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="eye-angle"
-                    min="-15"
-                    max="20"
-                    step="1"
-                  />
-                </div>
-
-                <!-- EYE LINE -->
-                <h4>Eye Lines</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="eyeline-id"> </select>
-                </div>
-
-                <!-- SMILE LINE -->
-                <h4>Smile Lines</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="smileline-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="smileline-size">Size</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="smileline-size"
-                    min=".5"
-                    max="1.5"
-                    step="0.01"
-                  />
-                </div>
-
-                <!-- MISC LINES -->
-                <h4>Misc Lines</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="miscline-id"> </select>
-                </div>
-
-                <!-- FACIAL HAIR -->
-                <h4>facial hair</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="facialhair-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="facialhair-color">Hair color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="facialhair-color"
-                  />
-                </div>
-              </div>
-              <div class="col">
-                <!-- NOSE -->
-                <h4>Nose</h4>
-                <div class="form-group">
-                  <select class="form-control" id="nose-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="nose-size">Size</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="nose-size"
-                    min=".5"
-                    max="1.25"
-                    step="0.01"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="nose-color">Nose color</label>
-                  <input type="text" class="form-control" id="nose-color" />
-                </div>
-                <div class="form-group form-check mb-lots">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="nose-flip"
-                  />
-                  <label class="form-check-label" for="nose-flip">
-                    Flip
-                  </label>
-                </div>
-
-                <!-- MOUTH -->
-                <h4>Mouth</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="mouth-id"> </select>
-                </div>
-                <div class="form-group form-check mb-lots">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="mouth-flip"
-                  />
-                  <label class="form-check-label" for="mouth-flip">
-                    Flip
-                  </label>
-                </div>
-
-                <!-- BODY -->
-                <div class="hidden">
-                  <h4>Body</h4>
-                  <div class="form-group">
-                    <select class="form-control" id="body-id"> </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="body-color">Skin color</label>
-                    <input type="text" class="form-control" id="body-color" />
-                  </div>
-                </div>
-
-                <!-- JERSEY -->
-                <h4>Jersey</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="jersey-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="jersey-primary">Primary color</label>
-                  <input type="text" class="form-control" id="jersey-primary" />
-                </div>
-                <div class="form-group">
-                  <label for="jersey-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="jersey-secondary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="jersey-accent">Accent color</label>
-                  <input type="text" class="form-control" id="jersey-accent" />
-                </div>
-
-                <!-- EAR -->
-                <h4>Ear</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="ear-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="ear-color">Ear color</label>
-                  <input type="text" class="form-control" id="ear-color" />
-                </div>
-                <div class="form-group">
-                  <label for="ear-size">Size</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="ear-size"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                  />
-                </div>
-
-                <!-- ACCESSORIES -->
-                <h4>Accessories</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="accessories-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="accessories-primary">Primary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-primary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="accessories-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-secondary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="accessories-accent">Accent color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="accessories-accent"
-                  />
-                </div>
-                <!-- GLASSES -->
-                <h4>glasses</h4>
-                <div class="form-group mb-lots">
-                  <select class="form-control" id="glasses-id"> </select>
-                </div>
-                <div class="form-group">
-                  <label for="glasses-primary">Primary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="glasses-primary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="glasses-secondary">Secondary color</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="glasses-secondary"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="glasses-accent">Accent color</label>
-                  <input type="text" class="form-control" id="glasses-accent" />
-                </div>
-                <!--  -->
-              </div>
-            </div>
-          </form>
-
-          <div class="text-center">
+          <h1 class="mb-4 mt-2">
+            faces.js editor
             <button
               type="button"
-              class="btn btn-primary btn-lg mt-4"
+              class="btn btn-primary btn-lg ml-3"
               id="randomize"
             >
               Randomize
             </button>
+          </h1>
+          <div class="row">
+            <div class="col">
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <h4>Head</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="head-id"> </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="head-shave">Shave</label>
+                      <input type="text" class="form-control" id="head-shave" />
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="fatness">Fatness</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="fatness"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                      />
+                    </div>
+
+                    <h4>Hair</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="hair-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="hair-color">Hair color</label>
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="hair-color"
+                      />
+                    </div>
+
+                    <h4>Eye Lines</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="eyeLine-id"> </select>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h4>Eyebrows</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="eyebrow-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="eyebrow-angle">Angle</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="eyebrow-angle"
+                        min="-15"
+                        max="20"
+                        step="1"
+                      />
+                    </div>
+
+                    <h4>Eyes</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="eye-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="eye-angle">Angle</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="eye-angle"
+                        min="-15"
+                        max="20"
+                        step="1"
+                      />
+                    </div>
+
+                    <h4>Smile Lines</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="smileLine-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="smileLine-size">Size</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="smileLine-size"
+                        min=".5"
+                        max="1.5"
+                        step="0.01"
+                      />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h4>Misc Lines</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="miscLine-id"> </select>
+                    </div>
+
+                    <h4>Facial Hair</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="facialHair-id"> </select>
+                    </div>
+
+                    <h4>Nose</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="nose-id"> </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="nose-size">Size</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="nose-size"
+                        min=".5"
+                        max="1.25"
+                        step="0.01"
+                      />
+                    </div>
+                    <div class="form-group form-check mb-lots">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="nose-flip"
+                      />
+                      <label class="form-check-label" for="nose-flip">
+                        Flip
+                      </label>
+                    </div>
+
+                    <h4>Mouth</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="mouth-id"> </select>
+                    </div>
+                    <div class="form-group form-check mb-lots">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="mouth-flip"
+                      />
+                      <label class="form-check-label" for="mouth-flip">
+                        Flip
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h4>Body</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="body-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="body-color">Skin color</label>
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="body-color"
+                      />
+                    </div>
+
+                    <h4>Ear</h4>
+                    <div class="form-group">
+                      <select class="form-control" id="ear-id"> </select>
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="ear-size">Size</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="ear-size"
+                        min=".5"
+                        max="1.25"
+                        step="0.01"
+                      />
+                    </div>
+
+                    <h4>Accessories</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="accessories-id">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h4>Glasses</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="glasses-id"> </select>
+                    </div>
+
+                    <h4>Jersey</h4>
+                    <div class="form-group mb-lots">
+                      <select class="form-control" id="jersey-id"> </select>
+                    </div>
+
+                    <h4>Team Colors</h4>
+                    <div class="form-group">
+                      <label for="teamColors-0">Primary</label>
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="teamColors-0"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="teamColors-1">Secondary</label>
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="teamColors-1"
+                      />
+                    </div>
+                    <div class="form-group mb-lots">
+                      <label for="teamColors-2">Accent</label>
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="teamColors-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col" style="flex: 0 0 400px;">
           <div id="face"></div>
+          <textarea id="json" class="form-control mt-3"></textarea>
+          <button class="btn btn-secondary mt-1" id="copy">
+            Copy to clipboard
+          </button>
         </div>
       </div>
     </div>
@@ -326,6 +271,17 @@
   <script src="build/bundle.js"></script>
   <script>
     const faceWrapper = document.getElementById("face");
+    const jsonElement = document.getElementById("json");
+
+    document.getElementById("copy").addEventListener("click", () => {
+      jsonElement.focus();
+      jsonElement.select();
+
+      const successful = document.execCommand("copy");
+      const msg = successful ? "successful" : "unsuccessful";
+      console.log("Copying text command was " + msg);
+    });
+
     let face;
     if (location.hash.length <= 1) {
       face = faces.generate();
@@ -346,6 +302,7 @@
         undefined,
         `#${btoa(JSON.stringify(face))}`
       );
+      jsonElement.value = JSON.stringify(face);
     };
 
     const initializeSelectOptions = () => {
@@ -445,5 +402,31 @@
         location.reload();
       }
     });
+  </script>
+
+  <script type="text/javascript">
+    if (location.host.indexOf("dumbmatter.com") >= 0) {
+      (function(i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function() {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "https://www.google-analytics.com/analytics.js",
+        "ga"
+      );
+      ga("create", "UA-23918822-2", "auto");
+      ga("send", "pageview");
+    }
   </script>
 </html>

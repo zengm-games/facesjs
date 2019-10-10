@@ -47,6 +47,16 @@ And display it:
 
 If you'd like a non-random face, look inside the `face` variable and you'll see all the available options for a manually constructed face.
 
+### Overrides
+
+Both `display` and `generate` accept an optional final argument, specifying values to override either the randomly generated face (for `generate`) or the supplied face (for `display`). For instance:
+
+    # Generate a random face that always has blue skin
+    const face = faces.generate({ body: { color: "blue" } });
+
+    # Display a face, but impose that it has blue skin
+    faces.display("my-div-id", face, { body: { color: "blue" } });
+
 ## Development
 
 Running `yarn run start` will do a few things:
@@ -89,3 +99,7 @@ Or, import them directly if you don't trust your bundler :). ES modules:
 or CommonJS:
 
     const display = require("facesjs/build/commonjs/display");
+
+## Credits
+
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code and [TravisJB89](https://github.com/TravisJB89) made most of the graphics.

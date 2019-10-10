@@ -1,10 +1,9 @@
+import override from "./override";
 import svgsIndex from "./svgs-index";
 
 const getID = type => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
-
-// hair: ["#272421", "#423125", "#b55239", "#e9c67b", "#D7BF91"]
 
 const colors = [
   {
@@ -42,60 +41,56 @@ const colors = [
   { skin: "#5c3937", hair: ["#272421"] }
 ];
 
-const randomRounded = () => Math.round(Math.random() * 100) / 100;
+const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
-const generate = () => {
-  const eyeAngle = randomRounded() * 25 - 10;
+const roundTwoDecimals = x => Math.round(x * 100) / 100;
+
+const generate = overrides => {
+  const eyeAngle = Math.round(Math.random() * 25 - 10);
 
   const palette = colors[Math.floor(Math.random() * colors.length)];
   const skinColor = palette.skin;
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
-  const jerseyColor = "#d8519d";
-  const teamColor = ["#0d435e", "#f0494a", "#cccccc"];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    fatness: randomRounded(),
+    fatness: roundTwoDecimals(Math.random()),
+    teamColors: defaultTeamColors,
     body: {
       id: getID("body"),
       color: skinColor
     },
     jersey: {
-      id: getID("jersey"),
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: getID("jersey")
     },
     ear: {
       id: getID("ear"),
-      color: skinColor,
-      size: 0.75 + randomRounded() * 0.5
+      size: roundTwoDecimals(0.75 + Math.random() * 0.5)
     },
     head: {
       id: getID("head"),
-      color: skinColor,
-      shave: `rgba(0,0,0,${Math.random() < 0.25 ? randomRounded() / 5 : 0})`
+      shave: `rgba(0,0,0,${
+        Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
+      })`
     },
-    eyeline: {
-      id: Math.random() < 0.75 ? getID("eyeline") : "none"
+    eyeLine: {
+      id: Math.random() < 0.75 ? getID("eyeLine") : "none"
     },
-    smileline: {
-      id: Math.random() < 0.75 ? getID("smileline") : "none",
-      size: 0.5 + randomRounded()
+    smileLine: {
+      id: Math.random() < 0.75 ? getID("smileLine") : "none",
+      size: roundTwoDecimals(0.5 + Math.random())
     },
-    miscline: {
-      id: Math.random() < 0.5 ? getID("miscline") : "none"
+    miscLine: {
+      id: Math.random() < 0.5 ? getID("miscLine") : "none"
     },
-    facialhair: {
-      id: Math.random() < 0.5 ? getID("facialhair") : "none",
-      color: hairColor
+    facialHair: {
+      id: Math.random() < 0.5 ? getID("facialHair") : "none"
     },
     eye: { id: getID("eye"), angle: eyeAngle },
     eyebrow: {
       id: getID("eyebrow"),
-      angle: Math.round(Math.random() * 35 - 15),
-      color: hairColor
+      angle: Math.round(Math.random() * 35 - 15)
     },
     hair: {
       id: getID("hair"),
@@ -108,22 +103,17 @@ const generate = () => {
     nose: {
       id: getID("nose"),
       flip: isFlipped,
-      color: skinColor,
-      size: 0.5 + randomRounded() * 0.75
+      size: roundTwoDecimals(0.5 + Math.random() * 0.75)
     },
     glasses: {
-      id: Math.random() < 0.1 ? getID("glasses") : "none",
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: Math.random() < 0.1 ? getID("glasses") : "none"
     },
     accessories: {
-      id: Math.random() < 0.2 ? getID("accessories") : "none",
-      primary: teamColor[0],
-      secondary: teamColor[1],
-      accent: teamColor[2]
+      id: Math.random() < 0.2 ? getID("accessories") : "none"
     }
   };
+
+  override(face, overrides);
 
   return face;
 };

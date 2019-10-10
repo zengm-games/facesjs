@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 69" width="51" height="69">
 	<g id="Nose">
-		<path id="Nose 2" class="nose" d="M28 1L48 46C48 46 43 66 23 66C3 66 3 46 3 46" fill="$[color]" stroke="#000" stroke-width="5"/>
+		<path id="Nose 2" class="nose" d="M28 1L48 46C48 46 43 66 23 66C3 66 3 46 3 46" fill="$[skinColor]" stroke="#000" stroke-width="5"/>
 	</g>
 </svg>

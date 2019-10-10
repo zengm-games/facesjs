@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+    <g transform="translate(0 -20)">
 	<path id="headband" class="headband" d="M350 300C340 300 320 250 200 250C80 250 60 300 50 300C40 290 40 260 50 250C50 250 80 200 200 200C320 200 350 250 350 250C360 260 360 290 350 300Z" fill="$[primary]" stroke="#000" stroke-width="4"/>
 	<path id="stripe" class="stripe" d="M45 280L45 270C45 270 80 220 200 220C320 220 355 270 355 270L355 280C350 280 320 230 200 230C80 230 50 280 45 280Z" fill="$[secondary]" stroke="#000" stroke-width="1"/>
+    </g>
 </svg>

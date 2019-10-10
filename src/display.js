@@ -1,4 +1,4 @@
-import convertFromV1 from "./convertFromV1";
+import override from "./override";
 import svgs from "./svgs";
 
 const addWrapper = svgString => `<g>${svgString}</g>`;
@@ -81,13 +81,6 @@ const fatScale = fatness => 0.8 + 0.2 * fatness;
 const drawFeature = (svg, face, info) => {
   const feature = face[info.name];
   let featureSVGString = svgs[info.name][feature.id];
-  if (feature.color) {
-    featureSVGString = featureSVGString.replace("$[color]", feature.color);
-  }
-
-  if (feature.thickness) {
-    featureSVGString = featureSVGString.replace("$[width]", feature.thickness);
-  }
 
   if (feature.shave) {
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
@@ -97,26 +90,20 @@ const drawFeature = (svg, face, info) => {
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
-  if (feature.primary) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[primary\]/g,
-      feature.primary
-    );
-  }
-
-  if (feature.secondary) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[secondary\]/g,
-      feature.secondary
-    );
-  }
-
-  if (feature.accent) {
-    featureSVGString = featureSVGString.replace(
-      /\$\[accent\]/g,
-      feature.accent
-    );
-  }
+  featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
+  featureSVGString = featureSVGString.replace("$[hairColor]", face.hair.color);
+  featureSVGString = featureSVGString.replace(
+    /\$\[primary\]/g,
+    face.teamColors[0]
+  );
+  featureSVGString = featureSVGString.replace(
+    /\$\[secondary\]/g,
+    face.teamColors[1]
+  );
+  featureSVGString = featureSVGString.replace(
+    /\$\[accent\]/g,
+    face.teamColors[2]
+  );
 
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
@@ -166,15 +153,13 @@ const drawFeature = (svg, face, info) => {
   }
 };
 
-const display = (container, face) => {
+const display = (container, face, overrides) => {
+  override(face, overrides);
+
   if (typeof container === "string") {
     container = document.getElementById(container);
   }
   container.innerHTML = "";
-
-  if (typeof face.head.id === "number") {
-    face = convertFromV1(face);
-  }
 
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("version", "1.2");
@@ -198,7 +183,7 @@ const display = (container, face) => {
     },
     {
       name: "ear",
-      positions: [[55, 340], [345, 340]],
+      positions: [[55, 325], [345, 325]],
       scaleFatness: true
     },
     {
@@ -207,29 +192,29 @@ const display = (container, face) => {
       scaleFatness: true
     },
     {
-      name: "eyeline",
+      name: "eyeLine",
       positions: [null]
     },
     {
-      name: "smileline",
+      name: "smileLine",
       positions: [[150, 435], [250, 435]]
     },
     {
-      name: "miscline",
+      name: "miscLine",
       positions: [null]
     },
     {
-      name: "facialhair",
+      name: "facialHair",
       positions: [null],
       scaleFatness: true
     },
     {
       name: "eye",
-      positions: [[140, 325], [260, 325]]
+      positions: [[140, 310], [260, 310]]
     },
     {
       name: "eyebrow",
-      positions: [[140, 280], [260, 280]]
+      positions: [[140, 265], [260, 265]]
     },
     {
       name: "mouth",
@@ -237,7 +222,7 @@ const display = (container, face) => {
     },
     {
       name: "nose",
-      positions: [[200, 375]]
+      positions: [[200, 370]]
     },
     {
       name: "hair",
