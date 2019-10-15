@@ -80,7 +80,14 @@ const fatScale = fatness => 0.8 + 0.2 * fatness;
 
 const drawFeature = (svg, face, info) => {
   const feature = face[info.name];
+  if (!feature || !svgs[info.name]) {
+    return;
+  }
+
   let featureSVGString = svgs[info.name][feature.id];
+  if (!featureSVGString) {
+    return;
+  }
 
   if (feature.shave) {
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
