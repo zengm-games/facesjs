@@ -33,7 +33,7 @@ const processSVGs = async () => {
   }
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "src", "svgs.js"),
+    path.join(__dirname, "..", "src", "svgs.ts"),
     `${warning}\n\nexport default ${JSON.stringify(svgs)};`
   );
 
@@ -44,12 +44,12 @@ const processSVGs = async () => {
     svgsIndex[key] = Object.keys(svgsIndex[key]);
   }
   fs.writeFileSync(
-    path.join(__dirname, "..", "src", "svgs-index.js"),
+    path.join(__dirname, "..", "src", "svgs-index.ts"),
     `${warning}\n\nexport default ${JSON.stringify(svgsIndex)};`
   );
 
   console.log(
-    `Wrote new src/svgs.js and src/svgs-index.js at ${new Date().toLocaleTimeString()}`
+    `Wrote new src/svgs.ts and src/svgs-index.ts at ${new Date().toLocaleTimeString()}`
   );
 };
 

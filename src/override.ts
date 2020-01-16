@@ -1,4 +1,8 @@
-const override = (obj, overrides) => {
+export type Overrides = {
+  [key: string]: boolean | string | number | any[] | Overrides;
+};
+
+const override = (obj: Overrides, overrides: Overrides) => {
   if (!overrides) {
     return;
   }
@@ -12,6 +16,7 @@ const override = (obj, overrides) => {
     ) {
       obj[key] = value;
     } else {
+      // @ts-ignore
       override(obj[key], value);
     }
   }

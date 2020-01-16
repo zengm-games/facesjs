@@ -1,7 +1,8 @@
-import override from "./override";
+import override, { Overrides } from "./override";
 import svgsIndex from "./svgs-index";
 
-const getID = type => {
+const getID = (type: string): string => {
+  // @ts-ignore
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
@@ -43,9 +44,9 @@ const colors = [
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
-const roundTwoDecimals = x => Math.round(x * 100) / 100;
+const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = overrides => {
+const generate = (overrides: Overrides) => {
   const eyeAngle = Math.round(Math.random() * 25 - 10);
 
   const palette = colors[Math.floor(Math.random() * colors.length)];
@@ -117,5 +118,7 @@ const generate = overrides => {
 
   return face;
 };
+
+export type Face = ReturnType<typeof generate>;
 
 export default generate;
