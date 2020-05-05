@@ -7,7 +7,7 @@ const getID = type => {
 
 const colors = [
   {
-    skin: "#ffbba0",
+    skin: "#ffc2b8",
     hair: [
       "#272421",
       "#3D2314",
@@ -20,14 +20,13 @@ const colors = [
     ]
   },
   {
-    skin: "#ddb7a0",
+    skin: "#eab08d",
     hair: [
       "#272421",
       "#3D2314",
       "#5A3825",
       "#CC9966",
       "#2C1608",
-      "#B55239",
       "#e9c67b",
       "#D7BF91"
     ]
@@ -59,7 +58,8 @@ const generate = overrides => {
     teamColors: defaultTeamColors,
     body: {
       id: getID("body"),
-      color: skinColor
+      color: skinColor,
+      tone: `rgba(255,153,62,${Math.fround(Math.random() / 2)})`
     },
     jersey: {
       id: getID("jersey")
@@ -70,7 +70,6 @@ const generate = overrides => {
     },
     head: {
       id: getID("head"),
-      tone: `rgba(139,84,34,0.${Math.floor(Math.random() * 41)})`,
       shave: `rgba(0,0,0,${
         Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
       })`

@@ -98,6 +98,7 @@ const drawFeature = (svg, face, info) => {
   }
 
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
+  featureSVGString = featureSVGString.replace("$[skinTone]", face.body.tone);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
     face.hair.color
