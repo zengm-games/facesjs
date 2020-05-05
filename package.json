@@ -52,6 +52,7 @@
     }
   },
   "dependencies": {
+    "facesjs": "^3.0.3",
     "ws": "^7.1.2"
   }
 }

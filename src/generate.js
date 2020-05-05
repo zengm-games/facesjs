@@ -7,7 +7,7 @@ const getID = type => {
 
 const colors = [
   {
-    skin: "#f2d6cb",
+    skin: "#ffbba0",
     hair: [
       "#272421",
       "#3D2314",
@@ -70,6 +70,7 @@ const generate = overrides => {
     },
     head: {
       id: getID("head"),
+      tone: `rgba(139,84,34,0.${Math.floor(Math.random() * 41)})`,
       shave: `rgba(0,0,0,${
         Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
       })`

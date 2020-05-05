@@ -904,6 +904,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+facesjs@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/facesjs/-/facesjs-3.0.3.tgz#1154866c994100948766dd841a6cb0a347c48939"
+  integrity sha512-KGY3mh4dyCsSXv+tocDbisy/TGSa2h8CVHlX/HeYfD8QliDUS9pKp1Jjq71H2e9QbgZQtbarLbdKjXup9MqPAA==
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
