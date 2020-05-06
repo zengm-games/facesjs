@@ -94,7 +94,8 @@ const generate = overrides => {
     },
     hair: {
       id: getID("hair"),
-      color: hairColor
+      color: hairColor,
+      flip: isFlipped
     },
     mouth: {
       id: getID("mouth"),

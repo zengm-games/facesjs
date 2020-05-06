@@ -1,11 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 56" width="66" height="56">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: #ffffff;stroke: #000000;stroke-width: 5 } 
-		.shp1 { fill: #000000;stroke: #000000;stroke-width: 5 } 
-	</style>
 	<g id="eye1">
-		<path id="Shape 7" class="shp0" d="M63 43C63 43 58 53 28 53C-2 53 3 43 3 43C3 43 3 3 33 3C63 3 63 43 63 43Z" />
-		<path id="Shape 7" class="shp1" d="M33 38C23 38 23 18 33 18C43 18 43 38 33 38Z" />
+		<path id="eye" d="M65.32 46.3C65.32 46.3 59.89 56.07 29.91 54.76C-0.06 53.46 5.37 43.68 5.37 43.68C5.37 43.68 7.12 3.72 37.09 5.03C67.06 6.34 65.32 46.3 65.32 46.3Z" fill="#fff" stroke="#000" stroke-width="6" />
+		<path id="iris" d="M35 44C27.26 44 21 37.74 21 30C21 22.26 27.26 16 35 16C42.74 16 49 22.26 49 30C49 37.74 42.74 44 35 44Z" fill="#2c1f1f" />
+		<path id="pupil" d="M35 35C32.23 35 30 32.77 30 30C30 27.23 32.23 25 35 25C37.77 25 40 27.23 40 30C40 32.77 37.77 35 35 35Z" fill="#000000" />
 	</g>
 </svg>
