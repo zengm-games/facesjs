@@ -27,7 +27,6 @@ const colors = [
       "#5A3825",
       "#CC9966",
       "#2C1608",
-      "#B55239",
       "#e9c67b",
       "#D7BF91"
     ]
@@ -40,6 +39,12 @@ const colors = [
   { skin: "#74453d", hair: ["#272421"] },
   { skin: "#5c3937", hair: ["#272421"] }
 ];
+
+const dyeColor = () => {
+  let dyeColors = ["#e3d6b6"];
+
+  return dyeColors[Math.floor(Math.random() * dyeColors.length)];
+};
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
@@ -94,7 +99,8 @@ const generate = overrides => {
     },
     hair: {
       id: getID("hair"),
-      color: hairColor
+      color: hairColor,
+      flip: isFlipped
     },
     mouth: {
       id: getID("mouth"),
