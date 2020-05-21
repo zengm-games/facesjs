@@ -63,13 +63,24 @@
                     <div class="form-group">
                       <select class="form-control" id="hair-id"> </select>
                     </div>
-                    <div class="form-group mb-lots">
+                    <div class="form-group">
                       <label for="hair-color">Hair color</label>
                       <input
                         type="color"
                         class="form-control"
                         id="hair-color"
                       />
+                    </div>
+                    <div class="form-group form-check mb-lots">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="hair-flip"
+                      />
+                      <label class="form-check-label" for="hair-flip">
+                        Flip
+                      </label>
                     </div>
 
                     <h4>Eye Lines</h4>
@@ -318,7 +329,7 @@
       }
     };
 
-    const isValue = obj =>
+    const isValue = (obj) =>
       typeof obj === "boolean" ||
       typeof obj === "number" ||
       typeof obj === "string";
@@ -365,7 +376,7 @@
       const selects = document.querySelectorAll("select.form-control");
 
       for (const input of [...textInputs, ...checkboxInputs, ...selects]) {
-        input.addEventListener("change", event => {
+        input.addEventListener("change", (event) => {
           const parts = event.target.id.split("-");
 
           if (parts.length === 1) {
@@ -397,7 +408,7 @@
 
     // Reload when something changes
     const socket = new WebSocket("ws://localhost:3001/");
-    socket.addEventListener("message", event => {
+    socket.addEventListener("message", (event) => {
       if (event.data === "reload") {
         location.reload();
       }
@@ -406,11 +417,11 @@
 
   <script type="text/javascript">
     if (location.host.indexOf("dumbmatter.com") >= 0) {
-      (function(i, s, o, g, r, a, m) {
+      (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
         (i[r] =
           i[r] ||
-          function() {
+          function () {
             (i[r].q = i[r].q || []).push(arguments);
           }),
           (i[r].l = 1 * new Date());
