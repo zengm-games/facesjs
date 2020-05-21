@@ -9,7 +9,7 @@
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules",
-    "prepublish": "yarn run build",
+    "prepare": "yarn run build",
     "start": "node tools/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
