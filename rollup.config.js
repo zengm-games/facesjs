@@ -1,24 +1,25 @@
-const resolve = require("@rollup/plugin-node-resolve");
-const babel = require("rollup-plugin-babel");
+const resolve = require("@rollup/plugin-node-resolve").default;
+const babel = require("@rollup/plugin-babel").default;
 
 module.exports = {
   input: "public/bundle.js",
   output: {
     file: "public/build/bundle.js",
     format: "iife",
-    name: "faces"
+    name: "faces",
   },
   plugins: [
     babel({
-      extensions: [".ts", ".js"]
+      babelHelpers: "bundled",
+      extensions: [".ts", ".js"],
     }),
     resolve({
-      extensions: [".ts", ".js"]
-    })
+      extensions: [".ts", ".js"],
+    }),
   ],
   watch: {
     chokidar: {
-      paths: "src/**/*.ts"
-    }
-  }
+      paths: "src/**/*.ts",
+    },
+  },
 };
