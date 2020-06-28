@@ -122,7 +122,10 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   }
 
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
-  featureSVGString = featureSVGString.replace("$[hairColor]", face.hair.color);
+  featureSVGString = featureSVGString.replace(
+    /\$\[hairColor\]/g,
+    face.hair.color
+  );
   featureSVGString = featureSVGString.replace(
     /\$\[primary\]/g,
     face.teamColors[0]
@@ -224,82 +227,82 @@ const display = (
   const featureInfos: FeatureInfo[] = [
     {
       name: "body",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "jersey",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "ear",
       positions: [
         [55, 325] as [number, number],
-        [345, 325] as [number, number]
+        [345, 325] as [number, number],
       ],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "head",
       positions: [null], // Meaning it just gets placed into the SVG with no translation
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "eyeLine",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "smileLine",
       positions: [
         [150, 435],
-        [250, 435]
-      ]
+        [250, 435],
+      ],
     },
     {
       name: "miscLine",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "facialHair",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "eye",
       positions: [
         [140, 310],
-        [260, 310]
-      ]
+        [260, 310],
+      ],
     },
     {
       name: "eyebrow",
       positions: [
         [140, 265],
-        [260, 265]
-      ]
+        [260, 265],
+      ],
     },
     {
       name: "mouth",
-      positions: [[200, 440]]
+      positions: [[200, 440]],
     },
     {
       name: "nose",
-      positions: [[200, 370]]
+      positions: [[200, 370]],
     },
     {
       name: "hair",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "glasses",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "accessories",
       positions: [null],
-      scaleFatness: true
-    }
+      scaleFatness: true,
+    },
   ];
 
   for (const info of featureInfos) {
