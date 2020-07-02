@@ -76,7 +76,7 @@ When creating SVGs, assume the size of the canvas is 400x600. For most features,
 
 If you find it not quite placing a facial feature exactly where you want, it's because by default it finds the center of the eye/eyebrow/mouth/nose SVG and places that in a specific location. If that's not good for a certain facial feature, that behavior can be overridden in code. For instance, see how it's done in display.js for the "pinocchio" nose which uses the left side of the SVG rather than the center to place it.
 
-If you want a brand new "class" of facial features (like facial hair, or earrings, or hats) you'll have to create a new subfolder within the "svg" folder edit the code to recognize your new feature.
+If you want a brand new "class" of facial features (like facial hair, or earrings, or hats) you'll have to create a new subfolder within the "svg" folder and edit the code to recognize your new feature.
 
 If you find any of this confusing, feel free to reach out to me for help! I would love for someone to help me make better looking faces :)
 
