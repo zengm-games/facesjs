@@ -6,11 +6,11 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-type Race = "Caucasian" | "African" | "Asian";
+type Race = "Caucasian" | "African" | "Asian" | "Latino";
 
 const colors = [
   {
-    skin: "#f2d6cb",
+    skin: ["#f2d6cb", "#ddb7a0"],
     hair: [
       "#272421",
       "#3D2314",
@@ -23,41 +23,35 @@ const colors = [
     ],
   },
   {
-    skin: "#ddb7a0",
-    hair: [
-      "#272421",
-      "#3D2314",
-      "#5A3825",
-      "#CC9966",
-      "#2C1608",
-      "#e9c67b",
-      "#D7BF91",
-    ],
+    skin: ["#f2e4cb", "#f5dbad"],
+    hair: ["#272421", "#0f0902"],
   },
-  { skin: "#ce967d", hair: ["#272421", "#423125"] },
-  { skin: "#bb876f", hair: ["#272421"] },
-  { skin: "#aa816f", hair: ["#272421"] },
-  { skin: "#a67358", hair: ["#272421"] },
-  { skin: "#ad6453", hair: ["#272421"] },
-  { skin: "#74453d", hair: ["#272421"] },
-  { skin: "#5c3937", hair: ["#272421"] },
+  {
+    skin: ["#bb876f", "#aa816f", "#a67358"],
+    hair: ["#272421", "#1c1008"],
+  },
+  { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 ];
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides) => {
+const generate = (overrides: Overrides, options: { chosenRace: Race }) => {
   const playerRace: Race = (function () {
-    switch (Math.floor(Math.random() * 3)) {
-      case 0:
-        return "Caucasian";
-      case 1:
-        return "Asian";
-      case 2:
-        return "African";
+    if (options == null) {
+      switch (Math.floor(Math.random() * 4)) {
+        case 0:
+          return "Caucasian";
+        case 1:
+          return "Asian";
+        case 2:
+          return "Latino";
+        case 3:
+          return "African";
+      }
     }
-    return "Caucasian";
+    return options.chosenRace;
   })();
 
   const eyeAngle = Math.round(Math.random() * 25 - 10);
@@ -65,20 +59,22 @@ const generate = (overrides: Overrides) => {
   const palette = (function () {
     switch (playerRace) {
       case "Caucasian":
-        return colors[Math.floor(Math.random() * 2)];
+        return colors[0];
       case "Asian":
-        return colors[Math.floor(Math.random() * 2) + 2];
+        return colors[1];
+      case "Latino":
+        return colors[2];
       case "African":
-        return colors[Math.floor(Math.random() * (colors.length - 4)) + 4];
+        return colors[3];
     }
   })();
-  const skinColor = palette.skin;
+  const skinColor =
+    palette.skin[Math.floor(Math.random() * palette.skin.length)];
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    race: playerRace,
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     body: {

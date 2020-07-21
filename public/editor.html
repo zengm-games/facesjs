@@ -263,11 +263,6 @@
                         id="teamColors-2"
                       />
                     </div>
-
-                    <h4>Race</h4>
-                    <div class="form-group mb-lots">
-                      <input type="text" class="form-control" id="race" />
-                    </div>
                   </div>
                 </div>
               </form>
@@ -400,7 +395,7 @@
       }
 
       document.getElementById("randomize").addEventListener("click", () => {
-        face = faces.generate();
+        face = faces.generate(null);
         initializeFormValues();
         updateDisplay();
       });
