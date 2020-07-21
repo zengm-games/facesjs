@@ -6,6 +6,8 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
+type Race = "Caucasian" | "African" | "Asian";
+
 const colors = [
   {
     skin: "#f2d6cb",
@@ -46,15 +48,37 @@ const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
 const generate = (overrides: Overrides) => {
+  const playerRace: Race = (function () {
+    switch (Math.floor(Math.random() * 3)) {
+      case 0:
+        return "Caucasian";
+      case 1:
+        return "Asian";
+      case 2:
+        return "African";
+    }
+    return "Caucasian";
+  })();
+
   const eyeAngle = Math.round(Math.random() * 25 - 10);
 
-  const palette = colors[Math.floor(Math.random() * colors.length)];
+  const palette = (function () {
+    switch (playerRace) {
+      case "Caucasian":
+        return colors[Math.floor(Math.random() * 2)];
+      case "Asian":
+        return colors[Math.floor(Math.random() * 2) + 2];
+      case "African":
+        return colors[Math.floor(Math.random() * (colors.length - 4)) + 4];
+    }
+  })();
   const skinColor = palette.skin;
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
+    race: playerRace,
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     body: {
