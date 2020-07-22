@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 400 600"
+   width="400"
+   height="600"
+   version="1.1"
+   id="svg130"
+   sodipodi:docname="man-bun.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
+  <metadata
+     id="metadata134">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1417"
+     id="namedview132"
+     showgrid="false"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="270.78859"
+     inkscape:cy="111.78661"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg130" />
+  <defs
+     id="defs123">
+    <linearGradient
+       id="shortfade"
+       gradientUnits="userSpaceOnUse"
+       x1="200"
+       y1="100"
+       x2="200"
+       y2="310">
+      <stop
+         offset="0"
+         stop-color="rgba(0,0,0,.25)"
+         id="stop118" />
+      <stop
+         offset="1"
+         stop-color="rgba(0,0,0,0)"
+         id="stop120" />
+    </linearGradient>
+  </defs>
+  <style
+     id="style125">
+		tspan { white-space:pre }
+		.short_fade { fill: url(#shortfade);stroke: none} 
+	</style>
+  <g
+     id="short fade"
+     style="opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">
+    <path
+       id="Short Fade"
+       class="short_fade"
+       d="M 60,310 H 50 v -10 c 0,-140 50,-200 150,-200 100,0 150,60 150,200 v 10 h -10 v -20 c 0,-5 -10,-20 -15,-25 -5,-5 -5,-55 -15,-65 C 270,160 253.57143,161.90476 203.57143,161.90476 153.57143,161.90476 130,160 90,200 c -10,10 -10,60 -15,65 -5,5 -15,20 -15,25 z"
+       sodipodi:nodetypes="ccsssccsssssssc"
+       style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none" />
+  </g>
+  <path
+     id="crop"
+     d="m 200.82583,47.465705 c 31.21486,-0.107078 29.16125,8.272564 27.14765,15.787295 -2.23463,8.339549 -27.45417,22.476576 -27.51139,23.265 -0.14358,1.978177 0.66545,8.282763 0.9284,8.309 102.26255,10.20362 120.85271,71.06535 131.79917,87.949 -13.33661,4.00619 -43.12962,15.30405 -67.6341,16.11246 -15,0 -39.96032,-0.31746 -64.96032,-0.31746 -25,0 -50.03968,0.31746 -65.03967,0.31746 -25.01522,0.90267 -56.477556,-12.92899 -67.070294,-16.11246 8.733607,-17.55005 30.072823,-80.32044 130.477654,-87.949 0.27354,-0.02078 0.036,-6.318806 0.32979,-8.309 0.0658,-0.44546 -23.95514,-14.814093 -25.60849,-23.265 -1.44201,-7.370624 -1.35737,-15.689533 27.1416,-15.787295 z"
+     fill="$[hairColor]"
+     stroke="#000000"
+     stroke-width="3.99999"
+     sodipodi:nodetypes="ssssccsccssss" />
+</svg>
