@@ -6,9 +6,11 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-const colors = [
-  {
-    skin: "#f2d6cb",
+type Race = "white" | "black" | "asian" | "hispanic";
+
+const colors = {
+  white: {
+    skin: ["#f2d6cb", "#ddb7a0"],
     hair: [
       "#272421",
       "#3D2314",
@@ -20,36 +22,54 @@ const colors = [
       "#D7BF91",
     ],
   },
-  {
-    skin: "#ddb7a0",
-    hair: [
-      "#272421",
-      "#3D2314",
-      "#5A3825",
-      "#CC9966",
-      "#2C1608",
-      "#e9c67b",
-      "#D7BF91",
-    ],
+  asian: {
+    skin: ["#f2e4cb", "#f5dbad"],
+    hair: ["#272421", "#0f0902"],
   },
-  { skin: "#ce967d", hair: ["#272421", "#423125"] },
-  { skin: "#bb876f", hair: ["#272421"] },
-  { skin: "#aa816f", hair: ["#272421"] },
-  { skin: "#a67358", hair: ["#272421"] },
-  { skin: "#ad6453", hair: ["#272421"] },
-  { skin: "#74453d", hair: ["#272421"] },
-  { skin: "#5c3937", hair: ["#272421"] },
-];
+  hispanic: {
+    skin: ["#bb876f", "#aa816f", "#a67358"],
+    hair: ["#272421", "#1c1008"],
+  },
+  black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
+};
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides) => {
+const generate = (overrides: Overrides, options: { race: Race }) => {
+  const playerRace: Race = (function () {
+    if (options == null) {
+      switch (Math.floor(Math.random() * 4)) {
+        case 0:
+          return "white";
+        case 1:
+          return "asian";
+        case 2:
+          return "hispanic";
+        case 3:
+          return "black";
+      }
+    }
+    return options.race;
+  })();
+
   const eyeAngle = Math.round(Math.random() * 25 - 10);
 
-  const palette = colors[Math.floor(Math.random() * colors.length)];
-  const skinColor = palette.skin;
+  const palette = (function () {
+    switch (playerRace) {
+      case "white":
+        return colors.white;
+      case "asian":
+        return colors.asian;
+      case "hispanic":
+        return colors.hispanic;
+      case "black":
+        return colors.black;
+    }
+  })();
+  const skinColor =
+    palette.skin[Math.floor(Math.random() * palette.skin.length)];
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
