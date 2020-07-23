@@ -53,8 +53,18 @@ const generate = (overrides: Overrides, options: { chosenRace: Race }) => {
     }
     return options.chosenRace;
   })();
+  const eyeAngleAdjust = (() => {
+    switch (playerRace) {
+      case "Asian":
+        return 5;
+      case "African":
+        return 12;
+      default:
+        return 15;
+    }
+  })();
 
-  const eyeAngle = Math.round(Math.random() * 25 - 10);
+  const eyeAngle = Math.round(Math.random() * 25 - eyeAngleAdjust);
 
   const palette = (function () {
     switch (playerRace) {
