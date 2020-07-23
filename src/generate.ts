@@ -6,10 +6,10 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-type Race = "Caucasian" | "African" | "Asian" | "Latino";
+type Race = "white" | "black" | "asian" | "hispanic";
 
-const colors = [
-  {
+const colors = {
+  white: {
     skin: ["#f2d6cb", "#ddb7a0"],
     hair: [
       "#272421",
@@ -22,60 +22,50 @@ const colors = [
       "#D7BF91",
     ],
   },
-  {
+  asian: {
     skin: ["#f2e4cb", "#f5dbad"],
     hair: ["#272421", "#0f0902"],
   },
-  {
+  hispanic: {
     skin: ["#bb876f", "#aa816f", "#a67358"],
     hair: ["#272421", "#1c1008"],
   },
-  { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
-];
+  black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
+};
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides, options: { chosenRace: Race }) => {
+const generate = (overrides: Overrides, options: { race: Race }) => {
   const playerRace: Race = (function () {
     if (options == null) {
       switch (Math.floor(Math.random() * 4)) {
         case 0:
-          return "Caucasian";
+          return "white";
         case 1:
-          return "Asian";
+          return "asian";
         case 2:
-          return "Latino";
+          return "hispanic";
         case 3:
-          return "African";
+          return "black";
       }
     }
-    return options.chosenRace;
-  })();
-  const eyeAngleAdjust = (() => {
-    switch (playerRace) {
-      case "Asian":
-        return 5;
-      case "African":
-        return 12;
-      default:
-        return 15;
-    }
+    return options.race;
   })();
 
-  const eyeAngle = Math.round(Math.random() * 25 - eyeAngleAdjust);
+  const eyeAngle = Math.round(Math.random() * 25 - 10);
 
   const palette = (function () {
     switch (playerRace) {
-      case "Caucasian":
-        return colors[0];
-      case "Asian":
-        return colors[1];
-      case "Latino":
-        return colors[2];
-      case "African":
-        return colors[3];
+      case "white":
+        return colors.white;
+      case "asian":
+        return colors.asian;
+      case "hispanic":
+        return colors.hispanic;
+      case "black":
+        return colors.black;
     }
   })();
   const skinColor =

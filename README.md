@@ -57,6 +57,13 @@ Both `display` and `generate` accept an optional final argument, specifying valu
     # Display a face, but impose that it has blue skin
     faces.display("my-div-id", face, { body: { color: "blue" } });
 
+### Options
+
+The `generate` function takes a second optional arguement, which takes in extra parameters for player creation, in the form of an object. Currently, you can assign a race attribute that can be white, black, asian, or hispanic.
+
+    # Generates a random player who will be white
+    const face = faces.generate(null, {race: "white"});
+
 ## Development
 
 Running `yarn run start` will do a few things:
