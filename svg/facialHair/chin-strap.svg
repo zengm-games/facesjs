@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 400 600"
+   width="400"
+   height="600"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="chin-strap.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1417"
+     id="namedview5"
+     showgrid="false"
+     inkscape:zoom="9.5035151"
+     inkscape:cx="247.89175"
+     inkscape:cy="448.22416"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="203.27381,87.797619"
+       orientation="0,-1"
+       id="guide11" />
+  </sodipodi:namedview>
+  <path
+     id="honest_abe"
+     class="shp0"
+     d="m 341.86012,329.762 c -18.78031,98.41546 -39.49186,102.78604 -40.73136,106.121 -16.85944,17.71681 -52.85512,38.71951 -62.4861,41.411 -18.04976,5.04421 -27.16555,6.53087 -27.22214,4.59572 -0.0831,-2.84151 4.8e-4,-14.94672 4.8e-4,-14.94672 0,0 -7.23229,-0.0193 -11.188,0 -3.98527,0.0195 -11.47,0 -11.47,0 0,0 0.0302,11.26309 -4.8e-4,14.94672 -0.0212,2.55163 -15.6219,-0.99537 -29.0782,-4.59572 -9.6602,-2.58467 -48.65399,-24.4962 -61.946181,-42.67369 C 95.65535,432.1473 75.039055,421.16617 58.214286,329.762 h -10 c 6.249562,93.09217 30.022418,116.40888 32.350714,120.951 0,0 44.86095,57.48396 119.668,57.54828 74.99997,0.0645 117.78784,-57.54828 117.78784,-57.54828 2.59611,-5.71552 23.22041,-21.70403 33.83928,-120.951 z"
+     fill="$[hairColor]"
+     stroke="#000000"
+     stroke-width="1"
+     sodipodi:nodetypes="ccsscscssccccsccc" />
+</svg>

@@ -1,9 +1,10 @@
-import override from "./override";
+import { Face } from "./generate";
+import override, { Overrides } from "./override";
 import svgs from "./svgs";
 
-const addWrapper = svgString => `<g>${svgString}</g>`;
+const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
-const addTransform = (element, newTransform) => {
+const addTransform = (element: SVGGraphicsElement, newTransform: string) => {
   const oldTransform = element.getAttribute("transform");
   element.setAttribute(
     "transform",
@@ -11,7 +12,7 @@ const addTransform = (element, newTransform) => {
   );
 };
 
-const rotateCentered = (element, angle) => {
+const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
   const bbox = element.getBBox();
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
@@ -19,12 +20,18 @@ const rotateCentered = (element, angle) => {
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
-const scaleStrokeWidthAndChildren = (element, factor) => {
+const scaleStrokeWidthAndChildren = (
+  element: SVGGraphicsElement,
+  factor: number
+) => {
   const strokeWidth = element.getAttribute("stroke-width");
   if (strokeWidth) {
-    element.setAttribute("stroke-width", strokeWidth / factor);
+    element.setAttribute(
+      "stroke-width",
+      String(parseFloat(strokeWidth) / factor)
+    );
   }
-  const children = element.childNodes;
+  const children = (element.childNodes as unknown) as SVGGraphicsElement[];
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }
@@ -32,7 +39,7 @@ const scaleStrokeWidthAndChildren = (element, factor) => {
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
-const scaleCentered = (element, x, y) => {
+const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
   const bbox = element.getBBox();
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
@@ -53,7 +60,13 @@ const scaleCentered = (element, x, y) => {
 };
 
 // Translate element such that its center is at (x, y). Specifying xAlign and yAlign can instead make (x, y) the left/right and top/bottom.
-const translate = (element, x, y, xAlign = "center", yAlign = "center") => {
+const translate = (
+  element: SVGGraphicsElement,
+  x: number,
+  y: number,
+  xAlign = "center",
+  yAlign = "center"
+) => {
   const bbox = element.getBBox();
   let cx;
   let cy;
@@ -76,29 +89,43 @@ const translate = (element, x, y, xAlign = "center", yAlign = "center") => {
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
-const fatScale = fatness => 0.8 + 0.2 * fatness;
+const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
-const drawFeature = (svg, face, info) => {
+type FeatureInfo = {
+  name: Exclude<keyof Face, "fatness" | "teamColors">;
+  positions: [null] | [number, number][];
+  scaleFatness?: true;
+};
+
+const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
   }
 
+  // @ts-ignore
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {
     return;
   }
 
+  // @ts-ignore
   if (feature.shave) {
+    // @ts-ignore
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
   }
 
+  // @ts-ignore
   if (feature.shave) {
+    // @ts-ignore
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
-  featureSVGString = featureSVGString.replace("$[hairColor]", face.hair.color);
+  featureSVGString = featureSVGString.replace(
+    /\$\[hairColor\]/g,
+    face.hair.color
+  );
   featureSVGString = featureSVGString.replace(
     /\$\[primary\]/g,
     face.teamColors[0]
@@ -115,38 +142,47 @@ const drawFeature = (svg, face, info) => {
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
-    if (info.positions[i] !== null) {
+    const position = info.positions[i];
+
+    if (position !== null) {
       // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
       let xAlign;
       if (feature.id === "nose4" || feature.id === "pinocchio") {
+        // @ts-ignore
         xAlign = feature.flip ? "right" : "left";
       } else {
         xAlign = "center";
       }
 
       translate(
-        svg.lastChild,
-        info.positions[i][0],
-        info.positions[i][1],
+        svg.lastChild as SVGGraphicsElement,
+        position[0],
+        position[1],
         xAlign
       );
     }
 
     if (feature.hasOwnProperty("angle")) {
+      // @ts-ignore
       rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
+    // @ts-ignore
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
+    // @ts-ignore
     if (feature.flip || i === 1) {
+      // @ts-ignore
       scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
+      // @ts-ignore
       scaleCentered(svg.lastChild, scale, scale);
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
+      // @ts-ignore
       translate(svg.lastChild, distance, 0, "left", "top");
     }
   }
@@ -156,17 +192,26 @@ const drawFeature = (svg, face, info) => {
     info.positions.length === 1 &&
     info.positions[0] === null
   ) {
+    // @ts-ignore
     scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
   }
 };
 
-const display = (container, face, overrides) => {
+const display = (
+  container: HTMLElement | string | null,
+  face: Face,
+  overrides: Overrides
+) => {
   override(face, overrides);
 
-  if (typeof container === "string") {
-    container = document.getElementById(container);
+  const containerElement =
+    typeof container === "string"
+      ? document.getElementById(container)
+      : container;
+  if (!containerElement) {
+    throw new Error("container not found");
   }
-  container.innerHTML = "";
+  containerElement.innerHTML = "";
 
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("version", "1.2");
@@ -177,75 +222,87 @@ const display = (container, face, overrides) => {
   svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
 
   // Needs to be in the DOM here so getBBox will work
-  container.appendChild(svg);
+  containerElement.appendChild(svg);
 
-  const featureInfos = [
+  const featureInfos: FeatureInfo[] = [
     {
       name: "body",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "jersey",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "ear",
-      positions: [[55, 325], [345, 325]],
-      scaleFatness: true
+      positions: [
+        [55, 325] as [number, number],
+        [345, 325] as [number, number],
+      ],
+      scaleFatness: true,
     },
     {
       name: "head",
       positions: [null], // Meaning it just gets placed into the SVG with no translation
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "eyeLine",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "smileLine",
-      positions: [[150, 435], [250, 435]]
+      positions: [
+        [150, 435],
+        [250, 435],
+      ],
     },
     {
       name: "miscLine",
-      positions: [null]
+      positions: [null],
     },
     {
       name: "facialHair",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "eye",
-      positions: [[140, 310], [260, 310]]
+      positions: [
+        [140, 310],
+        [260, 310],
+      ],
     },
     {
       name: "eyebrow",
-      positions: [[140, 265], [260, 265]]
+      positions: [
+        [140, 265],
+        [260, 265],
+      ],
     },
     {
       name: "mouth",
-      positions: [[200, 440]]
+      positions: [[200, 440]],
     },
     {
       name: "nose",
-      positions: [[200, 370]]
+      positions: [[200, 370]],
     },
     {
       name: "hair",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "glasses",
       positions: [null],
-      scaleFatness: true
+      scaleFatness: true,
     },
     {
       name: "accessories",
       positions: [null],
-      scaleFatness: true
-    }
+      scaleFatness: true,
+    },
   ];
 
   for (const info of featureInfos) {
