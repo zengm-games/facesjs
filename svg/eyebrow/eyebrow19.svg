@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69 22" width="69" height="22">
+	<style>	
+		.eyebrowPlacement { fill: none } 
+	</style>
+	<path id="eyebrow12" d="M76.4 16.1C79.25 13.86 76.35 9.74 76.35 9.74C76.35 9.74 59.49 10.28 50.08 9.72C40.59 9.12 14.75 8.86 14.75 8.86C14.75 8.86 12.55 15.51 15.32 16.48C18 17.09 39.86 15.03 49.41 15.59C59.01 16.18 73.45 17.75 76.4 16.1Z" fill="$[hairColor]" stroke="#000" stroke-width="1"/>
+	<path id="placement" class="eyebrowPlacement" d="M0 10L5 10L5 15L0 15L0 10Z" />
+</svg>
