@@ -32,20 +32,6 @@ const colors = {
   },
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
-const dyedHair = [
-  "#ffedc4",
-  "#ffedc4",
-  "#ffedc4",
-  "#ffedc4",
-  "#ffedc4",
-  "#d4d4d4",
-  "#68a1fc",
-  "#ff7340",
-  "#ab2222",
-  "#fab6e5",
-  "#282475",
-  "#7ce876",
-];
 
 const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
