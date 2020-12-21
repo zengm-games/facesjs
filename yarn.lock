@@ -939,11 +939,6 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-facesjs@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/facesjs/-/facesjs-3.1.0.tgz#f816cf4e7ffa77ae54a0cfd0f1caae27d43afa07"
-  integrity sha512-8pU1QAwkjMMYBb/mOoj22y2LhIoVB8ax87MSBJeX1hG1ZuKWqoKow3OapGWvD7+wKt/AGXtcRsEQcvdjuOQ6GQ==
-
 file-uri-to-path@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"

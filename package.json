@@ -57,7 +57,5 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
-  "dependencies": {
-    "facesjs": "^3.1.0"
-  }
+  "dependencies": {}
 }
