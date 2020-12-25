@@ -37,21 +37,21 @@ const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides, options: { race: Race }) => {
+const generate = (overrides?: Overrides, options?: { race?: Race }) => {
   const playerRace: Race = (function () {
-    if (options == null) {
-      switch (Math.floor(Math.random() * 4)) {
-        case 0:
-          return "white";
-        case 1:
-          return "asian";
-        case 2:
-          return "brown";
-        case 3:
-          return "black";
-      }
+    if (options && options.race) {
+      return options.race;
     }
-    return options.race;
+    switch (Math.floor(Math.random() * 4)) {
+      case 0:
+        return "white";
+      case 1:
+        return "asian";
+      case 2:
+        return "brown";
+      default:
+        return "black";
+    }
   })();
 
   const eyeAngle = Math.round(Math.random() * 25 - 10);
