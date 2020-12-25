@@ -6,7 +6,7 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-type Race = "white" | "black" | "asian" | "hispanic";
+type Race = "asian" | "black" | "brown" | "white";
 
 const colors = {
   white: {
@@ -26,7 +26,7 @@ const colors = {
     skin: ["#f2e4cb", "#f5dbad"],
     hair: ["#272421", "#0f0902"],
   },
-  hispanic: {
+  brown: {
     skin: ["#bb876f", "#aa816f", "#a67358"],
     hair: ["#272421", "#1c1008"],
   },
@@ -46,7 +46,7 @@ const generate = (overrides: Overrides, options: { race: Race }) => {
         case 1:
           return "asian";
         case 2:
-          return "hispanic";
+          return "brown";
         case 3:
           return "black";
       }
@@ -62,8 +62,8 @@ const generate = (overrides: Overrides, options: { race: Race }) => {
         return colors.white;
       case "asian":
         return colors.asian;
-      case "hispanic":
-        return colors.hispanic;
+      case "brown":
+        return colors.brown;
       case "black":
         return colors.black;
     }
