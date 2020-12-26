@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<path id="longHair" class="longHair" d="M46.17 300C47.51 160.01 78.5 95.59 219.25 91.8C229.25 91.8 234.17 91.86 239.83 100.53C239.83 100.53 248.92 98.6 255.42 99.6C337.75 140.3 356.75 186.8 356.75 326.8L334.75 296.8C334.75 296.8 320 210 310 200L200 187.86L90 200C79.99 209.99 84.75 337.8 84.75 337.8L54.75 368.8C54.75 368.8 45.75 343.3 46.17 300Z" fill="$[hairColor]" stroke="#000" stroke-width="4"/>
+	<path id="bangs" class="bangs" d="M240 200C300 180 300 320 380 360C340 300 340 260 340 260C340 260 332.75 159.8 232.75 159.8M73 309C73 309 80 360 20 380C140 400 100 140 240 200L251.25 160.8L100 160L71.25 220"  fill="$[hairColor]"/>
+	<path id="bangsLine" class="bangsLine" d="M240 200C300 180 300 320 380 360C340 300 340 260 340 260"  stroke="#000" stroke-width="4" fill="none"/>
+	<path id="bangsLine" class="bangsLine" d="M73 309C73 309 80 360 20 380C140 400 100 140 240 200"  stroke="#000" stroke-width="4" fill="none"/>
+</svg>

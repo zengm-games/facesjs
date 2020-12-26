@@ -6,7 +6,7 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-type Race = "white" | "black" | "asian" | "hispanic";
+type Race = "asian" | "black" | "brown" | "white";
 
 const colors = {
   white: {
@@ -23,10 +23,10 @@ const colors = {
     ],
   },
   asian: {
-    skin: ["#f2e4cb", "#f5dbad"],
+    skin: ["#f5dbad"],
     hair: ["#272421", "#0f0902"],
   },
-  hispanic: {
+  brown: {
     skin: ["#bb876f", "#aa816f", "#a67358"],
     hair: ["#272421", "#1c1008"],
   },
@@ -37,21 +37,21 @@ const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides, options: { race: Race }) => {
+const generate = (overrides?: Overrides, options?: { race?: Race }) => {
   const playerRace: Race = (function () {
-    if (options == null) {
-      switch (Math.floor(Math.random() * 4)) {
-        case 0:
-          return "white";
-        case 1:
-          return "asian";
-        case 2:
-          return "hispanic";
-        case 3:
-          return "black";
-      }
+    if (options && options.race) {
+      return options.race;
     }
-    return options.race;
+    switch (Math.floor(Math.random() * 4)) {
+      case 0:
+        return "white";
+      case 1:
+        return "asian";
+      case 2:
+        return "brown";
+      default:
+        return "black";
+    }
   })();
 
   const eyeAngle = Math.round(Math.random() * 25 - 10);
@@ -62,8 +62,8 @@ const generate = (overrides: Overrides, options: { race: Race }) => {
         return colors.white;
       case "asian":
         return colors.asian;
-      case "hispanic":
-        return colors.hispanic;
+      case "brown":
+        return colors.brown;
       case "black":
         return colors.black;
     }
@@ -77,6 +77,9 @@ const generate = (overrides: Overrides, options: { race: Race }) => {
   const face = {
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
+    hairBg: {
+      id: Math.random() < 0.1 ? getID("hairBg") : "none",
+    },
     body: {
       id: getID("body"),
       color: skinColor,
@@ -99,7 +102,7 @@ const generate = (overrides: Overrides, options: { race: Race }) => {
     },
     smileLine: {
       id: Math.random() < 0.75 ? getID("smileLine") : "none",
-      size: roundTwoDecimals(0.5 + Math.random()),
+      size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
       id: Math.random() < 0.5 ? getID("miscLine") : "none",

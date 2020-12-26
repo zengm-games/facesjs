@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<style>
+		tspan { white-space:pre }
+		<!-- opacity: 0.2 for lip color -->
+		.lips { opacity: 0.05;mix-blend-mode: multiply;fill: #501414 } 
+		.mouth-14 { fill: #000000;stroke: #000000 } 
+		.teeth { fill: #ffffff } 
+		.mouth-14-stroke { fill: none;stroke: #000000;stroke-width: 4 } 
+	</style>
+	<g id="lips copy">
+		<path id="lips" class="lips" d="M168 384C168 384 177 370.23 200 369.97C217.4 369.77 232 383.17 232 383.17C232 383.17 227.71 411.43 200 412C172.71 412.56 168 384 168 384Z" />
+		<path id="mouth" class="mouth-14" d="M168 384C180 380 216 380 232 384C224 392 222 400 200 400C180 400 176 392 168 384Z" />
+		<path id="teeth" class="teeth" d="M168 384C180 380 216 380 232 384C212 388 222 388 200 388C180 388 184 388 168 384ZM180 396C180 396 194 395 200 395C206 395 220 396 220 396C220 396 216 400 200 400C188 400 180 396 180 396Z" />
+		<path id="mouth-14-stroke" class="mouth-14-stroke" d="M168 384C180 380 216 380 232 384C224 392 222 400 200 400C180 400 176 392 168 384ZM184 408C196 414 204 414 216 408M220.29 374.88C205.77 369.22 193 368.54 180 374.97" />
+	</g>
+</svg>

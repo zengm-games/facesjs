@@ -2,7 +2,7 @@ export type Overrides = {
   [key: string]: boolean | string | number | any[] | Overrides;
 };
 
-const override = (obj: Overrides, overrides: Overrides) => {
+const override = (obj: Overrides, overrides?: Overrides) => {
   if (!overrides) {
     return;
   }
