@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<g id="Body">
+		<path id="Body" class="body" d="M20 600C20 600 15 540 60 530C75 530 105 515 150 495L200 300L250 495C295 515 325 530 340 530C385 540 385 600 385 600" fill="$[skinColor]" stroke="#000" stroke-width="6"/>
+	</g>
+</svg>
