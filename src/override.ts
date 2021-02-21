@@ -3,7 +3,7 @@ export type Overrides = {
 };
 
 const override = (obj: Overrides, overrides?: Overrides) => {
-  if (!overrides) {
+  if (!overrides || !obj) {
     return;
   }
 
