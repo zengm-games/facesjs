@@ -89,7 +89,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     },
     ear: {
       id: getID("ear"),
-      size: roundTwoDecimals(0.75 + Math.random() * 0.5),
+      size: roundTwoDecimals(0.5 + Math.random()),
     },
     head: {
       id: getID("head"),
