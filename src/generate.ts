@@ -33,7 +33,7 @@ const colors = {
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
 
-const defaultTeamColors = ["#5c4a99", "#f0e81c", "#211e1e"];
+const defaultTeamColors = ["#2b8643", "#163a1c", "#a1d297"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
