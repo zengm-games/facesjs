@@ -1,11 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-    	<g id="football">
-    		<path id="football" class="football" d="M100 500C100 500 170 590 200 590C230 590 300 500 300 500C300 500 330 510 360 510C360 510 390 520 390 550C390 580 400 610 400 610L0 610C0 610 10 580 10 550C10 520 40 510 40 510C70 510 100 500 100 500" fill="$[primary]" stroke="#000000" stroke-width="6"/>
-    		<path id="shoulder-stripes" d="M66.529,600L14.405,531.622C19.12,522.645 26.691,516.905 32.378,513.613L66.529,600ZM368.86,514.352C374.632,517.898 381.869,523.815 386.203,532.831L335,600L368.86,514.352Z" style="fill:$[secondary];"/>
-    		<path id="football-outline" class="football" d="M100 500C100 500 170 590 200 590C230 590 300 500 300 500C300 500 330 510 360 510C360 510 390 520 390 550C390 580 400 610 400 610L0 610C0 610 10 580 10 550C10 520 40 510 40 510C70 510 100 500 100 500" fill-opacity="0" stroke="#000000" stroke-width="6"/>
-    		<path id="shoulderpads" class="shoulderpads" d="M370 560C370 560 309 567.89 300 550M30 560C30 560 91 567.89 100 550" fill="none" stroke="#000000" stroke-width="3"/>
-    		<path id="collar-outline" class="collar-outline" d="M100 500C100 500 170 590 200 590C230 590 300 500 300 500" fill="none" stroke="#000000" stroke-width="16"/>
-    		<path id="collar-accent" class="collar-accent" d="M100 500C100 500 170 590 200 590C230 590 300 500 300 500" fill="none" stroke="$[accent]" stroke-width="12"/>
-    		<path id="collar-secondary" class="collar-secondary" d="M100 500C100 500 170 590 200 590C230 590 300 500 300 500" fill="none" stroke="$[secondary]" stroke-width="6"/>
-    	</g>
-    </svg>
+	<g id="football-ponies">
+		<path id="footballPrimary" class="footballPrimary" d="M120 505C120 540 170 530 200 550C230 530 280 540 280 505C310 480 370 490 380 500C390 510 390.07 520.41 395 550C400 580 400 570 400 610L0 610C0 570 0 580.41 5 550.41C9.93 520.82 10 511.03 20 500C29.5 489.52 90 480 120 505Z" fill="$[primary]" stroke="#000000" stroke-width="6" />
+		<path id="collarSecondary" class="collarSecondary" d="M120 505C120 540 170 530 200 550C230 530 280 540 280 505L295 495C300 555 240 540 200 570C160 540 100 555 105 495L120 505Z" fill="$[secondary]" stroke="#000000" stroke-width="2"/>
+		<g id="Verticle Stripes">
+			<path id="vStripes1" class="vStripes1" d="M55 490L30 495L20 500L20 580L55 580L55 490ZM345 490L370 495L380 500L380 580L345 580L345 490Z" fill="$[secondary]" stroke="#000000" stroke-width="2"/>
+			<path id="vStripes2" class="vStripes2" d="M30 495L45 491.86L45 580L30 580L30 495ZM370 495L355 491.86L355 580L370 580L370 495Z" fill="#f9f9f9" stroke="#000000" stroke-width="2"/>
+		</g>
+		<path id="footballStroke" class="footballStroke" d="M120 505C120 540 170 530 200 550C230 530 280 540 280 505C310 480 370 490 380 500C390 510 390.07 520.41 395 550C400 580 400 570 400 610L0 610C0 570 0 580 5 550C9.93 520.41 10 511.03 20 500C29.5 489.52 90 480 120 505Z" fill="none" stroke="#000000" stroke-width="6"/>
+		<path id="shoulderpads" class="shp3" d="M19.5 570C19.5 570 92 567.89 101 550 M381 570C381 570 310 567.89 301 550" fill="none" stroke="#000000" stroke-width="2" />
+	</g>
+</svg>
