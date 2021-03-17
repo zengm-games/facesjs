@@ -46,7 +46,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-head"
+                        id="randomize-head-group"
                       />
                     </div>
                   </div>
@@ -60,7 +60,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-head-id"
+                        id="randomize-head"
                       />
                     </div>
                   </div>
@@ -86,7 +86,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-head-fatness"
+                        id="randomize-fatness"
                       />
                     </div>
                   </div>
@@ -101,7 +101,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-body"
+                        id="randomize-body-group"
                       />
                     </div>
                   </div>
@@ -167,7 +167,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-misc-lines-id"
+                        id="randomize-miscLine-id"
                       />
                     </div>
                   </div>
@@ -198,7 +198,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eye-lines-id"
+                        id="randomize-eyeLine-id"
                       />
                     </div>
                   </div>
@@ -230,7 +230,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-smile-lines-id"
+                        id="randomize-smileLine-id"
                       />
                     </div>
                   </div>
@@ -254,7 +254,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-smile-lines-size"
+                        id="randomize-smileLine-size"
                       />
                     </div>
                   </div>
@@ -357,7 +357,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-long-hair-id"
+                        id="randomize-hairBg-id"
                       />
                     </div>
                   </div>
@@ -389,7 +389,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-facial-hair-id"
+                        id="randomize-facialHair-id"
                       />
                     </div>
                   </div>
@@ -424,7 +424,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-shave-color"
+                        id="randomize-head-shave"
                       />
                     </div>
                   </div>
@@ -454,7 +454,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eyebrows-id"
+                        id="randomize-eyebrow-id"
                       />
                     </div>
                   </div>
@@ -480,7 +480,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eyebrows-angle"
+                        id="randomize-eyebrow-angle"
                       />
                     </div>
                   </div>
@@ -509,7 +509,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eyes-id"
+                        id="randomize-eye-id"
                       />
                     </div>
                   </div>
@@ -535,7 +535,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eyes-angle"
+                        id="randomize-eye-angle"
                       />
                     </div>
                   </div>
@@ -564,7 +564,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-ears-id"
+                        id="randomize-ear-id"
                       />
                     </div>
                   </div>
@@ -590,7 +590,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-ears-size"
+                        id="randomize-ear-size"
                       />
                     </div>
                   </div>
@@ -849,7 +849,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-team-colors-primary"
+                        id="randomize-teamColors-0"
                       />
                     </div>
                   </div>
@@ -870,7 +870,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-team-colors-secondary"
+                        id="randomize-teamColors-1"
                       />
                     </div>
                   </div>
@@ -891,7 +891,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-team-colors-accent"
+                        id="randomize-teamColors-2"
                       />
                     </div>
                   </div>
@@ -935,6 +935,20 @@
         face = faces.generate();
       }
     }
+
+    const randomizeFace = (oldFace, newFace) => {
+      Array.from(document.getElementsByClassName("random-attribute")).forEach(
+        (elem) => {
+          if (!elem.checked) {
+            const attr = elem.id.split("-").slice(1);
+            if (attr.length === 1) newFace[attr[0]] = oldFace[attr[0]];
+            else if (attr.length === 2)
+              newFace[attr[0]][attr[1]] = oldFace[attr[0]][attr[1]];
+          }
+        }
+      );
+      return newFace;
+    };
 
     const updateDisplay = () => {
       console.log(face);
@@ -1027,7 +1041,8 @@
       }
 
       document.getElementById("randomize").addEventListener("click", () => {
-        face = faces.generate();
+        const oldFace = face;
+        face = randomizeFace(oldFace, faces.generate());
         initializeFormValues();
         updateDisplay();
       });
@@ -1035,13 +1050,13 @@
         (elem) => {
           elem.addEventListener("click", () => {
             if (elem.checked) {
-              Array.from(document.getElementsByClassName(elem.id)).forEach(
-                (elem2) => (elem2.checked = true)
-              );
+              Array.from(
+                document.getElementsByClassName(elem.id.replace("-group", ""))
+              ).forEach((elem2) => (elem2.checked = true));
             } else {
-              Array.from(document.getElementsByClassName(elem.id)).forEach(
-                (elem2) => (elem2.checked = false)
-              );
+              Array.from(
+                document.getElementsByClassName(elem.id.replace("-group", ""))
+              ).forEach((elem2) => (elem2.checked = false));
             }
           });
         }
@@ -1052,7 +1067,7 @@
             if (!elem.checked) {
               Array.from(elem.className.split(" ")).forEach((className) => {
                 if (className.startsWith("randomize-")) {
-                  document.getElementById(className).checked = false;
+                  document.getElementById(className + "-group").checked = false;
                 }
               });
             }
