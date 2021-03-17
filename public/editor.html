@@ -31,24 +31,46 @@
               class="btn btn-primary btn-lg ml-3"
               id="randomize"
             >
-              Randomize
+              Randomize Checked Items
             </button>
           </h1>
-          <div class="row">
-            <div class="col">
-              <form>
-                <div class="row">
-                  <div class="col">
-                    <h4>Head</h4>
-                    <div class="form-group">
+          <form>
+            <div class="row">
+              <div class="col">
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Head</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-head"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
                       <select class="form-control" id="head-id"> </select>
                     </div>
-                    <div class="form-group">
-                      <label for="head-shave">Shave</label>
-                      <input type="text" class="form-control" id="head-shave" />
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-head-id"
+                      />
                     </div>
-                    <div class="form-group mb-lots">
-                      <label for="fatness">Fatness</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="fatness" style="line-height: 2.4em;"
+                        >Fatness</label
+                      >
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="number"
                         class="form-control"
@@ -58,99 +80,165 @@
                         step="0.01"
                       />
                     </div>
-
-                    <h4>Hair</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="hair-id"> </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="hair-color">Hair color</label>
-                      <input
-                        type="color"
-                        class="form-control"
-                        id="hair-color"
-                      />
-                    </div>
-                    <div class="form-group form-check mb-lots">
+                    <div class="col-2 text-right">
                       <input
                         class="form-check-input"
                         type="checkbox"
                         value=""
-                        id="hair-flip"
+                        checked
+                        id="randomize-head-fatness"
                       />
-                      <label class="form-check-label" for="hair-flip">
-                        Flip
-                      </label>
-                    </div>
-
-                    <h4>Hair Background (long)</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="hairBg-id"> </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="hairBg-color">Hair color</label>
-                      <input
-                        type="color"
-                        class="form-control"
-                        id="hairBg-color"
-                      />
-                    </div>
-                    <div class="form-group form-check mb-lots">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="hairBg-flip"
-                      />
-                      <label class="form-check-label" for="hairBg-flip">
-                        Flip
-                      </label>
-                    </div>
-
-                    <h4>Eye Lines</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="eyeLine-id"> </select>
                     </div>
                   </div>
-                  <div class="col">
-                    <h4>Eyebrows</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="eyebrow-id"> </select>
-                    </div>
-                    <div class="form-group mb-lots">
-                      <label for="eyebrow-angle">Angle</label>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Body</h4></div>
+                    <div class="col-2 text-right">
                       <input
-                        type="number"
-                        class="form-control"
-                        id="eyebrow-angle"
-                        min="-15"
-                        max="20"
-                        step="1"
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-body"
                       />
                     </div>
-
-                    <h4>Eyes</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="eye-id"> </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="body-id"> </select>
                     </div>
-                    <div class="form-group mb-lots">
-                      <label for="eye-angle">Angle</label>
+                    <div class="col-2 text-right">
                       <input
-                        type="number"
-                        class="form-control"
-                        id="eye-angle"
-                        min="-15"
-                        max="20"
-                        step="1"
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-body-id"
                       />
                     </div>
-
-                    <h4>Smile Lines</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="smileLine-id"> </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="body-color">Skin Color</label>
                     </div>
-                    <div class="form-group mb-lots">
+                    <div class="col-6 form-group">
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="body-color"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-body-color"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Misc Lines</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-misc-lines"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="miscLine-id"> </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-misc-lines-id"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Eye Lines</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eye-lines"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="eyeLine-id"> </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eye-lines-id"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Smile Lines</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-smile-lines"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="smileLine-id">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-smile-lines-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
                       <label for="smileLine-size">Size</label>
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="number"
                         class="form-control"
@@ -160,24 +248,453 @@
                         step="0.01"
                       />
                     </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-smile-lines-size"
+                      />
+                    </div>
                   </div>
-                  <div class="col">
-                    <h4>Misc Lines</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="miscLine-id"> </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Hair</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-hair"
+                      />
                     </div>
-
-                    <h4>Facial Hair</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="facialHair-id"> </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="hair-id"> </select>
                     </div>
-
-                    <h4>Nose</h4>
-                    <div class="form-group">
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-hair-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row pl-3 pb-3">
+                    <div class="col-10">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="hair-flip"
+                      />
+                      <label class="form-check-label" for="hair-flip">
+                        Flip
+                      </label>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-hair-flip"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="hair-color">Color</label>
+                    </div>
+                    <div class="col-6 form-group">
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="hair-color"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-hair-color"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Long Hair</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-long-hair"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="hairBg-id"> </select>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-long-hair-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row pl-3 pb-3">
+                    <div class="col-10">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="hairBg-flip"
+                      />
+                      <label class="form-check-label" for="hairBg-flip">
+                        Flip
+                      </label>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-long-hair-flip"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="hairBg-color">Color</label>
+                    </div>
+                    <div class="col-6 form-group">
+                      <input
+                        type="color"
+                        class="form-control"
+                        id="hairBg-color"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-long-hair-color"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Facial Hair</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-facial-hair"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="facialHair-id">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-facial-hair-id"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Beard</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-beard"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="head-shave"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-beard-shave"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Eyebrows</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eyebrows"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="eyebrow-id"> </select>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eyebrow-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="eyebrow-angle" style="line-height: 2.4em;"
+                        >Angle</label
+                      >
+                    </div>
+                    <div class="col-6 form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="eyebrow-angle"
+                        min="-15"
+                        max="20"
+                        step="1"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eyebrow-angle"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Eyes</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eyes"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="eye-id"> </select>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eyes-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="eye-angle" style="line-height: 2.4em;"
+                        >Angle</label
+                      >
+                    </div>
+                    <div class="col-6 form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="eye-angle"
+                        min="-15"
+                        max="20"
+                        step="1"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eye-angle"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Ears</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-ears"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
+                      <select class="form-control" id="ear-id"> </select>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-ears-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="ear-size" style="line-height: 2.4em;"
+                        >Size</label
+                      >
+                    </div>
+                    <div class="col-6 form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="ear-size"
+                        min="-15"
+                        max="20"
+                        step="1"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-ear-size"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Nose</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-nose"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
                       <select class="form-control" id="nose-id"> </select>
                     </div>
-                    <div class="form-group">
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-nose-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row pl-3 pb-3">
+                    <div class="col-10">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="nose-flip"
+                      />
+                      <label class="form-check-label" for="nose-flip">
+                        Flip
+                      </label>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-nose-flip"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
                       <label for="nose-size">Size</label>
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="number"
                         class="form-control"
@@ -187,111 +704,245 @@
                         step="0.01"
                       />
                     </div>
-                    <div class="form-group form-check mb-lots">
+                    <div class="col-2 text-right">
                       <input
                         class="form-check-input"
                         type="checkbox"
                         value=""
-                        id="nose-flip"
+                        checked
+                        id="randomize-nose-size"
                       />
-                      <label class="form-check-label" for="nose-flip">
-                        Flip
-                      </label>
                     </div>
-
-                    <h4>Mouth</h4>
-                    <div class="form-group">
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Mouth</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-mouth"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 form-group">
                       <select class="form-control" id="mouth-id"> </select>
                     </div>
-                    <div class="form-group form-check mb-lots">
+                    <div class="col-2 text-right">
                       <input
                         class="form-check-input"
                         type="checkbox"
                         value=""
+                        checked
+                        id="randomize-mouth-id"
+                      />
+                    </div>
+                  </div>
+                  <div class="row pl-3 pb-3">
+                    <div class="col-10">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
                         id="mouth-flip"
                       />
-                      <label class="form-check-label" for="mouth-flip">
+                      <label class="form-check-label" for="hair-flip">
                         Flip
                       </label>
                     </div>
-                  </div>
-                  <div class="col">
-                    <h4>Body</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="body-id"> </select>
-                    </div>
-                    <div class="form-group mb-lots">
-                      <label for="body-color">Skin color</label>
+                    <div class="col-2 text-right">
                       <input
-                        type="color"
-                        class="form-control"
-                        id="body-color"
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-mouth-flip"
                       />
                     </div>
-
-                    <h4>Ear</h4>
-                    <div class="form-group">
-                      <select class="form-control" id="ear-id"> </select>
-                    </div>
-                    <div class="form-group mb-lots">
-                      <label for="ear-size">Size</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Accessories</h4></div>
+                    <div class="col-2 text-right">
                       <input
-                        type="number"
-                        class="form-control"
-                        id="ear-size"
-                        min=".5"
-                        max="1.25"
-                        step="0.01"
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-accessories"
                       />
                     </div>
-
-                    <h4>Accessories</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="accessories-id">
-                      </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="accessories-id">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-accessories-id"
+                      />
                     </div>
                   </div>
-                  <div class="col">
-                    <h4>Glasses</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="glasses-id"> </select>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Glasses</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-glasses"
+                      />
                     </div>
-
-                    <h4>Jersey</h4>
-                    <div class="form-group mb-lots">
-                      <select class="form-control" id="jersey-id"> </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="glasses-id"> </select>
+                      </div>
                     </div>
-
-                    <h4>Team Colors</h4>
-                    <div class="form-group">
-                      <label for="teamColors-0">Primary</label>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-glasses-id"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-info bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Jersey</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-jersey"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="jersey-id"> </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-jersey-id"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Team Colors</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-team-colors"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="body-color">Primary</label>
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-0"
                       />
                     </div>
-                    <div class="form-group">
-                      <label for="teamColors-1">Secondary</label>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-primary-color"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="body-color">Secondary</label>
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-1"
                       />
                     </div>
-                    <div class="form-group mb-lots">
-                      <label for="teamColors-2">Accent</label>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-secondary-color"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="body-color">Accent</label>
+                    </div>
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-2"
                       />
                     </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-accent-color"
+                      />
+                    </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
         <div class="col" style="flex: 0 0 400px;">
           <div id="face"></div>
