@@ -75,6 +75,10 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
   const isFlipped = Math.random() < 0.5;
 
   const face = {
+    aging: {
+      enabled: Math.random() < 0.5,
+      age: Math.floor(Math.random() * 23 + 18),
+    },
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     hairBg: {

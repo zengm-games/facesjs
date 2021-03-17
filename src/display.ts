@@ -98,9 +98,26 @@ type FeatureInfo = {
 };
 
 const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
-  const feature = face[info.name];
+  const feature = Object.assign({}, face[info.name]);
   if (!feature || !svgs[info.name]) {
     return;
+  }
+
+  if (
+    face.aging.enabled &&
+    info.name === "hair" &&
+    feature.id === "short-bald" &&
+    face.aging.age < 30
+  ) {
+    feature.id = "short2";
+  }
+  if (
+    face.aging.enabled &&
+    info.name === "miscLine" &&
+    feature.id === "none" &&
+    face.aging.age >= 34
+  ) {
+    feature.id = "forehead3";
   }
 
   // @ts-ignore
@@ -311,6 +328,28 @@ const display = (
   ];
 
   for (const info of featureInfos) {
+    if (face.aging.enabled) {
+      if (
+        info.name === "miscLine" &&
+        face.aging.age >= 22 &&
+        face.miscLine.id.startsWith("freckles")
+      )
+        continue;
+      if (
+        info.name === "miscLine" &&
+        face.aging.age < 25 &&
+        face.miscLine.id.startsWith("chin")
+      )
+        continue;
+      if (info.name === "smileLine" && face.aging.age < 27) continue;
+      if (info.name === "eyeLine" && face.aging.age < 30) continue;
+      if (
+        info.name === "miscLine" &&
+        face.aging.age < 34 &&
+        face.miscLine.id.startsWith("forehead")
+      )
+        continue;
+    }
     drawFeature(svg, face, info);
   }
 };
