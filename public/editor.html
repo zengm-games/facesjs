@@ -821,77 +821,41 @@
                 <br />
                 <div class="p-3 bg-warning bg-gradient">
                   <div class="row">
-                    <div class="col-10"><h4>Team Colors</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-team-colors"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-team-colors"
-                      />
-                    </div>
+                    <div class="col-12"><h4>Team Colors</h4></div>
                   </div>
                   <div class="row">
-                    <div class="col-5">
+                    <div class="col-6">
                       <label for="body-color">Primary</label>
                     </div>
-                    <div class="col-5 form-group">
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-0"
                       />
                     </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-team-colors"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-teamColors-0"
-                      />
-                    </div>
                   </div>
                   <div class="row">
-                    <div class="col-5">
+                    <div class="col-6">
                       <label for="body-color">Secondary</label>
                     </div>
-                    <div class="col-5 form-group">
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-1"
                       />
                     </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-team-colors"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-teamColors-1"
-                      />
-                    </div>
                   </div>
                   <div class="row">
-                    <div class="col-5">
+                    <div class="col-6">
                       <label for="body-color">Accent</label>
                     </div>
-                    <div class="col-5 form-group">
+                    <div class="col-6 form-group">
                       <input
                         type="color"
                         class="form-control"
                         id="teamColors-2"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-team-colors"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-teamColors-2"
                       />
                     </div>
                   </div>
@@ -942,7 +906,10 @@
           if (!elem.checked) {
             const attr = elem.id.split("-").slice(1);
             if (attr.length === 1) newFace[attr[0]] = oldFace[attr[0]];
-            else if (attr.length === 2)
+            else if (!isNaN(parseInt(attr[1]))) {
+              const idx = parseInt(attr[1]);
+              newFace[attr[0]][idx] = oldFace[attr[0]][idx];
+            } else if (attr.length === 2)
               newFace[attr[0]][attr[1]] = oldFace[attr[0]][attr[1]];
           }
         }
