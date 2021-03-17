@@ -104,6 +104,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   }
 
   if (
+    face.aging &&
     face.aging.enabled &&
     info.name === "hair" &&
     feature.id === "short-bald" &&
@@ -112,6 +113,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     feature.id = "short2";
   }
   if (
+    face.aging &&
     face.aging.enabled &&
     info.name === "miscLine" &&
     feature.id === "none" &&
@@ -328,7 +330,7 @@ const display = (
   ];
 
   for (const info of featureInfos) {
-    if (face.aging.enabled) {
+    if (face.aging && face.aging.enabled) {
       if (
         info.name === "miscLine" &&
         face.aging.age >= 22 &&
