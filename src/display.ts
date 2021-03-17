@@ -131,9 +131,10 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   // @ts-ignore
   if (feature.shave) {
     let shave;
-    if (face.aging && face.aging.enabled && face.aging.age > 23)
-      shave = feature.shave;
-    else shave = "rgba(0,0,0,0)";
+    if (face.aging && face.aging.enabled)
+      if (face.aging.age > 23) shave = feature.shave;
+      else shave = "rgba(0,0,0,0)";
+    else shave = feature.shave;
     // @ts-ignore
     featureSVGString = featureSVGString.replace("$[faceShave]", shave);
     // @ts-ignore
