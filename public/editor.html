@@ -904,13 +904,13 @@
       Array.from(document.getElementsByClassName("random-attribute")).forEach(
         (elem) => {
           if (!elem.checked) {
-            const attr = elem.id.split("-").slice(1);
-            if (attr.length === 1) newFace[attr[0]] = oldFace[attr[0]];
-            else if (!isNaN(parseInt(attr[1]))) {
-              const idx = parseInt(attr[1]);
-              newFace[attr[0]][idx] = oldFace[attr[0]][idx];
-            } else if (attr.length === 2)
-              newFace[attr[0]][attr[1]] = oldFace[attr[0]][attr[1]];
+            const parts = elem.id.split("-").slice(1);
+            if (parts.length === 1) newFace[parts[0]] = oldFace[parts[0]];
+            else if (!isNaN(parseInt(parts[1]))) {
+              const idx = parseInt(parts[1]);
+              newFace[parts[0]][idx] = oldFace[parts[0]][idx];
+            } else if (parts.length === 2)
+              newFace[parts[0]][parts[1]] = oldFace[parts[0]][parts[1]];
           }
         }
       );
