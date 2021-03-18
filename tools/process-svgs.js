@@ -15,11 +15,13 @@ const processSVGs = async () => {
   const svgs = {};
 
   for (const folder of folders) {
+    if (folder === ".DS_Store") continue;
     svgs[folder] = {};
 
     const subfolder = path.join(svgFolder, folder);
     const files = fs.readdirSync(subfolder);
     for (const file of files) {
+      if (file === ".DS_Store") continue;
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
@@ -38,7 +40,7 @@ const processSVGs = async () => {
   );
 
   const svgsIndex = {
-    ...svgs
+    ...svgs,
   };
   for (const key of Object.keys(svgsIndex)) {
     svgsIndex[key] = Object.keys(svgsIndex[key]);
