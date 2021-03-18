@@ -7,15 +7,15 @@ const processSVGs = require("./process-svgs");
 processSVGs();
 
 chokidar
-  .watch(path.join(__dirname, "..", "svg"), {
-    ignoreInitial: true
+  .watch(path.join(__dirname, "..", "svgs"), {
+    ignoreInitial: true,
   })
   .on("all", (event, path) => {
     processSVGs();
   });
 
 const watcher = rollup.watch(rollupConfig);
-watcher.on("event", event => {
+watcher.on("event", (event) => {
   if (event.code === "END") {
     console.log(
       `Wrote new ${

@@ -8,7 +8,7 @@ const warning =
   "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";
 
 const processSVGs = async () => {
-  const svgFolder = path.join(__dirname, "..", "svg");
+  const svgFolder = path.join(__dirname, "..", "svgs");
 
   const folders = fs.readdirSync(svgFolder);
 
