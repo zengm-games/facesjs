@@ -102,7 +102,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (!feature || !svgs[info.name]) {
     return;
   }
-
   if (
     face.aging &&
     face.aging.enabled &&
@@ -111,15 +110,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     face.aging.age < 30
   ) {
     feature.id = "short2";
-  }
-  if (
-    face.aging &&
-    face.aging.enabled &&
-    info.name === "miscLine" &&
-    feature.id === "none" &&
-    face.aging.age >= 34
-  ) {
-    feature.id = "forehead3";
   }
 
   // @ts-ignore
@@ -132,7 +122,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (feature.shave) {
     let shave;
     if (face.aging && face.aging.enabled)
-      if (face.aging.age > 23) shave = feature.shave;
+      if (face.aging.age + face.aging.maturity > 23) shave = feature.shave;
       else shave = "rgba(0,0,0,0)";
     else shave = feature.shave;
     // @ts-ignore
@@ -334,21 +324,26 @@ const display = (
     if (face.aging && face.aging.enabled) {
       if (
         info.name === "miscLine" &&
-        face.aging.age >= 22 &&
+        face.aging.age + face.aging.maturity >= 22 &&
         face.miscLine.id.startsWith("freckles")
       )
         continue;
       if (
         info.name === "miscLine" &&
-        face.aging.age < 25 &&
+        face.aging.age + face.aging.maturity < 25 &&
         face.miscLine.id.startsWith("chin")
       )
         continue;
-      if (info.name === "smileLine" && face.aging.age < 27) continue;
-      if (info.name === "eyeLine" && face.aging.age < 30) continue;
+      if (
+        info.name === "smileLine" &&
+        face.aging.age + face.aging.maturity < 27
+      )
+        continue;
+      if (info.name === "eyeLine" && face.aging.age + face.aging.maturity < 30)
+        continue;
       if (
         info.name === "miscLine" &&
-        face.aging.age < 34 &&
+        face.aging.age + face.aging.maturity < 34 &&
         face.miscLine.id.startsWith("forehead")
       )
         continue;
