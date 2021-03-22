@@ -74,11 +74,18 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
-  const face = {
-    aging: {
+  let aging;
+  if (overrides && overrides.aging) {
+    aging = overrides.aging;
+    // @ts-ignore
+    if (!overrides.aging.age) aging.age = Math.floor(Math.random() * 16 + 19);
+  } else
+    aging = {
       enabled: Math.random() < 0.5,
-      age: Math.floor(Math.random() * 23 + 18),
-    },
+      age: Math.floor(Math.random() * 16 + 19),
+    };
+  const face = {
+    aging: aging,
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     hairBg: {
@@ -102,14 +109,17 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
       })`,
     },
     eyeLine: {
-      id: Math.random() < 0.75 ? getID("eyeLine") : "none",
+      // @ts-ignore
+      id: aging.enabled || Math.random() < 0.75 ? getID("eyeLine") : "none",
     },
     smileLine: {
-      id: Math.random() < 0.75 ? getID("smileLine") : "none",
+      // @ts-ignore
+      id: aging.enabled || Math.random() < 0.75 ? getID("smileLine") : "none",
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
-      id: Math.random() < 0.5 ? getID("miscLine") : "none",
+      // @ts-ignore
+      id: aging.enabled || Math.random() < 0.5 ? getID("miscLine") : "none",
     },
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair") : "none",

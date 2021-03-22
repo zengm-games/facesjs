@@ -226,13 +226,7 @@
                       </div>
                     </div>
                     <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-aging"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-aging-enabled"
-                      />
+                      &nbsp;
                     </div>
                   </div>
                   <div class="row">
@@ -946,13 +940,13 @@
 
     let face;
     if (location.hash.length <= 1) {
-      face = faces.generate();
+      face = faces.generate({ aging: { enabled: true } });
     } else {
       try {
         face = JSON.parse(atob(location.hash.slice(1)));
       } catch (error) {
         console.error(error);
-        face = faces.generate();
+        face = faces.generate({ aging: { enabled: true } });
       }
     }
 
@@ -998,6 +992,7 @@
       }
       selectElement = document.getElementById("aging-enabled");
       optionElement = document.createElement("option");
+      optionElement.selected = true;
       optionElement.value = "true";
       optionElement.text = "Enabled";
       selectElement.add(optionElement, null);
@@ -1080,7 +1075,10 @@
       }
 
       document.getElementById("randomize").addEventListener("click", () => {
-        face = randomizeFace(face, faces.generate());
+        face = randomizeFace(
+          face,
+          faces.generate({ aging: { enabled: face.aging.enabled } })
+        );
         initializeFormValues();
         updateDisplay();
       });
