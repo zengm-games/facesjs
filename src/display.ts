@@ -168,14 +168,19 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (!feature || !svgs[info.name]) {
     return;
   }
-  if (
-    face.aging &&
-    face.aging.enabled &&
-    info.name === "hair" &&
-    face.aging.age + face.aging.maturity / 2 >= 30 &&
-    deterministicRandom(face) < 0.5
-  ) {
-    feature.id = ageHair(feature.id);
+  if (face.aging && face.aging.enabled) {
+    if (
+      info.name === "hair" &&
+      face.aging.age + face.aging.maturity / 2 >= 30 &&
+      deterministicRandom(face) < 0.5
+    )
+      feature.id = ageHair(feature.id);
+    else if (
+      info.name === "hairBg" &&
+      face.aging.age + face.aging.maturity / 2 >= 27 &&
+      deterministicRandom(face) < 0.75
+    )
+      feature.id = "none";
   }
 
   // @ts-ignore
