@@ -97,6 +97,72 @@ type FeatureInfo = {
   scaleFatness?: true;
 };
 
+const hashCode = (str) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const character = str.charCodeAt(i);
+    hash = (hash << 5) - hash + character;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+};
+
+const deterministicRandom = (face: Face) => {
+  const hash =
+    hashCode(face.body.id) +
+    hashCode(face.body.color) +
+    hashCode(face.head.id) +
+    hashCode("" + face.fatness) +
+    hashCode(face.hair.id) +
+    hashCode(face.hair.color);
+  return (hash % 1000) / 1000;
+};
+
+const ageHair = (hairId: String) => {
+  switch (hairId) {
+    case "afro":
+      return "short";
+    case "afro2":
+      return "short";
+    case "blowoutFade":
+      return "cropFade2";
+    case "cornrows":
+      return "short-fade";
+    case "curly3":
+      return "short3";
+    case "dreads":
+      return "short-fade";
+    case "emo":
+      return "short2";
+    case "faux-hawk":
+      return "short3";
+    case "fauxhawk-fade":
+      return "short-fade";
+    case "high":
+      return "short";
+    case "juice":
+      return "short2";
+    case "longHair":
+      return "short-fade";
+    case "shaggy2":
+      return "shaggy1";
+    case "short-bald":
+      return "short-bald";
+    case "shortBangs":
+      return "short-bald";
+    case "spike2":
+      return "short2";
+    case "spike3":
+      return "short2";
+    case "spike4":
+      return "short2";
+    case "tall-fade":
+      return "crop-fade";
+    default:
+      return "short-fade";
+  }
+};
+
 const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   const feature = Object.assign({}, face[info.name]);
   if (!feature || !svgs[info.name]) {
@@ -106,10 +172,10 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     face.aging &&
     face.aging.enabled &&
     info.name === "hair" &&
-    feature.id === "short-bald" &&
-    face.aging.age < 30
+    face.aging.age + face.aging.maturity / 2 >= 30 &&
+    deterministicRandom(face) < 0.5
   ) {
-    feature.id = "short2";
+    feature.id = ageHair(feature.id);
   }
 
   // @ts-ignore
