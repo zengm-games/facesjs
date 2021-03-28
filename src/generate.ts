@@ -85,7 +85,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     if (!overrides.aging.age) aging.age = Math.floor(Math.random() * 16 + 19);
     // @ts-ignore
     if (!overrides.aging.maturity)
-      aging.maturity = Math.floor(Math.random() * 5 - 1);
+      aging.maturity = Math.floor(Math.random() * 5 - 2);
   } else
     aging = {
       enabled: true,

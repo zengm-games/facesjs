@@ -150,12 +150,14 @@ const ageHair = (hairId: String) => {
       return "short-bald";
     case "shortBangs":
       return "short-bald";
+    case "spike":
+      return "short";
     case "spike2":
-      return "short2";
+      return "short";
     case "spike3":
-      return "short2";
+      return "short";
     case "spike4":
-      return "short2";
+      return "short";
     case "tall-fade":
       return "crop-fade";
     default:
