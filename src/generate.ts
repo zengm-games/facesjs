@@ -1,9 +1,13 @@
 import override, { Overrides } from "./override";
 import svgsIndex from "./svgs-index";
 
-const getID = (type: string): string => {
-  // @ts-ignore
-  return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
+const getID = (type: string, canBeNone?: true): string => {
+  let id;
+  do {
+    // @ts-ignore
+    id = svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
+  } while (!canBeNone && id == "none");
+  return id;
 };
 
 type Race = "asian" | "black" | "brown" | "white";
@@ -74,7 +78,22 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
+  let aging;
+  if (overrides && overrides.aging) {
+    aging = overrides.aging;
+    // @ts-ignore
+    if (!overrides.aging.age) aging.age = Math.floor(Math.random() * 16 + 19);
+    // @ts-ignore
+    if (!overrides.aging.maturity)
+      aging.maturity = Math.floor(Math.random() * 5 - 2);
+  } else
+    aging = {
+      enabled: true,
+      age: Math.floor(Math.random() * 16 + 19),
+      maturity: Math.floor(Math.random() * 5 - 1),
+    };
   const face = {
+    aging: aging,
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     hairBg: {
@@ -98,14 +117,26 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
       })`,
     },
     eyeLine: {
-      id: Math.random() < 0.75 ? getID("eyeLine") : "none",
+      // @ts-ignore
+      id:
+        aging.enabled || Math.random() < 0.75
+          ? getID("eyeLine", !aging.enabled)
+          : "none",
     },
     smileLine: {
-      id: Math.random() < 0.75 ? getID("smileLine") : "none",
+      // @ts-ignore
+      id:
+        aging.enabled || Math.random() < 0.75
+          ? getID("smileLine", !aging.enabled)
+          : "none",
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
-      id: Math.random() < 0.5 ? getID("miscLine") : "none",
+      // @ts-ignore
+      id:
+        aging.enabled || Math.random() < 0.5
+          ? getID("miscLine", !aging.enabled)
+          : "none",
     },
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair") : "none",

@@ -204,6 +204,80 @@
                     </div>
                   </div>
                 </div>
+                <br />
+                <div class="p-3 bg-warning bg-gradient">
+                  <div class="row">
+                    <div class="col-10"><h4>Aging</h4></div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input random-group randomize-smile-lines"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-aging"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <div class="form-group">
+                        <select class="form-control" id="aging-enabled">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-2 text-right">
+                      &nbsp;
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <label for="aging-age">Age</label>
+                    </div>
+                    <div class="col-5 form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="aging-age"
+                        min="18"
+                        max="40"
+                        step="1"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input random-attribute randomize-aging"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-aging-age"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <label for="aging-maturity">Maturity</label>
+                    </div>
+                    <div class="col-5 form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="aging-maturity"
+                        min="-3"
+                        max="3"
+                        step="1"
+                      />
+                    </div>
+                    <div class="col-2 text-right">
+                      <input
+                        class="form-check-input random-attribute randomize-aging"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-aging-maturity"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col">
                 <div class="p-3 bg-info bg-gradient">
@@ -890,13 +964,13 @@
 
     let face;
     if (location.hash.length <= 1) {
-      face = faces.generate();
+      face = faces.generate({ aging: { enabled: true } });
     } else {
       try {
         face = JSON.parse(atob(location.hash.slice(1)));
       } catch (error) {
         console.error(error);
-        face = faces.generate();
+        face = faces.generate({ aging: { enabled: true } });
       }
     }
 
@@ -929,16 +1003,27 @@
     };
 
     const initializeSelectOptions = () => {
+      let selectElement, optionElement;
       for (const feature of Object.keys(faces.svgsIndex)) {
         const options = faces.svgsIndex[feature];
-        const selectElement = document.getElementById(`${feature}-id`);
+        selectElement = document.getElementById(`${feature}-id`);
         for (const option of options) {
-          const optionElement = document.createElement("option");
+          optionElement = document.createElement("option");
           optionElement.value = option;
           optionElement.text = option;
           selectElement.add(optionElement, null);
         }
       }
+      selectElement = document.getElementById("aging-enabled");
+      optionElement = document.createElement("option");
+      optionElement.selected = true;
+      optionElement.value = "true";
+      optionElement.text = "Enabled";
+      selectElement.add(optionElement, null);
+      optionElement = document.createElement("option");
+      optionElement.value = "false";
+      optionElement.text = "Disabled";
+      selectElement.add(optionElement, null);
     };
 
     const isValue = (obj) =>
@@ -975,6 +1060,12 @@
       if (typeof oldValue === "number") {
         return parseFloat(event.target.value);
       }
+      if (
+        typeof oldValue === "boolean" &&
+        typeof event.target.value !== "boolean"
+      ) {
+        return event.target.value === "true";
+      }
       if (typeof oldValue === "boolean") {
         return event.target.checked;
       }
@@ -1008,8 +1099,10 @@
       }
 
       document.getElementById("randomize").addEventListener("click", () => {
-        const oldFace = face;
-        face = randomizeFace(oldFace, faces.generate());
+        face = randomizeFace(
+          face,
+          faces.generate({ aging: { enabled: face.aging.enabled } })
+        );
         initializeFormValues();
         updateDisplay();
       });
