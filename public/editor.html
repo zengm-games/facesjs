@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>faces.js editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -15,297 +16,300 @@
       }
 
       #face {
-        height: 600px;
-        width: 400px;
+        max-height: 450px;
+        max-width: 300px;
+      }
+      @media (min-width: 762px) {
+        #face {
+          max-height: unset;
+          max-width: unset;
+          height: 450px;
+          width: 300px;
+        }
+      }
+      @media (min-width: 992px) {
+        #face {
+          height: 600px;
+          width: 400px;
+        }
+      }
+
+      .group-wrapper {
+        padding: 0.5rem;
+        background-color: var(--yellow);
+        background-image: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.15),
+          rgba(255, 255, 255, 0)
+        );
+        border-radius: 0.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .group-wrapper-alt {
+        background-color: var(--teal);
+      }
+
+      .group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .group-header h4 {
+        margin-bottom: 0;
+      }
+
+      .group-item {
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      .group-item select {
+        margin-right: 0.5rem;
+      }
+
+      .group-item-multiline {
+        margin-top: 0.5rem;
+      }
+
+      .group-item-header {
+        margin-bottom: 0.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .group-item-header label {
+        margin-bottom: 0;
       }
     </style>
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col">
-          <div class="mb-4 mt-2 d-flex align-items-center">
+      <div class="d-md-flex">
+        <div class="flex-grow-1">
+          <div class="mb-4 mt-2 d-xl-flex">
             <h1>
               faces.js editor
             </h1>
-            <button
-              type="button"
-              class="btn btn-primary btn-lg ml-3"
-              id="randomize"
-            >
-              Randomize Checked Items
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm ml-1"
-              id="check-all"
-            >
-              Check All
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm ml-1"
-              id="check-none"
-            >
-              Check None
-            </button>
+            <div class="d-sm-flex align-items-center ml-xl-3">
+              <button
+                type="button"
+                class="btn btn-primary btn-lg"
+                id="randomize"
+              >
+                Randomize Checked
+              </button>
+              <div class="ml-sm-3 mt-2 mt-sm-0">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  id="check-all"
+                >
+                  Check All
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm ml-1"
+                  id="check-none"
+                >
+                  Check None
+                </button>
+              </div>
+            </div>
           </div>
           <form>
             <div class="row">
-              <div class="col">
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Body</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-body"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-body-group"
-                      />
-                    </div>
+              <div class="col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3">
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Body</h4>
+                    <input
+                      class="random-group randomize-body"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-body-group"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="body-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-body"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-body-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="body-id"></select>
+                    <input
+                      class="random-attribute randomize-body"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-body-id"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="body-color">Skin Color</label>
-                    </div>
-                    <div class="col-5 form-group">
                       <input
-                        type="color"
-                        class="form-control"
-                        id="body-color"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-body"
+                        class="random-attribute randomize-body"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-body-color"
                       />
                     </div>
+                    <input type="color" class="form-control" id="body-color" />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Misc Lines</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-misc-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-misc-lines"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Misc Lines</h4>
+                    <input
+                      class="random-group randomize-misc-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-misc-lines"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="miscLine-id"> </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-misc-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-miscLine-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="miscLine-id"></select>
+                    <input
+                      class="random-attribute randomize-misc-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-miscLine-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Eye Lines</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-eye-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eye-lines"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Eye Lines</h4>
+                    <input
+                      class="random-group randomize-eye-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eye-lines"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="eyeLine-id"> </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-eye-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eyeLine-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="eyeLine-id"></select>
+                    <input
+                      class="random-attribute randomize-eye-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eyeLine-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Smile Lines</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-smile-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-smile-lines"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Smile Lines</h4>
+                    <input
+                      class="random-group randomize-smile-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-smile-lines"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="smileLine-id">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-smile-lines"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-smileLine-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="smileLine-id"></select>
+                    <input
+                      class="random-attribute randomize-smile-lines"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-smileLine-id"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="smileLine-size">Size</label>
-                    </div>
-                    <div class="col-5 form-group">
                       <input
-                        type="number"
-                        class="form-control"
-                        id="smileLine-size"
-                        min=".5"
-                        max="1.5"
-                        step="0.01"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-smile-lines"
+                        class="random-attribute randomize-smile-lines"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-smileLine-size"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="smileLine-size"
+                      min=".5"
+                      max="1.5"
+                      step="0.01"
+                    />
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Head</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-head"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-head-group"
-                      />
-                    </div>
+              <div class="col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3">
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Head</h4>
+                    <input
+                      class="random-group randomize-head"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-head-group"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="head-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-head"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-head"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="head-id"></select>
+                    <input
+                      class="random-attribute randomize-head"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-head"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
-                      <label for="fatness" style="line-height: 2.4em;"
-                        >Fatness</label
-                      >
-                    </div>
-                    <div class="col-5 form-group">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="fatness">Fatness</label>
                       <input
-                        type="number"
-                        class="form-control"
-                        id="fatness"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-head"
+                        class="random-attribute randomize-head"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-fatness"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="fatness"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Hair</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-hair"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Hair</h4>
+                    <input
+                      class="random-group randomize-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-hair"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="hair-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-hair-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="hair-id"></select>
+                    <input
+                      class="random-attribute randomize-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-hair-id"
+                    />
                   </div>
-                  <div class="row pl-3 pb-3">
-                    <div class="col-10">
+                  <div class="group-item">
+                    <div class="form-check mr-auto">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -317,9 +321,9 @@
                         Flip
                       </label>
                     </div>
-                    <div class="col-2 text-right">
+                    <div>
                       <input
-                        class="form-check-input random-attribute randomize-hair"
+                        class="random-attribute randomize-hair"
                         type="checkbox"
                         value=""
                         checked
@@ -327,265 +331,199 @@
                       />
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-5">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="hair-color">Color</label>
-                    </div>
-                    <div class="col-5 form-group">
                       <input
-                        type="color"
-                        class="form-control"
-                        id="hair-color"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-hair"
+                        class="random-attribute randomize-hair"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-hair-color"
                       />
                     </div>
+                    <input type="color" class="form-control" id="hair-color" />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Long Hair</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-long-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-long-hair"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Long Hair</h4>
+                    <input
+                      class="random-group randomize-long-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-long-hair"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="hairBg-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-long-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-hairBg-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="hairBg-id"></select>
+                    <input
+                      class="random-attribute randomize-long-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-hairBg-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Facial Hair</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-facial-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-facial-hair"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Facial Hair</h4>
+                    <input
+                      class="random-group randomize-facial-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-facial-hair"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="facialHair-id">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-facial-hair"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-facialHair-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="facialHair-id"></select>
+                    <input
+                      class="random-attribute randomize-facial-hair"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-facialHair-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Shave</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-shave"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-shave"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Shave</h4>
+                    <input
+                      class="random-group randomize-shave"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-shave"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="head-shave"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-shave"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-head-shave"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <input
+                      type="text"
+                      class="form-control mr-2"
+                      id="head-shave"
+                    />
+                    <input
+                      class="random-attribute randomize-shave"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-head-shave"
+                    />
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Eyebrows</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-eyebrows"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eyebrows"
-                      />
-                    </div>
+              <div class="col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3">
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Eyebrows</h4>
+                    <input
+                      class="random-group randomize-eyebrows"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eyebrows"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="eyebrow-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-eyebrows"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eyebrow-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="eyebrow-id"></select>
+                    <input
+                      class="random-attribute randomize-eyebrows"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eyebrow-id"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
-                      <label for="eyebrow-angle" style="line-height: 2.4em;"
-                        >Angle</label
-                      >
-                    </div>
-                    <div class="col-5 form-group">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="eyebrow-angle">Angle</label>
                       <input
-                        type="number"
-                        class="form-control"
-                        id="eyebrow-angle"
-                        min="-15"
-                        max="20"
-                        step="1"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-eyebrows"
+                        class="random-attribute randomize-eyebrows"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-eyebrow-angle"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="eyebrow-angle"
+                      min="-15"
+                      max="20"
+                      step="1"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Eyes</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-eyes"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eyes"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Eyes</h4>
+                    <input
+                      class="random-group randomize-eyes"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eyes"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="eye-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-eyes"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-eye-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="eye-id"></select>
+                    <input
+                      class="random-attribute randomize-eyes"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-eye-id"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
-                      <label for="eye-angle" style="line-height: 2.4em;"
-                        >Angle</label
-                      >
-                    </div>
-                    <div class="col-5 form-group">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="eye-angle">Angle</label>
                       <input
-                        type="number"
-                        class="form-control"
-                        id="eye-angle"
-                        min="-15"
-                        max="20"
-                        step="1"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-eyes"
+                        class="random-attribute randomize-eyes"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-eye-angle"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="eye-angle"
+                      min="-15"
+                      max="20"
+                      step="1"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Nose</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-nose"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-nose"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Nose</h4>
+                    <input
+                      class="random-group randomize-nose"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-nose"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="nose-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-nose"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-nose-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="nose-id"></select>
+                    <input
+                      class="random-attribute randomize-nose"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-nose-id"
+                    />
                   </div>
-                  <div class="row pl-3 pb-3">
-                    <div class="col-10">
+                  <div class="group-item">
+                    <div class="form-check mr-auto">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -597,9 +535,9 @@
                         Flip
                       </label>
                     </div>
-                    <div class="col-2 text-right">
+                    <div>
                       <input
-                        class="form-check-input random-attribute randomize-nose"
+                        class="random-attribute randomize-nose"
                         type="checkbox"
                         value=""
                         checked
@@ -607,61 +545,50 @@
                       />
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-5">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="nose-size">Size</label>
-                    </div>
-                    <div class="col-5 form-group">
                       <input
-                        type="number"
-                        class="form-control"
-                        id="nose-size"
-                        min=".5"
-                        max="1.25"
-                        step="0.01"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-nose"
+                        class="random-attribute randomize-nose"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-nose-size"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="nose-size"
+                      min=".5"
+                      max="1.25"
+                      step="0.01"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Mouth</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-mouth"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-mouth"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Mouth</h4>
+                    <input
+                      class="random-group randomize-mouth"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-mouth"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="mouth-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-mouth"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-mouth-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="mouth-id"></select>
+                    <input
+                      class="random-attribute randomize-mouth"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-mouth-id"
+                    />
                   </div>
-                  <div class="row pl-3 pb-3">
-                    <div class="col-10">
+                  <div class="group-item">
+                    <div class="form-check mr-auto">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -673,9 +600,9 @@
                         Flip
                       </label>
                     </div>
-                    <div class="col-2 text-right">
+                    <div>
                       <input
-                        class="form-check-input random-attribute randomize-mouth"
+                        class="random-attribute randomize-mouth"
                         type="checkbox"
                         value=""
                         checked
@@ -685,202 +612,153 @@
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Ears</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-ears"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-ears"
-                      />
-                    </div>
+              <div class="col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3">
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Ears</h4>
+                    <input
+                      class="random-group randomize-ears"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-ears"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10 form-group">
-                      <select class="form-control" id="ear-id"> </select>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-ears"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-ear-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="ear-id"></select>
+                    <input
+                      class="random-attribute randomize-ears"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-ear-id"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-5">
-                      <label for="ear-size" style="line-height: 2.4em;"
-                        >Size</label
-                      >
-                    </div>
-                    <div class="col-5 form-group">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="ear-size">Size</label>
                       <input
-                        type="number"
-                        class="form-control"
-                        id="ear-size"
-                        min="-15"
-                        max="20"
-                        step="1"
-                      />
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-ears"
+                        class="random-attribute randomize-ears"
                         type="checkbox"
                         value=""
                         checked
                         id="randomize-ear-size"
                       />
                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="ear-size"
+                      min="-15"
+                      max="20"
+                      step="1"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Accessories</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-accessories"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-accessories"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Accessories</h4>
+                    <input
+                      class="random-group randomize-accessories"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-accessories"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="accessories-id">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-accessories"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-accessories-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="accessories-id"></select>
+                    <input
+                      class="random-attribute randomize-accessories"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-accessories-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Glasses</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-glasses"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-glasses"
-                      />
-                    </div>
+                <div class="group-wrapper group-wrapper-alt">
+                  <div class="group-header">
+                    <h4>Glasses</h4>
+                    <input
+                      class="random-group randomize-glasses"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-glasses"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="glasses-id"> </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-glasses"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-glasses-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="glasses-id"></select>
+                    <input
+                      class="random-attribute randomize-glasses"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-glasses-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-warning bg-gradient">
-                  <div class="row">
-                    <div class="col-10"><h4>Jersey</h4></div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-group randomize-jersey"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-jersey"
-                      />
-                    </div>
+                <div class="group-wrapper">
+                  <div class="group-header">
+                    <h4>Jersey</h4>
+                    <input
+                      class="random-group randomize-jersey"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-jersey"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-10">
-                      <div class="form-group">
-                        <select class="form-control" id="jersey-id"> </select>
-                      </div>
-                    </div>
-                    <div class="col-2 text-right">
-                      <input
-                        class="form-check-input random-attribute randomize-jersey"
-                        type="checkbox"
-                        value=""
-                        checked
-                        id="randomize-jersey-id"
-                      />
-                    </div>
+                  <div class="group-item">
+                    <select class="form-control" id="jersey-id"></select>
+                    <input
+                      class="random-attribute randomize-jersey"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-jersey-id"
+                    />
                   </div>
                 </div>
-                <br />
-                <div class="p-3 bg-info bg-gradient">
-                  <div class="row">
-                    <div class="col-12"><h4>Team Colors</h4></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-6">
+                <div class="group-wrapper group-wrapper-alt">
+                  <h4>Team Colors</h4>
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="body-color">Primary</label>
                     </div>
-                    <div class="col-6 form-group">
-                      <input
-                        type="color"
-                        class="form-control"
-                        id="teamColors-0"
-                      />
-                    </div>
+                    <input
+                      type="color"
+                      class="form-control"
+                      id="teamColors-0"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-6">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="body-color">Secondary</label>
                     </div>
-                    <div class="col-6 form-group">
-                      <input
-                        type="color"
-                        class="form-control"
-                        id="teamColors-1"
-                      />
-                    </div>
+                    <input
+                      type="color"
+                      class="form-control"
+                      id="teamColors-1"
+                    />
                   </div>
-                  <div class="row">
-                    <div class="col-6">
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
                       <label for="body-color">Accent</label>
                     </div>
-                    <div class="col-6 form-group">
-                      <input
-                        type="color"
-                        class="form-control"
-                        id="teamColors-2"
-                      />
-                    </div>
+                    <input
+                      type="color"
+                      class="form-control"
+                      id="teamColors-2"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </form>
         </div>
-        <div class="col" style="flex: 0 0 400px;">
+        <div class="ml-md-3">
           <div id="face"></div>
           <textarea id="json" class="form-control mt-3"></textarea>
           <button class="btn btn-secondary mt-1" id="copy">
