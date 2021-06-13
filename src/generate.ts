@@ -23,7 +23,8 @@ const colors = {
     ],
   },
   asian: {
-    skin: ["#f5d2ad"],
+    // https://imgur.com/a/GrBuWYw
+    skin: ["#fedac7", "#f0c5a3", "#eab687"],
     hair: ["#272421", "#0f0902"],
   },
   brown: {

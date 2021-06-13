@@ -2,6 +2,8 @@
 
 - Added ability to select which facial features to randomize in the editor UI - thank you @gtabot
 
+- Improved Asian skin tones - thank you /u/Duradello
+
 # 3.4.0 (2021-03-10)
 
 - Added some additional jersey options for football and basketball - thank you @TravisJB89
