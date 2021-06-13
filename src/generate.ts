@@ -23,7 +23,7 @@ const colors = {
     ],
   },
   asian: {
-    skin: ["#f5dbad"],
+    skin: ["#f5d2ad"],
     hair: ["#272421", "#0f0902"],
   },
   brown: {
