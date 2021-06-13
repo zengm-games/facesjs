@@ -1,8 +1,8 @@
-# Dev
+# 3.5.0 (2021-06-13)
 
 - Added ability to select which facial features to randomize in the editor UI - thank you @gtabot
 
-- Improved Asian skin tones - thank you /u/Duradello
+- Improved Asian skin tones - thank you /u/Duradello from Reddt
 
 # 3.4.0 (2021-03-10)
 
