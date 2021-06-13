@@ -165,7 +165,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-misc-lines"
+                      id="randomize-misc-lines-group"
                     />
                   </div>
                   <div class="group-item">
@@ -187,7 +187,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-eye-lines"
+                      id="randomize-eye-lines-group"
                     />
                   </div>
                   <div class="group-item">
@@ -209,7 +209,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-smile-lines"
+                      id="randomize-smile-lines-group"
                     />
                   </div>
                   <div class="group-item">
@@ -295,7 +295,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-hair"
+                      id="randomize-hair-group"
                     />
                   </div>
                   <div class="group-item">
@@ -353,7 +353,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-long-hair"
+                      id="randomize-long-hair-group"
                     />
                   </div>
                   <div class="group-item">
@@ -375,7 +375,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-facial-hair"
+                      id="randomize-facial-hair-group"
                     />
                   </div>
                   <div class="group-item">
@@ -397,7 +397,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-shave"
+                      id="randomize-shave-group"
                     />
                   </div>
                   <div class="group-item">
@@ -425,7 +425,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-eyebrows"
+                      id="randomize-eyebrows-group"
                     />
                   </div>
                   <div class="group-item">
@@ -467,7 +467,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-eyes"
+                      id="randomize-eyes-group"
                     />
                   </div>
                   <div class="group-item">
@@ -488,7 +488,7 @@
                         type="checkbox"
                         value=""
                         checked
-                        id="randomize-eye-angle"
+                        id="randomize-eye-angle-group"
                       />
                     </div>
                     <input
@@ -509,7 +509,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-nose"
+                      id="randomize-nose-group"
                     />
                   </div>
                   <div class="group-item">
@@ -574,7 +574,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-mouth"
+                      id="randomize-mouth-group"
                     />
                   </div>
                   <div class="group-item">
@@ -621,7 +621,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-ears"
+                      id="randomize-ears-group"
                     />
                   </div>
                   <div class="group-item">
@@ -663,7 +663,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-accessories"
+                      id="randomize-accessories-group"
                     />
                   </div>
                   <div class="group-item">
@@ -685,7 +685,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-glasses"
+                      id="randomize-glasses-group"
                     />
                   </div>
                   <div class="group-item">
@@ -707,7 +707,7 @@
                       type="checkbox"
                       value=""
                       checked
-                      id="randomize-jersey"
+                      id="randomize-jersey-group"
                     />
                   </div>
                   <div class="group-item">
@@ -927,15 +927,9 @@
       Array.from(document.getElementsByClassName("random-group")).forEach(
         (elem) => {
           elem.addEventListener("click", () => {
-            if (elem.checked) {
-              Array.from(
-                document.getElementsByClassName(elem.id.replace("-group", ""))
-              ).forEach((elem2) => (elem2.checked = true));
-            } else {
-              Array.from(
-                document.getElementsByClassName(elem.id.replace("-group", ""))
-              ).forEach((elem2) => (elem2.checked = false));
-            }
+            Array.from(
+              document.getElementsByClassName(elem.id.replace("-group", ""))
+            ).forEach((elem2) => (elem2.checked = elem.checked));
           });
         }
       );
@@ -943,13 +937,25 @@
       Array.from(document.getElementsByClassName("random-attribute")).forEach(
         (elem) => {
           elem.addEventListener("click", () => {
-            if (!elem.checked) {
-              Array.from(elem.className.split(" ")).forEach((className) => {
-                if (className.startsWith("randomize-")) {
+            Array.from(elem.className.split(" ")).forEach((className) => {
+              if (className.startsWith("randomize-")) {
+                if (elem.checked) {
+                  // See if all are checked, and if so check the group
+                  const others = Array.from(
+                    document.getElementsByClassName(className)
+                  ).filter(
+                    (other) => !other.classList.contains("random-group")
+                  );
+                  if (others.every((other) => other.checked)) {
+                    document.getElementById(
+                      className + "-group"
+                    ).checked = true;
+                  }
+                } else {
                   document.getElementById(className + "-group").checked = false;
                 }
-              });
-            }
+              }
+            });
           });
         }
       );
