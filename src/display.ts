@@ -103,6 +103,11 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     return;
   }
 
+  if ((['suit', 'suit2'].includes(face['jersey']) ) && (info.name == 'accessories')){
+    //Don't show headband, facemask, etc if person is wearing a suit
+    return;
+  }
+
   // @ts-ignore
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {
