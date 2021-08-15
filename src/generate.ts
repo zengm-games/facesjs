@@ -6,9 +6,11 @@ const getID = (type: string): string => {
   return svgsIndex[type][Math.floor(Math.random() * svgsIndex[type].length)];
 };
 
-const colors = [
-  {
-    skin: "#f2d6cb",
+type Race = "asian" | "black" | "brown" | "white";
+
+const colors = {
+  white: {
+    skin: ["#f2d6cb", "#ddb7a0"],
     hair: [
       "#272421",
       "#3D2314",
@@ -20,36 +22,55 @@ const colors = [
       "#D7BF91",
     ],
   },
-  {
-    skin: "#ddb7a0",
-    hair: [
-      "#272421",
-      "#3D2314",
-      "#5A3825",
-      "#CC9966",
-      "#2C1608",
-      "#e9c67b",
-      "#D7BF91",
-    ],
+  asian: {
+    // https://imgur.com/a/GrBuWYw
+    skin: ["#fedac7", "#f0c5a3", "#eab687"],
+    hair: ["#272421", "#0f0902"],
   },
-  { skin: "#ce967d", hair: ["#272421", "#423125"] },
-  { skin: "#bb876f", hair: ["#272421"] },
-  { skin: "#aa816f", hair: ["#272421"] },
-  { skin: "#a67358", hair: ["#272421"] },
-  { skin: "#ad6453", hair: ["#272421"] },
-  { skin: "#74453d", hair: ["#272421"] },
-  { skin: "#5c3937", hair: ["#272421"] },
-];
+  brown: {
+    skin: ["#bb876f", "#aa816f", "#a67358"],
+    hair: ["#272421", "#1c1008"],
+  },
+  black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
+};
 
-const defaultTeamColors = ["#0d435e", "#f0494a", "#cccccc"];
+const defaultTeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-const generate = (overrides: Overrides) => {
+const generate = (overrides?: Overrides, options?: { race?: Race }) => {
+  const playerRace: Race = (function () {
+    if (options && options.race) {
+      return options.race;
+    }
+    switch (Math.floor(Math.random() * 4)) {
+      case 0:
+        return "white";
+      case 1:
+        return "asian";
+      case 2:
+        return "brown";
+      default:
+        return "black";
+    }
+  })();
+
   const eyeAngle = Math.round(Math.random() * 25 - 10);
 
-  const palette = colors[Math.floor(Math.random() * colors.length)];
-  const skinColor = palette.skin;
+  const palette = (function () {
+    switch (playerRace) {
+      case "white":
+        return colors.white;
+      case "asian":
+        return colors.asian;
+      case "brown":
+        return colors.brown;
+      case "black":
+        return colors.black;
+    }
+  })();
+  const skinColor =
+    palette.skin[Math.floor(Math.random() * palette.skin.length)];
   const hairColor =
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
@@ -57,6 +78,9 @@ const generate = (overrides: Overrides) => {
   const face = {
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
+    hairBg: {
+      id: Math.random() < 0.1 ? getID("hairBg") : "none",
+    },
     body: {
       id: getID("body"),
       color: skinColor,
@@ -66,7 +90,7 @@ const generate = (overrides: Overrides) => {
     },
     ear: {
       id: getID("ear"),
-      size: roundTwoDecimals(0.75 + Math.random() * 0.5),
+      size: roundTwoDecimals(0.5 + Math.random()),
     },
     head: {
       id: getID("head"),
@@ -79,7 +103,7 @@ const generate = (overrides: Overrides) => {
     },
     smileLine: {
       id: Math.random() < 0.75 ? getID("smileLine") : "none",
-      size: roundTwoDecimals(0.5 + Math.random()),
+      size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
       id: Math.random() < 0.5 ? getID("miscLine") : "none",

@@ -8,18 +8,20 @@ const warning =
   "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";
 
 const processSVGs = async () => {
-  const svgFolder = path.join(__dirname, "..", "svg");
+  const svgFolder = path.join(__dirname, "..", "svgs");
 
   const folders = fs.readdirSync(svgFolder);
 
   const svgs = {};
 
   for (const folder of folders) {
+    if (folder === ".DS_Store") continue;
     svgs[folder] = {};
 
     const subfolder = path.join(svgFolder, folder);
     const files = fs.readdirSync(subfolder);
     for (const file of files) {
+      if (file === ".DS_Store") continue;
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
@@ -38,7 +40,7 @@ const processSVGs = async () => {
   );
 
   const svgsIndex = {
-    ...svgs
+    ...svgs,
   };
   for (const key of Object.keys(svgsIndex)) {
     svgsIndex[key] = Object.keys(svgsIndex[key]);

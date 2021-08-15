@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<path id="beard-point" fill-rule="evenodd" class="shp0" d="M60 300L50 300C50 300 45 405 75 410C104.59 414.93 115 420 115 420C115 420 60 375 60 300ZM340 290L350 290C350 290 355 395 325 400C295.41 404.93 285 410 285 410C285 410 340 365 340 290Z" fill="$[hairColor]" stroke="#000" stroke-width="1"/>
+</svg>

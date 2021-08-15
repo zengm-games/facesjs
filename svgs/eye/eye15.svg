@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 50" width="75" height="50">
+	<style>
+		tspan { white-space:pre }
+		.white { fill: #f5f3ee } 
+		.black { fill: #000000 } 
+	</style>
+	<g id="eye">
+		<path id="white" class="white" d="M5 35C5 35 17.08 5 40 5C62.92 5 70 35 70 35C70 35 62.85 42.92 39.93 42.92C17.01 42.92 5 35 5 35Z" />
+		<path id="black" class="black" d="M5 35.6C2.13 32.73 17.08 1.88 40 1.88C62.92 1.88 72.87 32.13 70 35C67.13 37.87 62.92 6.73 40 6.73C17.08 6.73 7.87 38.46 5 35.6Z" />
+		<path id="black" class="black" d="M39.93 33.78C35.4 33.78 31.73 30.12 31.73 25.58C31.73 21.05 35.4 17.39 39.93 17.39C44.46 17.39 48.12 21.05 48.12 25.58C48.12 30.12 44.46 33.78 39.93 33.78Z" />
+		<path id="Shape 1" class="shp1" d="" />
+	</g>
+</svg>

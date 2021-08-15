@@ -226,6 +226,11 @@ const display = (
 
   const featureInfos: FeatureInfo[] = [
     {
+      name: "hairBg",
+      positions: [null],
+      scaleFatness: true,
+    },
+    {
       name: "body",
       positions: [null],
     },
@@ -276,8 +281,8 @@ const display = (
     {
       name: "eyebrow",
       positions: [
-        [140, 265],
-        [260, 265],
+        [140, 270],
+        [260, 270],
       ],
     },
     {
