@@ -105,6 +105,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
 
   if ((['suit', 'suit2'].includes(face['jersey']) ) && (info.name == 'accessories')){
     //Don't show headband, facemask, etc if person is wearing a suit
+    //might be a smarter way to do that includes statement, but wanted to throw in all non-jersey clothing. Only those 2 right now
     return;
   }
 
