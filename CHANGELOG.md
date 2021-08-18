@@ -1,3 +1,7 @@
+# 3.6.0 (2021-08-18)
+
+- Added new football jersey style from PR #20 - thank you @tomkennedy22
+
 # 3.5.0 (2021-06-13)
 
 - Added ability to select which facial features to randomize in the editor UI - thank you @gtabot
