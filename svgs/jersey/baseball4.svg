@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<title>baseball</title>
+	<g id="baseball">
+		<path id="undershirt" class="s0" d="m120 505c0 0 35 40 80 40c45 0 80-40 80-40v95h-160z" fill="$[secondary]" stroke="#000000" stroke-width="3"/>
+		<path id="baseball-left" class="s0" d="m120 504.6c10 45.4 80 55.4 90 65.4c10 10 10 40 10 40h-225c0 0 5-40 5-50c0-10 10-30 40-40c30-10 50 0 80-15.4z" fill="#fff" stroke="#000000" stroke-width="6" />
+		<path id="baseball-right" class="s0" d="m360 520c30 10 40 30 40 40c0 10 10 50 10 50h-230c0 0 0-40 10-50c10-10 80-10 90-55c30 15 50 5 80 15z" fill="#fff" stroke="#000000" stroke-width="6" />
+		<path id="Button" class="s1" d="m196 597c-2.8 0-5-2.2-5-5c0-2.8 2.2-5 5-5c2.8 0 5 2.2 5 5c0 2.8-2.2 5-5 5zm-2-5h1m2 0h1" fill="$[primary]" stroke="#000000" stroke-width="1.5"/>
+	</g>
+	<g id="baseball-stroke">
+		<path id="baseball-left" class="s5" d="m120 504.6c6.9 37.6 62.2 49.3 67.9 57c-7.8 11.2-8 48.4-8 48.4h-184.9c0 0 5-40 5-50c0-10 10-30 40-40c30-10 50 0 80-15.4z"  fill="none" stroke="#000000" stroke-width="6"/>
+		<path id="baseball-right" class="s5" d="m360 520c30 10 40 30 40 40c0 10 10 50 10 50h-230c0 0 0-40 10-50c10-10 80-10 90-55c30 15 50 5 80 15z"  fill="none" stroke="#000000" stroke-width="6"/>
+	</g>
+</svg>

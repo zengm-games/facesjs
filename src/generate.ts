@@ -34,7 +34,37 @@ const colors = {
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
 
-const defaultTeamColors = ["#89bfd3", "#7a1319", "#07364f"];
+const defaultTeamColors = [
+  ["#89bfd3", "#7a1319", "#07364f"],
+  ["#5c4a99", "#f0e81c", "#211e1e"],
+  ["#034757", "#67c7e9", "#b78254"],
+  ["#009e87", "#541f3e", "#ffffff"],
+  ["#000000", "#c11616", "#2966ef"],
+  ["#211e1e", "#f8e3cc", "#3f1c59"],
+  ["#be2026", "#2b2e81", "#ffffff"],
+  ["#2b8643", "#163a1c", "#a1d297"],
+  ["#3a61b6", "#9eb7e6", "#0a1130"],
+  ["#4c91c2", "#c4c4c3", "#ffffff"],
+  ["#e79f02", "#00246d", "#ffffff"],
+  ["#8f2100", "#ffb500", "#d4731c"],
+  ["#8f2100", "#ffb500", "#d4731c"],
+  ["#aeaeae", "#ea4b0f", "#dedddd"],
+  ["#1c73bb", "#ffd600", "#0c5983"],
+  ["#000000", "#ff6c49", "#00aedc"],
+  ["#4ac1c0", "#d8519d", "#f15949"],
+  ["#003600", "#fdc05f", "#007800"],
+  ["#8accdc", "#3d2971", "#ed9a22"],
+  ["#1a9190", "#510f0f", "#eb5924"],
+  ["#195869", "#4edd61", "#0e3e33"],
+  ["#1e73ba", "#ff8500", "#ffffff"],
+  ["#610000", "#bbb29e", "#e4dfcf"],
+  ["#dc5000", "#ffffff", "#0b7648"],
+  ["#46bae6", "#ffdb33", "#d9771f"],
+  ["#d17d2a", "#231f20", "#c09867"],
+  ["#231f20", "#fbee28", "#fbee26"],
+  ["#e41d34", "#1e1e1e", "#e7a9cc"],
+  ["#4a2b14", "#30d9ff", "#704723"],
+];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
@@ -77,7 +107,8 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
 
   const face = {
     fatness: roundTwoDecimals(Math.random()),
-    teamColors: defaultTeamColors,
+    teamColors:
+      defaultTeamColors[Math.floor(Math.random() * defaultTeamColors.length)],
     hairBg: {
       id: Math.random() < 0.1 ? getID("hairBg") : "none",
     },
@@ -134,7 +165,8 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
       id: Math.random() < 0.1 ? getID("glasses") : "none",
     },
     accessories: {
-      id: Math.random() < 0.2 ? getID("accessories") : "none",
+      id: Math.random() < 1 ? getID("accessories") : "none",
+      // id: Math.random() < 0.2 ? getID('accessories') : 'none',
     },
   };
 
