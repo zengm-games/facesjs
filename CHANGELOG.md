@@ -1,3 +1,7 @@
+# 3.7.0 (2022-03-25)
+
+- Added baseball jerseys and hats from PR #2 - thank you @TravisJB89
+
 # 3.6.0 (2021-08-18)
 
 - Added new football jersey style from PR #20 - thank you @tomkennedy22
