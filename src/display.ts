@@ -103,6 +103,15 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     return;
   }
 
+  if (
+    ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
+    info.name == "hair"
+  ) {
+    // This logic is from tomkennedy22's suit pr. It disables hairstyles with hats.
+    // The downside is that now everyone is bald.
+    return;
+  }
+
   // @ts-ignore
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {

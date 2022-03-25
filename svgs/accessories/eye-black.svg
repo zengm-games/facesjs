@@ -1,0 +1,7 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+	<title>eye-black</title>
+	<style>
+		.s0 { fill: #000000 } 
+	</style>
+	<path id="eye-black" class="s0" d="m100 356l6-6h47l6 6v9l-6 5h-47l-6-6zm148 14l-6-6v-8l6-6h47l6 6v8l-6 6z" />
+</svg>

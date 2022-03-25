@@ -134,7 +134,8 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
       id: Math.random() < 0.1 ? getID("glasses") : "none",
     },
     accessories: {
-      id: Math.random() < 0.2 ? getID("accessories") : "none",
+      id: Math.random() < 1 ? getID("accessories") : "none",
+      // id: Math.random() < 0.2 ? getID('accessories') : 'none',
     },
   };
 
