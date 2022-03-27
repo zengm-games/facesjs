@@ -1,3 +1,7 @@
+# 3.7.1 (2022-03-27)
+
+- Tweak baseball jersey/hat colors
+
 # 3.7.0 (2022-03-25)
 
 - Added baseball jerseys and hats from PR #2 - thank you @TravisJB89
