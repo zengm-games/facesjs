@@ -7,7 +7,7 @@
 		<path id="Button" class="s1" d="m196 597c-2.8 0-5-2.2-5-5c0-2.8 2.2-5 5-5c2.8 0 5 2.2 5 5c0 2.8-2.2 5-5 5zm-2-5h1m2 0h1" fill="$[primary]" stroke="#000000" stroke-width="1.5"/>
 	</g>
 	<g id="pinstripes">
-		<path id="Pinstripes" class="s2" d="m10 540v70m20-86v86m20-93v93m20-95v95m20-96v96m20-100v100m20-83v83m20-66v66m20-57v57m220-70v70m-20-86v86m-20-93v93m-20-95v95m-20-96v96m-20-101v101m-20-86v87m-20-72v71m-20-63v62m-20-57v57" fill="none" stroke="$[primary]" stroke-width="2"/>
+		<path id="Pinstripes" class="s2" d="m10 540v70m20-86v86m20-93v93m20-95v95m20-96v96m20-100v100m20-83v83m20-66v66m20-57v57m220-70v70m-20-86v86m-20-93v93m-20-95v95m-20-96v96m-20-101v101m-20-86v87m-20-72v71m-20-63v62m-20-57v57" fill="none" stroke="$[primary]" stroke-width="5"/>
 	</g>
 	<g id="baseball-stroke">
 		<path id="baseball-left" class="s5" d="m120 504.6c6.9 37.6 62.2 49.3 67.9 57c-7.8 11.2-8 48.4-8 48.4h-184.9c0 0 5-40 5-50c0-10 10-30 40-40c30-10 50 0 80-15.4z"  fill="none" stroke="#000000" stroke-width="6"/>
