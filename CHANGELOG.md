@@ -1,3 +1,7 @@
+# 3.7.3 (2022-06-16)
+
+- Tweak baseball jersey/hat colors
+
 # 3.7.2 (2022-03-28)
 
 - Tweak baseball jersey/hat colors
