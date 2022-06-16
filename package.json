@@ -1,6 +1,6 @@
 {
   "name": "facesjs",
-  "version": "3.7.2",
+  "version": "3.7.3",
   "description": "A JavaScript library for generating vector-based cartoon faces",
   "main": "build/commonjs/index.js",
   "module": "build/esmodules/index.js",
