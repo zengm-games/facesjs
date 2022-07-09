@@ -1,3 +1,7 @@
+# 3.7.4 (2022-07-08)
+
+- Restore rate of accessories (such as headbands) being present.
+
 # 3.7.3 (2022-06-16)
 
 - Tweak baseball jersey/hat colors
