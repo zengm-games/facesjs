@@ -2,13 +2,13 @@
 
 A JavaScript library for generating vector-based cartoon faces
 
-[![](examples.png)](http://dumbmatter.com/facesjs/)
+[![](examples.png)](http://zengm.com/facesjs/)
 
-[See a live demo here.](http://dumbmatter.com/facesjs/)
+[See a live demo here.](http://zengm.com/facesjs/)
 
 ## Why?
 
-I wrote this to generate random cartoon faces for players in [Basketball GM](https://basketball-gm.com/) and [Football GM](https://football-gm.com/). You can use it for similar purposes, or [other purposes](https://biowiki.org/wiki/index.php/Main_Page).
+I wrote this to generate random cartoon faces for players in [Basketball GM](https://basketball-gm.com/) and [other games](https://zengm.com/). You can use it for similar purposes, or [other purposes](https://biowiki.org/wiki/index.php/Main_Page).
 
 ## Help wanted!
 

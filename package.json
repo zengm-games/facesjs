@@ -15,19 +15,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dumbmatter/facesjs.git"
+    "url": "git+https://github.com/zengm-games/facesjs.git"
   },
-  "author": "Jeremy Scheff <jdscheff@gmail.com> (http://dumbmatter.com/)",
+  "author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dumbmatter/facesjs/issues"
+    "url": "https://github.com/zengm-games/facesjs/issues"
   },
   "keywords": [
     "faces",
     "cartoon",
     "mii"
   ],
-  "homepage": "http://dumbmatter.com/facesjs/",
+  "homepage": "https://zengm.com/facesjs/",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
