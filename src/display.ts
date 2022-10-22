@@ -103,6 +103,51 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     return;
   }
 
+  if (
+    ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
+    info.name == "hair"
+  ) {
+    if (
+      [
+        "afro",
+        "afro2",
+        "curly",
+        "curly2",
+        "curly3",
+        "faux-hawk",
+        "hair",
+        "high",
+        "juice",
+        "messy-short",
+        "messy",
+        "middle-part",
+        "parted",
+        "shaggy1",
+        "shaggy2",
+        "short3",
+        "spike",
+        "spike2",
+        "spike3",
+        "spike4",
+      ].includes(face.hair.id)
+    ) {
+      face.hair.id = "short";
+    } else if (
+      [
+        "blowoutFade",
+        "curlyFade1",
+        "curlyFade2",
+        "dreads",
+        "fauxhawk-fade",
+        "tall-fade",
+      ].includes(face.hair.id)
+    ) {
+      face.hair.id = "short-fade";
+    } else {
+      return;
+    }
+  }
+
   // @ts-ignore
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {

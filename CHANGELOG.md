@@ -1,3 +1,27 @@
+# 3.7.4 (2022-07-08)
+
+- Restore rate of accessories (such as headbands) being present.
+
+# 3.7.3 (2022-06-16)
+
+- Tweak baseball jersey/hat colors
+
+# 3.7.2 (2022-03-28)
+
+- Tweak baseball jersey/hat colors
+
+# 3.7.1 (2022-03-27)
+
+- Tweak baseball jersey/hat colors
+
+# 3.7.0 (2022-03-25)
+
+- Added baseball jerseys and hats from PR #2 - thank you @TravisJB89
+
+# 3.6.0 (2021-08-18)
+
+- Added new football jersey style from PR #20 - thank you @tomkennedy22
+
 # 3.5.0 (2021-06-13)
 
 - Added ability to select which facial features to randomize in the editor UI - thank you @gtabot
