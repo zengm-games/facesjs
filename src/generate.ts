@@ -109,7 +109,10 @@ export const generate = (
     fatness: roundTwoDecimals(Math.random()),
     teamColors: defaultTeamColors,
     hairBg: {
-      id: Math.random() < 0.1 ? getID("hairBg", gender) : "none",
+      id:
+        Math.random() < (gender === "male" ? 0.1 : 0.8)
+          ? getID("hairBg", gender)
+          : "none",
     },
     body: {
       id: getID("body", gender),
