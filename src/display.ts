@@ -242,7 +242,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   }
 };
 
-const display = (
+export const display = (
   container: HTMLElement | string | null,
   face: Face,
   overrides: Overrides
@@ -359,5 +359,3 @@ const display = (
     drawFeature(svg, face, info);
   }
 };
-
-export default display;

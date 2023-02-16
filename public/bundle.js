@@ -1,3 +1,3 @@
-export { default as display } from "../src/display";
-export { default as generate } from "../src/generate";
-export { default as svgsIndex } from "../src/svgs-index";
+export { display } from "../src/display";
+export { generate } from "../src/generate";
+export { svgsIndex } from "../src/svgs-index";

@@ -1,3 +1,14 @@
+# male/female
+
+- add option similar to race, default to male
+- add race/gender to editor as randomize buttons
+- somehow label all svgs as male/female/both
+  - do we need to have concept of probabilistic both, like usually this is not for males but sometimes it is?
+  - could do it in filenames, or in some JSON document with a script to check that all are there
+  - /u/sirvalkyerie https://old.reddit.com/message/messages/1q4t07v
+
+---
+
 add size option to other features, like nose
 
 ---

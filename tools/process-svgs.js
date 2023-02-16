@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const SVGO = require("svgo");
+const genders = require("./genders");
 
 const svgo = new SVGO();
 
@@ -45,9 +46,25 @@ const processSVGs = async () => {
   for (const key of Object.keys(svgsIndex)) {
     svgsIndex[key] = Object.keys(svgsIndex[key]);
   }
+  const svgsGenders = {
+    ...svgsIndex,
+  };
+  for (const key of Object.keys(svgsGenders)) {
+    const keyGenders = [];
+    for (const featureName of svgsGenders[key]) {
+      const gender = genders[key][featureName];
+      if (gender === undefined) {
+        throw new Error(`Unknown gender for ${key}/${featureName}`);
+      }
+      keyGenders.push(gender);
+    }
+    svgsGenders[key] = keyGenders;
+  }
   fs.writeFileSync(
     path.join(__dirname, "..", "src", "svgs-index.ts"),
-    `${warning}\n\nexport default ${JSON.stringify(svgsIndex)};`
+    `${warning}\n\nexport const svgsIndex = ${JSON.stringify(
+      svgsIndex
+    )};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`
   );
 
   console.log(
