@@ -186,6 +186,8 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     face.teamColors[2]
   );
 
+  const bodySize = face.body.size !== undefined ? face.body.size : 1;
+
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
@@ -217,8 +219,11 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
     // @ts-ignore
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
-    // @ts-ignore
-    if (feature.flip || i === 1) {
+    if (info.name === "body" || info.name === "jersey") {
+      // @ts-ignore
+      scaleCentered(svg.lastChild, bodySize, 1);
+      // @ts-ignore
+    } else if (feature.flip || i === 1) {
       // @ts-ignore
       scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
