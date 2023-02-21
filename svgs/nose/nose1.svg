@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<g id="Nose">
-		<path id="Nose 1" d="M170 390C170 390 180 380 190 390C200 400 200 400 210 390C220 380 230 390 230 390" fill="$[skinColor]" stroke="#000" stroke-width="5"/>
-	</g>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 23.0.5, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="400px" height="600px" viewBox="0 0 400 600" style="enable-background:new 0 0 400 600;" xml:space="preserve">
+<g id="Nose">
+	<path style="stroke:#000000;stroke-width:5;" d="M170,390c0,0,10-10,20,0s10,10,20,0s20,0,20,0"/>
+</g>
 </svg>

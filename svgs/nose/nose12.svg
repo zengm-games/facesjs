@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-	<style>
-		.nosePlacement { fill: none } 
-	</style>
-	<path id="Nose8" class="nose" d="M36.03 47C16.78 47.25 9.46 79.37 31.66 74.13C40.66 72 39.91 78.25 49.78 78.5C59.28 78.74 55.53 72.38 66.16 75.25C88.17 81.21 84.91 47.25 65.95 47.23M50 55.6C50 55.6 51.25 45 51.25 35C51.25 25 50 5 50 5" fill="$[skinColor]" stroke="#000" stroke-width="5"/>
-	<path id="nose-placement" class="nosePlacement" d="M40 95L60 95L60 100L40 100L40 95Z" />
-</svg>

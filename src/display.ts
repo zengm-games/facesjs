@@ -89,7 +89,7 @@ const translate = (
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
-const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
+const fatScale = (fatness: number) => 1;
 
 type FeatureInfo = {
   name: Exclude<keyof Face, "fatness" | "teamColors">;
@@ -102,7 +102,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (!feature || !svgs[info.name]) {
     return;
   }
-
   if (
     ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
     info.name == "hair"
@@ -131,7 +130,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         "spike4",
       ].includes(face.hair.id)
     ) {
-      face.hair.id = "short";
+      face.hairBg.id = "longhairf_1";
     } else if (
       [
         "blowoutFade",
@@ -142,7 +141,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         "tall-fade",
       ].includes(face.hair.id)
     ) {
-      face.hair.id = "short-fade";
     } else {
       return;
     }
@@ -228,7 +226,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
       // @ts-ignore
-      translate(svg.lastChild, distance, 0, "left", "top");
+      //translate(svg.lastChild, distance, 0, "left", "top");
     }
   }
 
@@ -286,8 +284,8 @@ const display = (
     {
       name: "ear",
       positions: [
-        [55, 325] as [number, number],
-        [345, 325] as [number, number],
+        [1222, 325] as [number, number],
+        [333, 325] as [number, number],
       ],
       scaleFatness: true,
     },
@@ -300,13 +298,7 @@ const display = (
       name: "eyeLine",
       positions: [null],
     },
-    {
-      name: "smileLine",
-      positions: [
-        [150, 435],
-        [250, 435],
-      ],
-    },
+
     {
       name: "miscLine",
       positions: [null],
@@ -319,24 +311,24 @@ const display = (
     {
       name: "eye",
       positions: [
-        [140, 310],
-        [260, 310],
+        [150, 275],
+        [260, 275],
       ],
     },
     {
       name: "eyebrow",
       positions: [
-        [140, 270],
-        [260, 270],
+        [150, 240],
+        [260, 240],
       ],
     },
     {
       name: "mouth",
-      positions: [[200, 440]],
+      positions: [[200, 400]],
     },
     {
       name: "nose",
-      positions: [[200, 370]],
+      positions: [[200, 355]],
     },
     {
       name: "hair",
@@ -355,7 +347,85 @@ const display = (
     },
   ];
 
-  for (const info of featureInfos) {
+  const faceb: FeatureInfo[] = [
+    {
+      name: "hairBg",
+      positions: [null],
+      scaleFatness: true,
+    },
+    {
+      name: "body",
+      positions: [null],
+    },
+    {
+      name: "jersey",
+      positions: [null],
+    },
+    {
+      name: "ear",
+      positions: [
+        [70, 325] as [number, number],
+        [330, 325] as [number, number],
+      ],
+      scaleFatness: true,
+    },
+    {
+      name: "head",
+      positions: [null], // Meaning it just gets placed into the SVG with no translation
+      scaleFatness: true,
+    },
+    {
+      name: "smileLine",
+      positions: [
+        [150, 435],
+        [250, 435],
+      ],
+    },
+    {
+      name: "miscLine",
+      positions: [null],
+    },
+
+    {
+      name: "eye",
+      positions: [
+        [145, 325],
+        [255, 325],
+      ],
+    },
+    {
+      name: "eyebrow",
+      positions: [
+        [150, 290],
+        [260, 290],
+      ],
+    },
+    {
+      name: "mouth",
+      positions: [[200, 430]],
+    },
+    {
+      name: "nose",
+      positions: [[200, 385]],
+    },
+    {
+      name: "hair",
+      positions: [null],
+      scaleFatness: true,
+    },
+    {
+      name: "glasses",
+      positions: [null],
+      scaleFatness: true,
+    },
+    {
+      name: "accessories",
+      positions: [null],
+      scaleFatness: true,
+    },
+  ];
+  //this will draw the features from the array storing different types faces we could get better face variations
+  for (const info of faceb) {
     drawFeature(svg, face, info);
   }
 };

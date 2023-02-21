@@ -76,10 +76,10 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    fatness: roundTwoDecimals(Math.random()),
+    fatness: 11,
     teamColors: defaultTeamColors,
     hairBg: {
-      id: Math.random() < 0.1 ? getID("hairBg") : "none",
+      id: getID("hairBg"),
     },
     body: {
       id: getID("body"),
@@ -90,7 +90,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     },
     ear: {
       id: getID("ear"),
-      size: roundTwoDecimals(0.5 + Math.random()),
+      size: 1,
     },
     head: {
       id: getID("head"),
@@ -106,7 +106,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
-      id: Math.random() < 0.5 ? getID("miscLine") : "none",
+      id: getID("miscLine"),
     },
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair") : "none",
@@ -119,7 +119,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     hair: {
       id: getID("hair"),
       color: hairColor,
-      flip: isFlipped,
+      flip: false,
     },
     mouth: {
       id: getID("mouth"),
@@ -128,7 +128,7 @@ const generate = (overrides?: Overrides, options?: { race?: Race }) => {
     nose: {
       id: getID("nose"),
       flip: isFlipped,
-      size: roundTwoDecimals(0.5 + Math.random() * 0.75),
+      size: 1,
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses") : "none",
