@@ -74,8 +74,6 @@ module.exports = {
     female1: "female",
     female2: "female",
     female3: "female",
-    female4: "female",
-    female5: "female",
   },
   facialHair: {
     "beard-point": "male",
@@ -196,6 +194,11 @@ module.exports = {
     female5: "female",
     female6: "female",
     female7: "female",
+    female8: "female",
+    female9: "female",
+    female10: "female",
+    female11: "female",
+    female12: "female",
     hair: "male",
     high: "male",
     juice: "male",
@@ -236,7 +239,7 @@ module.exports = {
     head14: "male",
     head15: "male",
     head16: "male",
-    head17: "both",
+    head17: "male",
     head18: "male",
     head2: "both",
     head3: "male",
@@ -268,6 +271,7 @@ module.exports = {
     jersey5: "both",
   },
   miscLine: {
+    blush: "female",
     chin1: "both",
     chin2: "both",
     forehead1: "male",
@@ -277,7 +281,6 @@ module.exports = {
     forehead5: "male",
     freckles1: "both",
     freckles2: "both",
-    freckles3: "female",
     none: "male",
   },
   mouth: {
@@ -316,6 +319,7 @@ module.exports = {
     nose8: "both",
     nose9: "both",
     pinocchio: "both",
+    small: "both",
   },
   smileLine: {
     line1: "both",
