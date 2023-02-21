@@ -117,7 +117,7 @@ export const generate = (
     body: {
       id: getID("body", gender),
       color: skinColor,
-      size: gender === "female" ? 0.9 : 1,
+      size: gender === "female" ? 0.95 : 1,
     },
     jersey: {
       id: getID("jersey", gender),
