@@ -41,7 +41,6 @@
     "chokidar": "^3.4.0",
     "cross-env": "^7.0.2",
     "husky": "^4.2.5",
-    "open": "^7.0.4",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "rollup": "^2.10.5",

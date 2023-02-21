@@ -106,11 +106,11 @@ export const generate = (
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    fatness: 11,
+    fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
     teamColors: defaultTeamColors,
     hairBg: {
       id:
-        Math.random() < (gender === "male" ? 0.1 : 0.8)
+        Math.random() < (gender === "male" ? 0.1 : 0.9)
           ? getID("hairBg", gender)
           : "none",
     },
@@ -123,12 +123,16 @@ export const generate = (
     },
     ear: {
       id: getID("ear", gender),
-      size: roundTwoDecimals(0.5 + Math.random()),
+      size: roundTwoDecimals(
+        0.5 + (gender === "female" ? 0.5 : 1) * Math.random()
+      ),
     },
     head: {
       id: getID("head", gender),
       shave: `rgba(0,0,0,${
-        Math.random() < 0.25 ? roundTwoDecimals(Math.random() / 5) : 0
+        gender === "male" && Math.random() < 0.25
+          ? roundTwoDecimals(Math.random() / 5)
+          : 0
       })`,
     },
     eyeLine: {
@@ -164,7 +168,7 @@ export const generate = (
     nose: {
       id: getID("nose", gender),
       flip: isFlipped,
-      size: 1,
+      size: gender === "female" ? 0.75 : 1,
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses", gender) : "none",

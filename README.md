@@ -68,7 +68,7 @@ The `generate` function takes a second optional arguement, which takes in extra 
 
 Running `yarn run start` will do a few things:
 
-1. Open a face viewer UI in your browser
+1. Give you a URL to open the face viewer UI in your browser
 2. Watch for changes to the code
 3. Watch for changes to the facial feature SVG files
 4. Update the face viewer UI when any code or SVG changes

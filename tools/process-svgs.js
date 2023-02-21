@@ -52,9 +52,10 @@ const processSVGs = async () => {
   for (const key of Object.keys(svgsGenders)) {
     const keyGenders = [];
     for (const featureName of svgsGenders[key]) {
-      const gender = genders[key][featureName];
+      let gender = genders[key][featureName];
       if (gender === undefined) {
-        throw new Error(`Unknown gender for ${key}/${featureName}`);
+        console.log(`Unknown gender for ${key}/${featureName}`);
+        gender = "female";
       }
       keyGenders.push(gender);
     }
