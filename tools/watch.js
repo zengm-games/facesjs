@@ -7,7 +7,7 @@ const processSVGs = require("./process-svgs");
 processSVGs();
 
 chokidar
-  .watch(path.join(__dirname, "..", "svgs"), {
+  .watch([path.join(__dirname), path.join(__dirname, "..", "svgs")], {
     ignoreInitial: true,
   })
   .on("all", (event, path) => {
