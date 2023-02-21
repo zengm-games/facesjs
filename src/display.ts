@@ -145,6 +145,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         "tall-fade",
       ].includes(face.hair.id)
     ) {
+      face.hair.id = "short-fade";
     } else {
       return;
     }

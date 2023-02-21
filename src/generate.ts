@@ -160,7 +160,7 @@ export const generate = (
     hair: {
       id: getID("hair", gender),
       color: hairColor,
-      flip: false,
+      flip: isFlipped,
     },
     mouth: {
       id: getID("mouth", gender),
@@ -169,7 +169,9 @@ export const generate = (
     nose: {
       id: getID("nose", gender),
       flip: isFlipped,
-      size: gender === "female" ? 0.75 : 1,
+      size: roundTwoDecimals(
+        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75)
+      ),
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
