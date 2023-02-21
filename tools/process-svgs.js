@@ -1,9 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const SVGO = require("svgo");
+const { optimize } = require("svgo");
 const genders = require("./genders");
-
-const svgo = new SVGO();
 
 const warning =
   "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";
@@ -26,7 +24,7 @@ const processSVGs = async () => {
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
-      const result = await svgo.optimize(contents);
+      const result = await optimize(contents);
 
       // Replace <svg> and </svg> tags
       svgs[folder][key] = result.data
