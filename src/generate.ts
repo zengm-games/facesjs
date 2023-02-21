@@ -106,7 +106,7 @@ export const generate = (
   const isFlipped = Math.random() < 0.5;
 
   const face = {
-    fatness: roundTwoDecimals(Math.random()),
+    fatness: 11,
     teamColors: defaultTeamColors,
     hairBg: {
       id:
@@ -139,7 +139,10 @@ export const generate = (
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
-      id: Math.random() < 0.5 ? getID("miscLine", gender) : "none",
+      id:
+        gender === "female" || Math.random() < 0.5
+          ? getID("miscLine", gender)
+          : "none",
     },
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
@@ -152,7 +155,7 @@ export const generate = (
     hair: {
       id: getID("hair", gender),
       color: hairColor,
-      flip: isFlipped,
+      flip: false,
     },
     mouth: {
       id: getID("mouth", gender),
@@ -161,7 +164,7 @@ export const generate = (
     nose: {
       id: getID("nose", gender),
       flip: isFlipped,
-      size: roundTwoDecimals(0.5 + Math.random() * 0.75),
+      size: 1,
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
