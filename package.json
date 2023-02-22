@@ -37,9 +37,7 @@
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.0",
-    "@babel/plugin-transform-for-of": "^7.21.0",
     "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@babel/plugin-transform-parameters": "^7.20.7",
     "@babel/preset-typescript": "^7.21.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.0.1",
