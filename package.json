@@ -2,9 +2,15 @@
   "name": "facesjs",
   "version": "3.7.4",
   "description": "A JavaScript library for generating vector-based cartoon faces",
-  "main": "build/commonjs/index.js",
-  "module": "build/esmodules/index.js",
-  "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/esmodules/index.js",
+      "require": "./build/commonjs/index.js"
+    }
+  },
+  "main": "./build/commonjs/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
