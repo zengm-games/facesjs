@@ -8,6 +8,4 @@ export { generate };
 export { default as svgs } from "./svgs";
 export { svgsIndex } from "./svgs-index";
 
-// Uncomment this when TypeScript 3.8 is out. Otherwise importing and re-exporting breaks
-// export type { Face } from "./generate";
-export type Face = ReturnType<typeof generate>;
+export type { Face } from "./generate";
