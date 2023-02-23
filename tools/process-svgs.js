@@ -20,7 +20,7 @@ const processSVGs = async () => {
     const subfolder = path.join(svgFolder, folder);
     const files = fs.readdirSync(subfolder);
     for (const file of files) {
-      if (file === ".DS_Store") continue;
+      if (!file.endsWith(".svg")) continue;
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
