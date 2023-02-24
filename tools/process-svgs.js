@@ -24,7 +24,10 @@ const processSVGs = async () => {
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
-      const result = await optimize(contents);
+      const result = await optimize(contents, {
+        multipass: true,
+        plugins: ["preset-default", "inlineStyles"],
+      });
 
       // Replace <svg> and </svg> tags
       svgs[folder][key] = result.data

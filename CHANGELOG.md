@@ -1,3 +1,7 @@
+# 3.8.0 (2023-02-)
+
+- Added a `gender` option to generate female faces, like `const face = faces.generate(null, { gender: "female" });`
+
 # 3.7.4 (2022-07-08)
 
 - Restore rate of accessories (such as headbands) being present.
