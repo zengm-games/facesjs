@@ -144,10 +144,7 @@ export const generate = (
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
-      id:
-        gender === "female" || Math.random() < 0.5
-          ? getID("miscLine", gender)
-          : "none",
+      id: Math.random() < 0.5 ? getID("miscLine", gender) : "none",
     },
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
