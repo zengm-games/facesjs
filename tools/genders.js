@@ -48,7 +48,6 @@ module.exports = {
     female14: "female",
     female15: "female",
     female16: "female",
-    female17: "female",
     female2: "female",
     female3: "female",
     female4: "female",
