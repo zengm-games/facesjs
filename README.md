@@ -118,4 +118,4 @@ or CommonJS:
 
 ## Credits
 
-[dumbmatter](https://github.com/dumbmatter) wrote most of the code and [TravisJB89](https://github.com/TravisJB89) made most of the graphics.
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, and [Lia Cui](https://liacui.carrd.co/) made most of the female graphics.

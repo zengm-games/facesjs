@@ -1,4 +1,4 @@
-# 3.8.0 (2023-02-)
+# 3.8.0 (2023-02-25)
 
 - Added a `gender` option to generate female faces, like `const face = faces.generate(null, { gender: "female" });`
 
