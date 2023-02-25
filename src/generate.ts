@@ -140,7 +140,10 @@ export const generate = (
       id: Math.random() < 0.75 ? getID("eyeLine", gender) : "none",
     },
     smileLine: {
-      id: Math.random() < 0.75 ? getID("smileLine", gender) : "none",
+      id:
+        Math.random() < (gender === "male" ? 0.75 : 0.1)
+          ? getID("smileLine", gender)
+          : "none",
       size: roundTwoDecimals(0.25 + 2 * Math.random()),
     },
     miscLine: {
