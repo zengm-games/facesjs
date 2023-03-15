@@ -1,5 +1,5 @@
-import override, { Overrides } from "./override";
-import { svgsGenders, svgsIndex } from "./svgs-index";
+import override, { Overrides } from "./override.js";
+import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
 type Gender = "male" | "female";
 

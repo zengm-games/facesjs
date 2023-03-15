@@ -1,6 +1,6 @@
-import { Face } from "./generate";
-import override, { Overrides } from "./override";
-import svgs from "./svgs";
+import { Face } from "./generate.js";
+import override, { Overrides } from "./override.js";
+import svgs from "./svgs.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
@@ -35,7 +35,7 @@ const scaleStrokeWidthAndChildren = (
       String(parseFloat(strokeWidth) / factor)
     );
   }
-  const children = (element.childNodes as unknown) as SVGGraphicsElement[];
+  const children = element.childNodes as unknown as SVGGraphicsElement[];
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }

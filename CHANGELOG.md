@@ -1,3 +1,7 @@
+# 3.8.2 (2023-03-15)
+
+- Fixed the esm build.
+
 # 3.8.1 (2023-02-25)
 
 - Added back the "messy" and "messy-short" hairstyles which were accidentally deleted in v3.8.0.
