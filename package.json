@@ -55,5 +55,7 @@
   "files": [
     "build"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "svg-path-bbox": "^1.2.4"
+  }
 }
