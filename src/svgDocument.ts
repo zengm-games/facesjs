@@ -3,7 +3,7 @@ import svgPathBbox from "svg-path-bbox";
 /**
  * An instance of this object can pretend to be the global "document"
  * variable used in a browser context so that the calls made by the display()
- * function populates our structure instead of manipulating DOM nodes.
+ * function populate our structure instead of manipulating DOM nodes.
  */
 export class SvgDocument {
   public root: SvgNode | undefined;
@@ -36,10 +36,10 @@ class SvgNode {
   public childNodes: SvgNode[] = [];
 
   public lastChild: SvgNode | undefined;
-  private minX = 0;
-  private minY = 0;
-  private maxX = 400;
-  private maxY = 600;
+  private minX: number | undefined;
+  private minY: number | undefined;
+  private maxX: number | undefined;
+  private maxY: number | undefined;
 
   constructor(public tag: string | undefined, public xml: string | undefined) {
     // We will need to insert attribute of the g node, so let's
@@ -93,8 +93,8 @@ class SvgNode {
 
   getBBox() {
     return {
-      x: this.minX!,
-      y: this.minY!,
+      x: this.minX,
+      y: this.minY,
       width: this.maxX! - this.minX!,
       height: this.maxY! - this.minY!,
     };
