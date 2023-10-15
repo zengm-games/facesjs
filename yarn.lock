@@ -300,6 +300,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@esbuild/darwin-x64@0.19.4":
+  version "0.19.4"
+  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.19.4.tgz"
+  integrity sha512-YHbSFlLgDwglFn0lAO3Zsdrife9jcQXQhgRp77YiTDja23FrC2uwnhXMNkAucthsf+Psr7sTwYEryxz6FPAVqw==
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz"
@@ -393,6 +398,13 @@
   version "3.0.3"
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.3.tgz"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
+
+"@types/node@^20.8.6":
+  version "20.8.6"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.8.6.tgz"
+  integrity sha512-eWO4K2Ji70QzKUqRy6oyJWUeB7+g2cRagT3T/nxYibYcT4y2BDL8lqolRXjTHmkZCdJfIPaY73KbJAZmcryxTQ==
+  dependencies:
+    undici-types "~5.25.1"
 
 "@types/resolve@1.20.2":
   version "1.20.2"
@@ -683,6 +695,34 @@ entities@^4.2.0:
   version "4.4.0"
   resolved "https://registry.npmjs.org/entities/-/entities-4.4.0.tgz"
   integrity sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==
+
+esbuild@^0.19.4:
+  version "0.19.4"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.19.4.tgz"
+  integrity sha512-x7jL0tbRRpv4QUyuDMjONtWFciygUxWaUM1kMX2zWxI0X2YWOt7MSA0g4UdeSiHM8fcYVzpQhKYOycZwxTdZkA==
+  optionalDependencies:
+    "@esbuild/android-arm" "0.19.4"
+    "@esbuild/android-arm64" "0.19.4"
+    "@esbuild/android-x64" "0.19.4"
+    "@esbuild/darwin-arm64" "0.19.4"
+    "@esbuild/darwin-x64" "0.19.4"
+    "@esbuild/freebsd-arm64" "0.19.4"
+    "@esbuild/freebsd-x64" "0.19.4"
+    "@esbuild/linux-arm" "0.19.4"
+    "@esbuild/linux-arm64" "0.19.4"
+    "@esbuild/linux-ia32" "0.19.4"
+    "@esbuild/linux-loong64" "0.19.4"
+    "@esbuild/linux-mips64el" "0.19.4"
+    "@esbuild/linux-ppc64" "0.19.4"
+    "@esbuild/linux-riscv64" "0.19.4"
+    "@esbuild/linux-s390x" "0.19.4"
+    "@esbuild/linux-x64" "0.19.4"
+    "@esbuild/netbsd-x64" "0.19.4"
+    "@esbuild/openbsd-x64" "0.19.4"
+    "@esbuild/sunos-x64" "0.19.4"
+    "@esbuild/win32-arm64" "0.19.4"
+    "@esbuild/win32-ia32" "0.19.4"
+    "@esbuild/win32-x64" "0.19.4"
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -1214,6 +1254,11 @@ typescript@^4.9.5:
   version "4.9.5"
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
+undici-types@~5.25.1:
+  version "5.25.3"
+  resolved "https://registry.npmjs.org/undici-types/-/undici-types-5.25.3.tgz"
+  integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
 
 update-browserslist-db@^1.0.10:
   version "1.0.10"
