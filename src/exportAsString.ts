@@ -1,11 +1,14 @@
 import svgPathBbox from "svg-path-bbox";
+import { Overrides } from "./override";
+import { Face } from "./generate";
+import { display } from "./display";
 
 /**
  * An instance of this object can pretend to be the global "document"
  * variable used in a browser context so that the calls made by the display()
  * function populate our structure instead of manipulating DOM nodes.
  */
-export class SvgDocument {
+class SvgDocument {
   public root: SvgNode | undefined;
   public innerHTML = "";
 
@@ -53,7 +56,9 @@ class SvgNode {
         )
       );
       // Let's calculate the bbox of this g group which is the smallest bbox
-      // that contains the bboxes of all paths
+      // that contains the bboxes of all paths, so that translation, rotation
+      // and scaling operations applied to this element get the correct values
+      // when invoking getBBox()
       let pathStart = 0;
       while (true) {
         pathStart = this.xml.indexOf(' d="', pathStart);
@@ -125,4 +130,24 @@ class SvgNode {
     }
     return s;
   }
+}
+
+/**
+ * Renders the given face in a pseudo DOM element and then returns the
+ * SVG image as an XML string.
+ */
+export function exportAsString(face: Face, overrides: Overrides): string {
+  const svgDocument = new SvgDocument();
+  // Even though we will provide a pseudo HTML elment, display() accesses
+  // document.createElementNS() so we need to inject our own code there.
+  // Let's first save what's already there
+  const backup = global.document;
+
+  try {
+    global.document = svgDocument as any;
+    display(svgDocument as unknown as HTMLElement, face, overrides);
+  } finally {
+    global.document = backup;
+  }
+  return svgDocument.toXml();
 }

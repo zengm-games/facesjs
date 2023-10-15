@@ -1,6 +1,5 @@
 import { Face } from "./generate.js";
 import override, { Overrides } from "./override.js";
-import { SvgDocument } from "./svgDocument.js";
 import svgs from "./svgs.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
@@ -251,25 +250,16 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   }
 };
 
-/**
- * Since spaces are illegal in HTML element IDs, we can use
- * a string with spaces to convey that we want something else
- * than getting a DOM element by ID.
- */
-export const EXPORT_AS_SVG_STRING = "export as svg string";
-
 export const display = (
   container: HTMLElement | string | null,
   face: Face,
   overrides: Overrides
-): string | void => {
+): void => {
   override(face, overrides);
 
   const containerElement =
     typeof container === "string"
-      ? container === EXPORT_AS_SVG_STRING
-        ? new SvgDocument()
-        : document.getElementById(container)
+      ? document.getElementById(container)
       : container;
   if (!containerElement) {
     throw new Error("container not found");
@@ -375,9 +365,5 @@ export const display = (
 
   for (const info of featureInfos) {
     drawFeature(svg, face, info);
-  }
-
-  if (container === EXPORT_AS_SVG_STRING) {
-    return (containerElement as SvgDocument).toXml();
   }
 };
