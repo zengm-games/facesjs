@@ -1,7 +1,6 @@
 const chokidar = require("chokidar");
 const fs = require("fs");
 const http = require("http");
-const open = require("open");
 const path = require("path");
 const WebSocket = require("ws");
 require("./watch");
@@ -11,7 +10,7 @@ const runHTTPServer = () => {
 
   const mimeTypes = {
     ".html": "text/html",
-    ".js": "text/javascript"
+    ".js": "text/javascript",
   };
   const sendFile = (res, filename) => {
     const filepath = path.join(__dirname, "..", "public", filename);
@@ -47,8 +46,7 @@ const runHTTPServer = () => {
   });
 
   server.listen(port, "localhost", async () => {
-    console.log(`faces.js running at http://localhost:${port}`);
-    await open(`http://localhost:${port}/editor.html`);
+    console.log(`View faces.js editor at http://localhost:${port}/editor.html`);
   });
 };
 
@@ -57,19 +55,19 @@ const runWebSocketServer = () => {
   const wss = new WebSocket.Server({ port: 3001 });
 
   let connections = [];
-  wss.on("connection", connection => {
+  wss.on("connection", (connection) => {
     connections.push(connection);
     connection.send("foo");
     connection.on("close", () => {
       connections = connections.filter(
-        connection2 => connection2 !== connection
+        (connection2) => connection2 !== connection
       );
     });
   });
 
   chokidar
     .watch(path.join(__dirname, "..", "public"), {
-      ignoreInitial: true
+      ignoreInitial: true,
     })
     .on("all", (event, path) => {
       // Ignore this, it'll be included in bundle and trigger another one

@@ -1,14 +1,11 @@
 {
-  "presets": [
-    "@babel/preset-typescript"
-  ],
-  "plugins": [
-    "@babel/plugin-transform-for-of",
-    "@babel/plugin-transform-parameters"
-  ],
+  "presets": ["@babel/preset-typescript"],
   "env": {
     "commonjs": {
-      "plugins": ["@babel/plugin-transform-modules-commonjs", "add-module-exports"]
+      "plugins": [
+        "@babel/plugin-transform-modules-commonjs",
+        "add-module-exports"
+      ]
     }
   }
 }

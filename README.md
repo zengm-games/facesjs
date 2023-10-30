@@ -59,16 +59,25 @@ Both `display` and `generate` accept an optional final argument, specifying valu
 
 ### Options
 
-The `generate` function takes a second optional arguement, which takes in extra parameters for player creation, in the form of an object. Currently, you can assign a race attribute that can be white, black, asian, or brown.
+The `generate` function takes a second optional arguement, which takes in extra parameters for player creation, in the form of an object.
 
-    # Generates a random player who will be white
-    const face = faces.generate(null, {race: "white"});
+Generate a female/male face (default is male):
+
+    const face = faces.generate(null, { gender: "female" });
+
+Assign a race attribute that can be white, black, asian, or brown (default is random):
+
+    const face = faces.generate(null, { race: "white" });
+
+Or both together:
+
+    const face = faces.generate(null, { gender: "female", race: "asian" });
 
 ## Development
 
 Running `yarn run start` will do a few things:
 
-1. Open a face viewer UI in your browser
+1. Give you a URL to open the face viewer UI in your browser
 2. Watch for changes to the code
 3. Watch for changes to the facial feature SVG files
 4. Update the face viewer UI when any code or SVG changes
@@ -109,4 +118,4 @@ or CommonJS:
 
 ## Credits
 
-[dumbmatter](https://github.com/dumbmatter) wrote most of the code and [TravisJB89](https://github.com/TravisJB89) made most of the graphics.
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, and [Lia Cui](https://liacui.carrd.co/) made most of the female graphics.

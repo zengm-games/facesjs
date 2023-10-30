@@ -1,3 +1,15 @@
+# 3.8.2 (2023-03-15)
+
+- Fixed the esm build.
+
+# 3.8.1 (2023-02-25)
+
+- Added back the "messy" and "messy-short" hairstyles which were accidentally deleted in v3.8.0.
+
+# 3.8.0 (2023-02-25)
+
+- Added a `gender` option to generate female faces, like `const face = faces.generate(null, { gender: "female" });`
+
 # 3.7.4 (2022-07-08)
 
 - Restore rate of accessories (such as headbands) being present.

@@ -1,6 +1,6 @@
-import { Face } from "./generate";
-import override, { Overrides } from "./override";
-import svgs from "./svgs";
+import { Face } from "./generate.js";
+import override, { Overrides } from "./override.js";
+import svgs from "./svgs.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
@@ -24,6 +24,10 @@ const scaleStrokeWidthAndChildren = (
   element: SVGGraphicsElement,
   factor: number
 ) => {
+  if (element.tagName === "style") {
+    return;
+  }
+
   const strokeWidth = element.getAttribute("stroke-width");
   if (strokeWidth) {
     element.setAttribute(
@@ -31,7 +35,7 @@ const scaleStrokeWidthAndChildren = (
       String(parseFloat(strokeWidth) / factor)
     );
   }
-  const children = (element.childNodes as unknown) as SVGGraphicsElement[];
+  const children = element.childNodes as unknown as SVGGraphicsElement[];
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }
@@ -102,7 +106,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (!feature || !svgs[info.name]) {
     return;
   }
-
   if (
     ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
     info.name == "hair"
@@ -184,6 +187,8 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     face.teamColors[2]
   );
 
+  const bodySize = face.body.size !== undefined ? face.body.size : 1;
+
   for (let i = 0; i < info.positions.length; i++) {
     svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
@@ -215,8 +220,11 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
     // @ts-ignore
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
-    // @ts-ignore
-    if (feature.flip || i === 1) {
+    if (info.name === "body" || info.name === "jersey") {
+      // @ts-ignore
+      scaleCentered(svg.lastChild, bodySize, 1);
+      // @ts-ignore
+    } else if (feature.flip || i === 1) {
       // @ts-ignore
       scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
@@ -242,7 +250,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   }
 };
 
-const display = (
+export const display = (
   container: HTMLElement | string | null,
   face: Face,
   overrides: Overrides
@@ -359,5 +367,3 @@ const display = (
     drawFeature(svg, face, info);
   }
 };
-
-export default display;

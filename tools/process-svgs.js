@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const SVGO = require("svgo");
-
-const svgo = new SVGO();
+const { optimize } = require("svgo");
+const genders = require("./genders");
 
 const warning =
   "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";
@@ -21,11 +20,14 @@ const processSVGs = async () => {
     const subfolder = path.join(svgFolder, folder);
     const files = fs.readdirSync(subfolder);
     for (const file of files) {
-      if (file === ".DS_Store") continue;
+      if (!file.endsWith(".svg")) continue;
       const key = path.basename(file, ".svg");
 
       const contents = fs.readFileSync(path.join(subfolder, file), "utf8");
-      const result = await svgo.optimize(contents);
+      const result = await optimize(contents, {
+        multipass: true,
+        plugins: ["preset-default", "inlineStyles"],
+      });
 
       // Replace <svg> and </svg> tags
       svgs[folder][key] = result.data
@@ -45,9 +47,26 @@ const processSVGs = async () => {
   for (const key of Object.keys(svgsIndex)) {
     svgsIndex[key] = Object.keys(svgsIndex[key]);
   }
+  const svgsGenders = {
+    ...svgsIndex,
+  };
+  for (const key of Object.keys(svgsGenders)) {
+    const keyGenders = [];
+    for (const featureName of svgsGenders[key]) {
+      let gender = genders[key][featureName];
+      if (gender === undefined) {
+        console.log(`Unknown gender for ${key}/${featureName}`);
+        gender = "female";
+      }
+      keyGenders.push(gender);
+    }
+    svgsGenders[key] = keyGenders;
+  }
   fs.writeFileSync(
     path.join(__dirname, "..", "src", "svgs-index.ts"),
-    `${warning}\n\nexport default ${JSON.stringify(svgsIndex)};`
+    `${warning}\n\nexport const svgsIndex = ${JSON.stringify(
+      svgsIndex
+    )};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`
   );
 
   console.log(

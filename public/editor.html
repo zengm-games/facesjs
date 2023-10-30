@@ -94,9 +94,30 @@
               faces.js editor
             </h1>
             <div class="d-sm-flex align-items-center ml-xl-3">
+              <div class="d-flex">
+                <select
+                  id="option-race"
+                  class="form-control mr-3"
+                  style="width: 100px;"
+                >
+                  <option value="random">Random</option>
+                  <option value="asian">Asian</option>
+                  <option value="black">Black</option>
+                  <option value="brown">Brown</option>
+                  <option value="white">White</option>
+                </select>
+                <select
+                  id="option-gender"
+                  class="form-control mr-3"
+                  style="width: 80px;"
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
               <button
                 type="button"
-                class="btn btn-primary btn-lg"
+                class="btn btn-primary mt-2 mt-sm-0"
                 id="randomize"
               >
                 Randomize Checked
@@ -107,14 +128,14 @@
                   class="btn btn-secondary btn-sm"
                   id="check-all"
                 >
-                  Check All
+                  All
                 </button>
                 <button
                   type="button"
                   class="btn btn-secondary btn-sm ml-1"
                   id="check-none"
                 >
-                  Check None
+                  None
                 </button>
               </div>
             </div>
@@ -155,6 +176,26 @@
                       />
                     </div>
                     <input type="color" class="form-control" id="body-color" />
+                  </div>
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="body-size">Size</label>
+                      <input
+                        class="random-attribute randomize-smile-lines"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-body-size"
+                      />
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="body-size"
+                      min=".9"
+                      max="1"
+                      step="0.01"
+                    />
                   </div>
                 </div>
                 <div class="group-wrapper group-wrapper-alt">
@@ -649,9 +690,9 @@
                       type="number"
                       class="form-control"
                       id="ear-size"
-                      min="-15"
-                      max="20"
-                      step="1"
+                      min="0.5"
+                      max="1.5"
+                      step="0.01"
                     />
                   </div>
                 </div>
@@ -782,15 +823,26 @@
       console.log("Copying text command was " + msg);
     });
 
+    const generateFace = () => {
+      const options = {
+        gender: document.getElementById("option-gender").value,
+        race: document.getElementById("option-race").value,
+      };
+      if (options.race === "random") {
+        delete options.race;
+      }
+      return faces.generate(undefined, options);
+    };
+
     let face;
     if (location.hash.length <= 1) {
-      face = faces.generate();
+      face = generateFace();
     } else {
       try {
         face = JSON.parse(atob(location.hash.slice(1)));
       } catch (error) {
         console.error(error);
-        face = faces.generate();
+        face = generateFace();
       }
     }
 
@@ -882,7 +934,12 @@
       const selects = document.querySelectorAll("select.form-control");
 
       for (const input of [...textInputs, ...checkboxInputs, ...selects]) {
-        if (input.id.startsWith("randomize")) continue;
+        if (
+          input.id.startsWith("randomize") ||
+          input.id.startsWith("option-")
+        ) {
+          continue;
+        }
         input.addEventListener("change", (event) => {
           const parts = event.target.id.split("-");
 
@@ -903,7 +960,7 @@
 
       document.getElementById("randomize").addEventListener("click", () => {
         const oldFace = face;
-        face = randomizeFace(oldFace, faces.generate());
+        face = randomizeFace(oldFace, generateFace());
         initializeFormValues();
         updateDisplay();
       });
