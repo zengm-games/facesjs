@@ -411,6 +411,11 @@
   resolved "https://registry.npmjs.org/@types/resolve/-/resolve-1.20.2.tgz"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
 
+"@types/svg-path-bounding-box@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@types/svg-path-bounding-box/-/svg-path-bounding-box-1.0.1.tgz"
+  integrity sha512-InrX+FmnDp/YIwRkZdHTR2VD7Ai8nH4a9CaILXl05PfSnafFIf8So0j2kOdh0Ps/akNMxNllRV2DmEGjGeF8og==
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmjs.org/ansi-styles/-/ansi-styles-3.2.1.tgz"

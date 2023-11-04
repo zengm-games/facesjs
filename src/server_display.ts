@@ -4,7 +4,6 @@ import svgs from "./svgs.js";
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import bbox from "svg-path-bounding-box";
 
-console.log({ XMLParser, XMLBuilder, XMLValidator });
 const svg_options = {
   ignoreAttributes: false,
   attributeNamePrefix: "@_",
@@ -88,8 +87,6 @@ const addWrapper = (svgString: string, feature_name: string) => ({
 });
 
 const addTransform = (element: any, newTransform: string) => {
-  console.log("addTransform", { element, newTransform });
-
   element["g"]["@_transform"] = element["g"]["@_transform"]
     ? `${element["g"]["@_transform"]}  ${newTransform}`
     : newTransform;
@@ -100,7 +97,6 @@ const getElementSize = (element: any) => {
   const bboxes = findPathDAttributes(element);
   const element_bbox = combineBoundingBoxes(bboxes);
 
-  console.log("getElementSize", { element, bboxes, element_bbox });
   return {
     element_height: element_bbox.height,
     element_width: element_bbox.width,
@@ -110,7 +106,6 @@ const getElementSize = (element: any) => {
 };
 
 const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
-  console.log("rotateCentered", { element, angle });
   let { element_height, element_width, element_x, element_y } =
     getElementSize(element);
   const cx = element_x + element_width / 2;
@@ -138,8 +133,6 @@ const scaleStrokeWidthAndChildren = (element: any, factor: number) => {
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
 const scaleCentered = (element: any, x: number, y: number) => {
-  console.log("scaleCentered", { element, x, y });
-
   let { element_height, element_width, element_x, element_y } =
     getElementSize(element);
 
@@ -169,8 +162,6 @@ const translate = (
   xAlign = "center",
   yAlign = "center"
 ) => {
-  console.log("translate", { element, x, y, xAlign, yAlign });
-
   let { element_height, element_width, element_x, element_y } =
     getElementSize(element);
   let cx, cy;
@@ -193,23 +184,8 @@ const translate = (
 
   let tx = x - cx;
   let ty = y - cy;
-  console.log("translate addTransform", {
-    tx,
-    ty,
-    x,
-    y,
-    cx,
-    cy,
-    xAlign,
-    yAlign,
-    element_height,
-    element_width,
-    element_x,
-    element_y,
-    element,
-  });
 
-  addTransform(element, ` translate(${tx} ${ty})`);
+  addTransform(element, `translate(${tx} ${ty})`);
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
@@ -222,7 +198,6 @@ type FeatureInfo = {
 };
 
 const drawFeature = (svg_js_obj: any, face: Face, info: FeatureInfo) => {
-  console.log("Drawing feature", { face, info, name: info.name });
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -308,15 +283,10 @@ const drawFeature = (svg_js_obj: any, face: Face, info: FeatureInfo) => {
     face.teamColors[2]
   );
 
-  let feature_svg_obj = parser.parse(featureSVGString);
-  console.log({ feature_svg_obj, featureSVGString });
-
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
   for (let i = 0; i < info.positions.length; i++) {
-    let new_element = addWrapper(feature_svg_obj, info.name);
-    // svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
-    console.log({ new_element });
+    let new_element = addWrapper(parser.parse(featureSVGString), info.name);
 
     const position = info.positions[i];
 
@@ -480,7 +450,6 @@ export const server_display = (face: Face, overrides: Overrides) => {
 
   let builder = new XMLBuilder(svg_options);
   let built_svg = builder.build(svg_js_obj);
-  console.log({ built_svg, svg_js_obj });
 
   return built_svg;
 };
