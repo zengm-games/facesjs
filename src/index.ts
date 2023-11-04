@@ -1,4 +1,5 @@
 export { display } from "./display.js";
+export { server_display } from "./server_display.js";
 
 // Switch back to one line like the others after TypeScript 3.8, see below
 import { generate } from "./generate.js";

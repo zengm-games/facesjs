@@ -1,43 +1,135 @@
 import { Face } from "./generate.js";
 import override, { Overrides } from "./override.js";
 import svgs from "./svgs.js";
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
+import bbox from "svg-path-bounding-box";
 
-const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
+console.log({ XMLParser, XMLBuilder, XMLValidator });
+const svg_options = {
+  ignoreAttributes: false,
+  attributeNamePrefix: "@_",
+  allowBooleanAttributes: true,
+};
+let parser = new XMLParser(svg_options);
 
-const addTransform = (element: SVGGraphicsElement, newTransform: string) => {
-  const oldTransform = element.getAttribute("transform");
-  element.setAttribute(
-    "transform",
-    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`
-  );
+const lastChild = (arr: any[]) => arr[arr.length - 1];
+
+const childNodes = function (node: any) {
+  let children: any = [];
+  Object.entries(node).forEach((entry) => {
+    let key = entry[0];
+    let val = entry[1];
+    if (!key.includes("@_")) {
+      children.push(val);
+    }
+  });
+  return children;
+};
+
+function findPathDAttributes(obj: any) {
+  let bboxes: any[] = [];
+
+  function recurse(
+    element: { [x: string]: any; hasOwnProperty: (arg0: string) => any } | null
+  ) {
+    if (typeof element === "object" && element !== null) {
+      if (element.hasOwnProperty("@_d")) {
+        // Check if this is a path object with a 'd' attribute
+        bboxes.push(bbox(element["@_d"]));
+      }
+      for (let key in element) {
+        recurse(element[key]); // Recurse into the object
+      }
+    }
+  }
+
+  recurse(obj); // Start the recursion on the parsed object
+
+  return bboxes;
+}
+
+// Function to combine bounding boxes into one
+function combineBoundingBoxes(
+  bboxes: { minX: number; minY: number; maxX: number; maxY: number }[]
+): {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+  width: number;
+  height: number;
+} {
+  let combinedBbox = {
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+    height: 0,
+    width: 0,
+  };
+
+  bboxes.forEach((bbox) => {
+    combinedBbox.minX = Math.min(combinedBbox.minX, bbox.minX);
+    combinedBbox.minY = Math.min(combinedBbox.minY, bbox.minY);
+    combinedBbox.maxX = Math.max(combinedBbox.maxX, bbox.maxX);
+    combinedBbox.maxY = Math.max(combinedBbox.maxY, bbox.maxY);
+  });
+
+  // Calculate width and height from combined extremes
+  combinedBbox.width = combinedBbox.maxX - combinedBbox.minX;
+  combinedBbox.height = combinedBbox.maxY - combinedBbox.minY;
+
+  return combinedBbox;
+}
+
+const addWrapper = (svgString: string, feature_name: string) => ({
+  g: svgString,
+  "@_feature": feature_name,
+});
+
+const addTransform = (element: any, newTransform: string) => {
+  console.log("addTransform", { element, newTransform });
+
+  element["g"]["@_transform"] = element["g"]["@_transform"]
+    ? `${element["g"]["@_transform"]}  ${newTransform}`
+    : newTransform;
+};
+
+const getElementSize = (element: any) => {
+  // Find bounding boxes for all 'd' attributes
+  const bboxes = findPathDAttributes(element);
+  const element_bbox = combineBoundingBoxes(bboxes);
+
+  console.log("getElementSize", { element, bboxes, element_bbox });
+  return {
+    element_height: element_bbox.height,
+    element_width: element_bbox.width,
+    element_x: element_bbox.minX,
+    element_y: element_bbox.minY,
+  };
 };
 
 const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
-  const bbox = element.getBBox();
-  const cx = bbox.x + bbox.width / 2;
-  const cy = bbox.y + bbox.height / 2;
+  console.log("rotateCentered", { element, angle });
+  let { element_height, element_width, element_x, element_y } =
+    getElementSize(element);
+  const cx = element_x + element_width / 2;
+  const cy = element_y + element_height / 2;
 
-  console.log("rotateCentered", { bbox, element, angle, cx, cy });
-
-  addTransform(element, `rotate(${angle} ${cx} ${cy})`);
+  addTransform(element, ` rotate(${angle} ${cx} ${cy})`);
 };
 
-const scaleStrokeWidthAndChildren = (
-  element: SVGGraphicsElement,
-  factor: number
-) => {
+const scaleStrokeWidthAndChildren = (element: any, factor: number) => {
   if (element.tagName === "style") {
     return;
   }
 
-  const strokeWidth = element.getAttribute("stroke-width");
+  const strokeWidth = element["@_stroke-width"];
   if (strokeWidth) {
-    element.setAttribute(
-      "stroke-width",
-      String(parseFloat(strokeWidth) / factor)
-    );
+    element["@_stroke-width"] = String(parseFloat(strokeWidth) / factor);
   }
-  const children = element.childNodes as unknown as SVGGraphicsElement[];
+
+  const children = childNodes(element);
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }
@@ -45,16 +137,18 @@ const scaleStrokeWidthAndChildren = (
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
-const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
-  const bbox = element.getBBox();
-  const cx = bbox.x + bbox.width / 2;
-  const cy = bbox.y + bbox.height / 2;
+const scaleCentered = (element: any, x: number, y: number) => {
+  console.log("scaleCentered", { element, x, y });
+
+  let { element_height, element_width, element_x, element_y } =
+    getElementSize(element);
+
+  const cx = element_x + element_width / 2;
+  const cy = element_y + element_height / 2;
   const tx = (cx * (1 - x)) / x;
   const ty = (cy * (1 - y)) / y;
 
-  console.log("scaleCentered", { bbox, element, x, y, cx, cy, tx, ty });
-
-  addTransform(element, `scale(${x} ${y}) translate(${tx} ${ty})`);
+  addTransform(element, ` scale(${x} ${y}) translate(${tx} ${ty})`);
 
   // Keep apparent stroke width constant, similar to how Raphael does it (I think)
   if (
@@ -69,33 +163,53 @@ const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
 
 // Translate element such that its center is at (x, y). Specifying xAlign and yAlign can instead make (x, y) the left/right and top/bottom.
 const translate = (
-  element: SVGGraphicsElement,
+  element: any,
   x: number,
   y: number,
   xAlign = "center",
   yAlign = "center"
 ) => {
-  const bbox = element.getBBox();
-  let cx;
-  let cy;
+  console.log("translate", { element, x, y, xAlign, yAlign });
+
+  let { element_height, element_width, element_x, element_y } =
+    getElementSize(element);
+  let cx, cy;
+
   if (xAlign === "left") {
-    cx = bbox.x;
+    cx = element_x;
   } else if (xAlign === "right") {
-    cx = bbox.x + bbox.width;
+    cx = element_x + element_width;
   } else {
-    cx = bbox.x + bbox.width / 2;
+    // cx = element_x + (element_width / 2);
+    cx = element_x + element_width / 2;
   }
   if (yAlign === "top") {
-    cy = bbox.y;
+    cy = element_y;
   } else if (yAlign === "bottom") {
-    cy = bbox.y + bbox.height;
+    cy = element_y + element_height;
   } else {
-    cy = bbox.y + bbox.height / 2;
+    cy = element_y + element_height / 2;
   }
 
-  console.log("translate", { bbox, element, x, y, xAlign, yAlign, cx, cy });
+  let tx = x - cx;
+  let ty = y - cy;
+  console.log("translate addTransform", {
+    tx,
+    ty,
+    x,
+    y,
+    cx,
+    cy,
+    xAlign,
+    yAlign,
+    element_height,
+    element_width,
+    element_x,
+    element_y,
+    element,
+  });
 
-  addTransform(element, `translate(${x - cx} ${y - cy})`);
+  addTransform(element, ` translate(${tx} ${ty})`);
 };
 
 // Defines the range of fat/skinny, relative to the original width of the default head.
@@ -107,8 +221,8 @@ type FeatureInfo = {
   scaleFatness?: true;
 };
 
-const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
-  console.log("drawFeature", { svg, face, info, name: info.name });
+const drawFeature = (svg_js_obj: any, face: Face, info: FeatureInfo) => {
+  console.log("Drawing feature", { face, info, name: info.name });
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -194,10 +308,15 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     face.teamColors[2]
   );
 
+  let feature_svg_obj = parser.parse(featureSVGString);
+  console.log({ feature_svg_obj, featureSVGString });
+
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
   for (let i = 0; i < info.positions.length; i++) {
-    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+    let new_element = addWrapper(feature_svg_obj, info.name);
+    // svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+    console.log({ new_element });
 
     const position = info.positions[i];
 
@@ -211,17 +330,12 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         xAlign = "center";
       }
 
-      translate(
-        svg.lastChild as SVGGraphicsElement,
-        position[0],
-        position[1],
-        xAlign
-      );
+      translate(new_element, position[0], position[1], xAlign);
     }
 
     if (feature.hasOwnProperty("angle")) {
       // @ts-ignore
-      rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
+      rotateCentered(new_element, (i === 0 ? 1 : -1) * feature.angle);
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
@@ -229,22 +343,24 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
     if (info.name === "body" || info.name === "jersey") {
       // @ts-ignore
-      scaleCentered(svg.lastChild, bodySize, 1);
+      scaleCentered(new_element, bodySize, 1);
       // @ts-ignore
     } else if (feature.flip || i === 1) {
       // @ts-ignore
-      scaleCentered(svg.lastChild, -scale, scale);
+      scaleCentered(new_element, -scale, scale);
     } else if (scale !== 1) {
       // @ts-ignore
-      scaleCentered(svg.lastChild, scale, scale);
+      scaleCentered(new_element, scale, scale);
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
       // @ts-ignore
-      translate(svg.lastChild, distance, 0, "left", "top");
+      translate(new_element, distance, 0, "left", "top");
     }
+
+    svg_js_obj["svg"]["g"].push(new_element);
   }
 
   if (
@@ -253,36 +369,24 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     info.positions[0] === null
   ) {
     // @ts-ignore
-    scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
+    scaleCentered(lastChild(svg_js_obj["svg"]["g"]), fatScale(face.fatness), 1);
   }
 };
 
-export const display = (
-  container: HTMLElement | string | null,
-  face: Face,
-  overrides: Overrides
-) => {
+export const server_display = (face: Face, overrides: Overrides) => {
   override(face, overrides);
 
-  const containerElement =
-    typeof container === "string"
-      ? document.getElementById(container)
-      : container;
-  if (!containerElement) {
-    throw new Error("container not found");
-  }
-  containerElement.innerHTML = "";
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("version", "1.2");
-  svg.setAttribute("baseProfile", "tiny");
-  svg.setAttribute("width", "100%");
-  svg.setAttribute("height", "100%");
-  svg.setAttribute("viewBox", "0 0 400 600");
-  svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
-
-  // Needs to be in the DOM here so getBBox will work
-  containerElement.appendChild(svg);
+  let svg_js_obj = {
+    svg: {
+      "@_version": "1.2",
+      "@_baseProfile": "tiny",
+      "@_width": "100%",
+      "@_height": "100%",
+      "@_viewBox": "0 0 400 600",
+      "@_preserveAspectRatio": "xMinYMin meet",
+      g: [],
+    },
+  };
 
   const featureInfos: FeatureInfo[] = [
     {
@@ -371,6 +475,12 @@ export const display = (
   ];
 
   for (const info of featureInfos) {
-    drawFeature(svg, face, info);
+    drawFeature(svg_js_obj, face, info);
   }
+
+  let builder = new XMLBuilder(svg_options);
+  let built_svg = builder.build(svg_js_obj);
+  console.log({ built_svg, svg_js_obj });
+
+  return built_svg;
 };
