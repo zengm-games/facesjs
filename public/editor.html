@@ -834,6 +834,10 @@
         const parsedJson = JSON.parse(json_val);
         faces.override(face, parsedJson);
         updateDisplay();
+
+        // Update all dropdowns in the form to what the user entered
+        // If user inputs an unavailable feature id, alert will be thrown from display
+        initializeFormValues();
       } catch (error) {
         console.error(error);
         alert("Invalid JSON input");
@@ -918,7 +922,29 @@
         element.checked = value;
       } else {
         element.value = value;
+
+        if (
+          element.type == "select-one" &&
+          !isValidDropdownOption(element, value)
+        ) {
+          alert(`Invalid option ${value} for ${id}`);
+        } else if (element.type == "number" && !isValidNumberValue(value)) {
+          alert(`Invalid value ${value} for ${id}. Must be number.`);
+        }
       }
+    };
+
+    const isValidDropdownOption = (element, value) => {
+      for (const option of element.childNodes) {
+        if (option.value === value) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const isValidNumberValue = (value) => {
+      return !isNaN(parseFloat(value));
     };
 
     const initializeFormValues = () => {
