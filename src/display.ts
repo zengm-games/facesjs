@@ -17,8 +17,6 @@ const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
 
-  console.log("rotateCentered", { bbox, element, angle, cx, cy });
-
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
@@ -51,8 +49,6 @@ const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
   const cy = bbox.y + bbox.height / 2;
   const tx = (cx * (1 - x)) / x;
   const ty = (cy * (1 - y)) / y;
-
-  console.log("scaleCentered", { bbox, element, x, y, cx, cy, tx, ty });
 
   addTransform(element, `scale(${x} ${y}) translate(${tx} ${ty})`);
 
@@ -93,8 +89,6 @@ const translate = (
     cy = bbox.y + bbox.height / 2;
   }
 
-  console.log("translate", { bbox, element, x, y, xAlign, yAlign, cx, cy });
-
   addTransform(element, `translate(${x - cx} ${y - cy})`);
 };
 
@@ -108,7 +102,6 @@ type FeatureInfo = {
 };
 
 const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
-  console.log("drawFeature", { svg, face, info, name: info.name });
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
