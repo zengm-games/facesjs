@@ -90,15 +90,13 @@
       <div class="d-md-flex">
         <div class="flex-grow-1">
           <div class="mb-4 mt-2 d-xl-flex">
-            <h1>
-              faces.js editor
-            </h1>
+            <h1>faces.js editor</h1>
             <div class="d-sm-flex align-items-center ml-xl-3">
               <div class="d-flex">
                 <select
                   id="option-race"
                   class="form-control mr-3"
-                  style="width: 100px;"
+                  style="width: 100px"
                 >
                   <option value="random">Random</option>
                   <option value="asian">Asian</option>
@@ -109,7 +107,7 @@
                 <select
                   id="option-gender"
                   class="form-control mr-3"
-                  style="width: 80px;"
+                  style="width: 80px"
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -805,6 +803,10 @@
           <button class="btn btn-secondary mt-1" id="copy">
             Copy to clipboard
           </button>
+          <button class="btn btn-secondary mt-1" id="paste">Draw JSON</button>
+          <button class="btn btn-secondary mt-1" id="reset">
+            Reset from drawing
+          </button>
         </div>
       </div>
     </div>
@@ -814,6 +816,8 @@
     const faceWrapper = document.getElementById("face");
     const jsonElement = document.getElementById("json");
 
+    let face;
+
     document.getElementById("copy").addEventListener("click", () => {
       jsonElement.focus();
       jsonElement.select();
@@ -821,6 +825,23 @@
       const successful = document.execCommand("copy");
       const msg = successful ? "successful" : "unsuccessful";
       console.log("Copying text command was " + msg);
+    });
+
+    document.getElementById("paste").addEventListener("click", () => {
+      let json_val = jsonElement.value;
+
+      try {
+        const parsedJson = JSON.parse(json_val);
+        faces.override(face, parsedJson);
+        updateDisplay();
+      } catch (error) {
+        console.error(error);
+        alert("Invalid JSON input");
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      jsonElement.value = JSON.stringify(face);
     });
 
     const generateFace = () => {
@@ -834,7 +855,6 @@
       return faces.generate(undefined, options);
     };
 
-    let face;
     if (location.hash.length <= 1) {
       face = generateFace();
     } else {
