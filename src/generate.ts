@@ -107,6 +107,7 @@ export const generate = (
 
   const face = {
     fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
+    lineOpacity: roundTwoDecimals((0.25 + 0.5 * Math.random()) ** 2),
     teamColors: defaultTeamColors,
     hairBg: {
       id:
@@ -165,6 +166,7 @@ export const generate = (
     mouth: {
       id: getID("mouth", gender),
       flip: isFlipped,
+      size: roundTwoDecimals(0.6 + Math.random() * 0.6),
     },
     nose: {
       id: getID("nose", gender),

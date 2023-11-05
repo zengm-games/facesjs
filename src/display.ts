@@ -96,9 +96,10 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<keyof Face, "fatness" | "teamColors">;
+  name: Exclude<keyof Face, "fatness" | "teamColors" | "lineOpacity">;
   positions: [null] | [number, number][];
   scaleFatness?: true;
+  opaqueLines?: true;
 };
 
 const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
@@ -232,6 +233,11 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
       scaleCentered(svg.lastChild, scale, scale);
     }
 
+    if (info.opaqueLines) {
+      // @ts-ignore
+      svg.lastChild.setAttribute("stroke-opacity", String(face.lineOpacity));
+    }
+
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
@@ -307,6 +313,7 @@ export const display = (
     {
       name: "eyeLine",
       positions: [null],
+      opaqueLines: true,
     },
     {
       name: "smileLine",
@@ -314,10 +321,12 @@ export const display = (
         [150, 435],
         [250, 435],
       ],
+      opaqueLines: true,
     },
     {
       name: "miscLine",
       positions: [null],
+      opaqueLines: true,
     },
     {
       name: "facialHair",
