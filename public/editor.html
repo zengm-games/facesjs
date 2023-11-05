@@ -327,6 +327,7 @@
                   </div>
                   <div class="group-item-multiline">
                     <div class="group-item-header">
+
                       <label for="eyeDistance">Eye Distance</label>
                       <input
                         class="random-attribute"
@@ -343,6 +344,26 @@
                       min="-4"
                       max="4"
                       step="0.5"
+                           />
+<div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="lineOpacity">Line Visibility</label>
+                      <input
+                        class="random-attribute randomize-head"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-lineOpacity"
+                      />
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="lineOpacity"
+                      min="0"
+                      max="1"
+                      step="0.01"
+
                     />
                   </div>
                 </div>
@@ -669,6 +690,26 @@
                       />
                     </div>
                   </div>
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="mouth-size">Size</label>
+                      <input
+                        class="random-attribute randomize-mouth"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-mouth-size"
+                      />
+                    </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="mouth-size"
+                      min="0.7"
+                      max="1.3"
+                      step="0.01"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3">
@@ -711,6 +752,16 @@
                       min="0.5"
                       max="1.5"
                       step="0.01"
+                    />
+                  </div>
+                  <div class="group-item">
+                    <select class="form-control" id="earring-id"></select>
+                    <input
+                      class="random-attribute randomize-ears"
+                      type="checkbox"
+                      value=""
+                      checked
+                      id="randomize-earring-id"
                     />
                   </div>
                 </div>
@@ -823,6 +874,10 @@
           <button class="btn btn-secondary mt-1" id="copy">
             Copy to clipboard
           </button>
+          <button class="btn btn-secondary mt-1" id="paste">Draw JSON</button>
+          <button class="btn btn-secondary mt-1" id="reset">
+            Reset from drawing
+          </button>
         </div>
       </div>
     </div>
@@ -832,6 +887,8 @@
     const faceWrapper = document.getElementById("face");
     const jsonElement = document.getElementById("json");
 
+    let face;
+
     document.getElementById("copy").addEventListener("click", () => {
       jsonElement.focus();
       jsonElement.select();
@@ -839,6 +896,26 @@
       const successful = document.execCommand("copy");
       const msg = successful ? "successful" : "unsuccessful";
       console.log("Copying text command was " + msg);
+    });
+
+    document.getElementById("paste").addEventListener("click", () => {
+      let json_val = jsonElement.value;
+
+      try {
+        const parsedJson = JSON.parse(json_val);
+        faces.override(face, parsedJson);
+        updateDisplay();
+
+        // Update all dropdowns in the form to what the user entered
+        initializeFormValues();
+      } catch (error) {
+        console.error(error);
+        alert("Invalid JSON input");
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      jsonElement.value = JSON.stringify(face);
     });
 
     const generateFace = () => {
@@ -852,7 +929,6 @@
       return faces.generate(undefined, options);
     };
 
-    let face;
     if (location.hash.length <= 1) {
       face = generateFace();
     } else {
@@ -916,7 +992,29 @@
         element.checked = value;
       } else {
         element.value = value;
+
+        if (
+          element.type == "select-one" &&
+          !isValidDropdownOption(element, value)
+        ) {
+          alert(`Invalid option ${value} for ${id}`);
+        } else if (element.type == "number" && !isValidNumberValue(value)) {
+          alert(`Invalid value ${value} for ${id}. Must be number.`);
+        }
       }
+    };
+
+    const isValidDropdownOption = (element, value) => {
+      for (const option of element.childNodes) {
+        if (option.value === value) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const isValidNumberValue = (value) => {
+      return !isNaN(parseFloat(value));
     };
 
     const initializeFormValues = () => {

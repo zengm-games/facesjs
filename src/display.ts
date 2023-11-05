@@ -20,6 +20,30 @@ const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
+function scaleEarring(
+  svg: SVGGraphicsElement,
+  face: Face,
+  positionY: number
+): number {
+  // Grab earring element in DOM, to give height for scaling later. Some earrings can be much taller than others
+  let earringElement = svg.lastChild as SVGGraphicsElement;
+  const earringBbox = earringElement.getBBox();
+
+  // Grab latest ear for this side - always the 3rd to last element before earring
+  let earElement = svg.children[svg.children.length - 3] as SVGGraphicsElement;
+  const earBbox = earElement.getBBox();
+
+  // Subtract 10 to account for slight buffer between actual ear size & bbox
+  let earHeight = earBbox.height - 10;
+
+  // We'll translate the earring down by 1/4 of the difference between the ear height and the ear size
+  let earSize = face.ear.size;
+  let earTranslate =
+    (earHeight - earHeight / earSize) / 4 + earBbox.y + earringBbox.height / 2;
+
+  return positionY + earTranslate;
+}
+
 const scaleStrokeWidthAndChildren = (
   element: SVGGraphicsElement,
   factor: number
@@ -96,10 +120,11 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<keyof Face, "fatness" | "teamColors" | "eyeDistance">;
+  name: Exclude<keyof Face, "fatness" | "teamColors" | "eyeDistance" | "lineOpacity">;
   positions: [null] | [number, number][];
   scaleFatness?: boolean;
   shiftWithEyes?: boolean;
+  opaqueLines?: true;
 };
 
 const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
@@ -217,6 +242,10 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         // @ts-ignore
         position[0] += shiftDirection * face.eyeDistance;
       }
+      
+      if (info.name === "earring") {
+        position[1] = scaleEarring(svg, face, position[1]);
+      }
 
       translate(
         svg.lastChild as SVGGraphicsElement,
@@ -244,6 +273,11 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     } else if (scale !== 1) {
       // @ts-ignore
       scaleCentered(svg.lastChild, scale, scale);
+    }
+
+    if (info.opaqueLines) {
+      // @ts-ignore
+      svg.lastChild.setAttribute("stroke-opacity", String(face.lineOpacity));
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
@@ -314,6 +348,14 @@ export const display = (
       scaleFatness: true,
     },
     {
+      name: "earring",
+      positions: [
+        [43, 338] as [number, number],
+        [357, 338] as [number, number],
+      ],
+      scaleFatness: true,
+    },
+    {
       name: "head",
       positions: [null], // Meaning it just gets placed into the SVG with no translation
       scaleFatness: true,
@@ -321,6 +363,7 @@ export const display = (
     {
       name: "eyeLine",
       positions: [null],
+      opaqueLines: true,
     },
     {
       name: "smileLine",
@@ -328,10 +371,12 @@ export const display = (
         [150, 435],
         [250, 435],
       ],
+      opaqueLines: true,
     },
     {
       name: "miscLine",
       positions: [null],
+      opaqueLines: true,
     },
     {
       name: "facialHair",

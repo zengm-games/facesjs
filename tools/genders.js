@@ -20,6 +20,10 @@ module.exports = {
     ear2: "both",
     ear3: "male",
   },
+  earring: {
+    "earring-stud": "both",
+    none: "both",
+  },
   eye: {
     eye1: "male",
     eye10: "male",
