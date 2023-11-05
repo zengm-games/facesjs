@@ -1,4 +1,4 @@
-export { display } from "./display.js";
+export { display, buildSVGString } from "./display.js";
 
 // Switch back to one line like the others after TypeScript 3.8, see below
 import { generate } from "./generate.js";

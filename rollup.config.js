@@ -1,5 +1,6 @@
 const resolve = require("@rollup/plugin-node-resolve").default;
 const babel = require("@rollup/plugin-babel").default;
+const commonjs = require("@rollup/plugin-commonjs");
 
 module.exports = {
   input: "public/bundle.js",
@@ -9,11 +10,14 @@ module.exports = {
     name: "faces",
   },
   plugins: [
-    babel({
-      babelHelpers: "bundled",
+    resolve({
       extensions: [".ts", ".js"],
     }),
-    resolve({
+    commonjs({
+      include: "node_modules/**", // Include all files within the src directory
+    }),
+    babel({
+      babelHelpers: "bundled",
       extensions: [".ts", ".js"],
     }),
   ],

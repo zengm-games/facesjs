@@ -34,6 +34,25 @@
         }
       }
 
+      #face2 {
+        max-height: 450px;
+        max-width: 300px;
+      }
+      @media (min-width: 762px) {
+        #face2 {
+          max-height: unset;
+          max-width: unset;
+          height: 450px;
+          width: 300px;
+        }
+      }
+      @media (min-width: 992px) {
+        #face2 {
+          height: 600px;
+          width: 400px;
+        }
+      }
+
       .group-wrapper {
         padding: 0.5rem;
         background-color: var(--yellow);
@@ -173,7 +192,11 @@
                         id="randomize-body-color"
                       />
                     </div>
-                    <input type="color" class="form-control" id="body-color" />
+                    <div
+                      type="color"
+                      class="form-control"
+                      id="body-color"
+                    ></div>
                   </div>
                   <div class="group-item-multiline">
                     <div class="group-item-header">
@@ -441,7 +464,11 @@
                         id="randomize-hair-color"
                       />
                     </div>
-                    <input type="color" class="form-control" id="hair-color" />
+                    <div
+                      type="color"
+                      class="form-control"
+                      id="hair-color"
+                    ></div>
                   </div>
                 </div>
                 <div class="group-wrapper group-wrapper-alt">
@@ -830,31 +857,31 @@
                     <div class="group-item-header">
                       <label for="body-color">Primary</label>
                     </div>
-                    <input
+                    <div
                       type="color"
                       class="form-control"
                       id="teamColors-0"
-                    />
+                    ></div>
                   </div>
                   <div class="group-item-multiline">
                     <div class="group-item-header">
                       <label for="body-color">Secondary</label>
                     </div>
-                    <input
+                    <div
                       type="color"
                       class="form-control"
                       id="teamColors-1"
-                    />
+                    ></div>
                   </div>
                   <div class="group-item-multiline">
                     <div class="group-item-header">
                       <label for="body-color">Accent</label>
                     </div>
-                    <input
+                    <div
                       type="color"
                       class="form-control"
                       id="teamColors-2"
-                    />
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -863,6 +890,7 @@
         </div>
         <div class="ml-md-3">
           <div id="face"></div>
+          <div id="face2"></div>
           <textarea id="json" class="form-control mt-3"></textarea>
           <button class="btn btn-secondary mt-1" id="copy">
             Copy to clipboard
@@ -878,6 +906,7 @@
   <script src="build/bundle.js"></script>
   <script>
     const faceWrapper = document.getElementById("face");
+    const faceWrapper2 = document.getElementById("face2");
     const jsonElement = document.getElementById("json");
 
     let face;
@@ -952,7 +981,13 @@
 
     const updateDisplay = () => {
       console.log(face);
-      faces.display(faceWrapper, face);
+
+      faces.display(face, {}, faceWrapper);
+
+      let face2_return = faces.buildSVGString(face, {});
+      console.log({ face2_return, faceWrapper2 });
+      faceWrapper2.innerHTML = face2_return;
+
       history.replaceState(
         undefined,
         undefined,
@@ -981,6 +1016,10 @@
 
     const initializeFormValue = (id, value) => {
       const element = document.getElementById(id);
+      if (id == "innerHTML") {
+        return;
+      }
+
       if (element.classList.contains("form-check-input")) {
         element.checked = value;
       } else {

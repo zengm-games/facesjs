@@ -1,65 +1,249 @@
 import { Face } from "./generate.js";
 import override, { Overrides } from "./override.js";
 import svgs from "./svgs.js";
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
+import bbox from "svg-path-bounding-box";
 
-const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
+const svg_options = {
+  ignoreAttributes: false,
+  attributeNamePrefix: "@_",
+  allowBooleanAttributes: true,
+};
+let parser = new XMLParser(svg_options);
 
-const addTransform = (element: SVGGraphicsElement, newTransform: string) => {
-  const oldTransform = element.getAttribute("transform");
-  element.setAttribute(
-    "transform",
-    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`
-  );
+const setAttribute = (
+  element: SVGGraphicsElement | any,
+  attribute_name: string,
+  value: string
+) => {
+  console.log("setAttribute", { element, attribute_name, value });
+  if (element && element.nodeType === Node.ELEMENT_NODE) {
+    element.setAttribute(attribute_name, value);
+  } else {
+    element[`@_${attribute_name}`] = value;
+  }
 };
 
-const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
-  const bbox = element.getBBox();
-  const cx = bbox.x + bbox.width / 2;
-  const cy = bbox.y + bbox.height / 2;
+const getAttribute = (
+  element: SVGGraphicsElement | any,
+  attribute_name: string
+) => {
+  console.log("getAttribute", { element, attribute_name });
+  if (element && element.nodeType === Node.ELEMENT_NODE) {
+    return element.getAttribute(attribute_name);
+  } else {
+    return element[`@_${attribute_name}`];
+  }
+};
+
+const appendElement = (svg: SVGGraphicsElement | any, element: any) => {
+  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
+    svg.insertAdjacentHTML("beforeend", element);
+  } else {
+    svg.svg.g.push(element);
+  }
+};
+
+const lastChild = (svg: SVGGraphicsElement | any) => {
+  console.log("lastChild", { svg });
+  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
+    return svg.lastChild;
+  } else {
+    return svg.svg.g[svg.svg.g.length - 1];
+  }
+};
+
+const nthLastChild = (svg: SVGGraphicsElement | any, n: number) => {
+  console.log("nthLastChild", { svg, n });
+  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
+    let children = childNodes(svg);
+
+    return children[children.length - n];
+  } else {
+    return svg.svg.g[svg.svg.g.length - n];
+  }
+};
+
+const childNodes = function (element: any | SVGGraphicsElement) {
+  let children: any = [];
+
+  console.log("childNodes", { element });
+
+  if (element && element.nodeType === Node.ELEMENT_NODE) {
+    return element.childNodes;
+  } else {
+    Object.entries(element).forEach((entry) => {
+      let key = entry[0];
+      let val = entry[1];
+      if (!key.includes("@_")) {
+        children.push(val);
+      }
+    });
+    return children.flat();
+  }
+};
+
+function findPathDAttributes(obj: any) {
+  let bboxes: any[] = [];
+
+  function recurse(
+    element: { [x: string]: any; hasOwnProperty: (arg0: string) => any } | null
+  ) {
+    if (typeof element === "object" && element !== null) {
+      if (element.hasOwnProperty("@_d")) {
+        // Check if this is a path object with a 'd' attribute
+        bboxes.push(bbox(element["@_d"]));
+      }
+      for (let key in element) {
+        recurse(element[key]); // Recurse into the object
+      }
+    }
+  }
+
+  recurse(obj); // Start the recursion on the parsed object
+
+  return bboxes;
+}
+
+// Function to combine bounding boxes into one
+function combineBoundingBoxes(
+  bboxes: { minX: number; minY: number; maxX: number; maxY: number }[]
+): {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+  width: number;
+  height: number;
+} {
+  let combinedBbox = {
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+    height: 0,
+    width: 0,
+  };
+
+  bboxes.forEach((bbox) => {
+    combinedBbox.minX = Math.min(combinedBbox.minX, bbox.minX);
+    combinedBbox.minY = Math.min(combinedBbox.minY, bbox.minY);
+    combinedBbox.maxX = Math.max(combinedBbox.maxX, bbox.maxX);
+    combinedBbox.maxY = Math.max(combinedBbox.maxY, bbox.maxY);
+  });
+
+  // Calculate width and height from combined extremes
+  combinedBbox.width = combinedBbox.maxX - combinedBbox.minX;
+  combinedBbox.height = combinedBbox.maxY - combinedBbox.minY;
+
+  return combinedBbox;
+}
+
+const getBbox = (element: SVGGraphicsElement | any) => {
+  // Find bounding boxes for all 'd' attributes
+  if (element && element.nodeType === Node.ELEMENT_NODE) {
+    return element.getBBox();
+  } else {
+    const bboxes = findPathDAttributes(element);
+    const element_bbox = combineBoundingBoxes(bboxes);
+
+    return {
+      height: element_bbox.height,
+      width: element_bbox.width,
+      x: element_bbox.minX,
+      y: element_bbox.minY,
+    };
+  }
+};
+
+const addWrapper = (svgString: string, element: any | SVGGraphicsElement) => {
+  if (element && element.nodeType === Node.ELEMENT_NODE) {
+    return `<g>${svgString}</g>`;
+  } else {
+    return {
+      g: parser.parse(svgString),
+    };
+  }
+};
+
+const addTransform = (
+  element: SVGGraphicsElement | any,
+  newTransform: string
+) => {
+  let oldTransform = getAttribute(element, "transform");
+  let updatedTransform = oldTransform
+    ? `${oldTransform} ${newTransform}`
+    : newTransform;
+  // console.log('Add Transform', { element, newTransform, oldTransform, updatedTransform })
+  setAttribute(element, "transform", updatedTransform);
+};
+
+const rotateCentered = (element: SVGGraphicsElement | any, angle: number) => {
+  const { x, y, height, width } = getBbox(element);
+  const cx = x + width / 2;
+  const cy = y + height / 2;
 
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
 function scaleEarring(
-  svg: SVGGraphicsElement,
+  svg: SVGGraphicsElement | any,
   face: Face,
   positionY: number
 ): number {
   // Grab earring element in DOM, to give height for scaling later. Some earrings can be much taller than others
-  let earringElement = svg.lastChild as SVGGraphicsElement;
-  const earringBbox = earringElement.getBBox();
-
   // Grab latest ear for this side - always the 3rd to last element before earring
-  let earElement = svg.children[svg.children.length - 3] as SVGGraphicsElement;
-  const earBbox = earElement.getBBox();
+  let earringElement = lastChild(svg);
+  let earElement = nthLastChild(svg, 3);
+
+  console.log("scaleEarring", {
+    svg,
+    face,
+    positionY,
+    earringElement,
+    earElement,
+  });
+
+  const earringBbox = getBbox(earringElement);
+  const earBbox = getBbox(earElement);
 
   // Subtract 10 to account for slight buffer between actual ear size & bbox
-  let earHeight = earBbox.height - 10;
+  let earHeight = Math.max(0, earBbox.height - 10);
 
   // We'll translate the earring down by 1/4 of the difference between the ear height and the ear size
   let earSize = face.ear.size;
   let earTranslate =
     (earHeight - earHeight / earSize) / 4 + earBbox.y + earringBbox.height / 2;
 
+  console.log("scaleEarring 2", {
+    earHeight,
+    earSize,
+    earTranslate,
+    earBbox,
+    earringBbox,
+  });
+
   return positionY + earTranslate;
 }
 
 const scaleStrokeWidthAndChildren = (
-  element: SVGGraphicsElement,
+  element: SVGGraphicsElement | any,
   factor: number
 ) => {
-  if (element.tagName === "style") {
+  // console.log('scaleStrokeWidthAndChildren', { element, factor })
+  if (element.tagName === "style" || typeof element === "string") {
     return;
   }
 
-  const strokeWidth = element.getAttribute("stroke-width");
-  if (strokeWidth) {
-    element.setAttribute(
-      "stroke-width",
-      String(parseFloat(strokeWidth) / factor)
-    );
-  }
-  const children = element.childNodes as unknown as SVGGraphicsElement[];
+  const strokeWidth = getAttribute(element, "stroke-width");
+  setAttribute(
+    element,
+    "stroke-width",
+    String(parseFloat(strokeWidth) / factor)
+  );
+
+  const children = childNodes(element);
+
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }
@@ -67,8 +251,12 @@ const scaleStrokeWidthAndChildren = (
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
-const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
-  const bbox = element.getBBox();
+const scaleCentered = (
+  element: SVGGraphicsElement | any,
+  x: number,
+  y: number
+) => {
+  const bbox = getBbox(element);
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
   const tx = (cx * (1 - x)) / x;
@@ -89,13 +277,13 @@ const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
 
 // Translate element such that its center is at (x, y). Specifying xAlign and yAlign can instead make (x, y) the left/right and top/bottom.
 const translate = (
-  element: SVGGraphicsElement,
+  element: SVGGraphicsElement | any,
   x: number,
   y: number,
   xAlign = "center",
   yAlign = "center"
 ) => {
-  const bbox = element.getBBox();
+  const bbox = getBbox(element);
   let cx;
   let cy;
   if (xAlign === "left") {
@@ -130,7 +318,11 @@ type FeatureInfo = {
   opaqueLines?: true;
 };
 
-const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
+const drawFeature = (
+  svg: SVGSVGElement | any,
+  face: Face,
+  info: FeatureInfo
+) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -222,13 +414,12 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
       /\$\[shaveOpacity\]/g,
       feature.shaveOpacity
     );
-    console.log("featureSVGString hasOwnProperty", featureSVGString);
   }
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
   for (let i = 0; i < info.positions.length; i++) {
-    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
+    appendElement(svg, addWrapper(featureSVGString, svg));
 
     const position = info.positions[i];
 
@@ -259,17 +450,12 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         position[1] = scaleEarring(svg, face, position[1]);
       }
 
-      translate(
-        svg.lastChild as SVGGraphicsElement,
-        position[0],
-        position[1],
-        xAlign
-      );
+      translate(lastChild(svg), position[0], position[1], xAlign);
     }
 
     if (feature.hasOwnProperty("angle")) {
       // @ts-ignore
-      rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
+      rotateCentered(lastChild(svg), (i === 0 ? 1 : -1) * feature.angle);
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
@@ -277,26 +463,26 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
     if (info.name === "body" || info.name === "jersey") {
       // @ts-ignore
-      scaleCentered(svg.lastChild, bodySize, 1);
+      scaleCentered(lastChild(svg), bodySize, 1);
       // @ts-ignore
     } else if (feature.flip || i === 1) {
       // @ts-ignore
-      scaleCentered(svg.lastChild, -scale, scale);
+      scaleCentered(lastChild(svg), -scale, scale);
     } else if (scale !== 1) {
       // @ts-ignore
-      scaleCentered(svg.lastChild, scale, scale);
+      scaleCentered(lastChild(svg), scale, scale);
     }
 
     if (info.opaqueLines) {
       // @ts-ignore
-      svg.lastChild.setAttribute("stroke-opacity", String(face.lineOpacity));
+      setAttribute(lastChild(svg), "stroke-opacity", String(face.lineOpacity));
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
       // @ts-ignore
-      translate(svg.lastChild, distance, 0, "left", "top");
+      translate(lastChild(svg), distance, 0, "left", "top");
     }
   }
 
@@ -306,36 +492,17 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     info.positions[0] === null
   ) {
     // @ts-ignore
-    scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
+    scaleCentered(lastChild(svg), fatScale(face.fatness), 1);
   }
 };
 
-export const display = (
-  container: HTMLElement | string | null,
+export const buildSVGString = (
   face: Face,
-  overrides: Overrides
+  overrides: Overrides,
+  containerElement: any
 ) => {
   override(face, overrides);
-
-  const containerElement =
-    typeof container === "string"
-      ? document.getElementById(container)
-      : container;
-  if (!containerElement) {
-    throw new Error("container not found");
-  }
-  containerElement.innerHTML = "";
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("version", "1.2");
-  svg.setAttribute("baseProfile", "tiny");
-  svg.setAttribute("width", "100%");
-  svg.setAttribute("height", "100%");
-  svg.setAttribute("viewBox", "0 0 400 600");
-  svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
-
-  // Needs to be in the DOM here so getBBox will work
-  containerElement.appendChild(svg);
+  let svg = buildBaseSVG(containerElement);
 
   const featureInfos: FeatureInfo[] = [
     {
@@ -439,4 +606,67 @@ export const display = (
   for (const info of featureInfos) {
     drawFeature(svg, face, info);
   }
+
+  if (containerElement && containerElement.nodeType === Node.ELEMENT_NODE) {
+    return;
+  } else {
+    // @ts-ignore
+    let builder = new XMLBuilder(svg_options);
+    return builder.build(svg);
+  }
+};
+
+const buildBaseSVG = (containerElement: SVGGraphicsElement | any) => {
+  let svg;
+  if (containerElement && containerElement.nodeType === Node.ELEMENT_NODE) {
+    svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    setAttribute(svg, "version", "1.2");
+    setAttribute(svg, "baseProfile", "tiny");
+    setAttribute(svg, "width", "100%");
+    setAttribute(svg, "height", "100%");
+    setAttribute(svg, "viewBox", "0 0 400 600");
+    setAttribute(svg, "preserveAspectRatio", "xMinYMin meet");
+    containerElement.appendChild(svg);
+  } else {
+    svg = {
+      svg: {
+        "@_version": "1.2",
+        "@_baseProfile": "tiny",
+        "@_width": "100%",
+        "@_height": "100%",
+        "@_viewBox": "0 0 400 600",
+        "@_preserveAspectRatio": "xMinYMin meet",
+        g: [],
+      },
+    };
+  }
+
+  console.log("buildBaseSVG", {
+    containerElement,
+    svg,
+    t: typeof containerElement,
+    t2: typeof svg,
+  });
+
+  return svg;
+};
+
+export const display = (
+  face: Face,
+  overrides: Overrides,
+  container: HTMLElement | string | null
+) => {
+  const containerElement = (
+    typeof container === "string"
+      ? document.getElementById(container)
+      : container
+  ) as HTMLElement;
+  if (!containerElement) {
+    throw new Error("container not found");
+  }
+  containerElement.innerHTML = "";
+
+  console.log("display", { face, overrides, container, containerElement });
+
+  buildSVGString(face, overrides, containerElement);
 };
