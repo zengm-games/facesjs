@@ -108,6 +108,7 @@ export const generate = (
   const face = {
     fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
     teamColors: defaultTeamColors,
+    eyeDistance: 8 * Math.random() - 4,
     hairBg: {
       id:
         Math.random() < (gender === "male" ? 0.1 : 0.9)
@@ -155,7 +156,6 @@ export const generate = (
     eye: {
       id: getID("eye", gender),
       angle: eyeAngle,
-      distance: 8 * Math.random() - 4,
     },
     eyebrow: {
       id: getID("eyebrow", gender),
