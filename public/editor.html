@@ -90,15 +90,13 @@
       <div class="d-md-flex">
         <div class="flex-grow-1">
           <div class="mb-4 mt-2 d-xl-flex">
-            <h1>
-              faces.js editor
-            </h1>
+            <h1>faces.js editor</h1>
             <div class="d-sm-flex align-items-center ml-xl-3">
               <div class="d-flex">
                 <select
                   id="option-race"
                   class="form-control mr-3"
-                  style="width: 100px;"
+                  style="width: 100px"
                 >
                   <option value="random">Random</option>
                   <option value="asian">Asian</option>
@@ -109,7 +107,7 @@
                 <select
                   id="option-gender"
                   class="form-control mr-3"
-                  style="width: 80px;"
+                  style="width: 80px"
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -539,6 +537,26 @@
                       min="-15"
                       max="20"
                       step="1"
+                    />
+                  </div>
+                  <div class="group-item-multiline">
+                    <div class="group-item-header">
+                      <label for="eye-distance">Distance</label>
+                      <input
+                        class="random-attribute randomize-eyes"
+                        type="checkbox"
+                        value=""
+                        checked
+                        id="randomize-eye-distance"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      class="form-control"
+                      id="eye-distance"
+                      min="-4"
+                      max="4"
+                      step="0.5"
                     />
                   </div>
                 </div>

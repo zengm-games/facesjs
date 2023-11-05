@@ -204,6 +204,13 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         xAlign = "center";
       }
 
+      // @ts-ignore
+      if (feature.distance) {
+        let move_direction = i == 1 ? 1 : -1;
+        // @ts-ignore
+        position[0] += move_direction * feature.distance;
+      }
+
       translate(
         svg.lastChild as SVGGraphicsElement,
         position[0],

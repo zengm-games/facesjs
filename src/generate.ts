@@ -152,7 +152,11 @@ export const generate = (
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
     },
-    eye: { id: getID("eye", gender), angle: eyeAngle },
+    eye: {
+      id: getID("eye", gender),
+      angle: eyeAngle,
+      distance: 8 * Math.random() - 4,
+    },
     eyebrow: {
       id: getID("eyebrow", gender),
       angle: Math.round(Math.random() * 35 - 15),
