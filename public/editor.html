@@ -853,6 +853,10 @@
           <button class="btn btn-secondary mt-1" id="copy">
             Copy to clipboard
           </button>
+          <button class="btn btn-secondary mt-1" id="paste">Draw JSON</button>
+          <button class="btn btn-secondary mt-1" id="reset">
+            Reset from drawing
+          </button>
         </div>
       </div>
     </div>
@@ -862,6 +866,8 @@
     const faceWrapper = document.getElementById("face");
     const jsonElement = document.getElementById("json");
 
+    let face;
+
     document.getElementById("copy").addEventListener("click", () => {
       jsonElement.focus();
       jsonElement.select();
@@ -869,6 +875,26 @@
       const successful = document.execCommand("copy");
       const msg = successful ? "successful" : "unsuccessful";
       console.log("Copying text command was " + msg);
+    });
+
+    document.getElementById("paste").addEventListener("click", () => {
+      let json_val = jsonElement.value;
+
+      try {
+        const parsedJson = JSON.parse(json_val);
+        faces.override(face, parsedJson);
+        updateDisplay();
+
+        // Update all dropdowns in the form to what the user entered
+        initializeFormValues();
+      } catch (error) {
+        console.error(error);
+        alert("Invalid JSON input");
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      jsonElement.value = JSON.stringify(face);
     });
 
     const generateFace = () => {
@@ -882,7 +908,6 @@
       return faces.generate(undefined, options);
     };
 
-    let face;
     if (location.hash.length <= 1) {
       face = generateFace();
     } else {
@@ -946,7 +971,29 @@
         element.checked = value;
       } else {
         element.value = value;
+
+        if (
+          element.type == "select-one" &&
+          !isValidDropdownOption(element, value)
+        ) {
+          alert(`Invalid option ${value} for ${id}`);
+        } else if (element.type == "number" && !isValidNumberValue(value)) {
+          alert(`Invalid value ${value} for ${id}. Must be number.`);
+        }
       }
+    };
+
+    const isValidDropdownOption = (element, value) => {
+      for (const option of element.childNodes) {
+        if (option.value === value) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const isValidNumberValue = (value) => {
+      return !isNaN(parseFloat(value));
     };
 
     const initializeFormValues = () => {
