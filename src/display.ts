@@ -389,6 +389,7 @@ const drawFeature = (
     // @ts-ignore
     featureSVGString = featureSVGString.replace(
       /\$\[shaveOpacity\]/g,
+      // @ts-ignore
       feature.shaveOpacity
     );
   }
@@ -621,9 +622,9 @@ const buildBaseSVG = (containerElement: SVGGraphicsElement | any) => {
 };
 
 export const display = (
+  container: HTMLElement | string | null,
   face: Face,
-  overrides: Overrides,
-  container: HTMLElement | string | null
+  overrides: Overrides
 ) => {
   const containerElement = (
     typeof container === "string"

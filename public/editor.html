@@ -974,11 +974,15 @@
     const updateDisplay = () => {
       console.log(face);
 
-      faces.display(face, {}, faceWrapper);
+      let server_or_dom = "server";
 
-      let face2_return = faces.buildSVGString(face, {});
-      console.log({ face2_return, faceWrapper2 });
-      faceWrapper2.innerHTML = face2_return;
+      if (server_or_dom === "server") {
+        faceWrapper2.innerHTML = faces.buildSVGString(face);
+        faceWrapper.style.display = "none";
+      } else {
+        faces.display(faceWrapper, face);
+        faceWrapper2.style.display = "none";
+      }
 
       history.replaceState(
         undefined,
