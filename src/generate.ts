@@ -152,11 +152,10 @@ export const generate = (
     },
     head: {
       id: getID("head", gender),
-      shave: `rgba(${hairR},${hairG},${hairB},${
+      shaveOpacity:
         gender === "male" && Math.random() < 0.35
           ? roundTwoDecimals(Math.random() / 5)
-          : 0
-      })`,
+          : 0,
     },
     eyeLine: {
       id: Math.random() < 0.75 ? getID("eyeLine", gender) : "none",

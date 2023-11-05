@@ -186,14 +186,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     return;
   }
 
-  // @ts-ignore
-  if (feature.shave) {
-    // @ts-ignore
-    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
-    // @ts-ignore
-    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
-  }
-
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
@@ -211,6 +203,16 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     /\$\[accent\]/g,
     face.teamColors[2]
   );
+
+  // @ts-ignore
+  if (feature.hasOwnProperty("shaveOpacity")) {
+    // @ts-ignore
+    featureSVGString = featureSVGString.replace(
+      /\$\[shaveOpacity\]/g,
+      feature.shaveOpacity
+    );
+    console.log("featureSVGString hasOwnProperty", featureSVGString);
+  }
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
