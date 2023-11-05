@@ -303,6 +303,8 @@ module.exports = {
     jersey3: "both",
     jersey4: "both",
     jersey5: "both",
+    suit: "male",
+    suit2: "male",
   },
   miscLine: {
     blush: "female",
