@@ -12,12 +12,16 @@ const svg_options = {
 let parser = new XMLParser(svg_options);
 let builder = new XMLBuilder(svg_options);
 
+const isDOMElement = (element: any) => {
+  return element && element.nodeType === Node.ELEMENT_NODE;
+};
+
 const setAttribute = (
   element: SVGGraphicsElement | any,
   attribute_name: string,
   value: string
 ) => {
-  if (element && element.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(element)) {
     element.setAttribute(attribute_name, value);
   } else {
     element[`@_${attribute_name}`] = value;
@@ -28,15 +32,13 @@ const getAttribute = (
   element: SVGGraphicsElement | any,
   attribute_name: string
 ) => {
-  if (element && element.nodeType === Node.ELEMENT_NODE) {
-    return element.getAttribute(attribute_name);
-  } else {
-    return element[`@_${attribute_name}`];
-  }
+  return isDOMElement(element)
+    ? element.getAttribute(attribute_name)
+    : element[`@_${attribute_name}`];
 };
 
 const appendElement = (svg: SVGGraphicsElement | any, element: any) => {
-  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(svg)) {
     svg.insertAdjacentHTML("beforeend", element);
   } else {
     svg.svg.g.push(element);
@@ -44,27 +46,18 @@ const appendElement = (svg: SVGGraphicsElement | any, element: any) => {
 };
 
 const lastChild = (svg: SVGGraphicsElement | any) => {
-  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
-    return svg.lastChild;
-  } else {
-    return svg.svg.g[svg.svg.g.length - 1];
-  }
+  return isDOMElement(svg) ? svg.lastChild : svg.svg.g[svg.svg.g.length - 1];
 };
 
 const nthLastChild = (svg: SVGGraphicsElement | any, n: number) => {
-  if (svg && svg.nodeType === Node.ELEMENT_NODE) {
-    let children = childNodes(svg);
-
-    return children[children.length - n];
-  } else {
-    return svg.svg.g[svg.svg.g.length - n];
-  }
+  let children = isDOMElement(svg) ? childNodes(svg) : svg.svg.g;
+  return children[children.length - n];
 };
 
 const childNodes = function (element: any | SVGGraphicsElement) {
   let children: any = [];
 
-  if (element && element.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(element)) {
     return element.childNodes;
   } else {
     Object.entries(element).forEach((entry) => {
@@ -136,7 +129,7 @@ function combineBoundingBoxes(
 
 const getBbox = (element: SVGGraphicsElement | any) => {
   // Find bounding boxes for all 'd' attributes
-  if (element && element.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(element)) {
     return element.getBBox();
   } else {
     const bboxes = findPathDAttributes(element);
@@ -152,13 +145,9 @@ const getBbox = (element: SVGGraphicsElement | any) => {
 };
 
 const addWrapper = (svgString: string, element: any | SVGGraphicsElement) => {
-  if (element && element.nodeType === Node.ELEMENT_NODE) {
-    return `<g>${svgString}</g>`;
-  } else {
-    return {
-      g: parser.parse(svgString),
-    };
-  }
+  return isDOMElement(element)
+    ? `<g>${svgString}</g>`
+    : { g: parser.parse(svgString) };
 };
 
 const addTransform = (
@@ -585,7 +574,7 @@ export const buildSVGString = (
     drawFeature(svg, face, info);
   }
 
-  if (containerElement && containerElement.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(containerElement)) {
     return;
   } else {
     // @ts-ignore
@@ -595,7 +584,7 @@ export const buildSVGString = (
 
 const buildBaseSVG = (containerElement: SVGGraphicsElement | any) => {
   let svg;
-  if (containerElement && containerElement.nodeType === Node.ELEMENT_NODE) {
+  if (isDOMElement(containerElement)) {
     svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     setAttribute(svg, "version", "1.2");
     setAttribute(svg, "baseProfile", "tiny");
