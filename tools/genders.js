@@ -22,6 +22,9 @@ module.exports = {
   },
   earring: {
     "earring-stud": "both",
+    "earring-diamond-hanging": "both",
+    "earring-silver-diamond": "both",
+    "earring-silver": "both",
     none: "both",
   },
   eye: {

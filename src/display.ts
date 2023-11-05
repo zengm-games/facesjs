@@ -120,7 +120,10 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<keyof Face, "fatness" | "teamColors" | "eyeDistance" | "lineOpacity">;
+  name: Exclude<
+    keyof Face,
+    "fatness" | "teamColors" | "eyeDistance" | "lineOpacity"
+  >;
   positions: [null] | [number, number][];
   scaleFatness?: boolean;
   shiftWithEyes?: boolean;
@@ -187,10 +190,6 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   if (feature.shave) {
     // @ts-ignore
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
-  }
-
-  // @ts-ignore
-  if (feature.shave) {
     // @ts-ignore
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
@@ -242,7 +241,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         // @ts-ignore
         position[0] += shiftDirection * face.eyeDistance;
       }
-      
+
       if (info.name === "earring") {
         position[1] = scaleEarring(svg, face, position[1]);
       }

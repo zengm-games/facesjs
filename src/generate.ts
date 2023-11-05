@@ -22,6 +22,17 @@ type Feature =
   | "nose"
   | "smileLine";
 
+const colorHexToRGB = (
+  hairColor: string
+): { hairR: number; hairG: number; hairB: number } => {
+  const hex = hairColor.replace("#", "");
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  return { hairR: r, hairG: g, hairB: b };
+};
+
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((id, index) => {
     return (
@@ -106,6 +117,8 @@ export const generate = (
     palette.hair[Math.floor(Math.random() * palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
+  const { hairR, hairG, hairB } = colorHexToRGB(hairColor);
+
   const face = {
     fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
     lineOpacity: roundTwoDecimals((0.25 + 0.5 * Math.random()) ** 2),
@@ -139,8 +152,8 @@ export const generate = (
     },
     head: {
       id: getID("head", gender),
-      shave: `rgba(0,0,0,${
-        gender === "male" && Math.random() < 0.25
+      shave: `rgba(${hairR},${hairG},${hairB},${
+        gender === "male" && Math.random() < 0.35
           ? roundTwoDecimals(Math.random() / 5)
           : 0
       })`,
