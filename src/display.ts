@@ -120,9 +120,10 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<keyof Face, "fatness" | "teamColors" | "lineOpacity">;
+  name: Exclude<keyof Face, "fatness" | "teamColors" | "eyeDistance" | "lineOpacity">;
   positions: [null] | [number, number][];
-  scaleFatness?: true;
+  scaleFatness?: boolean;
+  shiftWithEyes?: boolean;
   opaqueLines?: true;
 };
 
@@ -229,6 +230,19 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         xAlign = "center";
       }
 
+      // @ts-ignore
+      if (feature.distance) {
+        let move_direction = i == 1 ? 1 : -1;
+        // @ts-ignore
+        position[0] += move_direction * feature.distance;
+      }
+
+      let shiftDirection = i == 1 ? 1 : -1;
+      if (info.shiftWithEyes) {
+        // @ts-ignore
+        position[0] += shiftDirection * face.eyeDistance;
+      }
+      
       if (info.name === "earring") {
         position[1] = scaleEarring(svg, face, position[1]);
       }
@@ -375,6 +389,7 @@ export const display = (
         [140, 310],
         [260, 310],
       ],
+      shiftWithEyes: true,
     },
     {
       name: "eyebrow",
@@ -382,6 +397,7 @@ export const display = (
         [140, 270],
         [260, 270],
       ],
+      shiftWithEyes: true,
     },
     {
       name: "mouth",
