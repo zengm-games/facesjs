@@ -34,25 +34,6 @@
         }
       }
 
-      #face2 {
-        max-height: 450px;
-        max-width: 300px;
-      }
-      @media (min-width: 762px) {
-        #face2 {
-          max-height: unset;
-          max-width: unset;
-          height: 450px;
-          width: 300px;
-        }
-      }
-      @media (min-width: 992px) {
-        #face2 {
-          height: 600px;
-          width: 400px;
-        }
-      }
-
       .group-wrapper {
         padding: 0.5rem;
         background-color: var(--yellow);
@@ -898,7 +879,6 @@
   <script src="build/bundle.js"></script>
   <script>
     const faceWrapper = document.getElementById("face");
-    const faceWrapper2 = document.getElementById("face2");
     const jsonElement = document.getElementById("json");
 
     let face;
@@ -974,14 +954,12 @@
     const updateDisplay = () => {
       console.log(face);
 
-      let server_or_dom = "dom";
+      let server_or_dom = "server";
 
       if (server_or_dom === "server") {
-        faceWrapper2.innerHTML = faces.buildSVGString(face);
-        faceWrapper.style.display = "none";
+        faceWrapper.innerHTML = faces.buildSVGString(face);
       } else {
         faces.display(faceWrapper, face);
-        faceWrapper2.style.display = "none";
       }
 
       history.replaceState(
