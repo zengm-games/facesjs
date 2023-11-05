@@ -10,13 +10,13 @@ const svg_options = {
   allowBooleanAttributes: true,
 };
 let parser = new XMLParser(svg_options);
+let builder = new XMLBuilder(svg_options);
 
 const setAttribute = (
   element: SVGGraphicsElement | any,
   attribute_name: string,
   value: string
 ) => {
-  console.log("setAttribute", { element, attribute_name, value });
   if (element && element.nodeType === Node.ELEMENT_NODE) {
     element.setAttribute(attribute_name, value);
   } else {
@@ -28,7 +28,6 @@ const getAttribute = (
   element: SVGGraphicsElement | any,
   attribute_name: string
 ) => {
-  console.log("getAttribute", { element, attribute_name });
   if (element && element.nodeType === Node.ELEMENT_NODE) {
     return element.getAttribute(attribute_name);
   } else {
@@ -45,7 +44,6 @@ const appendElement = (svg: SVGGraphicsElement | any, element: any) => {
 };
 
 const lastChild = (svg: SVGGraphicsElement | any) => {
-  console.log("lastChild", { svg });
   if (svg && svg.nodeType === Node.ELEMENT_NODE) {
     return svg.lastChild;
   } else {
@@ -54,7 +52,6 @@ const lastChild = (svg: SVGGraphicsElement | any) => {
 };
 
 const nthLastChild = (svg: SVGGraphicsElement | any, n: number) => {
-  console.log("nthLastChild", { svg, n });
   if (svg && svg.nodeType === Node.ELEMENT_NODE) {
     let children = childNodes(svg);
 
@@ -66,8 +63,6 @@ const nthLastChild = (svg: SVGGraphicsElement | any, n: number) => {
 
 const childNodes = function (element: any | SVGGraphicsElement) {
   let children: any = [];
-
-  console.log("childNodes", { element });
 
   if (element && element.nodeType === Node.ELEMENT_NODE) {
     return element.childNodes;
@@ -174,7 +169,6 @@ const addTransform = (
   let updatedTransform = oldTransform
     ? `${oldTransform} ${newTransform}`
     : newTransform;
-  // console.log('Add Transform', { element, newTransform, oldTransform, updatedTransform })
   setAttribute(element, "transform", updatedTransform);
 };
 
@@ -196,14 +190,6 @@ function scaleEarring(
   let earringElement = lastChild(svg);
   let earElement = nthLastChild(svg, 3);
 
-  console.log("scaleEarring", {
-    svg,
-    face,
-    positionY,
-    earringElement,
-    earElement,
-  });
-
   const earringBbox = getBbox(earringElement);
   const earBbox = getBbox(earElement);
 
@@ -215,14 +201,6 @@ function scaleEarring(
   let earTranslate =
     (earHeight - earHeight / earSize) / 4 + earBbox.y + earringBbox.height / 2;
 
-  console.log("scaleEarring 2", {
-    earHeight,
-    earSize,
-    earTranslate,
-    earBbox,
-    earringBbox,
-  });
-
   return positionY + earTranslate;
 }
 
@@ -230,7 +208,6 @@ const scaleStrokeWidthAndChildren = (
   element: SVGGraphicsElement | any,
   factor: number
 ) => {
-  // console.log('scaleStrokeWidthAndChildren', { element, factor })
   if (element.tagName === "style" || typeof element === "string") {
     return;
   }
@@ -611,7 +588,6 @@ export const buildSVGString = (
     return;
   } else {
     // @ts-ignore
-    let builder = new XMLBuilder(svg_options);
     return builder.build(svg);
   }
 };
@@ -641,13 +617,6 @@ const buildBaseSVG = (containerElement: SVGGraphicsElement | any) => {
     };
   }
 
-  console.log("buildBaseSVG", {
-    containerElement,
-    svg,
-    t: typeof containerElement,
-    t2: typeof svg,
-  });
-
   return svg;
 };
 
@@ -665,8 +634,6 @@ export const display = (
     throw new Error("container not found");
   }
   containerElement.innerHTML = "";
-
-  console.log("display", { face, overrides, container, containerElement });
 
   buildSVGString(face, overrides, containerElement);
 };
