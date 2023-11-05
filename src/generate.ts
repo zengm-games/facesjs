@@ -7,6 +7,7 @@ type Feature =
   | "accessories"
   | "body"
   | "ear"
+  | "earring"
   | "eye"
   | "eyebrow"
   | "eyeLine"
@@ -128,6 +129,12 @@ export const generate = (
       size: roundTwoDecimals(
         0.5 + (gender === "female" ? 0.5 : 1) * Math.random()
       ),
+    },
+    earring: {
+      id:
+        (gender === "female" ? 1 : 0.5) * Math.random() > 0.25
+          ? getID("earring", gender)
+          : "none",
     },
     head: {
       id: getID("head", gender),
