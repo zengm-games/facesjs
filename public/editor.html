@@ -878,6 +878,7 @@
         </div>
         <div class="ml-md-3">
           <div id="face"></div>
+          <div id="face2"></div>
           <textarea id="json" class="form-control mt-3"></textarea>
           <div class="container">
             <div class="row">
@@ -1016,7 +1017,15 @@
 
     const updateDisplay = () => {
       console.log(face);
-      faces.display(faceWrapper, face);
+
+      let server_or_dom = "server";
+
+      if (server_or_dom === "server") {
+        faceWrapper.innerHTML = faces.buildSVGString(face);
+      } else {
+        faces.display(faceWrapper, face);
+      }
+
       history.replaceState(
         undefined,
         undefined,
