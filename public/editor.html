@@ -1045,7 +1045,6 @@
 
     const initializeFormValue = (id, value) => {
       const element = document.getElementById(id);
-      console.log("initializeFormValue", { id, value, element });
       if (!element) return;
       if (element.classList.contains("form-check-input")) {
         element.checked = value;
