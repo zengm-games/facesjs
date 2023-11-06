@@ -13,7 +13,11 @@ let parser = new XMLParser(svg_options);
 let builder = new XMLBuilder(svg_options);
 
 const isDOMElement = (element: any) => {
-  return element && element.nodeType === Node.ELEMENT_NODE;
+  return (
+    typeof Node !== "undefined" &&
+    element &&
+    element.nodeType === Node.ELEMENT_NODE
+  );
 };
 
 const setAttribute = (
@@ -373,15 +377,11 @@ const drawFeature = (
     face.teamColors[2]
   );
 
-  // @ts-ignore
-  if (feature.hasOwnProperty("shaveOpacity")) {
+  featureSVGString = featureSVGString.replace(
+    /\$\[shaveOpacity\]/g,
     // @ts-ignore
-    featureSVGString = featureSVGString.replace(
-      /\$\[shaveOpacity\]/g,
-      // @ts-ignore
-      feature.shaveOpacity
-    );
-  }
+    feature.shaveOpacity || 0
+  );
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
@@ -469,6 +469,11 @@ export const buildSVGString = (
   containerElement: any
 ) => {
   override(face, overrides);
+
+  face.teamColors = face.teamColors || ["#89bfd3", "#7a1319", "#07364f"];
+  face.eyeDistance = face.eyeDistance || 1.0;
+  face.lineOpacity = face.lineOpacity || 0;
+
   let svg = buildBaseSVG(containerElement);
 
   const featureInfos: FeatureInfo[] = [
