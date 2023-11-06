@@ -10,6 +10,21 @@
       integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
       crossorigin="anonymous"
     />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
     <style>
       .mb-lots {
         margin-bottom: 3rem;
@@ -864,13 +879,41 @@
         <div class="ml-md-3">
           <div id="face"></div>
           <textarea id="json" class="form-control mt-3"></textarea>
-          <button class="btn btn-secondary mt-1" id="copy">
-            Copy to clipboard
-          </button>
-          <button class="btn btn-secondary mt-1" id="paste">Draw JSON</button>
-          <button class="btn btn-secondary mt-1" id="reset">
-            Reset from drawing
-          </button>
+          <div class="container">
+            <div class="row">
+              <button class="btn btn-secondary m-1 col-sm-5" id="copy">
+                Copy to clipboard
+              </button>
+              <button class="btn btn-secondary m-1 col-sm-5" id="paste">
+                Draw JSON
+              </button>
+            </div>
+            <div class="row">
+              <button class="btn btn-secondary m-1 col-sm-5" id="reset">
+                Reset from drawing
+              </button>
+              <div class="dropdown m-1 col-sm-5 pl-0">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="downloadDropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Download Options
+                </button>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="downloadDropdownMenuButton"
+                >
+                  <a class="dropdown-item" id="download-svg">Download SVG</a>
+                  <a class="dropdown-item" id="download-json">Download JSON</a>
+                  <a class="dropdown-item" id="download-png">Download PNG</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -881,6 +924,27 @@
     const jsonElement = document.getElementById("json");
 
     let face;
+
+    // Adding event listeners to buttons
+    document
+      .getElementById("download-json")
+      .addEventListener("click", function () {
+        downloadJson(face, getFileNameWithTime());
+      });
+
+    document
+      .getElementById("download-svg")
+      .addEventListener("click", function () {
+        const svgElement = document.getElementById("face").querySelector("svg");
+        downloadSVG(svgElement, getFileNameWithTime());
+      });
+
+    document
+      .getElementById("download-png")
+      .addEventListener("click", function () {
+        const svgElement = document.getElementById("face").querySelector("svg");
+        downloadPNG(svgElement, getFileNameWithTime());
+      });
 
     document.getElementById("copy").addEventListener("click", () => {
       jsonElement.focus();
@@ -981,6 +1045,8 @@
 
     const initializeFormValue = (id, value) => {
       const element = document.getElementById(id);
+      console.log("initializeFormValue", { id, value, element });
+      if (!element) return;
       if (element.classList.contains("form-check-input")) {
         element.checked = value;
       } else {
@@ -1125,6 +1191,76 @@
           });
         }
       );
+    };
+
+    // Function to download JSON as a blob
+    function downloadJson(exportObj, exportName) {
+      var dataStr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(exportObj));
+      var downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", exportName + ".json");
+      document.body.appendChild(downloadAnchorNode); // required for firefox
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+
+    // Function to trigger download of SVG data
+    const downloadSVG = (svgElement, filename) => {
+      const serializer = new XMLSerializer();
+      const svgBlob = new Blob([serializer.serializeToString(svgElement)], {
+        type: "image/svg+xml",
+      });
+      const url = URL.createObjectURL(svgBlob);
+      const downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.href = url;
+      downloadAnchorNode.download = filename + ".svg";
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+      URL.revokeObjectURL(url);
+    };
+
+    // Function to trigger download of PNG image from an SVG element
+    const downloadPNG = (svgElement, filename) => {
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+
+      img.onload = () => {
+        canvas.width = 400 || img.width;
+        canvas.height = 600 || img.height;
+        ctx.drawImage(img, 0, 0, 400, 600);
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const downloadAnchorNode = document.createElement("a");
+          downloadAnchorNode.href = url;
+          downloadAnchorNode.download = filename + ".png";
+          document.body.appendChild(downloadAnchorNode);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+          URL.revokeObjectURL(url);
+        });
+      };
+
+      const svgBlob = new Blob([svgData], {
+        type: "image/svg+xml;charset=utf-8",
+      });
+      const url = URL.createObjectURL(svgBlob);
+      img.src = url;
+    };
+
+    const getFileNameWithTime = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      const hours = ("0" + date.getHours()).slice(-2);
+      const minutes = ("0" + date.getMinutes()).slice(-2);
+      const seconds = ("0" + date.getSeconds()).slice(-2);
+      return `facesjs-${year}${month}${day}-${hours}${minutes}${seconds}`;
     };
 
     updateDisplay();
