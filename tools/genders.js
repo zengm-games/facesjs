@@ -22,7 +22,7 @@ module.exports = {
   },
   earring: {
     "earring-stud": "both",
-    "earring-diamond-hanging": "both",
+    "earring-hanging-diamond": "both",
     "earring-silver-diamond": "both",
     "earring-silver": "both",
     none: "both",
@@ -104,6 +104,7 @@ module.exports = {
     female7: "female",
     female8: "female",
     female9: "female",
+    "eyebrow-long": "male",
   },
   facialHair: {
     "beard-point": "male",
