@@ -3,16 +3,19 @@
   "version": "3.8.2",
   "description": "A JavaScript library for generating vector-based cartoon faces",
   "exports": {
-    ".": {
-      "types": "./build/index.d.ts",
-      "import": "./build/esmodules/index.js",
-      "require": "./build/commonjs/index.js"
+    "import": {
+      "types": "./build/esmodules/index.d.ts",
+      "default": "./build/esmodules/index.js"
+    },
+    "require": {
+      "types": "./build/commonjs/index.d.ts",
+      "default": "./build/commonjs/index.js"
     }
   },
   "main": "./build/commonjs/index.js",
-  "types": "./build/index.d.ts",
+  "types": "./build/commonjs/index.d.ts",
   "scripts": {
-    "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc",
+    "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
     "prepare": "yarn run build && husky install",

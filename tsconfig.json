@@ -6,7 +6,7 @@
     "strict": true,
     "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "build"
+    "declarationDir": "build/esmodules"
   },
   "include": ["src"]
 }
