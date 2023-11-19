@@ -1,4 +1,4 @@
-# 4.0.0 (2023-??-??)
+# 4.0.0 (2023-11-19)
 
 - Added `faceToSvgString` function to output faces as SVG strings, rather than only rendering to the DOM via `display`.
 
