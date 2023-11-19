@@ -62,5 +62,6 @@
   "bin": "build/esmodules/cli.js",
   "lint-staged": {
     "*.{js,css,md}": "prettier --write"
-  }
+  },
+  "sideEffects": false
 }
