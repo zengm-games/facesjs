@@ -253,7 +253,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
 export const display = (
   container: HTMLElement | string | null,
   face: Face,
-  overrides: Overrides
+  overrides?: Overrides
 ): void => {
   override(face, overrides);
 

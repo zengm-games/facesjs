@@ -1,87 +1,63 @@
 import fs from "node:fs";
-import { exit } from "node:process";
+import { parseArgs } from "node:util";
 import { exportAsString } from "./exportAsString.js";
 import { generate } from "./generate.js";
 import { Overrides } from "./override.js";
 
-const printUsage = () => {
-  console.log(`Usage: face2svg INPUT [OUTPUT]
+const { values: options } = parseArgs({
+  options: {
+    help: {
+      type: "boolean",
+      short: "h",
+      default: false,
+    },
+    output: {
+      type: "string",
+      short: "o",
+    },
+    "input-file": {
+      type: "string",
+      short: "f",
+    },
+    "input-json": {
+      type: "string",
+      short: "j",
+    },
+  },
+});
 
-INPUT
-You need to use one of the following:
-  -r | --random                generates a random face
-  -f <FILE> | --face <FILE>    loads the json face definition from the given file
+if (options.help) {
+  console.log(`Usage: facesjs [options...]
 
-OUTPUT
-  -o <OUT> | --output <OUT>    saves the SVG XML to the given file. By default, prints to the screen
-`);
-};
+ -h, --help          Prints this help
+ -o, --output        Output filename to use rather than stdout
+ -f, --input-file    Path to a faces.js JSON file to convert to SVG
+ -j, --input-json    String faces.js JSON object to convert to SVG
+ 
+--input-file and --input-json can specify either an entire face object or a partial face object. If it's a partial face object, the other features will be random.
 
-type Parameters = {
-  overrides: Overrides | undefined;
-  destination: string | undefined;
-};
-
-const parseArgs = (args: string[]): Parameters => {
-  let overrides: Overrides | undefined;
-  let destination: string | undefined;
-
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === "-r" || args[i] === "--random") {
-      overrides = {};
-      continue;
-    }
-
-    if (args[i] === "-f" || args[i] === "--face") {
-      i++;
-      if (!args[i]) {
-        console.log(`Missing argument for ${args[-1]}`);
-        exit(1);
-      }
-      try {
-        const json = fs.readFileSync(args[i], "utf8");
-        overrides = JSON.parse(json);
-      } catch (err) {
-        console.error(`Could not read face definition from ${args[i]}`, err);
-        exit(1);
-      }
-      continue;
-    }
-
-    if (args[i] === "-o" || args[i] === "--output") {
-      i++;
-      if (!args[i]) {
-        console.log(`Missing argument for ${args[-1]}`);
-        exit(1);
-      }
-      destination = args[i];
-      continue;
-    }
-  }
-
-  if (overrides === undefined) {
-    console.log("You need to specify the input with either -r or -f");
-    exit(1);
-  }
-
-  return {
-    overrides,
-    destination,
-  };
-};
-
-const args = process.argv.slice(2);
-
-if (args.length === 0) {
-  printUsage();
-  exit(0);
+When called with no options, a random face is generated, converted to SVG, and sent to stdout.`);
+  process.exit(0);
 }
 
-const parameters = parseArgs(args);
-const face = generate(parameters.overrides);
-const svgXml = exportAsString(face, {});
-if (parameters.destination === undefined) {
-  console.log(svgXml);
+if (options["input-file"] && options["input-json"]) {
+  console.log("--input-file and --input-json cannot be specified together");
+  process.exit(1);
+}
+
+let overrides: Overrides | undefined;
+
+if (options["input-file"]) {
+  const json = fs.readFileSync(options["input-file"], "utf8");
+  overrides = JSON.parse(json);
+} else if (options["input-json"]) {
+  overrides = JSON.parse(options["input-json"]);
+}
+
+const face = generate(overrides);
+const svgString = exportAsString(face);
+if (options.output === undefined) {
+  console.log(svgString);
 } else {
-  fs.writeFileSync(parameters.destination, svgXml);
+  fs.writeFileSync(options.output, svgString);
 }
