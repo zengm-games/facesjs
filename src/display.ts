@@ -1,4 +1,4 @@
-import { Face } from "./generate.js";
+import type { Face } from "./generate.js";
 import override, { Overrides } from "./override.js";
 import svgs from "./svgs.js";
 

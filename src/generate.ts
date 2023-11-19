@@ -1,4 +1,4 @@
-import override, { Overrides } from "./override.js";
+import override, { type Overrides } from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
 export type Gender = "male" | "female";
