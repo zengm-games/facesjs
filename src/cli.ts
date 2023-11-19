@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "node:fs";
 import { parseArgs } from "node:util";
 import { faceToSvgString } from "./faceToSvgString.js";
