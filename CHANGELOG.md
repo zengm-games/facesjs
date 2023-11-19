@@ -1,3 +1,9 @@
+# 4.0.0 (2023-??-??)
+
+- Added `faceToSvgString` function to output faces as SVG strings, rather than only rendering to the DOM via `display`.
+
+- Added CLI for generating faces and outputting them as SVG strings.
+
 # 3.8.2 (2023-03-15)
 
 - Fixed the esm build.
