@@ -15,7 +15,6 @@
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
-    "build-cli": "esbuild --outdir=build/cli --bundle --minify --platform=node src/face2svg.ts --tsconfig=./tsconfig.json",
     "prepare": "yarn run build && husky install",
     "start": "node tools/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -46,7 +45,6 @@
     "babel-plugin-add-module-exports": "^1.0.4",
     "chokidar": "^3.5.3",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.19.4",
     "husky": "^8.0.3",
     "prettier": "^2.8.4",
     "pretty-quick": "^3.1.3",
@@ -60,5 +58,6 @@
   ],
   "dependencies": {
     "svg-path-bbox": "^1.2.4"
-  }
+  },
+  "bin": "build/esmodules/cli.js"
 }
