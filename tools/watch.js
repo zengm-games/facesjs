@@ -20,7 +20,7 @@ watcher.on("event", (event) => {
     console.log(
       `Wrote new ${
         rollupConfig.output.file
-      } at ${new Date().toLocaleTimeString()}`
+      } at ${new Date().toLocaleTimeString()}`,
     );
   } else if (event.code === "ERROR" || event.code === "FATAL") {
     console.log(event);

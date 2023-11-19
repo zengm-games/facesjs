@@ -44,7 +44,10 @@ class SvgNode {
   private maxX: number | undefined;
   private maxY: number | undefined;
 
-  constructor(public tag: string | undefined, public xml: string | undefined) {
+  constructor(
+    public tag: string | undefined,
+    public xml: string | undefined,
+  ) {
     // We will need to insert attribute of the g node, so let's
     // split the xml <g>...</g>
     if (this.xml?.startsWith("<g>")) {
@@ -52,8 +55,8 @@ class SvgNode {
       this.childNodes.push(
         new SvgNode(
           undefined,
-          this.xml.substring("<g>".length, this.xml.length - "</g>".length)
-        )
+          this.xml.substring("<g>".length, this.xml.length - "</g>".length),
+        ),
       );
       // Let's calculate the bbox of this g group which is the smallest bbox
       // that contains the bboxes of all paths, so that translation, rotation

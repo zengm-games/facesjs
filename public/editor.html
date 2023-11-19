@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -90,15 +90,13 @@
       <div class="d-md-flex">
         <div class="flex-grow-1">
           <div class="mb-4 mt-2 d-xl-flex">
-            <h1>
-              faces.js editor
-            </h1>
+            <h1>faces.js editor</h1>
             <div class="d-sm-flex align-items-center ml-xl-3">
               <div class="d-flex">
                 <select
                   id="option-race"
                   class="form-control mr-3"
-                  style="width: 100px;"
+                  style="width: 100px"
                 >
                   <option value="random">Random</option>
                   <option value="asian">Asian</option>
@@ -109,7 +107,7 @@
                 <select
                   id="option-gender"
                   class="form-control mr-3"
-                  style="width: 80px;"
+                  style="width: 80px"
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -858,7 +856,7 @@
             } else if (parts.length === 2)
               newFace[parts[0]][parts[1]] = oldFace[parts[0]][parts[1]];
           }
-        }
+        },
       );
       return newFace;
     };
@@ -869,7 +867,7 @@
       history.replaceState(
         undefined,
         undefined,
-        `#${btoa(JSON.stringify(face))}`
+        `#${btoa(JSON.stringify(face))}`,
       );
       jsonElement.value = JSON.stringify(face);
     };
@@ -929,7 +927,7 @@
     const listenForChanges = () => {
       const textInputs = document.querySelectorAll("input.form-control");
       const checkboxInputs = document.querySelectorAll(
-        "input.form-check-input"
+        "input.form-check-input",
       );
       const selects = document.querySelectorAll("select.form-control");
 
@@ -948,7 +946,7 @@
           } else if (parts.length === 2) {
             face[parts[0]][parts[1]] = getValue(
               face[parts[0]][parts[1]],
-              event
+              event,
             );
           } else {
             throw new Error(`Invalid ID ${event.target.id}`);
@@ -967,7 +965,7 @@
 
       const checkboxes = [].concat(
         Array.from(document.getElementsByClassName("random-group")),
-        Array.from(document.getElementsByClassName("random-attribute"))
+        Array.from(document.getElementsByClassName("random-attribute")),
       );
       document.getElementById("check-all").addEventListener("click", () => {
         for (const checkbox of checkboxes) {
@@ -985,10 +983,10 @@
         (elem) => {
           elem.addEventListener("click", () => {
             Array.from(
-              document.getElementsByClassName(elem.id.replace("-group", ""))
+              document.getElementsByClassName(elem.id.replace("-group", "")),
             ).forEach((elem2) => (elem2.checked = elem.checked));
           });
-        }
+        },
       );
 
       Array.from(document.getElementsByClassName("random-attribute")).forEach(
@@ -999,14 +997,13 @@
                 if (elem.checked) {
                   // See if all are checked, and if so check the group
                   const others = Array.from(
-                    document.getElementsByClassName(className)
+                    document.getElementsByClassName(className),
                   ).filter(
-                    (other) => !other.classList.contains("random-group")
+                    (other) => !other.classList.contains("random-group"),
                   );
                   if (others.every((other) => other.checked)) {
-                    document.getElementById(
-                      className + "-group"
-                    ).checked = true;
+                    document.getElementById(className + "-group").checked =
+                      true;
                   }
                 } else {
                   document.getElementById(className + "-group").checked = false;
@@ -1014,7 +1011,7 @@
               }
             });
           });
-        }
+        },
       );
     };
 

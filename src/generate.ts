@@ -65,7 +65,7 @@ const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
 export const generate = (
   overrides?: Overrides,
-  options?: { gender?: Gender; race?: Race }
+  options?: { gender?: Gender; race?: Race },
 ) => {
   const playerRace: Race = (() => {
     if (options && options.race) {
@@ -125,7 +125,7 @@ export const generate = (
     ear: {
       id: getID("ear", gender),
       size: roundTwoDecimals(
-        0.5 + (gender === "female" ? 0.5 : 1) * Math.random()
+        0.5 + (gender === "female" ? 0.5 : 1) * Math.random(),
       ),
     },
     head: {
@@ -170,7 +170,7 @@ export const generate = (
       id: getID("nose", gender),
       flip: isFlipped,
       size: roundTwoDecimals(
-        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75)
+        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75),
       ),
     },
     glasses: {

@@ -60,7 +60,7 @@ const runWebSocketServer = () => {
     connection.send("foo");
     connection.on("close", () => {
       connections = connections.filter(
-        (connection2) => connection2 !== connection
+        (connection2) => connection2 !== connection,
       );
     });
   });

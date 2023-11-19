@@ -8,7 +8,7 @@ const addTransform = (element: SVGGraphicsElement, newTransform: string) => {
   const oldTransform = element.getAttribute("transform");
   element.setAttribute(
     "transform",
-    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`
+    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`,
   );
 };
 
@@ -22,7 +22,7 @@ const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
 
 const scaleStrokeWidthAndChildren = (
   element: SVGGraphicsElement,
-  factor: number
+  factor: number,
 ) => {
   if (element.tagName === "style") {
     return;
@@ -32,7 +32,7 @@ const scaleStrokeWidthAndChildren = (
   if (strokeWidth) {
     element.setAttribute(
       "stroke-width",
-      String(parseFloat(strokeWidth) / factor)
+      String(parseFloat(strokeWidth) / factor),
     );
   }
   const children = element.childNodes as unknown as SVGGraphicsElement[];
@@ -69,7 +69,7 @@ const translate = (
   x: number,
   y: number,
   xAlign = "center",
-  yAlign = "center"
+  yAlign = "center",
 ) => {
   const bbox = element.getBBox();
   let cx;
@@ -172,19 +172,19 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
-    face.hair.color
+    face.hair.color,
   );
   featureSVGString = featureSVGString.replace(
     /\$\[primary\]/g,
-    face.teamColors[0]
+    face.teamColors[0],
   );
   featureSVGString = featureSVGString.replace(
     /\$\[secondary\]/g,
-    face.teamColors[1]
+    face.teamColors[1],
   );
   featureSVGString = featureSVGString.replace(
     /\$\[accent\]/g,
-    face.teamColors[2]
+    face.teamColors[2],
   );
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
@@ -208,7 +208,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
         svg.lastChild as SVGGraphicsElement,
         position[0],
         position[1],
-        xAlign
+        xAlign,
       );
     }
 
@@ -253,7 +253,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
 export const display = (
   container: HTMLElement | string | null,
   face: Face,
-  overrides?: Overrides
+  overrides?: Overrides,
 ): void => {
   override(face, overrides);
 

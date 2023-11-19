@@ -38,7 +38,7 @@ const processSVGs = async () => {
 
   fs.writeFileSync(
     path.join(__dirname, "..", "src", "svgs.ts"),
-    `${warning}\n\nexport default ${JSON.stringify(svgs)};`
+    `${warning}\n\nexport default ${JSON.stringify(svgs)};`,
   );
 
   const svgsIndex = {
@@ -65,12 +65,12 @@ const processSVGs = async () => {
   fs.writeFileSync(
     path.join(__dirname, "..", "src", "svgs-index.ts"),
     `${warning}\n\nexport const svgsIndex = ${JSON.stringify(
-      svgsIndex
-    )};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`
+      svgsIndex,
+    )};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`,
   );
 
   console.log(
-    `Wrote new src/svgs.ts and src/svgs-index.ts at ${new Date().toLocaleTimeString()}`
+    `Wrote new src/svgs.ts and src/svgs-index.ts at ${new Date().toLocaleTimeString()}`,
   );
 };
 
