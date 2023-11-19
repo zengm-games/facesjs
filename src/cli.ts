@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { parseArgs } from "node:util";
 import { exportAsString } from "./exportAsString.js";
-import { generate } from "./generate.js";
+import { Gender, Race, generate } from "./generate.js";
 import { Overrides } from "./override.js";
 
 const { values: options } = parseArgs({
@@ -23,6 +23,14 @@ const { values: options } = parseArgs({
       type: "string",
       short: "j",
     },
+    race: {
+      type: "string",
+      short: "r",
+    },
+    gender: {
+      type: "string",
+      short: "g",
+    },
   },
 });
 
@@ -33,10 +41,20 @@ if (options.help) {
  -o, --output        Output filename to use rather than stdout
  -f, --input-file    Path to a faces.js JSON file to convert to SVG
  -j, --input-json    String faces.js JSON object to convert to SVG
+ -r, --race          Race - white/black/asian/brown, default is random
+ -g, --gender        Gender - male/female, default is male
  
 --input-file and --input-json can specify either an entire face object or a partial face object. If it's a partial face object, the other features will be random.
 
-When called with no options, a random face is generated, converted to SVG, and sent to stdout.`);
+When called with no options, a random face is generated, converted to SVG, and sent to stdout.
+
+EXAMPLES
+
+Generage a blue female face and output to stdout:
+$ facesjs -j '{"body":{"color":"blue"}}' -g female
+
+Generage a male white face and save it to test.svg:
+$ facesjs -r white -o test.svg`);
   process.exit(0);
 }
 
@@ -54,7 +72,35 @@ if (options["input-file"]) {
   overrides = JSON.parse(options["input-json"]);
 }
 
-const face = generate(overrides);
+let race: Race | undefined;
+if (options.race) {
+  if (
+    options.race === "white" ||
+    options.race === "black" ||
+    options.race === "asian" ||
+    options.race === "brown"
+  ) {
+    race = options.race;
+  } else {
+    console.log("Invalid race");
+    process.exit(1);
+  }
+}
+
+let gender: Gender | undefined;
+if (options.gender) {
+  if (options.gender === "male" || options.gender === "female") {
+    gender = options.gender;
+  } else {
+    console.log("Invalid gender");
+    process.exit(1);
+  }
+}
+
+const face = generate(overrides, {
+  race,
+  gender,
+});
 const svgString = exportAsString(face);
 if (options.output === undefined) {
   console.log(svgString);

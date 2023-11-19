@@ -1,7 +1,7 @@
 import override, { Overrides } from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
-type Gender = "male" | "female";
+export type Gender = "male" | "female";
 
 type Feature =
   | "accessories"
@@ -31,7 +31,7 @@ const getID = (type: Feature, gender: Gender): string => {
   return validIDs[Math.floor(Math.random() * validIDs.length)];
 };
 
-type Race = "asian" | "black" | "brown" | "white";
+export type Race = "asian" | "black" | "brown" | "white";
 
 const colors = {
   white: {
