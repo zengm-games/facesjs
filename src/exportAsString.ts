@@ -124,9 +124,9 @@ class SvgNode {
       for (const child of this.childNodes) {
         s += child.toXml() + "\n";
       }
-      s += `</${this.tag}>\n`;
+      s += `</${this.tag}>`;
     } else {
-      s += this.xml + "\n";
+      s += this.xml;
     }
     return s;
   }
