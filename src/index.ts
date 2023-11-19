@@ -1,8 +1,6 @@
 export { display } from "./display.js";
-
-// Switch back to one line like the others after TypeScript 3.8, see below
-import { generate } from "./generate.js";
-export { generate };
+export { generate } from "./generate.js";
+export { faceToSvgString } from "./faceToSvgString.js";
 
 // Usually not needed, but just in case...
 export { default as svgs } from "./svgs.js";

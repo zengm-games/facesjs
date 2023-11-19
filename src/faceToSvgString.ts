@@ -139,7 +139,7 @@ class SvgNode {
  * Renders the given face in a pseudo DOM element and then returns the
  * SVG image as an XML string.
  */
-export function exportAsString(face: Face, overrides?: Overrides): string {
+export const faceToSvgString = (face: Face, overrides?: Overrides): string => {
   const svgDocument = new SvgDocument();
   // Even though we will provide a pseudo HTML elment, display() accesses
   // document.createElementNS() so we need to inject our own code there.

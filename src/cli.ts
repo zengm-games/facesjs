@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { parseArgs } from "node:util";
-import { exportAsString } from "./exportAsString.js";
+import { faceToSvgString } from "./faceToSvgString.js";
 import { Gender, Race, generate } from "./generate.js";
 import { Overrides } from "./override.js";
 
@@ -49,6 +49,9 @@ if (options.help) {
 When called with no options, a random face is generated, converted to SVG, and sent to stdout.
 
 EXAMPLES
+
+Output a random face to stdout:
+$ facesjs
 
 Generage a blue female face and output to stdout:
 $ facesjs -j '{"body":{"color":"blue"}}' -g female
@@ -101,7 +104,7 @@ const face = generate(overrides, {
   race,
   gender,
 });
-const svgString = exportAsString(face);
+const svgString = faceToSvgString(face);
 if (options.output === undefined) {
   console.log(svgString);
 } else {
