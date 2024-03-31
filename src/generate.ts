@@ -1,7 +1,7 @@
-import override, { Overrides } from "./override.js";
+import override, { type Overrides } from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
-type Gender = "male" | "female";
+export type Gender = "male" | "female";
 
 type Feature =
   | "accessories"
@@ -43,7 +43,7 @@ const getID = (type: Feature, gender: Gender): string => {
   return validIDs[Math.floor(Math.random() * validIDs.length)];
 };
 
-type Race = "asian" | "black" | "brown" | "white";
+export type Race = "asian" | "black" | "brown" | "white";
 
 const colors = {
   white: {
@@ -77,7 +77,7 @@ const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
 export const generate = (
   overrides?: Overrides,
-  options?: { gender?: Gender; race?: Race }
+  options?: { gender?: Gender; race?: Race },
 ) => {
   const playerRace: Race = (() => {
     if (options && options.race) {
@@ -141,7 +141,7 @@ export const generate = (
     ear: {
       id: getID("ear", gender),
       size: roundTwoDecimals(
-        0.5 + (gender === "female" ? 0.5 : 1) * Math.random()
+        0.5 + (gender === "female" ? 0.5 : 1) * Math.random(),
       ),
     },
     earring: {
@@ -195,7 +195,7 @@ export const generate = (
       id: getID("nose", gender),
       flip: isFlipped,
       size: roundTwoDecimals(
-        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75)
+        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75),
       ),
     },
     glasses: {

@@ -1,219 +1,41 @@
-import { Face } from "./generate.js";
+import type { Face } from "./generate.js";
 import override, { Overrides } from "./override.js";
 import svgs from "./svgs.js";
-import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
-import bbox from "svg-path-bounding-box";
 
-const svg_options = {
-  ignoreAttributes: false,
-  attributeNamePrefix: "@_",
-  allowBooleanAttributes: true,
-};
-let parser = new XMLParser(svg_options);
-let builder = new XMLBuilder(svg_options);
+const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
-const isDOMElement = (element: any) => {
-  return (
-    typeof Node !== "undefined" &&
-    element &&
-    element.nodeType === Node.ELEMENT_NODE
+const addTransform = (element: SVGGraphicsElement, newTransform: string) => {
+  const oldTransform = element.getAttribute("transform");
+  element.setAttribute(
+    "transform",
+    `${oldTransform ? `${oldTransform} ` : ""}${newTransform}`,
   );
 };
 
-const setAttribute = (
-  element: SVGGraphicsElement | any,
-  attribute_name: string,
-  value: string
-) => {
-  if (isDOMElement(element)) {
-    element.setAttribute(attribute_name, value);
-  } else {
-    element[`@_${attribute_name}`] = value;
-  }
-};
-
-const getAttribute = (
-  element: SVGGraphicsElement | any,
-  attribute_name: string
-) => {
-  return isDOMElement(element)
-    ? element.getAttribute(attribute_name)
-    : element[`@_${attribute_name}`];
-};
-
-const appendElement = (svg: SVGGraphicsElement | any, element: any) => {
-  if (isDOMElement(svg)) {
-    svg.insertAdjacentHTML("beforeend", element);
-  } else {
-    svg.svg.g.push(element);
-  }
-};
-
-const lastChild = (svg: SVGGraphicsElement | any) => {
-  return isDOMElement(svg) ? svg.lastChild : svg.svg.g[svg.svg.g.length - 1];
-};
-
-const nthLastChild = (svg: SVGGraphicsElement | any, n: number) => {
-  let children = isDOMElement(svg) ? childNodes(svg) : svg.svg.g;
-  return children[children.length - n];
-};
-
-const childNodes = function (element: any | SVGGraphicsElement) {
-  let children: any = [];
-
-  if (isDOMElement(element)) {
-    return element.childNodes;
-  } else {
-    Object.entries(element).forEach((entry) => {
-      let key = entry[0];
-      let val = entry[1];
-      if (!key.includes("@_")) {
-        children.push(val);
-      }
-    });
-    return children.flat();
-  }
-};
-
-function findPathDAttributes(obj: any) {
-  let bboxes: any[] = [];
-
-  function recurse(
-    element: { [x: string]: any; hasOwnProperty: (arg0: string) => any } | null
-  ) {
-    if (typeof element === "object" && element !== null) {
-      if (element.hasOwnProperty("@_d")) {
-        // Check if this is a path object with a 'd' attribute
-        bboxes.push(bbox(element["@_d"]));
-      }
-      for (let key in element) {
-        recurse(element[key]); // Recurse into the object
-      }
-    }
-  }
-
-  recurse(obj); // Start the recursion on the parsed object
-
-  return bboxes;
-}
-
-// Function to combine bounding boxes into one
-function combineBoundingBoxes(
-  bboxes: { minX: number; minY: number; maxX: number; maxY: number }[]
-): {
-  minX: number;
-  minY: number;
-  maxX: number;
-  maxY: number;
-  width: number;
-  height: number;
-} {
-  let combinedBbox = {
-    minX: Infinity,
-    minY: Infinity,
-    maxX: -Infinity,
-    maxY: -Infinity,
-    height: 0,
-    width: 0,
-  };
-
-  bboxes.forEach((bbox) => {
-    combinedBbox.minX = Math.min(combinedBbox.minX, bbox.minX);
-    combinedBbox.minY = Math.min(combinedBbox.minY, bbox.minY);
-    combinedBbox.maxX = Math.max(combinedBbox.maxX, bbox.maxX);
-    combinedBbox.maxY = Math.max(combinedBbox.maxY, bbox.maxY);
-  });
-
-  // Calculate width and height from combined extremes
-  combinedBbox.width = combinedBbox.maxX - combinedBbox.minX;
-  combinedBbox.height = combinedBbox.maxY - combinedBbox.minY;
-
-  return combinedBbox;
-}
-
-const getBbox = (element: SVGGraphicsElement | any) => {
-  // Find bounding boxes for all 'd' attributes
-  if (isDOMElement(element)) {
-    return element.getBBox();
-  } else {
-    const bboxes = findPathDAttributes(element);
-    const element_bbox = combineBoundingBoxes(bboxes);
-
-    return {
-      height: element_bbox.height,
-      width: element_bbox.width,
-      x: element_bbox.minX,
-      y: element_bbox.minY,
-    };
-  }
-};
-
-const addWrapper = (svgString: string, element: any | SVGGraphicsElement) => {
-  return isDOMElement(element)
-    ? `<g>${svgString}</g>`
-    : { g: parser.parse(svgString) };
-};
-
-const addTransform = (
-  element: SVGGraphicsElement | any,
-  newTransform: string
-) => {
-  let oldTransform = getAttribute(element, "transform");
-  let updatedTransform = oldTransform
-    ? `${oldTransform} ${newTransform}`
-    : newTransform;
-  setAttribute(element, "transform", updatedTransform);
-};
-
-const rotateCentered = (element: SVGGraphicsElement | any, angle: number) => {
-  const { x, y, height, width } = getBbox(element);
-  const cx = x + width / 2;
-  const cy = y + height / 2;
+const rotateCentered = (element: SVGGraphicsElement, angle: number) => {
+  const bbox = element.getBBox();
+  const cx = bbox.x + bbox.width / 2;
+  const cy = bbox.y + bbox.height / 2;
 
   addTransform(element, `rotate(${angle} ${cx} ${cy})`);
 };
 
-function scaleEarring(
-  svg: SVGGraphicsElement | any,
-  face: Face,
-  positionY: number
-): number {
-  // Grab earring element in DOM, to give height for scaling later. Some earrings can be much taller than others
-  // Grab latest ear for this side - always the 3rd to last element before earring
-  let earringElement = lastChild(svg);
-  let earElement = nthLastChild(svg, 3);
-
-  const earringBbox = getBbox(earringElement);
-  const earBbox = getBbox(earElement);
-
-  // Subtract 10 to account for slight buffer between actual ear size & bbox
-  let earHeight = Math.max(0, earBbox.height - 10);
-
-  // We'll translate the earring down by 1/4 of the difference between the ear height and the ear size
-  let earSize = face.ear.size;
-  let earTranslate =
-    (earHeight - earHeight / earSize) / 4 + earBbox.y + earringBbox.height / 2;
-
-  return positionY + earTranslate;
-}
-
 const scaleStrokeWidthAndChildren = (
-  element: SVGGraphicsElement | any,
-  factor: number
+  element: SVGGraphicsElement,
+  factor: number,
 ) => {
-  if (element.tagName === "style" || typeof element === "string") {
+  if (element.tagName === "style") {
     return;
   }
 
-  const strokeWidth = getAttribute(element, "stroke-width");
-  setAttribute(
-    element,
-    "stroke-width",
-    String(parseFloat(strokeWidth) / factor)
-  );
-
-  const children = childNodes(element);
-
+  const strokeWidth = element.getAttribute("stroke-width");
+  if (strokeWidth) {
+    element.setAttribute(
+      "stroke-width",
+      String(parseFloat(strokeWidth) / factor),
+    );
+  }
+  const children = element.childNodes as unknown as SVGGraphicsElement[];
   for (let i = 0; i < children.length; i++) {
     scaleStrokeWidthAndChildren(children[i], factor);
   }
@@ -221,12 +43,8 @@ const scaleStrokeWidthAndChildren = (
 
 // Scale relative to the center of bounding box of element e, like in Raphael.
 // Set x and y to 1 and this does nothing. Higher = bigger, lower = smaller.
-const scaleCentered = (
-  element: SVGGraphicsElement | any,
-  x: number,
-  y: number
-) => {
-  const bbox = getBbox(element);
+const scaleCentered = (element: SVGGraphicsElement, x: number, y: number) => {
+  const bbox = element.getBBox();
   const cx = bbox.x + bbox.width / 2;
   const cy = bbox.y + bbox.height / 2;
   const tx = (cx * (1 - x)) / x;
@@ -247,13 +65,13 @@ const scaleCentered = (
 
 // Translate element such that its center is at (x, y). Specifying xAlign and yAlign can instead make (x, y) the left/right and top/bottom.
 const translate = (
-  element: SVGGraphicsElement | any,
+  element: SVGGraphicsElement,
   x: number,
   y: number,
   xAlign = "center",
-  yAlign = "center"
+  yAlign = "center",
 ) => {
-  const bbox = getBbox(element);
+  const bbox = element.getBBox();
   let cx;
   let cy;
   if (xAlign === "left") {
@@ -278,21 +96,12 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<
-    keyof Face,
-    "fatness" | "teamColors" | "eyeDistance" | "lineOpacity"
-  >;
+  name: Exclude<keyof Face, "fatness" | "teamColors">;
   positions: [null] | [number, number][];
-  scaleFatness?: boolean;
-  shiftWithEyes?: boolean;
-  opaqueLines?: true;
+  scaleFatness?: true;
 };
 
-const drawFeature = (
-  svg: SVGSVGElement | any,
-  face: Face,
-  info: FeatureInfo
-) => {
+const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -342,51 +151,46 @@ const drawFeature = (
     }
   }
 
-  if (
-    ["suit", "suit2"].includes(face.jersey.id) &&
-    (info.name == "accessories" ||
-      info.name == "glasses" ||
-      info.name == "earring")
-  ) {
-    //Don't show headband, facemask, etc if person is wearing a suit
-    //might be a smarter way to do that includes statement, but wanted to throw in all non-jersey clothing. Only those 2 right now
-    return;
-  }
-
   // @ts-ignore
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {
     return;
   }
 
+  // @ts-ignore
+  if (feature.shave) {
+    // @ts-ignore
+    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
+  }
+
+  // @ts-ignore
+  if (feature.shave) {
+    // @ts-ignore
+    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
+  }
+
   featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
-    face.hair.color
+    face.hair.color,
   );
   featureSVGString = featureSVGString.replace(
     /\$\[primary\]/g,
-    face.teamColors[0]
+    face.teamColors[0],
   );
   featureSVGString = featureSVGString.replace(
     /\$\[secondary\]/g,
-    face.teamColors[1]
+    face.teamColors[1],
   );
   featureSVGString = featureSVGString.replace(
     /\$\[accent\]/g,
-    face.teamColors[2]
-  );
-
-  featureSVGString = featureSVGString.replace(
-    /\$\[shaveOpacity\]/g,
-    // @ts-ignore
-    feature.shaveOpacity || 0
+    face.teamColors[2],
   );
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 
   for (let i = 0; i < info.positions.length; i++) {
-    appendElement(svg, addWrapper(featureSVGString, svg));
+    svg.insertAdjacentHTML("beforeend", addWrapper(featureSVGString));
 
     const position = info.positions[i];
 
@@ -400,29 +204,17 @@ const drawFeature = (
         xAlign = "center";
       }
 
-      // @ts-ignore
-      if (feature.distance) {
-        let move_direction = i == 1 ? 1 : -1;
-        // @ts-ignore
-        position[0] += move_direction * feature.distance;
-      }
-
-      let shiftDirection = i == 1 ? 1 : -1;
-      if (info.shiftWithEyes) {
-        // @ts-ignore
-        position[0] += shiftDirection * face.eyeDistance;
-      }
-
-      if (info.name === "earring") {
-        position[1] = scaleEarring(svg, face, position[1]);
-      }
-
-      translate(lastChild(svg), position[0], position[1], xAlign);
+      translate(
+        svg.lastChild as SVGGraphicsElement,
+        position[0],
+        position[1],
+        xAlign,
+      );
     }
 
     if (feature.hasOwnProperty("angle")) {
       // @ts-ignore
-      rotateCentered(lastChild(svg), (i === 0 ? 1 : -1) * feature.angle);
+      rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
@@ -430,26 +222,21 @@ const drawFeature = (
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
     if (info.name === "body" || info.name === "jersey") {
       // @ts-ignore
-      scaleCentered(lastChild(svg), bodySize, 1);
+      scaleCentered(svg.lastChild, bodySize, 1);
       // @ts-ignore
     } else if (feature.flip || i === 1) {
       // @ts-ignore
-      scaleCentered(lastChild(svg), -scale, scale);
+      scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
       // @ts-ignore
-      scaleCentered(lastChild(svg), scale, scale);
-    }
-
-    if (info.opaqueLines) {
-      // @ts-ignore
-      setAttribute(lastChild(svg), "stroke-opacity", String(face.lineOpacity));
+      scaleCentered(svg.lastChild, scale, scale);
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
       // @ts-ignore
-      translate(lastChild(svg), distance, 0, "left", "top");
+      translate(svg.lastChild, distance, 0, "left", "top");
     }
   }
 
@@ -459,22 +246,36 @@ const drawFeature = (
     info.positions[0] === null
   ) {
     // @ts-ignore
-    scaleCentered(lastChild(svg), fatScale(face.fatness), 1);
+    scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
   }
 };
 
-export const buildSVGString = (
+export const display = (
+  container: HTMLElement | string | null,
   face: Face,
-  overrides: Overrides,
-  containerElement: any
-) => {
+  overrides?: Overrides,
+): void => {
   override(face, overrides);
 
-  face.teamColors = face.teamColors || ["#89bfd3", "#7a1319", "#07364f"];
-  face.eyeDistance = face.eyeDistance || 1.0;
-  face.lineOpacity = face.lineOpacity || 0;
+  const containerElement =
+    typeof container === "string"
+      ? document.getElementById(container)
+      : container;
+  if (!containerElement) {
+    throw new Error("container not found");
+  }
+  containerElement.innerHTML = "";
 
-  let svg = buildBaseSVG(containerElement);
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("version", "1.2");
+  svg.setAttribute("baseProfile", "tiny");
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+  svg.setAttribute("viewBox", "0 0 400 600");
+  svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
+
+  // Needs to be in the DOM here so getBBox will work
+  containerElement.appendChild(svg);
 
   const featureInfos: FeatureInfo[] = [
     {
@@ -499,14 +300,6 @@ export const buildSVGString = (
       scaleFatness: true,
     },
     {
-      name: "earring",
-      positions: [
-        [43, 338] as [number, number],
-        [357, 338] as [number, number],
-      ],
-      scaleFatness: true,
-    },
-    {
       name: "head",
       positions: [null], // Meaning it just gets placed into the SVG with no translation
       scaleFatness: true,
@@ -514,7 +307,6 @@ export const buildSVGString = (
     {
       name: "eyeLine",
       positions: [null],
-      opaqueLines: true,
     },
     {
       name: "smileLine",
@@ -522,12 +314,10 @@ export const buildSVGString = (
         [150, 435],
         [250, 435],
       ],
-      opaqueLines: true,
     },
     {
       name: "miscLine",
       positions: [null],
-      opaqueLines: true,
     },
     {
       name: "facialHair",
@@ -540,7 +330,6 @@ export const buildSVGString = (
         [140, 310],
         [260, 310],
       ],
-      shiftWithEyes: true,
     },
     {
       name: "eyebrow",
@@ -548,7 +337,6 @@ export const buildSVGString = (
         [140, 270],
         [260, 270],
       ],
-      shiftWithEyes: true,
     },
     {
       name: "mouth",
@@ -578,57 +366,4 @@ export const buildSVGString = (
   for (const info of featureInfos) {
     drawFeature(svg, face, info);
   }
-
-  if (isDOMElement(containerElement)) {
-    return;
-  } else {
-    // @ts-ignore
-    return builder.build(svg);
-  }
-};
-
-const buildBaseSVG = (containerElement: SVGGraphicsElement | any) => {
-  let svg;
-  if (isDOMElement(containerElement)) {
-    svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    setAttribute(svg, "version", "1.2");
-    setAttribute(svg, "baseProfile", "tiny");
-    setAttribute(svg, "width", "100%");
-    setAttribute(svg, "height", "100%");
-    setAttribute(svg, "viewBox", "0 0 400 600");
-    setAttribute(svg, "preserveAspectRatio", "xMinYMin meet");
-    containerElement.appendChild(svg);
-  } else {
-    svg = {
-      svg: {
-        "@_version": "1.2",
-        "@_baseProfile": "tiny",
-        "@_width": "100%",
-        "@_height": "100%",
-        "@_viewBox": "0 0 400 600",
-        "@_preserveAspectRatio": "xMinYMin meet",
-        g: [],
-      },
-    };
-  }
-
-  return svg;
-};
-
-export const display = (
-  container: HTMLElement | string | null,
-  face: Face,
-  overrides: Overrides
-) => {
-  const containerElement = (
-    typeof container === "string"
-      ? document.getElementById(container)
-      : container
-  ) as HTMLElement;
-  if (!containerElement) {
-    throw new Error("container not found");
-  }
-  containerElement.innerHTML = "";
-
-  buildSVGString(face, overrides, containerElement);
 };

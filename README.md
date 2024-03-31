@@ -26,24 +26,24 @@ or
 
 Import it with ES modules:
 
-    import * as faces from "facesjs";
+    import { display, generate } from "facesjs";
 
 or CommonJS:
 
-    const faces = require("facesjs");
+    const { display, generate } = require("facesjs");
 
 Then, generate a random face:
 
-    const face = faces.generate();
+    const face = generate();
 
 And display it:
 
     // Display in a div with id "my-div-id"
-    faces.display("my-div-id", face);
+    display("my-div-id", face);
 
     // Display in a div you already have a reference to
     const element = document.getElementById("my-div-id");
-    faces.display(element, face);
+    display(element, face);
 
 If you'd like a non-random face, look inside the `face` variable and you'll see all the available options for a manually constructed face.
 
@@ -52,10 +52,10 @@ If you'd like a non-random face, look inside the `face` variable and you'll see 
 Both `display` and `generate` accept an optional final argument, specifying values to override either the randomly generated face (for `generate`) or the supplied face (for `display`). For instance:
 
     # Generate a random face that always has blue skin
-    const face = faces.generate({ body: { color: "blue" } });
+    const face = generate({ body: { color: "blue" } });
 
     # Display a face, but impose that it has blue skin
-    faces.display("my-div-id", face, { body: { color: "blue" } });
+    display("my-div-id", face, { body: { color: "blue" } });
 
 ### Options
 
@@ -63,15 +63,59 @@ The `generate` function takes a second optional arguement, which takes in extra 
 
 Generate a female/male face (default is male):
 
-    const face = faces.generate(null, { gender: "female" });
+    const face = generate(null, { gender: "female" });
 
 Assign a race attribute that can be white, black, asian, or brown (default is random):
 
-    const face = faces.generate(null, { race: "white" });
+    const face = generate(null, { race: "white" });
 
 Or both together:
 
-    const face = faces.generate(null, { gender: "female", race: "asian" });
+    const face = generate(null, { gender: "female", race: "asian" });
+
+## Exporting SVGs
+
+### API
+
+You can use `faceToSvgString` to convert a face object to an SVG string.
+
+    import { faceToSvgString, generate } from "facesjs";
+
+    const face = generate();
+    const svg = faceToSvgString(face);
+
+You can also specify overrides, similar to `display`:
+
+    const svg = faceToSvgString(face, { body: { color: "blue" } });
+
+### CLI
+
+You can also use `facesjs` as a CLI program. All of the functionality from `generate` and `display` are available on the CLI too.
+
+#### Examples
+
+Output a random face to stdout:
+
+    $ npx facesjs
+
+Generage a blue female face and output to stdout:
+
+    $ npx facesjs -j '{"body":{"color":"blue"}}' -g female
+
+Generage a male white face and save it to test.svg:
+
+    $ npx facesjs -r white -o test.svg
+
+#### Options
+
+    -h, --help          Prints this help
+    -o, --output        Output filename to use rather than stdout
+    -f, --input-file    Path to a faces.js JSON file to convert to SVG
+    -j, --input-json    String faces.js JSON object to convert to SVG
+    -r, --race          Race - white/black/asian/brown, default is random
+    -g, --gender        Gender - male/female, default is male
+
+--input-file and --input-json can specify either an entire face object or a partial face object. If it's a partial face object, the other features will be random.
 
 ## Development
 
@@ -118,4 +162,4 @@ or CommonJS:
 
 ## Credits
 
-[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, and [Lia Cui](https://liacui.carrd.co/) made most of the female graphics.
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, [Lia Cui](https://liacui.carrd.co/) made most of the female graphics, and [gurushida](https://github.com/gurushida) wrote the code to export faces as SVG strings.

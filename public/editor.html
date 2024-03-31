@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -1010,7 +1010,7 @@
             } else if (parts.length === 2)
               newFace[parts[0]][parts[1]] = oldFace[parts[0]][parts[1]];
           }
-        }
+        },
       );
       return newFace;
     };
@@ -1029,7 +1029,7 @@
       history.replaceState(
         undefined,
         undefined,
-        `#${btoa(JSON.stringify(face))}`
+        `#${btoa(JSON.stringify(face))}`,
       );
       jsonElement.value = JSON.stringify(face);
     };
@@ -1112,7 +1112,7 @@
     const listenForChanges = () => {
       const textInputs = document.querySelectorAll("input.form-control");
       const checkboxInputs = document.querySelectorAll(
-        "input.form-check-input"
+        "input.form-check-input",
       );
       const selects = document.querySelectorAll("select.form-control");
 
@@ -1131,7 +1131,7 @@
           } else if (parts.length === 2) {
             face[parts[0]][parts[1]] = getValue(
               face[parts[0]][parts[1]],
-              event
+              event,
             );
           } else {
             throw new Error(`Invalid ID ${event.target.id}`);
@@ -1150,7 +1150,7 @@
 
       const checkboxes = [].concat(
         Array.from(document.getElementsByClassName("random-group")),
-        Array.from(document.getElementsByClassName("random-attribute"))
+        Array.from(document.getElementsByClassName("random-attribute")),
       );
       document.getElementById("check-all").addEventListener("click", () => {
         for (const checkbox of checkboxes) {
@@ -1168,10 +1168,10 @@
         (elem) => {
           elem.addEventListener("click", () => {
             Array.from(
-              document.getElementsByClassName(elem.id.replace("-group", ""))
+              document.getElementsByClassName(elem.id.replace("-group", "")),
             ).forEach((elem2) => (elem2.checked = elem.checked));
           });
-        }
+        },
       );
 
       Array.from(document.getElementsByClassName("random-attribute")).forEach(
@@ -1182,14 +1182,13 @@
                 if (elem.checked) {
                   // See if all are checked, and if so check the group
                   const others = Array.from(
-                    document.getElementsByClassName(className)
+                    document.getElementsByClassName(className),
                   ).filter(
-                    (other) => !other.classList.contains("random-group")
+                    (other) => !other.classList.contains("random-group"),
                   );
                   if (others.every((other) => other.checked)) {
-                    document.getElementById(
-                      className + "-group"
-                    ).checked = true;
+                    document.getElementById(className + "-group").checked =
+                      true;
                   }
                 } else {
                   document.getElementById(className + "-group").checked = false;
@@ -1197,7 +1196,7 @@
               }
             });
           });
-        }
+        },
       );
     };
 
