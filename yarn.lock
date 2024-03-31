@@ -1278,12 +1278,12 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svg-path-bbox@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/svg-path-bbox/-/svg-path-bbox-1.2.4.tgz#190a5442e63229cbcb242d9dabbdc20906f05d0b"
-  integrity sha512-RkYmPtOY1wdTbtpyfn7n3Dwxw9vFYIFT8/FugjUU/127UDdV5rWfBDhkoQZVlZa1xK3bV4Nuv8wdZ0k7Vt4pnQ==
+svg-path-bbox@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/svg-path-bbox/-/svg-path-bbox-1.2.5.tgz#c4b32583614f7c32faa09ad8067f11db610eb1e8"
+  integrity sha512-HqH8HleRM2OomivNcfXLZImCg3rslsARnthGJtgn3aRAHPaIVWX/lqH0iolmuk/7XBm0WedxHhXhygPos+9aJg==
   dependencies:
-    svgpath "^2.2.0"
+    svgpath "^2.6.0"
 
 svgo@^3.0.2:
   version "3.0.4"
@@ -1298,7 +1298,7 @@ svgo@^3.0.2:
     csso "5.0.5"
     picocolors "^1.0.0"
 
-svgpath@^2.2.0:
+svgpath@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/svgpath/-/svgpath-2.6.0.tgz#5b160ef3d742b7dfd2d721bf90588d3450d7a90d"
   integrity sha512-OIWR6bKzXvdXYyO4DK/UWa1VA1JeKq8E+0ug2DG98Y/vOmMpfZNj+TIG988HjfYSqtcy/hFOtZq/n/j5GSESNg==

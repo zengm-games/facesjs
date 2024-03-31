@@ -60,7 +60,7 @@
     "build"
   ],
   "dependencies": {
-    "svg-path-bbox": "^1.2.4"
+    "svg-path-bbox": "1.2.5"
   },
   "bin": "build/esmodules/cli.js",
   "lint-staged": {
