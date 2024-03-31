@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "moduleResolution": "node",
+    "module": "node16",
+    "moduleResolution": "node16",
     "emitDeclarationOnly": true,
     "strict": true,
     "esModuleInterop": true,
     "declaration": true,
     "declarationDir": "build/esmodules"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
