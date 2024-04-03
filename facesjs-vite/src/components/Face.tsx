@@ -9,8 +9,6 @@ export const Face: React.FC<{ faceConfig: FaceConfig, overrides?: Overrides, wid
     let widthStyle = width ? { width: `${width}px` } : { width: '400px' }
     let heightStyle = width ? { height: `${width * 1.5}px` } : { height: '600px' }
 
-    console.log('Face', { faceConfig, overrides, width, faceSvg, widthStyle, heightStyle })
-
     return (
         <div
             style={{ ...widthStyle, ...heightStyle }}

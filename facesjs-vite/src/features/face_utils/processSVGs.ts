@@ -7,7 +7,7 @@ import { Feature } from './types';
 const warning = "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See utils/processSVGs.ts";
 
 const processSVGs = async () => {
-    const svgFolder = path.join(__dirname, '..', 'public', 'svgs');
+    const svgFolder = path.join(__dirname, '..', '..', '..', '..', 'svgs');
     const folders = await fs.readdir(svgFolder);
     const svgs: { [key: string]: any } = {};
 
@@ -27,7 +27,7 @@ const processSVGs = async () => {
         }
     }
 
-    await fs.writeFile(path.join(__dirname, '..', 'lib', 'svgs.ts'), `${warning}\n\nexport default ${JSON.stringify(svgs)};`);
+    await fs.writeFile(path.join(__dirname, 'svgs.ts'), `${warning}\n\nexport default ${JSON.stringify(svgs)};`);
 
     const svgsIndex: { [key in Feature]?: string[] } = Object.keys(svgs).reduce((acc, key) => ({
         ...acc,
@@ -41,7 +41,7 @@ const processSVGs = async () => {
         return { ...acc, [faceSection]: keyGenders };
     }, {});
 
-    await fs.writeFile(path.join(__dirname, '..', 'lib', 'svgs-index.ts'), `${warning}\n\nexport const svgsIndex = ${JSON.stringify(svgsIndex)};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`);
+    await fs.writeFile(path.join(__dirname, 'svgs-index.ts'), `${warning}\n\nexport const svgsIndex = ${JSON.stringify(svgsIndex)};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`);
 };
 
 export default processSVGs;

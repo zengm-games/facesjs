@@ -7,6 +7,9 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "vite.config.ts"
+    "vite.config.ts",
+    "src/features/face_utils/processSVGs.ts",
+    "src/features/face_utils/genders.ts",
+    "src/features/face_utils/types.ts",
   ]
 }

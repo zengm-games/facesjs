@@ -5,3 +5,5 @@ src/svgs.ts
 src/svgs-index.ts
 test.html
 yarn-error.log
+facesjs-vite/vite.config.ts.timestamp*
+*.DS_Store
