@@ -82,8 +82,6 @@ const EditorPageGallery = (): JSX.Element => {
     let [currentIndexObj, setCurrentIndexObj] = useState<{ feature_name: string, index: number }>({ feature_name: selectedItem?.key || '', index: startingIndex });
     let num_columns = 4;
 
-    console.log('EditorPageGalleryStartingIndex', { faceConfig, selectedItem, overrideList, startingIndex, currentIndexObj })
-
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (!selectedItem) return;
@@ -91,10 +89,14 @@ const EditorPageGallery = (): JSX.Element => {
 
             let overrideList = getOverrideListForItem(selectedItem);
             let nextIndex = currentIndexObj.index;
+            let listLength = overrideList.length;
             let isLeftBound = currentIndexObj.index % num_columns === 0;
             let isRightBound = currentIndexObj.index % num_columns === num_columns - 1;
             let isTopBound = currentIndexObj.index < num_columns;
             let isBottomBound = currentIndexObj.index >= overrideList.length - num_columns;
+
+            let elementsOnBottomRow = listLength % num_columns;
+            let isBottomRow = currentIndexObj.index > listLength - elementsOnBottomRow;
 
             switch (event.key) {
                 case 'ArrowUp':
@@ -105,9 +107,11 @@ const EditorPageGallery = (): JSX.Element => {
                     break;
                 case 'ArrowLeft':
                     if (!isLeftBound) nextIndex -= 1;
+                    if (isLeftBound && !isTopBound) nextIndex -= 1;
                     break;
                 case 'ArrowRight':
                     if (!isRightBound) nextIndex += 1;
+                    else if (isRightBound && !isBottomRow) nextIndex += 1;
                     break;
                 default:
                     return;

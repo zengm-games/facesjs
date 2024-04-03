@@ -7,3 +7,5 @@ test.html
 yarn-error.log
 facesjs-vite/vite.config.ts.timestamp*
 *.DS_Store
+facesjs-vite/src/.DS_Store
+facesjs-vite/.DS_Store
