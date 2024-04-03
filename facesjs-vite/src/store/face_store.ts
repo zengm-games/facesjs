@@ -1,7 +1,8 @@
 import { create, StateCreator } from 'zustand'
 import { CombinedState, FaceConfig, FaceState, ToolbarConfig, ToolbarState } from '../features/face_utils/types'
 import { generate } from '../features/face_utils/generate'
-import { generateRangeFromSlots, generateRangeFromStep } from '../features/face_utils/utils'
+import { generateRangeFromSlots } from '../features/face_utils/utils'
+import { distinctHairColors, distinctSkinColors } from '../features/face_utils/globals'
 
 
 let toolbarItemConfig: ToolbarConfig = {
@@ -9,9 +10,7 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'body.color',
             text: 'Skin Color',
-            valuesToRender: [
-                "#f2d6cb", "#ddb7a0", "#fedac7", "#f0c5a3", "#eab687", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"
-            ],
+            valuesToRender: distinctSkinColors,
             isSelected: true,
         },
         {
@@ -90,18 +89,7 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'hair.color',
             text: 'Hair Color',
-            valuesToRender: [
-                "#272421",
-                "#3D2314",
-                "#5A3825",
-                "#CC9966",
-                "#2C1608",
-                "#B55239",
-                "#e9c67b",
-                "#D7BF91",
-                "#0f0902",
-                "#1c1008",
-            ],
+            valuesToRender: distinctHairColors,
         },
         {
             key: 'hair.flip',
@@ -155,28 +143,7 @@ let toolbarItemConfig: ToolbarConfig = {
             valuesToRender: [true, false],
         },
     ],
-    Glasses: [
-        {
-            key: 'glasses.id',
-            text: 'Glasses Style',
-            hasSvgs: true,
-        },
-    ],
-    Accessories: [
-        {
-            key: 'accessories.id',
-            text: 'Accessories Style',
-            hasSvgs: true,
-        },
-    ],
-    Earrings: [
-        {
-            key: 'earring.id',
-            text: 'Earring Style',
-            hasSvgs: true,
-        },
-    ],
-    'Eye Line': [
+    'Face Lines': [
         {
             key: 'eyeLine.id',
             text: 'Eye Line Style',
@@ -201,6 +168,18 @@ let toolbarItemConfig: ToolbarConfig = {
             key: 'lineOpacity',
             text: 'Line Opacity',
             valuesToRender: generateRangeFromSlots(0, 0.75, 20),
+        },
+    ],
+    Accessories: [
+        {
+            key: 'glasses.id',
+            text: 'Glasses Style',
+            hasSvgs: true,
+        },
+        {
+            key: 'accessories.id',
+            text: 'Accessories Style',
+            hasSvgs: true,
         },
     ],
     Jersey: [

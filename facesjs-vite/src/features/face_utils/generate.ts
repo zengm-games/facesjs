@@ -1,3 +1,4 @@
+import { colors } from "./globals";
 import override from "./override";
 import { svgsGenders, svgsIndex } from "./svgs-index";
 import { FaceConfig, Feature, Gender, Overrides, Race, TeamColors } from "./types";
@@ -24,31 +25,7 @@ const getID = (type: Feature, gender: Gender): string => {
     return validIDs[Math.floor(Math.random() * validIDs.length)] || 'none';
 };
 
-const colors = {
-    white: {
-        skin: ["#f2d6cb", "#ddb7a0"],
-        hair: [
-            "#272421",
-            "#3D2314",
-            "#5A3825",
-            "#CC9966",
-            "#2C1608",
-            "#B55239",
-            "#e9c67b",
-            "#D7BF91",
-        ],
-    },
-    asian: {
-        // https://imgur.com/a/GrBuWYw
-        skin: ["#fedac7", "#f0c5a3", "#eab687"],
-        hair: ["#272421", "#0f0902"],
-    },
-    brown: {
-        skin: ["#bb876f", "#aa816f", "#a67358"],
-        hair: ["#272421", "#1c1008"],
-    },
-    black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
-};
+
 
 const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 

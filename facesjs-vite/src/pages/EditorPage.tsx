@@ -6,6 +6,7 @@ import { FaceConfig, Overrides, ToolbarItemConfig } from "../features/face_utils
 import { useStateStore } from "../store/face_store";
 import { Shuffle } from "@phosphor-icons/react";
 import { get_from_dict, set_to_dict } from "../features/face_utils/utils";
+import { generate } from "../features/face_utils/generate";
 
 const concatClassNames = (...classNames: string[]): string => {
     return classNames.join(" ");
@@ -162,7 +163,7 @@ const EditorPageGallery = (): JSX.Element => {
 
 const ToolbarItemSectionHead = ({ text }: { text: string }): JSX.Element => {
     return (
-        <div className="w-3/4  p-2 border-t-slate-500 border-t-2">
+        <div className="w-11/12  p-2 border-t-slate-500 border-t-2">
             <span>
                 {text}
             </span>
@@ -196,12 +197,13 @@ const ToolbarItem = ({ toolbarItem }: { toolbarItem: ToolbarItemConfig }): JSX.E
                 flex
                 justify-between
                 p-2
-                w-3/4
+                w-11/12
                 hover:bg-slate-200
                 active:scale-90
                 transition-transform
                 ease-in-out
                 items-center
+                cursor-pointer
                 `, isSelected ? 'bg-slate-100' : '')}
             onClick={() => { setSelectedItem(key); }}
         >
@@ -236,15 +238,18 @@ const EditorPageToolbar = (): JSX.Element => {
                 <>
                     <ToolbarItemSectionHead text={section} key={`section-${section_index}`} />
 
-                    {toolbarConfig[section] && toolbarConfig[section].map((toolbarItem: ToolbarItemConfig, item_index: number) => {
-                        return (
-                            <ToolbarItem
-                                toolbarItem={toolbarItem}
-                                key={`section-${section_index}-${item_index}`}
-                            />
-                        )
 
-                    })
+                    {toolbarConfig[section] &&
+                        // @ts-ignore
+                        toolbarConfig[section].map((toolbarItem: ToolbarItemConfig, item_index: number) => {
+                            return (
+                                <ToolbarItem
+                                    toolbarItem={toolbarItem}
+                                    key={`section-${section_index}-${item_index}`}
+                                />
+                            )
+
+                        })
                     }
                 </>
             ))}
@@ -253,10 +258,31 @@ const EditorPageToolbar = (): JSX.Element => {
 }
 
 export const EditorPage = (): JSX.Element => {
+    let { setFaceStore } = useStateStore();
+
+
     return (
-        <div className="  font-bold w-screen h-screen flex  items-center ">
-            <EditorPageToolbarAndGallery />
-            <MainFaceDisplay />
-        </div>
+        <>
+            <div className="bg-slate-800 text-white">
+                <div className="flex text-xl p-2 justify-around w-2/12 items-center" >
+                    <span>faces.js Editor</span>
+                    <span
+                        className="
+                            hover:bg-slate-50 
+                            hover:text-slate-900
+                            cursor-pointer
+                            rounded-full 
+                            p-1
+                            m-0.5"
+                    >
+                        <Shuffle size={24} onClick={() => setFaceStore(generate())} />
+                    </span>
+                </div>
+            </div>
+            <div className="  font-bold w-screen h-screen flex  items-center ">
+                <EditorPageToolbarAndGallery />
+                <MainFaceDisplay />
+            </div>
+        </>
     );
 };

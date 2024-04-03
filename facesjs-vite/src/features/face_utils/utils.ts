@@ -1,10 +1,11 @@
 
 export const get_from_dict = (obj: object, key: string): any => {
-    let keyParts: string[] = String(key).split('.');;
+    let keyParts: string[] = String(key).split('.');
     let current: any = obj;
 
     for (let i = 0; i < keyParts.length; i++) {
-        const part = keyParts[i];
+        // @ts-ignore
+        const part: string = keyParts[i];
 
         // Check if current is a Map and get the value
         if (current instanceof Map) {
@@ -32,11 +33,12 @@ export const get_from_dict = (obj: object, key: string): any => {
 
 export const set_to_dict = (container: { [key: string]: any } | Map<any, any>, key: string, value: any) => {
     key = `${key}`.trim();
-    const keys = key.split('.');
+    const keys: string[] = key.split('.');
     let current_container = container;
 
     for (let i = 0; i < keys.length; i++) {
-        const current_key = keys[i];
+        // @ts-ignore
+        const current_key: string = keys[i];
 
         if (i === keys.length - 1) {
             if (current_container instanceof Map) {
@@ -45,7 +47,7 @@ export const set_to_dict = (container: { [key: string]: any } | Map<any, any>, k
                 (current_container as { [key: string]: any })[current_key] = value;
             }
         } else {
-            const next_key = keys[i + 1];
+            // const next_key = keys[i + 1];
             if (current_container instanceof Map) {
                 if (!current_container.has(current_key) || !(current_container.get(current_key) instanceof Map)) {
                     current_container.set(current_key, new Map<any, any>());
@@ -84,4 +86,8 @@ export const generateRangeFromSlots = (start: number, end: number, slots: number
     }
 
     return returnArray;
+}
+
+export const distinct = (arr: any[]) => {
+    return [...new Set(arr)];
 }
