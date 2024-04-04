@@ -1,7 +1,7 @@
 import { create, StateCreator } from 'zustand'
 import { CombinedState, FaceConfig, FaceState, ToolbarConfig, ToolbarState } from '../features/face_utils/types'
 import { generate } from '../features/face_utils/generate'
-import { generateRangeFromSlots } from '../features/face_utils/utils'
+import { generateRangeFromStep } from '../features/face_utils/utils'
 import { distinctHairColors, distinctSkinColors } from '../features/face_utils/globals'
 
 
@@ -10,13 +10,23 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'body.color',
             text: 'Skin Color',
-            valuesToRender: distinctSkinColors,
             isSelected: true,
+            renderOptions: {
+                isColor: true,
+                valuesToRender: distinctSkinColors
+            }
         },
         {
             key: 'body.size',
             text: 'Body Size',
-            valuesToRender: generateRangeFromSlots(0.8, 1.2, 5),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0.8,
+                    max: 1.2,
+                    step: 0.1,
+                    sliderStep: 0.01,
+                }
+            }
         },
         {
             key: 'body.id',
@@ -31,7 +41,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'fatness',
             text: 'Face Size',
-            valuesToRender: generateRangeFromSlots(0, 1, 20),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0,
+                    max: 1,
+                    step: 0.05,
+                    sliderStep: 0.02,
+                }
+            }
         },
     ],
     Mouth: [
@@ -43,12 +60,21 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'mouth.size',
             text: 'Mouth Size',
-            valuesToRender: generateRangeFromSlots(0.8, 1.2, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0.8,
+                    max: 1.2,
+                    step: 0.1,
+                    sliderStep: 0.01,
+                }
+            },
         },
         {
             key: 'mouth.flip',
             text: 'Mouth Flip',
-            valuesToRender: [true, false],
+            renderOptions: {
+                isBoolean: true
+            }
         },
     ],
     Eyes: [
@@ -60,12 +86,26 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'eye.angle',
             text: 'Eye Angle',
-            valuesToRender: generateRangeFromSlots(-10, 15, 15),
+            renderOptions: {
+                rangeConfig: {
+                    min: -10,
+                    max: 15,
+                    step: 1,
+                    sliderStep: 0.1,
+                }
+            }
         },
         {
             key: 'eyeDistance',
             text: 'Eye Distance',
-            valuesToRender: generateRangeFromSlots(-4, 4, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: -4,
+                    max: 4,
+                    step: 1,
+                    sliderStep: 0.1,
+                }
+            }
         },
     ],
     Ears: [
@@ -77,7 +117,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'ear.size',
             text: 'Ear Size',
-            valuesToRender: generateRangeFromSlots(0.5, 1.5, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0.5,
+                    max: 1.5,
+                    step: 0.1,
+                    sliderStep: 0.01,
+                }
+            }
         },
     ],
     Hair: [
@@ -89,12 +136,17 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'hair.color',
             text: 'Hair Color',
-            valuesToRender: distinctHairColors,
+            renderOptions: {
+                isColor: true,
+                valuesToRender: distinctHairColors
+            }
         },
         {
             key: 'hair.flip',
             text: 'Hair Flip',
-            valuesToRender: [true, false],
+            renderOptions: {
+                isBoolean: true
+            }
         },
         {
             key: 'hairBg.id',
@@ -111,7 +163,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'head.shaveOpacity',
             text: 'Head Shave Opacity',
-            valuesToRender: generateRangeFromSlots(0, 1, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0,
+                    max: 1,
+                    step: 0.1,
+                    sliderStep: 0.01,
+                }
+            }
         },
     ],
     Eyebrows: [
@@ -123,7 +182,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'eyebrow.angle',
             text: 'Eyebrow Angle',
-            valuesToRender: generateRangeFromSlots(-15, 20, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: -15,
+                    max: 20,
+                    step: 1,
+                    sliderStep: 0.1,
+                }
+            }
         },
     ],
     Nose: [
@@ -135,12 +201,21 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'nose.size',
             text: 'Nose Size',
-            valuesToRender: generateRangeFromSlots(0.5, 1.25, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0.5,
+                    max: 1.25,
+                    step: 0.05,
+                    sliderStep: 0.01,
+                }
+            }
         },
         {
             key: 'nose.flip',
             text: 'Nose Flip',
-            valuesToRender: [true, false],
+            renderOptions: {
+                isBoolean: true
+            }
         },
     ],
     'Face Lines': [
@@ -157,7 +232,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'smileLine.size',
             text: 'Smile Line Size',
-            valuesToRender: generateRangeFromSlots(0.25, 2.25, 10),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0.25,
+                    max: 2.25,
+                    step: 0.1,
+                    sliderStep: 0.01,
+                }
+            }
         },
         {
             key: 'miscLine.id',
@@ -167,7 +249,14 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'lineOpacity',
             text: 'Line Opacity',
-            valuesToRender: generateRangeFromSlots(0, 0.75, 20),
+            renderOptions: {
+                rangeConfig: {
+                    min: 0,
+                    max: 0.75,
+                    step: 0.05,
+                    sliderStep: 0.01,
+                }
+            }
         },
     ],
     Accessories: [
@@ -191,8 +280,31 @@ let toolbarItemConfig: ToolbarConfig = {
         {
             key: 'teamColors',
             text: 'Team Colors',
+            renderOptions: {
+                isColor: true,
+            }
         },
     ],
+}
+
+for (const [_, itemList] of Object.entries(toolbarItemConfig)) {
+    for (const itemConfig of itemList) {
+        if (itemConfig.renderOptions && itemConfig.renderOptions.rangeConfig) {
+            const rangeConfig = itemConfig.renderOptions.rangeConfig
+            itemConfig.renderOptions.valuesToRender = generateRangeFromStep(rangeConfig.min, rangeConfig.max, rangeConfig.step)
+            itemConfig.selectionType = 'range';
+        }
+        else if (itemConfig.renderOptions && itemConfig.renderOptions.isBoolean) {
+            itemConfig.renderOptions.valuesToRender = [true, false]
+            itemConfig.selectionType = 'boolean';
+        }
+        else if (itemConfig.renderOptions && itemConfig.renderOptions.isColor) {
+            itemConfig.selectionType = 'color';
+        }
+        else {
+            itemConfig.selectionType = 'svgs';
+        }
+    }
 }
 
 const createFaceSlace: StateCreator<
@@ -251,7 +363,7 @@ const createToolbarSlice: StateCreator<
             }
         }
         return false
-    }
+    },
 })
 
 export const useStateStore = create<CombinedState>()((...a: [any, any, any]) => ({

@@ -82,7 +82,7 @@ export const generateRangeFromSlots = (start: number, end: number, slots: number
     let step = (end - start) / slots;
 
     for (let i = start; i <= end; i += step) {
-        returnArray.push(i);
+        returnArray.push(roundTwoDecimals(i));
     }
 
     return returnArray;
@@ -91,3 +91,5 @@ export const generateRangeFromSlots = (start: number, end: number, slots: number
 export const distinct = (arr: any[]) => {
     return [...new Set(arr)];
 }
+
+const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;

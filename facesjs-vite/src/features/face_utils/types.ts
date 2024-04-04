@@ -124,8 +124,19 @@ export type ToolbarItemConfig = {
     text: string,
     isSelected?: boolean,
     hasSvgs?: boolean,
-    valuesToRender?: any[],
     noneAllowed?: boolean,
+    selectionType?: 'range' | 'boolean' | 'color' | 'svgs',
+    renderOptions?: {
+        rangeConfig?: {
+            min: number,
+            max: number,
+            step: number,
+            sliderStep?: number
+        },
+        isColor?: boolean,
+        isBoolean?: boolean,
+        valuesToRender?: any[],
+    }
 }
 export type ToolbarConfig = {
     [key: string]: ToolbarItemConfig[]
