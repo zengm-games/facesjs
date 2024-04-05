@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Face } from "../components/Face";
 import { svgsIndex } from "../features/face_utils/svgs-index";
 import override, { deepCopy } from "../features/face_utils/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../features/face_utils/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle, ArrowSquareOut, LinkSimple, ClipboardText, DownloadSimple, UploadSimple } from "@phosphor-icons/react";
+import { Shuffle, ArrowSquareOut, LinkSimple, ClipboardText, DownloadSimple, UploadSimple, X } from "@phosphor-icons/react";
 import { get_from_dict, roundTwoDecimals, set_to_dict } from "../features/face_utils/utils";
 import { generate } from "../features/face_utils/generate";
 import { Canvg } from 'canvg';
 import { faceToSvgString } from "../features/face_utils/faceToSvgString";
 
 import {
-    Select, Input, InputGroup, Switch, Tooltip, ToastContainer, useToast
+    Select, Input, InputGroup, Switch, Tooltip, ToastContainer, useToast, Modal, Card, Button, FormControl, Textarea
 } from '@rewind-ui/core';
+import { text } from "stream/consumers";
 
 
 type OverrideListItem = { override: Overrides, display: JSX.Element };
@@ -637,9 +638,21 @@ const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
 
 };
 
+const isValidJSON = (value: string): boolean => {
+    try {
+        JSON.parse(value);
+        return true; // Valid JSON
+    } catch (error) {
+        return false; // Invalid JSON
+    }
+}
+
 export const EditorPage = (): JSX.Element => {
     let { setFaceStore, faceConfig } = useStateStore();
-
+    const [pasteModalOpen, setPasteModalOpen] = useState(false);
+    const [textAreaValue, setTextAreaValue] = useState('');
+    const [textAreaValid, setTextAreaValid] = useState(false);
+    const textRef = useRef<HTMLTextAreaElement>(null);
 
     return (
         <>
@@ -687,6 +700,9 @@ export const EditorPage = (): JSX.Element => {
                     </span>
                     <span
                         className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                        onClick={() => {
+                            setPasteModalOpen(true);
+                        }}
                     >
                         <Tooltip
                             label={"Paste JSON to draw face"}
@@ -716,6 +732,67 @@ export const EditorPage = (): JSX.Element => {
                 <EditorPageToolbarAndGallery />
                 <MainFaceDisplay />
             </div>
+            <Modal overlayOpacity="75" overlayColor="white" overlayBlur='sm' className="w-1/2" position="center" shadow="md" size="md" open={pasteModalOpen} onClose={() => setPasteModalOpen(false)}>
+                <Card size="lg" className="w-full">
+                    <Card.Header
+                        className="bg-gray-50/50 font-medium"
+                        actions={
+                            <Button className="ml-4" onClick={() => setPasteModalOpen(false)} size="xs" color="gray" icon={true}>
+                                <X />
+                            </Button>
+                        }
+                    >
+                        Paste JSON to Render Face
+                    </Card.Header>
+                    <Card.Body className="space-y-3">
+                        <FormControl size="sm">
+                            <Textarea
+                                value={textAreaValue}
+                                validation={textAreaValid ? 'valid' : 'invalid'}
+                                ref={textRef}
+                                onChange={(e) => setTextAreaValue(e.target.value)}
+                                placeholder='Input Face JSON'
+                                className="my-6 min-h-60"
+                            />
+                        </FormControl>
+                    </Card.Body>
+                    <Card.Footer className="bg-gray-50/50 justify-end space-x-2">
+                        <Button onClick={() => {
+                            setPasteModalOpen(false)
+                        }}
+                            size="sm"
+                            tone="transparent"
+                            color="gray"
+                        >
+                            Close
+                        </Button>
+                        <Button
+                            className="font-semibold"
+                            onClick={() => {
+                                let isValid = isValidJSON(textAreaValue);
+                                setTextAreaValid(isValid);
+
+                                console.log('isValid', isValid)
+
+                                if (!isValid) {
+                                    doToast('Invalid JSON');
+                                }
+                                else {
+                                    let faceConfigCopy: FaceConfig = JSON.parse(textAreaValue);
+                                    console.log('faceConfigCopy', faceConfigCopy)
+                                    setFaceStore(faceConfigCopy);
+                                    setPasteModalOpen(false);
+                                }
+                            }}
+                            size="sm"
+                            color="blue"
+                            tone="light"
+                        >
+                            Draw
+                        </Button>
+                    </Card.Footer>
+                </Card>
+            </Modal>
         </>
     );
 };
