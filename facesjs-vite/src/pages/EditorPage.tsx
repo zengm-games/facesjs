@@ -4,12 +4,14 @@ import { svgsIndex } from "../features/face_utils/svgs-index";
 import override, { deepCopy } from "../features/face_utils/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../features/face_utils/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle, ArrowSquareOut } from "@phosphor-icons/react";
+import { Shuffle, ArrowSquareOut, LinkSimple, ClipboardText, DownloadSimple, UploadSimple } from "@phosphor-icons/react";
 import { get_from_dict, roundTwoDecimals, set_to_dict } from "../features/face_utils/utils";
 import { generate } from "../features/face_utils/generate";
+import { Canvg } from 'canvg';
+import { faceToSvgString } from "../features/face_utils/faceToSvgString";
 
 import {
-    Select, Input, InputGroup, Switch, Tooltip
+    Select, Input, InputGroup, Switch, Tooltip, ToastContainer, useToast
 } from '@rewind-ui/core';
 
 
@@ -562,13 +564,86 @@ const EditorPageToolbar = (): JSX.Element => {
     )
 }
 
+const doToast = (message: string) => {
+    const toast = useToast();
+
+    toast.add({
+        id: 'face-config-copy-toast',
+        closeOnClick: true,
+        color: 'green',
+        description: '',
+        duration: 3000,
+        iconType: 'success',
+        pauseOnHover: true,
+        radius: 'lg',
+        shadow: 'none',
+        shadowColor: 'green',
+        showProgress: false,
+        title: message,
+        tone: 'solid',
+    });
+
+}
+
+const copyFaceConfigToClipboard = async (faceConfig: FaceConfig) => {
+
+    try {
+        // Use the Clipboard API to copy the text
+        await navigator.clipboard.writeText(JSON.stringify(faceConfig));
+        doToast('Face Config copied to clipboard')
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+};
+
+function getCurrentTimestamp(): string {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hour = now.getHours().toString().padStart(2, '0');
+    const minute = now.getMinutes().toString().padStart(2, '0');
+    const second = now.getSeconds().toString().padStart(2, '0');
+
+    return `${year}${month}${day}${hour}${minute}${second}`;
+}
+
+const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
+
+    const faceSvg = faceToSvgString(faceConfig)
+
+    const downloadPng = async () => {
+
+        const canvas = document.createElement('canvas');
+        const ctx: any = canvas.getContext('2d');
+        const v = await Canvg.from(ctx, faceSvg);
+
+        v.resize(600, 900, 'xMidYMid meet');
+        await v.render();
+
+        canvas.toBlob((blob: any) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `facesjs_render_${getCurrentTimestamp()}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    };
+
+    await downloadPng();
+
+};
+
 export const EditorPage = (): JSX.Element => {
-    let { setFaceStore } = useStateStore();
+    let { setFaceStore, faceConfig } = useStateStore();
 
 
     return (
         <>
-            <div className="bg-slate-800 text-white">
+            <div className="bg-slate-800 text-white flex justify-between w-full">
                 <div className="flex text-xl p-2 justify-around w-2/12 items-center" >
                     <span>faces.js Editor</span>
                     <span
@@ -581,6 +656,59 @@ export const EditorPage = (): JSX.Element => {
                             m-0.5"
                     >
                         <Shuffle size={24} onClick={() => setFaceStore(generate())} />
+                    </span>
+                </div>
+                <div className="flex justify-between gap-4 items-center mr-12">
+                    {/* <span
+                        className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                    >
+                        <Tooltip
+                            label={"Copy link to this faces.js configuration"}
+                            placement="bottom"
+                        >
+                            <LinkSimple
+                                size={24}
+                            />
+                        </Tooltip>
+                    </span> */}
+                    <span
+                        className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                        onClick={async () => { await copyFaceConfigToClipboard(faceConfig) }}
+                    >
+                        <Tooltip
+                            label={"Copy JSON configuration to clipboard"}
+                            placement="bottom"
+                        >
+                            <ClipboardText
+                                size={24}
+                            />
+                        </Tooltip>
+                        <ToastContainer position="bottom-right" />
+                    </span>
+                    <span
+                        className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                    >
+                        <Tooltip
+                            label={"Paste JSON to draw face"}
+                            placement="bottom"
+                        >
+                            <UploadSimple
+                                size={24}
+                            />
+                        </Tooltip>
+                    </span>
+                    <span
+                        className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                        onClick={async () => { await DownloadSvgAsPng(faceConfig) }}
+                    >
+                        <Tooltip
+                            label={"Download face as PNG image"}
+                            placement="bottom"
+                        >
+                            <DownloadSimple
+                                size={24}
+                            />
+                        </Tooltip>
                     </span>
                 </div>
             </div>

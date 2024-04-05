@@ -18,6 +18,7 @@ export default defineConfig({
 						ignoreInitial: true,
 					})
 					.on("all", (event, path) => {
+						console.log(`Processing SVGs due to ${event} at ${path}`);
 						processSVGs();
 					});
 
