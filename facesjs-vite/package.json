@@ -46,6 +46,7 @@
 		"react-code-block": "^1.0.0",
 		"react-code-blocks": "^0.1.6",
 		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.22.3",
 		"react-syntax-highlighter": "^15.5.0",
 		"svg-path-bbox": "^1.2.6",
 		"svgo": "^3.2.0",

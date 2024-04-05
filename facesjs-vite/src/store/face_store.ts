@@ -45,7 +45,7 @@ let toolbarItemConfig: ToolbarConfig = {
                 rangeConfig: {
                     min: 0,
                     max: 1,
-                    step: 0.05,
+                    step: 0.1,
                     sliderStep: 0.02,
                 }
             }
@@ -326,7 +326,13 @@ const createToolbarSlice: StateCreator<
     [],
     ToolbarState
 > = (set: any) => ({
+    selectedFeatureSection: 'Body',
     toolbarConfig: toolbarItemConfig,
+    setSelectedFeatureSection: (section: string) => {
+        set((state: CombinedState) => {
+            return { selectedFeatureSection: section }
+        })
+    },
     setSelectedItem: (itemKey: string) => {
         set((state: CombinedState) => {
             let newConfig = { ...state.toolbarConfig }

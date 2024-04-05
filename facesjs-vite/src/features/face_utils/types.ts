@@ -147,6 +147,8 @@ export type ToolbarState = {
     getSelectedItem: () => ToolbarItemConfig | null
     isSelectedItem: (key: string) => boolean
     setSelectedItem: (key: string) => void
+    setSelectedFeatureSection: (section: string) => void
+    selectedFeatureSection: string
 }
 
 export type CombinedState = ToolbarState & FaceState

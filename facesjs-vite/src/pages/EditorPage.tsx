@@ -4,11 +4,13 @@ import { svgsIndex } from "../features/face_utils/svgs-index";
 import override, { deepCopy } from "../features/face_utils/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../features/face_utils/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle } from "@phosphor-icons/react";
-import { get_from_dict, set_to_dict } from "../features/face_utils/utils";
+import { Shuffle, ArrowSquareOut } from "@phosphor-icons/react";
+import { get_from_dict, roundTwoDecimals, set_to_dict } from "../features/face_utils/utils";
 import { generate } from "../features/face_utils/generate";
 
-import { Select, Input, InputGroup } from '@rewind-ui/core';
+import {
+    Select, Input, InputGroup, Switch, Tooltip
+} from '@rewind-ui/core';
 
 
 type OverrideListItem = { override: Overrides, display: JSX.Element };
@@ -30,6 +32,8 @@ const MainFaceDisplay = (): JSX.Element => {
 
 const EditorPageToolbarAndGallery = (): JSX.Element => {
 
+
+
     return (
         <>
             <EditorPageToolbar />
@@ -37,6 +41,23 @@ const EditorPageToolbarAndGallery = (): JSX.Element => {
         </>
     )
 }
+
+const luma = (colorHex: string): number => {
+    // Extract the hexadecimal RGB components from the color string
+    const r = parseInt(colorHex.slice(1, 3), 16) / 255;
+    const g = parseInt(colorHex.slice(3, 5), 16) / 255;
+    const b = parseInt(colorHex.slice(5, 7), 16) / 255;
+
+    // Apply the luma formula
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+const doesStrLookLikeColor = (str: string): boolean => {
+    const regex = /^#([0-9A-F]{3}){1,2}$/i;
+
+    return regex.test(str);
+}
+
 
 
 const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList => {
@@ -54,6 +75,10 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
             svgNames = svgNames.sort((a, b) => {
                 if (a === "none") return -1;
                 if (b === "none") return 1;
+
+                if (doesStrLookLikeColor(a) && doesStrLookLikeColor(b)) {
+                    return luma(a) - luma(b);
+                }
 
                 let regex = /^([a-zA-Z-]+)(\d*)$/;
                 let matchA = a.match(regex);
@@ -95,22 +120,19 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
 }
 
 
-const FeatureSelector = ({ overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj }: { overrideList: OverrideList, currentIndexObj: { feature_name: string, index: number }, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
-    let { faceConfig, setFaceStore, getSelectedItem } = stateStoreProps;
-    let selectedItem = getSelectedItem();
+const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj }: { selectedItem: ToolbarItemConfig | null, overrideList: OverrideList, currentIndexObj: { feature_name: string, index: number }, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
+    let { faceConfig, setFaceStore } = stateStoreProps;
 
+    console.log('FeatureSelector', { selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj, faceConfig, setFaceStore })
     if (!selectedItem) {
         return <div>Select a feature</div>;
     }
-
-    console.log('FeatureSelector', { overrideList, currentIndexObj, selectedItem })
 
     if (selectedItem.selectionType === 'svgs') {
         return (
             <Select
                 value={currentIndexObj.index}
                 onChange={(e) => {
-                    console.log('OnSelectChange', { e, target: e.target, value: e.target.value })
                     let overrideChosen: OverrideListItem | undefined = overrideList[parseInt(e.target.value)];
                     if (!overrideChosen) return;
                     let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
@@ -129,10 +151,10 @@ const FeatureSelector = ({ overrideList, currentIndexObj, stateStoreProps, setCu
 
     else if (selectedItem.selectionType === 'range') {
 
-        const inputTypes: ('number' | 'range')[] = ['number', 'range'];
+        const inputTypes: ('number' | 'range')[] = ['range', 'number'];
 
         return (
-            <InputGroup className="flex flex-col">
+            <InputGroup className="flex gap-1">
                 {inputTypes.map((inputType, _) => (
                     <Input
                         type={inputType}
@@ -145,10 +167,11 @@ const FeatureSelector = ({ overrideList, currentIndexObj, stateStoreProps, setCu
                             console.log('onChangeCapture', { e, target: e.target })
                         }}
                         onChange={(e) => {
-                            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === e.target.value);
-                            if (!e.target.value) return;
+                            let chosenValue = roundTwoDecimals(parseFloat(e.target.value));
+                            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                            if (!chosenValue) return;
                             let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', parseFloat(e.target.value)) as Overrides;
+                            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
                             override(faceConfigCopy, newOverride);
                             setFaceStore(faceConfigCopy);
                             setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
@@ -158,6 +181,75 @@ const FeatureSelector = ({ overrideList, currentIndexObj, stateStoreProps, setCu
             </InputGroup>
         )
     }
+    else if (selectedItem.selectionType == 'boolean') {
+
+
+        return (
+            <Switch
+                checked={get_from_dict(faceConfig, selectedItem?.key || '') || false}
+                radius="full"
+                onChange={(e) => {
+                    let chosenValue = e?.valueOf() || false;
+                    let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+                    let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+
+                    console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
+                    override(faceConfigCopy, newOverride);
+                    setFaceStore(faceConfigCopy);
+                    setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+                }}
+            />
+        )
+    }
+    else if (selectedItem.selectionType == 'color') {
+
+        const [inputValidation, setInputValidation] = useState<undefined | 'invalid' | 'valid'>('valid');
+
+        return (
+            <div className="flex gap-2">
+                <Input
+                    type="color"
+                    value={get_from_dict(faceConfig, selectedItem?.key || '') || "#000000"}
+                    onChange={(e) => {
+                        let chosenValue = e.target.value || '#000000'
+                        let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                        let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+                        let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+
+                        console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
+                        override(faceConfigCopy, newOverride);
+                        setFaceStore(faceConfigCopy);
+                        setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+                    }}
+                />
+                <Tooltip
+                    label={"Enter a 6-value hex color code"}
+                    placement="right">
+                    <Input
+                        value={get_from_dict(faceConfig, selectedItem?.key || '') || "#000000"}
+                        validation={inputValidation}
+                        onChange={(e) => {
+
+                            let chosenValue = e.target.value;
+
+                            setInputValidation(doesStrLookLikeColor(chosenValue) ? 'valid' : 'invalid')
+
+                            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                            let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+                            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+
+                            console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
+                            override(faceConfigCopy, newOverride);
+                            setFaceStore(faceConfigCopy);
+                            setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+
+                        }}
+                    />
+                </Tooltip>
+            </div>
+        )
+    }
     else {
         return (<>  </>)
     }
@@ -165,9 +257,74 @@ const FeatureSelector = ({ overrideList, currentIndexObj, stateStoreProps, setCu
 }
 
 
-const EditorPageGallery = (): JSX.Element => {
+const EditorFeatureGallery = () => {
     let stateStoreProps = useStateStore();
-    let { faceConfig, setFaceStore, getSelectedItem } = stateStoreProps;
+    let { getSelectedItem, selectedFeatureSection, toolbarConfig, faceConfig, setFaceStore, setSelectedFeatureSection, setSelectedItem } = stateStoreProps;
+    let selectedItem = getSelectedItem();
+
+    let toolbarItems: ToolbarItemConfig[] | undefined = toolbarConfig[selectedFeatureSection];
+
+    console.log('EditorFeatureGallery', { toolbarItems, selectedItem })
+
+    return (
+        <div className='w-5/12 h-screen flex flex-col overflow-y-scroll pb-20'>
+            {toolbarItems && toolbarItems.map((toolbarItem: ToolbarItemConfig) => {
+                let overrideList = getOverrideListForItem(toolbarItem);
+
+                let startingIndex = overrideList.findIndex((override) => {
+                    if (!toolbarItem) return false;
+                    return get_from_dict(faceConfig, toolbarItem.key) === get_from_dict(override.override, toolbarItem.key);
+                })
+                let [currentIndexObj, setCurrentIndexObj] = useState<{ feature_name: string, index: number }>({ feature_name: toolbarItem?.key || '', index: startingIndex });
+
+
+                return (
+                    <div className="py-6  border-t-2 border-t-slate-500">
+                        <div className="my-1 mx-1 flex justify-between items-center">
+                            <div className="flex items-center gap-1">
+                                <span>Choose {toolbarItem.text}</span>
+                                <span onClick={() => {
+                                    setSelectedItem(toolbarItem.key);
+                                    setSelectedFeatureSection(selectedFeatureSection);
+                                }}
+                                >
+                                    <ArrowSquareOut size={20} weight="bold" className="cursor-pointer" />
+                                </span>
+                            </div>
+
+                            <div className="w-1/2 my-2">
+                                <FeatureSelector selectedItem={toolbarItem} overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
+                            </div>
+                        </div>
+                        <div className="w-full flex overflow-scroll gap-2">
+                            {overrideList.map((overrideToRun: OverrideListItem, index) => {
+                                let faceConfigCopy = deepCopy(faceConfig);
+                                override(faceConfigCopy, overrideToRun.override);
+
+                                let isThisItemTheSelectedOne = currentIndexObj.index === index && currentIndexObj.feature_name === toolbarItem?.key;
+
+                                return <div
+                                    key={index}
+                                    className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center pb-2 active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? 'bg-slate-200 hover:border-slate-500 ' : ''}`}
+                                    onClick={() => {
+                                        setFaceStore(faceConfigCopy);
+                                        setCurrentIndexObj({ index, feature_name: selectedItem?.key || '' });
+                                    }}
+                                >
+                                    <Face faceConfig={faceConfigCopy} width={75} />
+                                </div>
+                            })}
+                        </div>
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
+
+const EditorItemGallery = () => {
+    let stateStoreProps = useStateStore();
+    let { getSelectedItem, faceConfig, setFaceStore } = stateStoreProps;
     let selectedItem = getSelectedItem();
 
     let overrideList = getOverrideListForItem(selectedItem);
@@ -239,7 +396,7 @@ const EditorPageGallery = (): JSX.Element => {
                 <span>Choose {selectedItem.text}</span>
 
                 <div className="w-1/2">
-                    <FeatureSelector overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
+                    <FeatureSelector selectedItem={selectedItem} overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                 </div>
             </div>
             <div className={`grid grid-cols-${num_columns} gap-2  overflow-y-scroll`}>
@@ -264,18 +421,24 @@ const EditorPageGallery = (): JSX.Element => {
             </div>
         </div>
     );
-};
-
-
-const ToolbarItemSectionHead = ({ text }: { text: string }): JSX.Element => {
-    return (
-        <div className="w-11/12  p-2 border-t-slate-500 border-t-2">
-            <span>
-                {text}
-            </span>
-        </div>
-    )
 }
+
+const EditorPageGallery = (): JSX.Element => {
+    let stateStoreProps = useStateStore();
+    let { getSelectedItem } = stateStoreProps;
+    let selectedItem = getSelectedItem();
+
+    if (!selectedItem) {
+        return (
+            <EditorFeatureGallery />
+        )
+    }
+    else {
+        return (
+            <EditorItemGallery />
+        )
+    }
+};
 
 
 const shuffleOptions = (toolbarItem: ToolbarItemConfig, setFaceStore: any, faceConfig: FaceConfig) => {
@@ -288,10 +451,43 @@ const shuffleOptions = (toolbarItem: ToolbarItemConfig, setFaceStore: any, faceC
     console.log('ShuffleOptions', { overrideList, randomIndex, faceConfigCopy });
 }
 
+const ToolbarItemSectionHead = ({ text }: { text: string }): JSX.Element => {
+    let { setSelectedFeatureSection, setSelectedItem, selectedFeatureSection, getSelectedItem } = useStateStore();
 
-const ToolbarItem = ({ toolbarItem }: { toolbarItem: ToolbarItemConfig }): JSX.Element => {
+    let selectedItem = getSelectedItem();
+    let isSelected = text === selectedFeatureSection && !selectedItem;
+
+    console.log('ToolbarItemSectionHead', { text, selectedFeatureSection, isSelected, selectedItem })
+
+    return (
+        <div
+            className={concatClassNames(`
+                flex
+                justify-between
+                p-2
+                w-11/12
+                hover:bg-slate-200
+                active:scale-90
+                transition-transform
+                ease-in-out
+                items-center
+                cursor-pointer
+                `, isSelected ? 'bg-slate-100' : '')}
+            onClick={() => {
+                setSelectedFeatureSection(text);
+                setSelectedItem('');
+            }}>
+            <span>
+                {text}
+            </span>
+        </div>
+    )
+}
+
+
+const ToolbarItem = ({ toolbarItem, featureSection }: { toolbarItem: ToolbarItemConfig, featureSection: string }): JSX.Element => {
     let { isSelected, text, key } = toolbarItem;
-    let { faceConfig, setFaceStore, setSelectedItem } = useStateStore();
+    let { faceConfig, setFaceStore, setSelectedItem, setSelectedFeatureSection } = useStateStore();
 
     let indentStyle = { paddingLeft: `${20}px` };
 
@@ -310,7 +506,10 @@ const ToolbarItem = ({ toolbarItem }: { toolbarItem: ToolbarItemConfig }): JSX.E
                 items-center
                 cursor-pointer
                 `, isSelected ? 'bg-slate-100' : '')}
-            onClick={() => { setSelectedItem(key); }}
+            onClick={() => {
+                setSelectedItem(key);
+                setSelectedFeatureSection(featureSection);
+            }}
         >
             <span>{text}</span>
             <span
@@ -349,6 +548,7 @@ const EditorPageToolbar = (): JSX.Element => {
                         toolbarConfig[section].map((toolbarItem: ToolbarItemConfig, item_index: number) => {
                             return (
                                 <ToolbarItem
+                                    featureSection={section}
                                     toolbarItem={toolbarItem}
                                     key={`section-${section_index}-${item_index}`}
                                 />

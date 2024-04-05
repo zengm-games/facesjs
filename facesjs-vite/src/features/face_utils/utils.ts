@@ -69,7 +69,7 @@ export const generateRangeFromStep = (start: number, end: number, step: number):
     let returnArray = [];
 
     for (let i = start; i <= end; i += step) {
-        returnArray.push(i);
+        returnArray.push(roundTwoDecimals(i));
     }
 
     return returnArray;
@@ -92,4 +92,4 @@ export const distinct = (arr: any[]) => {
     return [...new Set(arr)];
 }
 
-const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
+export const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;

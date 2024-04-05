@@ -4,6 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     './node_modules/@rewind-ui/core/dist/theme/styles/*.js',
+    './node_modules/@rewind-ui/core/dist/theme/styles/*.ts',
+    './node_modules/@rewind-ui/core/dist/theme/styles/*.*.js',
+    './node_modules/@rewind-ui/core/dist/theme/styles/*.*.ts',
+    './node_modules/@rewind-ui/core/src/theme/styles/Switch.styles.ts',
+    './node_modules/@rewind-ui/core/src/theme/styles/*.ts'
   ],
   theme: {
     extend: {},
