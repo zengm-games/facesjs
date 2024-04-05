@@ -4,7 +4,7 @@ import { svgsIndex } from "../features/face_utils/svgs-index";
 import override, { deepCopy } from "../features/face_utils/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../features/face_utils/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle, ArrowSquareOut, LinkSimple, ClipboardText, DownloadSimple, UploadSimple, X } from "@phosphor-icons/react";
+import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, X } from "@phosphor-icons/react";
 import { get_from_dict, roundTwoDecimals, set_to_dict } from "../features/face_utils/utils";
 import { generate } from "../features/face_utils/generate";
 import { Canvg } from 'canvg';
@@ -13,7 +13,6 @@ import { faceToSvgString } from "../features/face_utils/faceToSvgString";
 import {
     Select, Input, InputGroup, Switch, Tooltip, ToastContainer, useToast, Modal, Card, Button, FormControl, Textarea
 } from '@rewind-ui/core';
-import { text } from "stream/consumers";
 
 
 type OverrideListItem = { override: Overrides, display: JSX.Element };

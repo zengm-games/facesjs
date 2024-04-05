@@ -1,29 +1,31 @@
 {
-	"name": "vite-react-boilerplate",
-	"author": "Ricardo Valdovinos <ricardovaldovinos1996@gmail.com>",
-	"description": "A production ready, batteries included starter template for Vite + React projects",
-	"keywords": [
-		"vite",
-		"react",
-		"boilerplate",
-		"starter",
-		"template"
-	],
+	"name": "facesjs",
+	"version": "5.0.0",
+	"description": "A JavaScript library for generating vector-based cartoon faces",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/RicardoValdovinos/vite-react-boilerplate"
+		"url": "git+https://github.com/zengm-games/facesjs.git"
 	},
-	"license": "MIT",
-	"version": "1.0.0",
+	"author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/zengm-games/facesjs/issues"
+	},
+	"keywords": [
+		"faces",
+		"cartoon",
+		"mii",
+		"avatar",
+		"svg",
+		"vector",
+		"react",
+		"vite"
+	],
+	"homepage": "https://zengm.com/facesjs/",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build"
-	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
-		}
+		"build": "vite build"
 	},
 	"dependencies": {
 		"@phosphor-icons/react": "^2.1.4",
