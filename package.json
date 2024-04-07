@@ -1,75 +1,76 @@
 {
-  "name": "facesjs",
-  "version": "4.0.0",
-  "description": "A JavaScript library for generating vector-based cartoon faces",
-  "exports": {
-    "import": {
-      "types": "./build/esmodules/index.d.ts",
-      "default": "./build/esmodules/index.js"
-    },
-    "require": {
-      "types": "./build/commonjs/index.d.ts",
-      "default": "./build/commonjs/index.js"
-    }
-  },
-  "main": "./build/commonjs/index.js",
-  "types": "./build/commonjs/index.d.ts",
-  "scripts": {
-    "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
-    "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
-    "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
-    "prepare": "yarn run build && husky install",
-    "start": "node tools/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zengm-games/facesjs.git"
-  },
-  "author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/zengm-games/facesjs/issues"
-  },
-  "keywords": [
-    "faces",
-    "cartoon",
-    "mii"
-  ],
-  "homepage": "https://zengm.com/facesjs/",
-  "devDependencies": {
-    "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@babel/preset-typescript": "^7.21.0",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@types/node": "^20.8.6",
-    "@types/svg-path-bounding-box": "^1.0.1",
-    "babel-plugin-add-module-exports": "^1.0.4",
-    "chokidar": "^3.5.3",
-    "cross-env": "^7.0.3",
-    "fast-xml-parser": "^4.3.2",
-    "husky": "^8.0.3",
-    "lint-staged": ">=10",
-    "prettier": "^3.1.0",
-    "pretty-quick": "^3.1.3",
-    "rollup": "^4.5.0",
-    "svg-path-bounding-box": "^1.0.4",
-    "svgo": "^3.0.2",
-    "typescript": "^5.2.2",
-    "ws": "^8.12.1"
-  },
-  "files": [
-    "build"
-  ],
-  "dependencies": {
-    "svg-path-bbox": "1.2.4"
-  },
-  "bin": "build/esmodules/cli.js",
-  "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
-  },
-  "sideEffects": false
+	"name": "facesjs",
+	"version": "5.0.0",
+	"description": "A JavaScript library for generating vector-based cartoon faces",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zengm-games/facesjs.git"
+	},
+	"author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/zengm-games/facesjs/issues"
+	},
+	"keywords": [
+		"faces",
+		"cartoon",
+		"mii",
+		"avatar",
+		"svg",
+		"vector",
+		"react",
+		"vite"
+	],
+	"homepage": "https://zengm.com/facesjs/",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"test": "jest",
+		"build": "vite build"
+	},
+	"jest": {
+		"preset": "ts-jest",
+		"testEnvironment": "node"
+	},
+	"dependencies": {
+		"@nextui-org/react": "^2.2.10",
+		"@phosphor-icons/react": "^2.1.4",
+		"@rewind-ui/core": "^0.19.8",
+		"@tailwindcss/forms": "^0.5.7",
+		"@tailwindcss/typography": "^0.5.12",
+		"@tanstack/react-query": "^5.28.9",
+		"@tanstack/react-router": "1.26.9",
+		"@tanstack/router-vite-plugin": "^1.25.0",
+		"@vitejs/plugin-react-swc": "^3.6.0",
+		"autoprefixer": "^10.4.19",
+		"canvg": "^4.0.1",
+		"chokidar": "^3.6.0",
+		"class-variance-authority": "^0.7.0",
+		"framer-motion": "^11.0.25",
+		"fs": "0.0.1-security",
+		"lz-string": "^1.5.0",
+		"path": "^0.12.7",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.22.3",
+		"react-syntax-highlighter": "^15.5.0",
+		"svg-path-bbox": "1.2.5",
+		"svgo": "^3.2.0",
+		"tailwind-merge": "^2.2.2",
+		"tailwind-scrollbar": "^3.1.0",
+		"tailwindcss": "^3.4.3",
+		"vite": "^5.2.7",
+		"vitest": "^1.4.0",
+		"zustand": "^4.5.2"
+	},
+	"devDependencies": {
+		"@types/jest": "^29.5.12",
+		"@types/node": "^20.12.3",
+		"@types/react": "^18.2.73",
+		"@types/react-dom": "^18.2.23",
+		"@types/react-syntax-highlighter": "^15.5.11",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.2",
+		"typescript": "^5.4.4"
+	}
 }

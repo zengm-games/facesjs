@@ -1,15 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "node16",
-    "moduleResolution": "node16",
-    "emitDeclarationOnly": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "declaration": true,
-    "declarationDir": "build/esmodules"
-  },
-  "include": [
-    "src"
-  ]
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": [
+			"ES2020",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react",
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true
+	},
+	"include": [
+		"src",
+		"e2e"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

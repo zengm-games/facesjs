@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "vite.config.ts",
+    "src/tools/svg/processSVGs.ts",
+    "src/tools/svg/genders.ts",
+    "src/tools/types.ts",
+    "src/features/face_utils/**/*.ts",
+    "src/tools/utils.ts",
+    "src/tools/svg/svgs.ts",
+    "src/tools/svg/svgs-index.ts",
+    "src/tools/draw/override.ts",
+    "src/tools/globals.ts",
+    "src/tools/generate.ts",
+    "src/tools/draw/faceToSvgString.ts",
+    "src/tools/draw/display.ts",
+  ]
+}
