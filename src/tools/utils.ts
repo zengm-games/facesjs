@@ -44,7 +44,6 @@ export const set_to_dict = (container: { [key: string]: any } | Map<any, any>, k
                 (current_container as { [key: string]: any })[current_key] = value;
             }
         } else {
-            // const next_key = keys[i + 1];
             if (current_container instanceof Map) {
                 if (!current_container.has(current_key) || !(current_container.get(current_key) instanceof Map)) {
                     current_container.set(current_key, new Map<any, any>());
@@ -63,18 +62,36 @@ export const set_to_dict = (container: { [key: string]: any } | Map<any, any>, k
 };
 
 export const generateRangeFromStep = (start: number, end: number, step: number): number[] => {
-    let returnArray = [];
+    if (step <= 0) {
+        throw new Error('Step must be greater than 0');
+    }
+    if (start > end && step > 0) {
+        throw new Error('Start cannot be greater than end when step is positive');
+    }
 
+    let returnArray: number[] = [];
     for (let i = start; i <= end; i += step) {
         returnArray.push(roundTwoDecimals(i));
     }
-
     return returnArray;
-}
+};
 
 
 export const generateRangeFromSlots = (start: number, end: number, slots: number): number[] => {
-    let returnArray = [];
+    let returnArray: number[] = [];
+
+    if (slots === 0) {
+        return returnArray;
+    }
+    if (slots === 1) {
+        return [start, end];
+    }
+    if (start === end) {
+        return [start];
+    }
+    if (start > end) {
+        [start, end] = [end, start];
+    }
 
     let step = (end - start) / slots;
 
@@ -127,3 +144,61 @@ export const objStringifyInOrder = (obj: any): string => {
 
     return returnString;
 };
+
+export const deepCopy = <T>(value: T): T => {
+    if (typeof value !== "object" || value === null) {
+        // Return the value if value is not an object or is null
+        return value;
+    }
+
+    if (Array.isArray(value)) {
+        // Handle arrays
+        return value.map((item) => deepCopy(item)) as unknown as T;
+    }
+
+    const copiedObject: Record<string, any> = {};
+    for (const [key, val] of Object.entries(value)) {
+        copiedObject[key] = deepCopy(val);
+    }
+
+    return copiedObject as T;
+}
+
+export const concatClassNames = (...classNames: string[]): string => {
+    let joinedClassNames = classNames.join(" ");
+    return joinedClassNames.trim().replace(/\s+/g, " ");
+}
+
+export const luma = (colorHex: string): number => {
+    if (!doesStrLookLikeColor(colorHex)) {
+        throw new Error('Invalid hexadecimal color');
+    }
+
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    let hex = colorHex.slice(1);
+    if (hex.length === 3) {
+        hex = hex.split('').map((char) => char + char).join('');
+    }
+
+    const r = parseInt(hex.slice(0, 2), 16) / 255;
+    const g = parseInt(hex.slice(2, 4), 16) / 255;
+    const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+
+export const doesStrLookLikeColor = (str: string): boolean => {
+    const regex = /^#([0-9A-F]{3}){1,2}$/i;
+
+    return regex.test(str);
+}
+
+export const isValidJSON = (value: string): boolean => {
+    try {
+        JSON.parse(value);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}

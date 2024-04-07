@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Face } from "../components/Face";
 import { svgsIndex } from "../tools/svg/svgs-index";
-import override, { deepCopy } from "../tools/draw/override";
+import override from "../tools/draw/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../tools/types";
 import { useStateStore } from "../store/face_store";
 import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, X } from "@phosphor-icons/react";
-import { get_from_dict, roundTwoDecimals, set_to_dict } from "../tools/utils";
+import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON } from "../tools/utils";
 import { generate } from "../tools/generate";
 import { Canvg } from 'canvg';
 import { faceToSvgString } from "../tools/draw/faceToSvgString";
@@ -18,10 +18,6 @@ import { Select, SelectItem } from "@nextui-org/react";
 
 type OverrideListItem = { override: Overrides, display: JSX.Element | string };
 type OverrideList = OverrideListItem[];
-
-const concatClassNames = (...classNames: string[]): string => {
-    return classNames.join(" ");
-}
 
 const MainFaceDisplay = (): JSX.Element => {
     let { faceConfig } = useStateStore()
@@ -42,24 +38,6 @@ const EditorPageToolbarAndGallery = (): JSX.Element => {
         </>
     )
 }
-
-const luma = (colorHex: string): number => {
-    // Extract the hexadecimal RGB components from the color string
-    const r = parseInt(colorHex.slice(1, 3), 16) / 255;
-    const g = parseInt(colorHex.slice(3, 5), 16) / 255;
-    const b = parseInt(colorHex.slice(5, 7), 16) / 255;
-
-    // Apply the luma formula
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-const doesStrLookLikeColor = (str: string): boolean => {
-    const regex = /^#([0-9A-F]{3}){1,2}$/i;
-
-    return regex.test(str);
-}
-
-
 
 const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList => {
 
@@ -645,15 +623,6 @@ const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
     await downloadPng();
 
 };
-
-const isValidJSON = (value: string): boolean => {
-    try {
-        JSON.parse(value);
-        return true; // Valid JSON
-    } catch (error) {
-        return false; // Invalid JSON
-    }
-}
 
 export const EditorPage = (): JSX.Element => {
     let { setFaceStore, faceConfig } = useStateStore();
