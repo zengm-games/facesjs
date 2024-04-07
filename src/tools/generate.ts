@@ -1,19 +1,8 @@
-import { colors } from "./globals";
+import { colors, jerseyColorOptions } from "./globals";
 import override from "./draw/override";
 import { svgsGenders, svgsIndex } from "./svg/svgs-index";
 import { FaceConfig, Feature, Gender, Overrides, Race, TeamColors } from "./types";
-
-// const colorHexToRGB = (
-//     hairColor: string | undefined
-// ): { hairR: number; hairG: number; hairB: number } => {
-//     if (!hairColor) return { hairR: 0, hairG: 0, hairB: 0 }
-//     const hex = hairColor.replace("#", "");
-//     const r = parseInt(hex.substring(0, 2), 16);
-//     const g = parseInt(hex.substring(2, 4), 16);
-//     const b = parseInt(hex.substring(4, 6), 16);
-
-//     return { hairR: r, hairG: g, hairB: b };
-// };
+import { pickRandom } from "./utils";
 
 const getID = (type: Feature, gender: Gender): string => {
     const validIDs = svgsIndex[type].filter((_, index) => {
@@ -22,12 +11,8 @@ const getID = (type: Feature, gender: Gender): string => {
         );
     });
 
-    return validIDs[Math.floor(Math.random() * validIDs.length)] || 'none';
+    return pickRandom(validIDs) || 'none';
 };
-
-
-
-const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
@@ -39,19 +24,16 @@ export const generate = (
         if (options && options.race) {
             return options.race;
         }
-        switch (Math.floor(Math.random() * 4)) {
-            case 0:
-                return "white";
-            case 1:
-                return "asian";
-            case 2:
-                return "brown";
-            default:
-                return "black";
-        }
+
+        return pickRandom(["white", "asian", "brown", "black"]);
     })();
 
     const gender = options && options.gender ? options.gender : "male";
+    let teamColors: TeamColors = pickRandom(jerseyColorOptions);
+
+    if (Math.random() < 0.2) {
+        teamColors = ['#FFFFFF', teamColors[0], teamColors[1]];
+    }
 
     const eyeAngle = Math.round(Math.random() * 25 - 10);
 
@@ -75,12 +57,25 @@ export const generate = (
         palette.hair[Math.floor(Math.random() * palette.hair.length)];
     const isFlipped: boolean = Math.random() < 0.5;
 
-    // const { hairR, hairG, hairB } = colorHexToRGB(hairColor);
+    let jerseyId = getID("jersey", gender);
+    let accessoryId = Math.random() < 0.2 ? getID("accessories", gender) : "none";
+    if (
+        ['hat', 'hat2', 'hat3'].includes(accessoryId) &&
+        !(["baseball", "baseball2", "baseball3", "baseball4"].includes(jerseyId))
+    ) {
+        accessoryId = "none";
+    }
+    else if (
+        !['hat', 'hat2', 'hat3'].includes(accessoryId) &&
+        (["baseball", "baseball2", "baseball3", "baseball4"].includes(jerseyId))
+    ) {
+        accessoryId = pickRandom(["hat", "hat2", "hat3"]);
+    }
 
     const face: FaceConfig = {
         fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
         lineOpacity: roundTwoDecimals((0.25 + 0.5 * Math.random()) ** 2),
-        teamColors: defaultTeamColors,
+        teamColors: teamColors,
         eyeDistance: 8 * Math.random() - 4,
         hairBg: {
             id:
@@ -94,7 +89,7 @@ export const generate = (
             size: gender === "female" ? 0.95 : 1,
         },
         jersey: {
-            id: getID("jersey", gender),
+            id: jerseyId,
         },
         ear: {
             id: getID("ear", gender),
@@ -160,7 +155,7 @@ export const generate = (
             id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
         },
         accessories: {
-            id: Math.random() < 0.2 ? getID("accessories", gender) : "none",
+            id: accessoryId,
         },
     };
 

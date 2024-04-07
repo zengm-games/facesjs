@@ -1,21 +1,23 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { RouterProvider, type createRouter } from "@tanstack/react-router";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import type { FunctionComponent } from "./common/types";
 import { NextUIProvider } from "@nextui-org/react";
+import { Home } from "./pages/Home";
+import { EditorPage } from "./pages/EditorPage";
 
-const queryClient = new QueryClient();
 
-type AppProps = { router: ReturnType<typeof createRouter> };
 
-const App = ({ router }: AppProps): FunctionComponent => {
+const App = (): FunctionComponent => {
 
 	return (
 		<NextUIProvider>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
-			</QueryClientProvider>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/editor" element={<EditorPage />} />
+					<Route path="/editor/:param" element={<EditorPage />} />
+				</Routes>
+			</BrowserRouter>
 		</NextUIProvider>
 	);
 };

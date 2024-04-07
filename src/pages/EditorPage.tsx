@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import { Face } from "../components/Face";
 import { svgsIndex } from "../tools/svg/svgs-index";
 import override from "../tools/draw/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../tools/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, X } from "@phosphor-icons/react";
-import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON } from "../tools/utils";
+import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, X, LinkSimple } from "@phosphor-icons/react";
+import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON } from "../tools/utils";
 import { generate } from "../tools/generate";
 import { Canvg } from 'canvg';
 import { faceToSvgString } from "../tools/draw/faceToSvgString";
 
 import {
-    Input, InputGroup, Switch, Tooltip, ToastContainer, useToast, Modal, Card, Button, FormControl, Textarea
+    InputGroup, ToastContainer, useToast, Modal, Card, Button, FormControl, Textarea
 } from '@rewind-ui/core';
 
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem, Input, Slider, Switch, Tooltip } from "@nextui-org/react";
 
 type OverrideListItem = { override: Overrides, display: JSX.Element | string };
 type OverrideList = OverrideListItem[];
@@ -52,8 +53,9 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
             let svgNames: any[] = get_from_dict(svgsIndex, featureName)
 
             svgNames = svgNames.sort((a, b) => {
-                if (a === "none") return -1;
-                if (b === "none") return 1;
+                console.log('sort', { a, b })
+                if (a === "none" || a === "bald") return -1;
+                if (b === "none" || b === "bald") return 1;
 
                 if (doesStrLookLikeColor(a) && doesStrLookLikeColor(b)) {
                     return luma(a) - luma(b);
@@ -90,7 +92,7 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
             let valueToRender = item.renderOptions.valuesToRender[i];
             let overrides: Overrides = set_to_dict({}, item.key, valueToRender) as Overrides;
             overrideList.push({
-                override: overrides, display: (<span>{item.text}: {valueToRender}</span>)
+                override: overrides, display: valueToRender
             })
         }
     }
@@ -99,37 +101,44 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
 }
 
 
-const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj }: { selectedItem: ToolbarItemConfig | null, overrideList: OverrideList, currentIndexObj: { feature_name: string, index: number }, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
-    let { faceConfig, setFaceStore } = stateStoreProps;
+const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj }: { selectedItem?: ToolbarItemConfig | null, overrideList: OverrideList, currentIndexObj: { feature_name: string, index: number }, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
+    let { faceConfig, setFaceStore, getSelectedItem } = stateStoreProps;
+    selectedItem = selectedItem || getSelectedItem();
 
-    // console.log('FeatureSelector', { selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj, faceConfig, setFaceStore })
     if (!selectedItem) {
         return <div>Select a feature</div>;
     }
 
-    console.log('FeatureSelector Load', { selectedItem, overrideList, currentIndexObj, ind: currentIndexObj.index, faceConfig })
+    const selectedVal = get_from_dict(faceConfig, selectedItem?.key || '');
+    console.log('FeatureSelector Load', { selectedItem, selectedVal, overrideList, currentIndexObj, ind: currentIndexObj.index, faceConfig, gfd: get_from_dict(faceConfig, selectedItem?.key || '') })
 
     if (selectedItem.selectionType === 'svgs') {
         return (
             <Select
                 label={selectedItem.text}
                 className="max-w-xs"
-                value={currentIndexObj.index}
+                // value={currentIndexObj.index}
+                selectedKeys={[selectedVal]}
                 onChange={(e) => {
-                    let chosenValue = parseInt(e.target.value);
-                    let overrideChosenIndex: number = chosenValue;//overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem.key) === chosenValue);
-                    //let overrideVal = overrideList[chosenValue].override;
+                    console.log('SelectChange1', { e })
+                    let chosenValue = e.target.value;
+
+                    let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+
                     let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                    let newOverride: Overrides = overrideList[chosenValue]!.override//set_to_dict({}, selectedItem.key, chosenValue) as Overrides;
-                    console.log('FeatureSelector', { e: e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
+                    let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
                     override(faceConfigCopy, newOverride);
+
+                    console.log('SelectChange2', { e: e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
+
                     setFaceStore(faceConfigCopy);
                     setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
                 }}
             >
                 {overrideList.map((overrideToRun, index) => {
+                    console.log('SelectChange3', { overrideToRun, index, display: overrideToRun.display })
                     return (
-                        <SelectItem key={index} value={index}>
+                        <SelectItem key={overrideToRun.display as string} value={overrideToRun.display as string}>
                             {overrideToRun.display}
                         </SelectItem>
                     );
@@ -140,33 +149,32 @@ const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateSto
 
     else if (selectedItem.selectionType === 'range') {
 
-        const inputTypes: ('number' | 'range')[] = ['range', 'number'];
+        const handleChange = (val: number) => {
+            let chosenValue = roundTwoDecimals(val);
+            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+            if (!chosenValue) return;
+            let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+            override(faceConfigCopy, newOverride);
+            setFaceStore(faceConfigCopy);
+            setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+        }
 
         return (
             <InputGroup className="flex gap-1">
-                {inputTypes.map((inputType, _) => (
-                    <Input
-                        type={inputType}
-                        min={selectedItem?.renderOptions?.rangeConfig?.min}
-                        max={selectedItem?.renderOptions?.rangeConfig?.max}
-                        step={selectedItem?.renderOptions?.rangeConfig?.sliderStep || 0.01}
-                        // step={selectedItem.renderOptions?.rangeConfig?.sliderStep}
-                        value={get_from_dict(faceConfig, selectedItem?.key || '') || 0}
-                        onChangeCapture={(e) => {
-                            console.log('onChangeCapture', { e, target: e.target })
-                        }}
-                        onChange={(e) => {
-                            let chosenValue = roundTwoDecimals(parseFloat(e.target.value));
-                            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
-                            if (!chosenValue) return;
-                            let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
-                            override(faceConfigCopy, newOverride);
-                            setFaceStore(faceConfigCopy);
-                            setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
-                        }}
-                    />
-                ))}
+                <Slider
+                    label={selectedItem.text}
+                    step={selectedItem?.renderOptions?.rangeConfig?.sliderStep || 0.01}
+                    maxValue={selectedItem?.renderOptions?.rangeConfig?.max}
+                    minValue={selectedItem?.renderOptions?.rangeConfig?.min}
+                    defaultValue={0.4}
+                    value={selectedVal || 0}
+                    className="max-w-md"
+                    onChange={(e) => {
+                        handleChange(e as number)
+                    }}
+                >
+                </Slider>
             </InputGroup>
         )
     }
@@ -175,15 +183,13 @@ const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateSto
 
         return (
             <Switch
-                checked={get_from_dict(faceConfig, selectedItem?.key || '') || false}
-                radius="full"
-                onChange={(e) => {
-                    let chosenValue = e?.valueOf() || false;
+                checked={selectedVal || false}
+                onValueChange={(e: boolean) => {
+                    let chosenValue = e || false;
                     let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
                     let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
                     let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
 
-                    console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
                     override(faceConfigCopy, newOverride);
                     setFaceStore(faceConfigCopy);
                     setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
@@ -196,46 +202,55 @@ const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateSto
         const [inputValidation, setInputValidation] = useState<undefined | 'invalid' | 'valid'>('valid');
 
         return (
-            <div className="flex gap-2">
-                <Input
-                    type="color"
-                    value={get_from_dict(faceConfig, selectedItem?.key || '') || "#000000"}
-                    onChange={(e) => {
-                        let chosenValue = e.target.value || '#000000'
-                        let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
-                        let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                        let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+            <div className="flex flex-col gap-2">
+                {selectedItem.renderOptions?.colorCount && selectedItem && Array.from({ length: selectedItem.renderOptions.colorCount }).map((_, index) => {
 
-                        console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
-                        override(faceConfigCopy, newOverride);
-                        setFaceStore(faceConfigCopy);
-                        setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
-                    }}
-                />
-                <Tooltip
-                    label={"Enter a 6-value hex color code"}
-                    placement="right">
-                    <Input
-                        value={get_from_dict(faceConfig, selectedItem?.key || '') || "#000000"}
-                        validation={inputValidation}
-                        onChange={(e) => {
+                    return (
+                        <div className="flex gap-2">
+                            <Input
+                                type="color"
+                                value={selectedVal[index] || "#000000"}
+                                label={`${selectedItem?.text} Picker`}
+                                onChange={(e) => {
+                                    let chosenValue = e.target.value || '#000000';
+                                    let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
 
-                            let chosenValue = e.target.value;
+                                    let colorToOverride = get_from_dict(faceConfigCopy, selectedItem?.key || '');
+                                    colorToOverride[index] = chosenValue;
+                                    let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', colorToOverride) as Overrides;
 
-                            setInputValidation(doesStrLookLikeColor(chosenValue) ? 'valid' : 'invalid')
+                                    console.log('FeatureSelectorBoolean', { e, colorToOverride, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride });
+                                    override(faceConfigCopy, newOverride);
+                                    setFaceStore(faceConfigCopy);
+                                    setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+                                }} />
+                            <Input
+                                value={selectedVal[index] || "#000000"}
+                                isInvalid={inputValidation === 'invalid'}
+                                errorMessage={inputValidation === 'invalid' ? "Color format must be #RRGGBB" : null}
+                                label={`${selectedItem?.text} Hex Code`}
+                                onChange={(e) => {
 
-                            let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
-                            let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                            let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+                                    let chosenValue = e.target.value;
 
-                            console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride })
-                            override(faceConfigCopy, newOverride);
-                            setFaceStore(faceConfigCopy);
-                            setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+                                    setInputValidation(doesStrLookLikeColor(chosenValue) ? 'valid' : 'invalid');
 
-                        }}
-                    />
-                </Tooltip>
+                                    let overrideChosenIndex: number = overrideList.findIndex((overrideListItem: OverrideListItem) => get_from_dict(overrideListItem.override, selectedItem?.key || '') === chosenValue);
+                                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+                                    let newOverride: Overrides = set_to_dict({}, selectedItem?.key || '', chosenValue) as Overrides;
+
+                                    console.log('FeatureSelectorBoolean', { e, chosenValue, overrideChosenIndex, faceConfigCopy, newOverride });
+                                    override(faceConfigCopy, newOverride);
+                                    setFaceStore(faceConfigCopy);
+                                    setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
+
+                                }} />
+                        </div>
+                    )
+                })
+                }
+
             </div>
         )
     }
@@ -256,7 +271,7 @@ const EditorFeatureGallery = () => {
     console.log('EditorFeatureGallery', { toolbarItems, selectedItem })
 
     return (
-        <div className='w-5/12 h-screen flex flex-col overflow-y-scroll pb-20'>
+        <div className='w-5/12 h-screen flex flex-col overflow-y-scroll pb-20 pr-3'>
             {toolbarItems && toolbarItems.map((toolbarItem: ToolbarItemConfig) => {
                 let overrideList = getOverrideListForItem(toolbarItem);
 
@@ -385,7 +400,7 @@ const EditorItemGallery = () => {
                 <span>Choose {selectedItem.text}</span>
 
                 <div className="w-1/2">
-                    <FeatureSelector selectedItem={selectedItem} overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
+                    <FeatureSelector overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                 </div>
             </div>
             <div className={`grid grid-cols-${num_columns} gap-2  overflow-y-scroll`}>
@@ -569,15 +584,23 @@ const doToast = (message: string) => {
         title: message,
         tone: 'solid',
     });
-
 }
 
 const copyFaceConfigToClipboard = async (faceConfig: FaceConfig) => {
-
     try {
         // Use the Clipboard API to copy the text
         await navigator.clipboard.writeText(JSON.stringify(faceConfig));
         doToast('Face Config copied to clipboard')
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+};
+
+const copyEditorURLToClipboard = () => {
+    try {
+        const editorURL = window.location.href;
+        navigator.clipboard.writeText(editorURL);
+        doToast('Editor URL copied to clipboard')
     } catch (err) {
         console.error('Failed to copy: ', err);
     }
@@ -630,6 +653,28 @@ export const EditorPage = (): JSX.Element => {
     const [textAreaValue, setTextAreaValue] = useState('');
     const [textAreaValid, setTextAreaValid] = useState(false);
     const textRef = useRef<HTMLTextAreaElement>(null);
+    const navigate = useNavigate();
+
+    let { param } = useParams();
+
+    useEffect(() => {
+        if (param) {
+            const decodedFaceConfig = decodeFromUrlToJSON(param) as FaceConfig;
+            try {
+                setFaceStore(decodedFaceConfig);
+            } catch (error) {
+                console.error('Error parsing JSON from URL param:', error);
+            }
+        }
+    }, [param, setFaceStore]);
+
+    useEffect(() => {
+        if (faceConfig) {
+            const urlEncodeString = encodeJSONForUrl(faceConfig);
+            navigate(`/editor/${urlEncodeString}`, { replace: true });
+        }
+    }, [faceConfig, navigate]);
+
 
     return (
         <>
@@ -649,24 +694,26 @@ export const EditorPage = (): JSX.Element => {
                     </span>
                 </div>
                 <div className="flex justify-between gap-4 items-center mr-12">
-                    {/* <span
+                    <span
                         className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
+                        onClick={() => { copyEditorURLToClipboard() }}
                     >
                         <Tooltip
-                            label={"Copy link to this faces.js configuration"}
+                            content={"Copy link to this faces.js configuration"}
                             placement="bottom"
+                            showArrow={true}
                         >
                             <LinkSimple
                                 size={24}
                             />
                         </Tooltip>
-                    </span> */}
+                    </span>
                     <span
                         className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
                         onClick={async () => { await copyFaceConfigToClipboard(faceConfig) }}
                     >
                         <Tooltip
-                            label={"Copy JSON configuration to clipboard"}
+                            content={"Copy JSON configuration to clipboard"}
                             placement="bottom"
                         >
                             <ClipboardText
@@ -682,7 +729,7 @@ export const EditorPage = (): JSX.Element => {
                         }}
                     >
                         <Tooltip
-                            label={"Paste JSON to draw face"}
+                            content={"Paste JSON to draw face"}
                             placement="bottom"
                         >
                             <UploadSimple
@@ -695,7 +742,7 @@ export const EditorPage = (): JSX.Element => {
                         onClick={async () => { await DownloadSvgAsPng(faceConfig) }}
                     >
                         <Tooltip
-                            label={"Download face as PNG image"}
+                            content={"Download face as PNG image"}
                             placement="bottom"
                         >
                             <DownloadSimple

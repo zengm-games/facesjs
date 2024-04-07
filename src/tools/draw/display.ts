@@ -102,8 +102,8 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
     return;
   }
   if (
-    ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
-    info.name == "hair"
+    info.name == "hair" &&
+    ["hat", "hat2", "hat3"].includes(face.accessories.id)
   ) {
     if (
       [
@@ -357,6 +357,10 @@ export const display = (
       opaqueLines: true,
     },
     {
+      name: "mouth",
+      positions: [[200, 440]],
+    },
+    {
       name: "facialHair",
       positions: [null],
       scaleFatness: true,
@@ -376,10 +380,6 @@ export const display = (
         [260, 270],
       ],
       shiftWithEyes: true,
-    },
-    {
-      name: "mouth",
-      positions: [[200, 440]],
     },
     {
       name: "nose",

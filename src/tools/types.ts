@@ -134,6 +134,7 @@ export type ToolbarItemConfig = {
             sliderStep?: number
         },
         isColor?: boolean,
+        colorCount?: number,
         isBoolean?: boolean,
         valuesToRender?: any[],
     }

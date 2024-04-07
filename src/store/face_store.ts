@@ -2,7 +2,7 @@ import { create, StateCreator } from 'zustand'
 import { CombinedState, FaceConfig, FaceState, ToolbarConfig, ToolbarState } from '../tools/types'
 import { generate } from '../tools/generate'
 import { generateRangeFromStep } from '../tools/utils'
-import { distinctHairColors, distinctSkinColors } from '../tools/globals'
+import { distinctHairColors, distinctSkinColors, jerseyColorOptions } from '../tools/globals'
 
 
 let toolbarItemConfig: ToolbarConfig = {
@@ -282,6 +282,8 @@ let toolbarItemConfig: ToolbarConfig = {
             text: 'Team Colors',
             renderOptions: {
                 isColor: true,
+                colorCount: 3,
+                valuesToRender: jerseyColorOptions
             }
         },
     ],
@@ -295,7 +297,7 @@ for (const [_, itemList] of Object.entries(toolbarItemConfig)) {
             itemConfig.selectionType = 'range';
         }
         else if (itemConfig.renderOptions && itemConfig.renderOptions.isBoolean) {
-            itemConfig.renderOptions.valuesToRender = [true, false]
+            itemConfig.renderOptions.valuesToRender = [false, true]
             itemConfig.selectionType = 'boolean';
         }
         else if (itemConfig.renderOptions && itemConfig.renderOptions.isColor) {

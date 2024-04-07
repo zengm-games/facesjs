@@ -1,3 +1,5 @@
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
+
 
 export const get_from_dict = (obj: object, key: string): any => {
     let keyParts: string[] = String(key).split('.');
@@ -70,9 +72,14 @@ export const generateRangeFromStep = (start: number, end: number, step: number):
     }
 
     let returnArray: number[] = [];
-    for (let i = start; i <= end; i += step) {
-        returnArray.push(roundTwoDecimals(i));
+    let track = start;
+    while (track <= end) {
+        returnArray.push(track);
+        track = roundTwoDecimals(track + step);
     }
+
+    console.log('generateRangeFromStep', { track, start, end, step, returnArray })
+
     return returnArray;
 };
 
@@ -202,3 +209,30 @@ export const isValidJSON = (value: string): boolean => {
         return false;
     }
 }
+
+export const pickRandom = (arr: any[]): any => {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
+export const encodeJSONForUrl = (input: { [key: string]: any }): string => {
+    return encodeForUrl(JSON.stringify(input));
+};
+
+export const decodeFromUrlToJSON = (input: string): { [key: string]: any } => {
+    return JSON.parse(decodeFromUrl(input));
+}
+
+
+export const encodeForUrl = (input: string): string => {
+    return compressToEncodedURIComponent(input);
+};
+
+
+export const decodeFromUrl = (input: string): string => {
+    const result = decompressFromEncodedURIComponent(input);
+    if (result === null) {
+        throw new Error('Decompression failed');
+    }
+    return result;
+};
