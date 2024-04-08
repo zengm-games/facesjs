@@ -9,7 +9,7 @@
   "include": [
     "vite.config.ts",
     "src/tools/svg/processSVGs.ts",
-    "src/tools/svg/genders.ts",
+    "tools/genders.js",
     "src/tools/types.ts",
     "src/features/face_utils/**/*.ts",
     "src/tools/utils.ts",

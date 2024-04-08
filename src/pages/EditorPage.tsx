@@ -597,18 +597,19 @@ const copyFaceConfigToClipboard = async (faceConfig: FaceConfig) => {
         // Use the Clipboard API to copy the text
         await navigator.clipboard.writeText(JSON.stringify(faceConfig));
         doToast('Face Config copied to clipboard')
+        console.log('Face Config copied to clipboard');
     } catch (err) {
-        console.error('Failed to copy: ', err);
+        console.error('Failed to copyFaceConfigToClipboard: ', err);
     }
 };
 
-const copyEditorURLToClipboard = () => {
+const copyEditorURLToClipboard = async () => {
     try {
         const editorURL = window.location.href;
-        navigator.clipboard.writeText(editorURL);
+        await navigator.clipboard.writeText(editorURL);
         doToast('Editor URL copied to clipboard')
     } catch (err) {
-        console.error('Failed to copy: ', err);
+        console.error('Failed to copyEditorURLToClipboard: ', err);
     }
 };
 
@@ -719,7 +720,7 @@ export const EditorPage = (): JSX.Element => {
                 <div className="flex justify-between gap-4 items-center mr-12">
                     <span
                         className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-                        onClick={() => { copyEditorURLToClipboard() }}
+                        onClick={async () => { await copyEditorURLToClipboard() }}
                     >
                         <Tooltip
                             content={"Copy link to this faces.js configuration"}

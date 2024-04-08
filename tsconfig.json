@@ -29,7 +29,8 @@
 	},
 	"include": [
 		"src",
-		"e2e"
+		"e2e",
+		"tools/genders.js"
 	],
 	"references": [
 		{
