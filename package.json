@@ -26,7 +26,12 @@
 	"scripts": {
 		"dev": "vite",
 		"test": "jest",
-		"build": "vite build"
+		"build_old": "vite build",
+		"build": "tsc src/tools/svg/processSVGs.ts && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
+		"build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
+		"build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
+		"prepare": "yarn run build && husky install",
+		"start": "node tools/server.js"
 	},
 	"jest": {
 		"preset": "ts-jest",
@@ -71,5 +76,25 @@
 		"jest": "^29.7.0",
 		"ts-jest": "^29.1.2",
 		"typescript": "^5.4.4"
-	}
+	},
+	"exports": {
+		"import": {
+			"types": "./build/esmodules/index.d.ts",
+			"default": "./build/esmodules/index.js"
+		},
+		"require": {
+			"types": "./build/commonjs/index.d.ts",
+			"default": "./build/commonjs/index.js"
+		}
+	},
+	"main": "./build/commonjs/index.js",
+	"types": "./build/commonjs/index.d.ts",
+	"files": [
+		"build"
+	],
+	"bin": "build/esmodules/cli.js",
+	"lint-staged": {
+		"*.{js,css,md}": "prettier --write"
+	},
+	"sideEffects": false
 }

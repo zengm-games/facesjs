@@ -4,8 +4,7 @@ import { Face } from "../components/Face";
 import { generate } from "../tools/generate";
 import { GithubLogo } from "@phosphor-icons/react";
 
-
-import { Snippet, Tooltip } from '@nextui-org/react'
+import { Snippet } from '@nextui-org/react'
 import { encodeJSONForUrl } from "../tools/utils";
 
 const MoreSection = () => {

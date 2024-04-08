@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Face } from "../components/Face";
 import { svgsIndex } from "../tools/svg/svgs-index";
 import override from "../tools/draw/override";
@@ -12,10 +12,10 @@ import { Canvg } from 'canvg';
 import { faceToSvgString } from "../tools/draw/faceToSvgString";
 
 import {
-    InputGroup, ToastContainer, useToast, Modal, Card, Button, FormControl, Textarea
+    ToastContainer, useToast
 } from '@rewind-ui/core';
 
-import { Select, SelectItem, Input, Slider, Switch, Tooltip } from "@nextui-org/react";
+import { Select, SelectItem, Input, Slider, Textarea, Switch, Tooltip, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 
 type OverrideListItem = { override: Overrides, display: JSX.Element | string };
 type OverrideList = OverrideListItem[];
@@ -154,21 +154,19 @@ const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateSto
         }
 
         return (
-            <InputGroup className="flex gap-1">
-                <Slider
-                    label={selectedItem.text}
-                    step={selectedItem?.renderOptions?.rangeConfig?.sliderStep || 0.01}
-                    maxValue={selectedItem?.renderOptions?.rangeConfig?.max}
-                    minValue={selectedItem?.renderOptions?.rangeConfig?.min}
-                    defaultValue={0.4}
-                    value={selectedVal || 0}
-                    className="max-w-md"
-                    onChange={(e) => {
-                        handleChange(e as number)
-                    }}
-                >
-                </Slider>
-            </InputGroup>
+            <Slider
+                label={selectedItem.text}
+                step={selectedItem?.renderOptions?.rangeConfig?.sliderStep || 0.01}
+                maxValue={selectedItem?.renderOptions?.rangeConfig?.max}
+                minValue={selectedItem?.renderOptions?.rangeConfig?.min}
+                defaultValue={0.4}
+                value={selectedVal || 0}
+                className="max-w-md"
+                onChange={(e) => {
+                    handleChange(e as number)
+                }}
+            >
+            </Slider>
         )
     }
     else if (selectedItem.selectionType == 'boolean') {
@@ -657,7 +655,8 @@ const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
 
 export const EditorPage = (): JSX.Element => {
     let { setFaceStore, faceConfig } = useStateStore();
-    const [pasteModalOpen, setPasteModalOpen] = useState(false);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
     const [textAreaValue, setTextAreaValue] = useState('');
     const [textAreaValid, setTextAreaValid] = useState(false);
     const textRef = useRef<HTMLTextAreaElement>(null);
@@ -682,6 +681,13 @@ export const EditorPage = (): JSX.Element => {
             navigate(`/editor/${urlEncodeString}`, { replace: true });
         }
     }, [faceConfig, navigate]);
+
+    let errorMessage = (
+        <>
+            <span>Invalid JSON. Refer to the </span>
+            <Link className="font-bold underline" to='https://www.json.org/json-en.html'>JSON spec</Link>
+        </>
+    )
 
 
     return (
@@ -741,9 +747,7 @@ export const EditorPage = (): JSX.Element => {
                     </span>
                     <span
                         className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-                        onClick={() => {
-                            setPasteModalOpen(true);
-                        }}
+                        onClick={onOpen}
                     >
                         <Tooltip
                             content={"Paste JSON to draw face"}
@@ -773,63 +777,72 @@ export const EditorPage = (): JSX.Element => {
                 <EditorPageToolbarAndGallery />
                 <MainFaceDisplay />
             </div>
-            <Modal overlayOpacity="75" overlayColor="white" overlayBlur='sm' className="w-1/2" position="center" shadow="md" size="md" open={pasteModalOpen} onClose={() => setPasteModalOpen(false)}>
-                <Card size="lg" className="w-full">
-                    <Card.Header
-                        className="bg-gray-50/50 font-medium"
-                        actions={
-                            <Button className="ml-4" onClick={() => setPasteModalOpen(false)} size="xs" color="gray" icon={true}>
-                                <X />
-                            </Button>
-                        }
-                    >
-                        Paste JSON to Render Face
-                    </Card.Header>
-                    <Card.Body className="space-y-3">
-                        <FormControl size="sm">
-                            <Textarea
-                                value={textAreaValue}
-                                validation={textAreaValid ? 'valid' : 'invalid'}
-                                ref={textRef}
-                                onChange={(e) => setTextAreaValue(e.target.value)}
-                                placeholder='Input Face JSON'
-                                className="my-6 min-h-60"
-                            />
-                        </FormControl>
-                    </Card.Body>
-                    <Card.Footer className="bg-gray-50/50 justify-end space-x-2">
-                        <Button onClick={() => {
-                            setPasteModalOpen(false)
-                        }}
-                            size="sm"
-                            tone="transparent"
-                            color="gray"
-                        >
-                            Close
-                        </Button>
-                        <Button
-                            className="font-semibold"
-                            onClick={() => {
-                                let isValid = isValidJSON(textAreaValue);
-                                setTextAreaValid(isValid);
+            <Modal
+                className="w-1/2"
+                shadow="md"
+                size="xl"
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Paste JSON to Render Face</ModalHeader>
+                            <ModalBody>
+                                <Textarea
+                                    value={textAreaValue}
+                                    isInvalid={!textAreaValid}
+                                    ref={textRef}
+                                    // errorMessage={!textAreaValid ? ("Invalid JSON. Refer to the <a src='https://www.json.org/json-en.html'>JSON spec</a>") : null}
+                                    errorMessage={!textAreaValid ? errorMessage : null}
+                                    onValueChange={(e) => setTextAreaValue(e)}
+                                    placeholder='Input Face JSON'
+                                    size='lg'
+                                    className="my-6 min-h-90"
+                                />
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    onClick={() => {
+                                        let isValid = isValidJSON(textAreaValue);
+                                        setTextAreaValid(isValid);
 
-                                if (!isValid) {
-                                    doToast('Invalid JSON');
-                                }
-                                else {
-                                    let faceConfigCopy: FaceConfig = JSON.parse(textAreaValue);
-                                    setFaceStore(faceConfigCopy);
-                                    setPasteModalOpen(false);
-                                }
-                            }}
-                            size="sm"
-                            color="blue"
-                            tone="light"
-                        >
-                            Draw
-                        </Button>
-                    </Card.Footer>
-                </Card>
+                                        if (!isValid) {
+                                            doToast('Invalid JSON');
+                                        }
+                                    }}
+                                    size="md"
+                                >
+                                    Validate
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        let isValid = isValidJSON(textAreaValue);
+                                        setTextAreaValid(isValid);
+
+                                        if (!isValid) {
+                                            doToast('Invalid JSON');
+                                        }
+                                        else {
+                                            let faceConfigCopy: FaceConfig = JSON.parse(textAreaValue);
+                                            setFaceStore(faceConfigCopy);
+                                            onOpenChange();
+                                        }
+                                    }}
+                                    size="md"
+                                >
+                                    Draw
+                                </Button>
+                                <Button
+                                    onClick={onOpenChange}
+                                    size="md"
+                                >
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
             </Modal>
         </>
     );
