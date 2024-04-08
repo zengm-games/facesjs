@@ -5,7 +5,7 @@ import { svgsIndex } from "../tools/svg/svgs-index";
 import override from "../tools/draw/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../tools/types";
 import { useStateStore } from "../store/face_store";
-import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, X, LinkSimple, House } from "@phosphor-icons/react";
+import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House } from "@phosphor-icons/react";
 import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON } from "../tools/utils";
 import { generate } from "../tools/generate";
 import { Canvg } from 'canvg';
@@ -99,7 +99,7 @@ const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList =>
 }
 
 
-const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateStoreProps, setCurrentIndexObj }: { selectedItem?: ToolbarItemConfig | null, overrideList: OverrideList, currentIndexObj: { feature_name: string, index: number }, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
+const FeatureSelector = ({ selectedItem, overrideList, stateStoreProps, setCurrentIndexObj }: { selectedItem?: ToolbarItemConfig | null, overrideList: OverrideList, stateStoreProps: CombinedState, setCurrentIndexObj: any }) => {
     let { faceConfig, setFaceStore, getSelectedItem } = stateStoreProps;
     selectedItem = selectedItem || getSelectedItem();
 
@@ -129,7 +129,7 @@ const FeatureSelector = ({ selectedItem, overrideList, currentIndexObj, stateSto
                     setCurrentIndexObj({ index: overrideChosenIndex, feature_name: selectedItem?.key || '' });
                 }}
             >
-                {overrideList.map((overrideToRun, index) => {
+                {overrideList.map((overrideToRun) => {
                     return (
                         <SelectItem key={overrideToRun.display as string} value={overrideToRun.display as string}>
                             {overrideToRun.display}
@@ -307,7 +307,7 @@ const EditorFeatureGallery = () => {
                             </div>
 
                             <div className="w-1/2 my-2">
-                                <FeatureSelector selectedItem={toolbarItem} overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
+                                <FeatureSelector selectedItem={toolbarItem} overrideList={overrideList} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                             </div>
                         </div>
                         <div className="w-full flex overflow-scroll gap-2">
@@ -410,7 +410,7 @@ const EditorItemGallery = () => {
                 <span>Choose {selectedItem.text}</span>
 
                 <div className="w-1/2">
-                    <FeatureSelector overrideList={overrideList} currentIndexObj={currentIndexObj} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
+                    <FeatureSelector overrideList={overrideList} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                 </div>
             </div>
             <div className={`grid grid-cols-${num_columns} gap-2  overflow-y-scroll`}>
@@ -785,7 +785,7 @@ export const EditorPage = (): JSX.Element => {
                 onOpenChange={onOpenChange}
             >
                 <ModalContent>
-                    {(onClose) => (
+                    {(_) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">Paste JSON to Render Face</ModalHeader>
                             <ModalBody>

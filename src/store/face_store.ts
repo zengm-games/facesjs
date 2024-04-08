@@ -331,7 +331,7 @@ const createToolbarSlice: StateCreator<
     toolbarConfig: toolbarItemConfig,
     setSelectedFeatureSection: (section: string) => {
         set((state: CombinedState) => {
-            return { selectedFeatureSection: section }
+            return { ...state, selectedFeatureSection: section }
         })
     },
     setSelectedItem: (itemKey: string) => {
