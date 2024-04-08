@@ -317,7 +317,6 @@ const createFaceSlace: StateCreator<
 > = (set: any) => ({
     faceConfig: generate(),
     setFaceStore: (newFace: FaceConfig) => set((state: CombinedState) => {
-        console.log('Set new face!!!', { state, newFace })
         return { ...state, faceConfig: { ...newFace } }
     }),
 })

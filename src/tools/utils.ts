@@ -78,8 +78,6 @@ export const generateRangeFromStep = (start: number, end: number, step: number):
         track = roundTwoDecimals(track + step);
     }
 
-    console.log('generateRangeFromStep', { track, start, end, step, returnArray })
-
     return returnArray;
 };
 
@@ -225,14 +223,16 @@ export const decodeFromUrlToJSON = (input: string): { [key: string]: any } => {
 
 
 export const encodeForUrl = (input: string): string => {
-    return compressToEncodedURIComponent(input);
+    return encodeURIComponent(input);
+    // return compressToEncodedURIComponent(input);
 };
 
 
 export const decodeFromUrl = (input: string): string => {
-    const result = decompressFromEncodedURIComponent(input);
-    if (result === null) {
-        throw new Error('Decompression failed');
-    }
-    return result;
+    return decodeURIComponent(input);
+    // const result = decompressFromEncodedURIComponent(input);
+    // if (result === null) {
+    //     throw new Error('Decompression failed');
+    // }
+    // return result;
 };
