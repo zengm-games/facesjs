@@ -2,17 +2,15 @@ import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vitest/config";
 import chokidar from "chokidar";
 import path from "path";
+import { processSVGs } from "./tools/lib/process-svgs.js";
 
 export default defineConfig({
   plugins: [
     react(),
     {
       name: "watch-for-svg-changes",
-      configureServer(server) {
-        let processSVGs;
-        if (typeof window === "undefined") {
-          processSVGs = require("./tools/process-svgs.js").processSVGs;
-        }
+      async configureServer(server) {
+        await processSVGs();
 
         chokidar
           .watch([path.join(__dirname, "svgs")], {
