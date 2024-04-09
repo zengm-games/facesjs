@@ -37,7 +37,7 @@ const faceToSvgStringMemoized = memoizeWithDeepComparison(faceToSvgString);
 const MEMOIZE_FACE = true;
 
 
-export const Face: React.FC<{ faceConfig: FaceConfig, overrides?: Overrides, width?: number, className?: string }> = ({ faceConfig, overrides, width, className }) => {
+export const Face: React.FC<{ faceConfig: FaceConfig, overrides?: Overrides, maxWidth?: number, width?: number, className?: string }> = ({ faceConfig, overrides, maxWidth, width, className }) => {
 
     let faceSvg;
     if (!MEMOIZE_FACE) {
@@ -47,8 +47,16 @@ export const Face: React.FC<{ faceConfig: FaceConfig, overrides?: Overrides, wid
         faceSvg = faceToSvgStringMemoized(faceConfig, overrides);
     }
 
-    let widthStyle = width ? { width: `${width}px` } : { width: '400px' }
-    let heightStyle = width ? { height: `${width * 1.5}px` } : { height: '600px' }
+    let widthStyle: React.CSSProperties = width ? { width: `${width}px` } : { width: '400px' }
+    let heightStyle: React.CSSProperties = width ? { height: `${width * 1.5}px` } : { height: '600px' }
+
+    if (maxWidth) {
+        widthStyle = { maxWidth: `${maxWidth}px` }
+        heightStyle = { maxHeight: `${maxWidth * 1.5}px` }
+    }
+
+    widthStyle.minWidth = '60px';
+    heightStyle.minHeight = '90px';
 
     return (
         <div

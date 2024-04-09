@@ -4,7 +4,7 @@ import { Face } from "./Face";
 import { generate } from "../src/generate";
 import { GithubLogo } from "@phosphor-icons/react";
 
-import { Snippet, Kbd, Button } from '@nextui-org/react'
+import { Snippet, Kbd, Button, Code } from '@nextui-org/react'
 import { encodeJSONForUrl } from "../src/utils";
 
 const FaceWrapper = ({ index, stateKey }: { index: number, stateKey: number }) => {
@@ -22,15 +22,15 @@ const FaceWrapper = ({ index, stateKey }: { index: number, stateKey: number }) =
 		setFaceConfig(generate());
 	}, [stateKey]);
 
-	const isLargeFace = index === 3;
+	const isLargeFace = index === 4;
 
 	return (
 		<div
-			className={`cursor-pointer rounded-lg hover:bg-[#ccc] ${isLargeFace ? 'col-span-2 row-span-2' : ''}`}
-			style={{ width: isLargeFace ? '254px' : '120px' }}
+			className={`cursor-pointer rounded-lg hover:bg-[#ccc] w-full ${isLargeFace ? ' col-span-2 row-span-2' : ''}`}
+			// style={{ width: isLargeFace ? '400px' : '120px' }}
 			onClick={handleNavigate}
 		>
-			<Face faceConfig={faceConfig} width={isLargeFace ? 254 : 120} />
+			<Face faceConfig={faceConfig} maxWidth={isLargeFace ? 400 : 200} />
 		</div >
 	);
 };
@@ -38,8 +38,8 @@ const FaceWrapper = ({ index, stateKey }: { index: number, stateKey: number }) =
 const BunchOfFaces = ({ stateKey }: { stateKey: number }) => {
 	return (
 		<div className="flex justify-center">
-			<div id="faces" className='grid grid-rows-3 grid-cols-5 gap-5 w-fit'>
-				{[...Array(12)].map((_, ind) => (
+			<div id="faces" className='grid grid-rows-3 grid-cols-6 gap-5 w-fit'>
+				{[...Array(15)].map((_, ind) => (
 					<FaceWrapper key={ind} index={ind} stateKey={stateKey} />
 				))}
 			</div>
@@ -66,8 +66,15 @@ export const Home = (): JSX.Element => {
 	}, []);
 
 	return (
-		<body style={{ backgroundColor: '#ddd', fontFamily: 'Avro' }} className="flex justify-center h-full text-lg">
-			<div id="container" className="w-[608px] text-left mb-20">
+		<div
+			style={{ backgroundColor: '#ddd', fontFamily: 'Avro' }}
+			className="flex justify-center w-svw"
+		>
+			<div
+
+				id="container"
+				className=" h-full w-screen md:w-3/5 lg:1/2 text-lg text-left mb-20"
+			>
 				<h1 className="text-6xl font-bold">faces.js</h1>
 				<h3>A JavaScript library for generating vector-based cartoon faces</h3>
 				<BunchOfFaces stateKey={stateKey} />
@@ -134,7 +141,7 @@ export const Home = (): JSX.Element => {
 				<p className="mt-2">
 					Or use the element in React
 				</p>
-				<Snippet size='md' className="border-2 border-black" >
+				<Snippet size='md' className="border-2 border-black language-jsx" >
 					<span>{'import {Face} from "facesjs";'}</span>
 					<span></span>
 					<span>{'export const ExampleFaceElement = (): JSX.Element => {'}</span>
@@ -148,20 +155,19 @@ export const Home = (): JSX.Element => {
 					<span className="pl-4">{');'}</span>
 					<span>{'}'}</span>
 				</Snippet>
+				<Link
+					className="flex absolute top-0 right-0 p-4 font-bold items-center"
+					to="https://github.com/zengm-games/facesjs"
+				>
+					<GithubLogo
+						size={24}
+						weight="fill"
+					/>
+					<span>Fork faces.js on Github!</span>
+				</Link>
 			</div>
 
-			<Link
-				className="flex absolute top-0 right-0 p-4 font-bold items-center"
-				to="https://github.com/zengm-games/facesjs"
-			>
-				<GithubLogo
-					size={24}
-					weight="fill"
-				/>
-				<span>Fork faces.js on Github!</span>
-			</Link>
-
-		</body>
+		</div>
 
 	)
 }

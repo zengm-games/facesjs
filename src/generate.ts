@@ -21,6 +21,7 @@ export const generate = (
     overrides?: Overrides,
     options?: { gender?: Gender; race?: Race },
 ): FaceConfig => {
+    console.log('generate', { overrides, options })
     const playerRace: Race = (() => {
         if (options && options.race) {
             return options.race;
@@ -32,10 +33,6 @@ export const generate = (
     const gender = options && options.gender ? options.gender : "male";
     // let teamColors: TeamColors = pickRandom(jerseyColorOptions);
     let teamColors: TeamColors = defaultTeamColors;
-
-    if (Math.random() < 0.2) {
-        teamColors = ['#FFFFFF', teamColors[0], teamColors[1]];
-    }
 
     const eyeAngle = Math.round(Math.random() * 25 - 10);
 

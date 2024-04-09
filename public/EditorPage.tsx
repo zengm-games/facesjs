@@ -5,8 +5,8 @@ import { svgsIndex } from "../src/svgs-index";
 import override from "../src/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../src/types";
 import { useStateStore } from "./stateStore";
-import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House } from "@phosphor-icons/react";
-import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON } from "../src/utils";
+import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House, List } from "@phosphor-icons/react";
+import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON, objStringifyInOrder } from "../src/utils";
 import { generate } from "../src/generate";
 import { Canvg } from 'canvg';
 import { faceToSvgString } from "../src/faceToSvgString";
@@ -24,21 +24,14 @@ const MainFaceDisplay = (): JSX.Element => {
     let { faceConfig } = useStateStore()
 
     return (
-        <div className='flex justify-center w-5/12'>
-            <Face faceConfig={faceConfig} />
+        <div className='flex justify-center md:w-5/12 w-full'>
+            <div className="p-8 border-5 border-black rounded-md">
+                <Face faceConfig={faceConfig} maxWidth={400} />
+            </div>
         </div>
     );
 }
 
-const EditorPageToolbarAndGallery = (): JSX.Element => {
-
-    return (
-        <>
-            <EditorPageToolbar />
-            <EditorPageGallery />
-        </>
-    )
-}
 
 const getOverrideListForItem = (item: ToolbarItemConfig | null): OverrideList => {
 
@@ -281,7 +274,7 @@ const EditorFeatureGallery = () => {
     let toolbarItems: ToolbarItemConfig[] | undefined = toolbarConfig[selectedFeatureSection];
 
     return (
-        <div className='w-5/12 h-screen flex flex-col overflow-y-scroll pb-20 pr-3'>
+        <div className='md:w-1/2 w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3'>
             {toolbarItems && toolbarItems.map((toolbarItem: ToolbarItemConfig) => {
                 let overrideList = getOverrideListForItem(toolbarItem);
 
@@ -306,7 +299,7 @@ const EditorFeatureGallery = () => {
                                 </span>
                             </div>
 
-                            <div className="w-1/2 my-2">
+                            <div className="w-1/2 my-2 text-end" >
                                 <FeatureSelector selectedItem={toolbarItem} overrideList={overrideList} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                             </div>
                         </div>
@@ -325,7 +318,7 @@ const EditorFeatureGallery = () => {
                                         setCurrentIndexObj({ index, feature_name: selectedItem?.key || '' });
                                     }}
                                 >
-                                    <Face faceConfig={faceConfigCopy} width={75} />
+                                    <Face faceConfig={faceConfigCopy} maxWidth={75} />
                                 </div>
                             })}
                         </div>
@@ -398,22 +391,22 @@ const EditorItemGallery = () => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentIndexObj, selectedItem, setFaceStore]);
+    }, [currentIndexObj, selectedItem, faceConfig]);
 
     if (!selectedItem) {
         return <div>Select a feature</div>;
     }
 
     return (
-        <div className='w-5/12 h-screen flex flex-col'>
+        <div className='md:w-1/2 h-1/2 md:h-screen overflow-y-scroll w-full flex flex-col'>
             <div className="my-4 mx-1 flex justify-between items-center">
                 <span>Choose {selectedItem.text}</span>
 
-                <div className="w-1/2">
+                <div className="w-1/2 text-end">
                     <FeatureSelector overrideList={overrideList} stateStoreProps={stateStoreProps} setCurrentIndexObj={setCurrentIndexObj} />
                 </div>
             </div>
-            <div className={`grid grid-cols-${num_columns} gap-2  overflow-y-scroll`}>
+            <div className={`grid grid-cols-${num_columns} gap-2`}>
                 {overrideList.map((overrideToRun: OverrideListItem, index) => {
                     let faceConfigCopy = deepCopy(faceConfig);
                     override(faceConfigCopy, overrideToRun.override);
@@ -428,7 +421,7 @@ const EditorItemGallery = () => {
                                 setCurrentIndexObj({ index, feature_name: selectedItem?.key || '' });
                             }}
                         >
-                            <Face faceConfig={faceConfigCopy} width={150} />
+                            <Face faceConfig={faceConfigCopy} maxWidth={150} />
                         </div>
                     );
                 })}
@@ -544,9 +537,8 @@ const EditorPageToolbar = (): JSX.Element => {
 
     const { toolbarConfig } = useStateStore();
 
-
     return (
-        <div className='w-2/12 flex flex-col h-screen overflow-scroll'>
+        <div className='w-2/12 h-screen flex justify-start flex-col overflow-scroll'>
 
             {Object.keys(toolbarConfig).map((section, section_index) => (
                 <>
@@ -668,11 +660,14 @@ export const EditorPage = (): JSX.Element => {
     useEffect(() => {
         if (param) {
             const decodedFaceConfig = decodeFromUrlToJSON(param) as FaceConfig;
-            try {
-                setFaceStore(decodedFaceConfig);
-            } catch (error) {
-                console.error('Error parsing JSON from URL param:', error);
+            if (objStringifyInOrder(decodedFaceConfig) !== objStringifyInOrder(faceConfig)) {
+                try {
+                    setFaceStore(decodedFaceConfig);
+                } catch (error) {
+                    console.error('Error parsing JSON from URL param:', error);
+                }
             }
+
         }
     }, [param, setFaceStore]);
 
@@ -704,7 +699,7 @@ export const EditorPage = (): JSX.Element => {
                             onClick={() => navigate('/')}
                         />
                     </span>
-                    <span>faces.js Editor</span>
+                    <span className="invisible md:visible">faces.js Editor</span>
                     <span
                         className="
                             hover:bg-slate-50 
@@ -713,8 +708,21 @@ export const EditorPage = (): JSX.Element => {
                             rounded-full 
                             p-1
                             m-0.5"
+                        onClick={() => setFaceStore(generate())}
                     >
-                        <Shuffle size={24} onClick={() => setFaceStore(generate())} />
+                        <Shuffle size={24} />
+                    </span>
+                    <span
+                        className="
+                            hover:bg-slate-50 
+                            hover:text-slate-900
+                            md:hidden
+                            cursor-pointer
+                            rounded-full 
+                            p-1
+                            m-0.5"
+                    >
+                        <List size={24} className="md:hidden" />
                     </span>
                 </div>
                 <div className="flex justify-between gap-4 items-center mr-12">
@@ -774,9 +782,12 @@ export const EditorPage = (): JSX.Element => {
                     </span>
                 </div>
             </div>
-            <div className="  font-bold w-screen h-screen flex  items-center ">
-                <EditorPageToolbarAndGallery />
-                <MainFaceDisplay />
+            <div className="  font-bold w-screen flex  items-start ">
+                <EditorPageToolbar />
+                <div className="flex flex-col-reverse md:flex-row items-center justify-around w-5/6">
+                    <EditorPageGallery />
+                    <MainFaceDisplay />
+                </div>
             </div>
             <Modal
                 className="w-1/2"

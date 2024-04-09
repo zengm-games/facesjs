@@ -95,18 +95,6 @@ let toolbarItemConfig: ToolbarConfig = {
                 }
             }
         },
-        {
-            key: 'eyeDistance',
-            text: 'Eye Distance',
-            renderOptions: {
-                rangeConfig: {
-                    min: -4,
-                    max: 4,
-                    step: 1,
-                    sliderStep: 0.1,
-                }
-            }
-        },
     ],
     Ears: [
         {
@@ -159,18 +147,6 @@ let toolbarItemConfig: ToolbarConfig = {
             key: 'facialHair.id',
             text: 'Facial Hair Style',
             hasSvgs: true,
-        },
-        {
-            key: 'head.shaveOpacity',
-            text: 'Head Shave Opacity',
-            renderOptions: {
-                rangeConfig: {
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    sliderStep: 0.01,
-                }
-            }
         },
     ],
     Eyebrows: [
@@ -246,18 +222,6 @@ let toolbarItemConfig: ToolbarConfig = {
             text: 'Misc Line Style',
             hasSvgs: true,
         },
-        {
-            key: 'lineOpacity',
-            text: 'Line Opacity',
-            renderOptions: {
-                rangeConfig: {
-                    min: 0,
-                    max: 0.75,
-                    step: 0.05,
-                    sliderStep: 0.01,
-                }
-            }
-        },
     ],
     Accessories: [
         {
@@ -309,13 +273,19 @@ for (const [_, itemList] of Object.entries(toolbarItemConfig)) {
     }
 }
 
+const generateFirstFace = (): FaceConfig => {
+    let faceConfig = generate()
+    console.log('Generating in StateStore', { faceConfig })
+    return faceConfig
+}
+
 const createFaceSlace: StateCreator<
     CombinedState,
     [],
     [],
     FaceState
 > = (set: any) => ({
-    faceConfig: generate(),
+    faceConfig: generateFirstFace(),
     setFaceStore: (newFace: FaceConfig) => set((state: CombinedState) => {
         return { ...state, faceConfig: { ...newFace } }
     }),
