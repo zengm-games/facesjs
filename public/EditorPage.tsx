@@ -227,7 +227,7 @@ const FeatureSelector = ({ selectedItem, overrideList, stateStoreProps, setCurre
                                 value={selectedColor}
                                 isInvalid={inputValidationArr[index] === 'invalid'}
                                 errorMessage={inputValidationArr[index] === 'invalid' ? "Color format must be #RRGGBB" : null}
-                                label={`${selectedItem?.text} Hex Code`}
+                                label={`${selectedItem?.text} Hex`}
                                 onChange={(e) => {
 
                                     let chosenValue = e.target.value;

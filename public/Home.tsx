@@ -4,7 +4,7 @@ import { Face } from "./Face";
 import { generate } from "../src/generate";
 import { GithubLogo } from "@phosphor-icons/react";
 
-import { Snippet, Kbd, Button, Code } from '@nextui-org/react'
+import { Snippet, Kbd, Button } from '@nextui-org/react'
 import { encodeJSONForUrl } from "../src/utils";
 
 const FaceWrapper = ({ index, stateKey }: { index: number, stateKey: number }) => {

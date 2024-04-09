@@ -1,6 +1,3 @@
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
-
-
 export const get_from_dict = (obj: object, key: string): any => {
     let keyParts: string[] = String(key).split('.');
     let current: any = obj;

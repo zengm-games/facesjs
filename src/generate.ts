@@ -1,4 +1,4 @@
-import { colors, jerseyColorOptions } from "./globals";
+import { colors } from "./globals";
 import override from "./override";
 import { svgsGenders, svgsIndex } from "./svgs-index";
 import { FaceConfig, Feature, Gender, Overrides, Race, TeamColors } from "./types";

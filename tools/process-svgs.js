@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { optimize } from "svgo";
-import { genders } from "./genders";
+import { genders } from "./genders.js";
 
 const warning =
     "// THIS IS A GENERATED FILE, DO NOT EDIT BY HAND!\n// See tools/process-svgs.js";

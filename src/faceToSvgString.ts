@@ -12,18 +12,18 @@ class SvgDocument {
   public innerHTML = "";
 
   private container = {
-    appendChild(node: any) { },
+    appendChild(_: any) { },
   };
 
   appendChild(node: any) {
     this.root = node;
   }
 
-  getElementById(id: string) {
+  getElementById(_: string) {
     return this.container;
   }
 
-  createElementNS(namespace: string, tag: string) {
+  createElementNS(_: string, tag: string) {
     this.root = new SvgNode(tag, undefined);
     return this.root;
   }
@@ -93,7 +93,7 @@ class SvgNode {
     this.attributes[name] = value;
   }
 
-  insertAdjacentHTML(position: string, content: string) {
+  insertAdjacentHTML(_: string, content: string) {
     this.lastChild = new SvgNode(undefined, content);
     this.childNodes.push(this.lastChild);
   }
