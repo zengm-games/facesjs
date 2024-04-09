@@ -1,5 +1,4 @@
 import { Overrides } from "./types";
-import { deepCopy } from "./utils";
 
 const override = (obj: Overrides, overrides?: Overrides) => {
     if (!overrides || !obj) {
@@ -21,8 +20,5 @@ const override = (obj: Overrides, overrides?: Overrides) => {
     }
 };
 
-export const overrideCopy = (obj: Overrides, overrides?: Overrides) => {
-    return override(deepCopy(obj), overrides);
-}
 
 export default override;

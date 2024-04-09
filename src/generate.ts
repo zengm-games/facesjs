@@ -15,6 +15,7 @@ const getID = (type: Feature, gender: Gender): string => {
 };
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
+const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 export const generate = (
     overrides?: Overrides,
@@ -29,7 +30,8 @@ export const generate = (
     })();
 
     const gender = options && options.gender ? options.gender : "male";
-    let teamColors: TeamColors = pickRandom(jerseyColorOptions);
+    // let teamColors: TeamColors = pickRandom(jerseyColorOptions);
+    let teamColors: TeamColors = defaultTeamColors;
 
     if (Math.random() < 0.2) {
         teamColors = ['#FFFFFF', teamColors[0], teamColors[1]];
@@ -55,22 +57,7 @@ export const generate = (
         palette.skin[Math.floor(Math.random() * palette.skin.length)] as string;
     const hairColor =
         palette.hair[Math.floor(Math.random() * palette.hair.length)];
-    const isFlipped: boolean = Math.random() < 0.5;
-
-    let jerseyId = getID("jersey", gender);
-    let accessoryId = Math.random() < 0.2 ? getID("accessories", gender) : "none";
-    if (
-        ['hat', 'hat2', 'hat3'].includes(accessoryId) &&
-        !(["baseball", "baseball2", "baseball3", "baseball4"].includes(jerseyId))
-    ) {
-        accessoryId = "none";
-    }
-    else if (
-        !['hat', 'hat2', 'hat3'].includes(accessoryId) &&
-        (["baseball", "baseball2", "baseball3", "baseball4"].includes(jerseyId))
-    ) {
-        accessoryId = pickRandom(["hat", "hat2", "hat3"]);
-    }
+    const isFlipped = () => Math.random() < 0.5;
 
     const face: FaceConfig = {
         fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
@@ -88,7 +75,7 @@ export const generate = (
             size: gender === "female" ? 0.95 : 1,
         },
         jersey: {
-            id: jerseyId,
+            id: getID("jersey", gender),
         },
         ear: {
             id: getID("ear", gender),
@@ -128,16 +115,16 @@ export const generate = (
         hair: {
             id: getID("hair", gender),
             color: hairColor,
-            flip: isFlipped,
+            flip: isFlipped(),
         },
         mouth: {
             id: getID("mouth", gender),
-            flip: isFlipped,
+            flip: isFlipped(),
             size: roundTwoDecimals(0.6 + Math.random() * 0.6),
         },
         nose: {
             id: getID("nose", gender),
-            flip: isFlipped,
+            flip: isFlipped(),
             size: roundTwoDecimals(
                 0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75)
             ),
@@ -146,7 +133,7 @@ export const generate = (
             id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
         },
         accessories: {
-            id: accessoryId,
+            id: Math.random() < 0.2 ? getID("accessories", gender) : "none",
         },
     };
 
