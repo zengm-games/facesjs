@@ -21,6 +21,19 @@ type Feature =
   | "nose"
   | "smileLine";
 
+function randomInt(
+  minInclusive: number,
+  max: number,
+  inclusiveMax: boolean = false
+) {
+  if (inclusiveMax) {
+    max += 1;
+  }
+  return Math.floor(
+    Math.random() * (max - minInclusive)
+  ) + minInclusive;
+}
+
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((id, index) => {
     return (
@@ -28,7 +41,7 @@ const getID = (type: Feature, gender: Gender): string => {
     );
   });
 
-  return validIDs[Math.floor(Math.random() * validIDs.length)];
+  return validIDs[randomInt(0, validIDs.length)];
 };
 
 export type Race = "asian" | "black" | "brown" | "white";
@@ -71,7 +84,7 @@ export const generate = (
     if (options && options.race) {
       return options.race;
     }
-    switch (Math.floor(Math.random() * 4)) {
+    switch (randomInt(0, 4)) {
       case 0:
         return "white";
       case 1:
@@ -85,7 +98,7 @@ export const generate = (
 
   const gender = options && options.gender ? options.gender : "male";
 
-  const eyeAngle = Math.round(Math.random() * 25 - 10);
+  const eyeAngle = randomInt(-10, 15, true);
 
   const palette = (() => {
     switch (playerRace) {
@@ -100,9 +113,9 @@ export const generate = (
     }
   })();
   const skinColor =
-    palette.skin[Math.floor(Math.random() * palette.skin.length)];
+    palette.skin[randomInt(0, palette.skin.length)];
   const hairColor =
-    palette.hair[Math.floor(Math.random() * palette.hair.length)];
+    palette.hair[randomInt(0, palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
@@ -155,7 +168,7 @@ export const generate = (
     eye: { id: getID("eye", gender), angle: eyeAngle },
     eyebrow: {
       id: getID("eyebrow", gender),
-      angle: Math.round(Math.random() * 35 - 15),
+      angle: randomInt(-15, 20, true),
     },
     hair: {
       id: getID("hair", gender),
