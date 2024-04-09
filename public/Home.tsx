@@ -53,7 +53,6 @@ export const Home = (): JSX.Element => {
 	useEffect(() => {
 		const handleKeyPress = (event: KeyboardEvent) => {
 			if (event.key === "r" || event.key === "R") {
-				console.log('R key pressed');
 				setStateKey(prevKey => prevKey + 1);
 			}
 		};

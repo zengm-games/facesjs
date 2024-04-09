@@ -589,7 +589,6 @@ const copyFaceConfigToClipboard = async (faceConfig: FaceConfig) => {
         // Use the Clipboard API to copy the text
         await navigator.clipboard.writeText(JSON.stringify(faceConfig));
         doToast('Face Config copied to clipboard')
-        console.log('Face Config copied to clipboard');
     } catch (err) {
         console.error('Failed to copyFaceConfigToClipboard: ', err);
     }

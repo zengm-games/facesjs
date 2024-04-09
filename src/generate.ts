@@ -21,7 +21,6 @@ export const generate = (
     overrides?: Overrides,
     options?: { gender?: Gender; race?: Race },
 ): FaceConfig => {
-    console.log('generate', { overrides, options })
     const playerRace: Race = (() => {
         if (options && options.race) {
             return options.race;
