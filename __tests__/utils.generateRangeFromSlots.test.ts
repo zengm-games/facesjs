@@ -1,4 +1,4 @@
-import { generateRangeFromSlots } from '../src/tools/utils';
+import { generateRangeFromSlots } from '../src/utils';
 
 describe('generateRangeFromSlots function tests', () => {
 

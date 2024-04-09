@@ -1,6 +1,4 @@
-import { Feature, GenderOptions } from "../types"
-
-const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
+export const genders = {
   accessories: {
     "eye-black": "both",
     hat: "both",
@@ -21,13 +19,6 @@ const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
     ear1: "both",
     ear2: "both",
     ear3: "male",
-  },
-  earring: {
-    "earring-stud": "both",
-    "earring-hanging-diamond": "both",
-    "earring-silver-diamond": "both",
-    "earring-silver": "both",
-    none: "both",
   },
   eye: {
     eye1: "male",
@@ -106,7 +97,6 @@ const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
     female7: "female",
     female8: "female",
     female9: "female",
-    "eyebrow-long": "male",
   },
   facialHair: {
     "beard-point": "male",
@@ -292,11 +282,11 @@ const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
     baseball2: "both",
     baseball3: "both",
     baseball4: "both",
-    "football-standards": "both",
-    "football-ponies": "both",
-    "football-sparta": "both",
-    "football-three-stripe": "both",
-    "football-two-stripe": "both",
+    football: "both",
+    football2: "both",
+    football3: "both",
+    football4: "both",
+    football5: "both",
     hockey: "both",
     hockey2: "both",
     hockey3: "both",
@@ -306,8 +296,6 @@ const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
     jersey3: "both",
     jersey4: "both",
     jersey5: "both",
-    suit: "male",
-    suit2: "male",
   },
   miscLine: {
     blush: "female",
@@ -368,5 +356,3 @@ const genders: { [key in Feature]: { [key: string]: GenderOptions } } = {
     none: "both",
   },
 };
-
-export default genders;

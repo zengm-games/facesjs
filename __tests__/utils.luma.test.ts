@@ -1,4 +1,4 @@
-import { luma } from '../src/tools/utils';
+import { luma } from '../src/utils';
 
 describe('luma function tests', () => {
 

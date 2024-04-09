@@ -1,8 +1,8 @@
 import { create, StateCreator } from 'zustand'
-import { CombinedState, FaceConfig, FaceState, ToolbarConfig, ToolbarState } from '../tools/types'
-import { generate } from '../tools/generate'
-import { generateRangeFromStep } from '../tools/utils'
-import { distinctHairColors, distinctSkinColors, jerseyColorOptions } from '../tools/globals'
+import { CombinedState, FaceConfig, FaceState, ToolbarConfig, ToolbarState } from '../src/types'
+import { generate } from '../src/generate'
+import { generateRangeFromStep } from '../src/utils'
+import { distinctHairColors, distinctSkinColors, jerseyColorOptions } from '../src/globals'
 
 
 let toolbarItemConfig: ToolbarConfig = {

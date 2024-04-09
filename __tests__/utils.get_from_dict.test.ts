@@ -1,4 +1,4 @@
-import { get_from_dict } from '../src/tools/utils';
+import { get_from_dict } from '../src/utils';
 
 describe('get_from_dict function tests', () => {
 

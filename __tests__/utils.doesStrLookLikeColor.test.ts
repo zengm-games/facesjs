@@ -1,4 +1,4 @@
-import { doesStrLookLikeColor } from '../src/tools/utils';
+import { doesStrLookLikeColor } from '../src/utils';
 
 describe('doesStrLookLikeColor function tests', () => {
 

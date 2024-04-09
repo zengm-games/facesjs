@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-import { Face } from "../components/Face";
-import { generate } from "../tools/generate";
+import { Face } from "./Face";
+import { generate } from "../src/generate";
 import { GithubLogo } from "@phosphor-icons/react";
 
 import { Snippet, Kbd, Button } from '@nextui-org/react'
-import { encodeJSONForUrl } from "../tools/utils";
+import { encodeJSONForUrl } from "../src/utils";
 
 const FaceWrapper = ({ index, stateKey }: { index: number, stateKey: number }) => {
 	const [faceConfig, setFaceConfig] = useState(generate());
@@ -67,7 +67,7 @@ export const Home = (): JSX.Element => {
 
 	return (
 		<body style={{ backgroundColor: '#ddd', fontFamily: 'Avro' }} className="flex justify-center h-full text-lg">
-			<div id="container" className="w-[608px] text-left">
+			<div id="container" className="w-[608px] text-left mb-20">
 				<h1 className="text-6xl font-bold">faces.js</h1>
 				<h3>A JavaScript library for generating vector-based cartoon faces</h3>
 				<BunchOfFaces stateKey={stateKey} />
@@ -96,20 +96,16 @@ export const Home = (): JSX.Element => {
 					</p>
 				</div>
 				<p className="py-1">
-					faces.js is a JavaScript library that generates and displays cartoon
+					<span className="font-bold">faces.js</span> is a JavaScript library that generates and displays cartoon
 					faces, somewhat reminiscent of how the Nintendo Wii generates random
 					Miis. Faces are drawn as scalable vector graphics (SVG). Each face can
 					also be represented by a small JavaScript object, which allows you to
 					store that object and then draw the same face again later.
 				</p>
 				<p className="py-1">
-					As you can probably tell, the number of options for each facial feature
-					(eyes, nose, mouth, etc.) is fairly limited, and some of the current
-					options are fairly crude.
-				</p>
-				<p className="py-1">
-					So
-					<span className="mx-1 font-bold">
+					Options for each feature (eyes, nose, mouth, etc.) are all drawn by users and maintainers, and
+					contributions are always welcome! If you're interested in contibuting,
+					<span className="mx-1 font-bold text-blue-900">
 						<Link to="https://github.com/zengm-games/facesjs">
 							fork it on GitHub
 						</Link>
@@ -120,13 +116,13 @@ export const Home = (): JSX.Element => {
 					Usage
 				</h2>
 				<p className='font-bold mt-4'>1. Install from npm:</p>
-				<Snippet size='md'>npm install --save facesjs </Snippet>
-				<p>Or yarn:</p>
-				<Snippet size='md'>yarn add facesjs</Snippet>
+				<Snippet size='md' className="border-2 border-black">npm install --save facesjs </Snippet>
+				<p className="mt-2">Or yarn:</p>
+				<Snippet size='md' className="border-2 border-black">yarn add facesjs</Snippet>
 				<p className='font-bold mt-4'>
 					2. Use the functions to generate & draw faces:
 				</p>
-				<Snippet size='md'>
+				<Snippet size='md' className="border-2 border-black">
 					<span>{`import {display, generate} from "facesjs";`}</span>
 					<span></span>
 					<span>{'// Generate a random face'}</span>
@@ -135,13 +131,13 @@ export const Home = (): JSX.Element => {
 					<span>{'// Display in a div with id "my-div-id"'}</span>
 					<span>{'display("my-div-id", face);'}</span>
 				</Snippet>
-				<p>
+				<p className="mt-2">
 					Or use the element in React
 				</p>
-				<Snippet size='md'  >
+				<Snippet size='md' className="border-2 border-black" >
 					<span>{'import {Face} from "facesjs";'}</span>
 					<span></span>
-					<span>{'export const ExampleReactElement = (): JSX.Element => {'}</span>
+					<span>{'export const ExampleFaceElement = (): JSX.Element => {'}</span>
 					<span className="pl-4">{'// Generate a random face'}</span>
 					<span className="pl-4">{'const faceConfig = generate();'}</span>
 					<span></span>

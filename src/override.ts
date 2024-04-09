@@ -1,5 +1,5 @@
-import { Overrides } from "../types";
-import { deepCopy } from "../utils";
+import { Overrides } from "./types";
+import { deepCopy } from "./utils";
 
 const override = (obj: Overrides, overrides?: Overrides) => {
     if (!overrides || !obj) {

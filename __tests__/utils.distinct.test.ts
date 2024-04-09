@@ -1,4 +1,4 @@
-import { distinct } from '../src/tools/utils';
+import { distinct } from '../src/utils';
 
 describe('distinct function tests', () => {
 

@@ -12,7 +12,6 @@ export type Feature =
     | "accessories"
     | "body"
     | "ear"
-    | "earring"
     | "eye"
     | "eyebrow"
     | "eyeLine"
@@ -61,9 +60,6 @@ export type FaceConfig = {
     ear: {
         id: string,
         size: number,
-    },
-    earring: {
-        id: string,
     },
     head: {
         id: string,

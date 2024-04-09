@@ -1,24 +1,27 @@
 {
 	"compilerOptions": {
-		"target": "ES2020",
+		"target": "esnext",
+		"moduleResolution": "node",
+		"emitDeclarationOnly": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"declaration": true,
+		"declarationDir": "build/esmodules",
 		"useDefineForClassFields": true,
 		"lib": [
+			"esnext",
 			"ES2020",
 			"DOM",
 			"DOM.Iterable"
 		],
 		"module": "ESNext",
 		"skipLibCheck": true,
-		"esModuleInterop": true,
 		/* Bundler mode */
-		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"noEmit": true,
 		"jsx": "react",
 		/* Linting */
-		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
@@ -30,11 +33,7 @@
 	"include": [
 		"src",
 		"e2e",
-		"tools/genders.js"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
+		"public",
+		"tools",
 	]
 }

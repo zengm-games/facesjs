@@ -1,4 +1,4 @@
-import { concatClassNames } from '../src/tools/utils';
+import { concatClassNames } from '../src/utils';
 
 describe('concatClassNames function tests', () => {
 

@@ -1,25 +1,36 @@
-import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vitest/config";
 import chokidar from 'chokidar';
 import path from 'path';
-import processSVGs from './src/tools/svg/processSVGs'
 
-// https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		react(),
-		TanStackRouterVite(),
 		{
 			name: 'watch-for-svg-changes',
 			configureServer(server) {
+				let processSVGs;
+				if (typeof window === 'undefined') {
+					processSVGs = require('./tools/process-svgs.js').processSVGs;
+				}
+
+				const delayMs = 1_000;
+				let timeoutId: NodeJS.Timeout | undefined = undefined;
+
 				chokidar
-					.watch([path.join(__dirname, "..", "svgs")], {
-						ignoreInitial: true,
+					.watch([path.join(__dirname, "svgs")], {
+						ignoreInitial: false,
 					})
-					.on("all", (event, path) => {
-						console.log(`Processing SVGs due to ${event} at ${path}`);
-						processSVGs();
+					.on("all", (event, filePath) => {
+						console.log(`Detected change in SVGs: ${event} ${filePath}`);
+						if (timeoutId !== null) {
+							clearTimeout(timeoutId);
+						}
+
+						timeoutId = setTimeout(() => {
+							console.log('Processing SVGs due to recent changes');
+							processSVGs();
+						}, delayMs);
 					});
 			},
 		},

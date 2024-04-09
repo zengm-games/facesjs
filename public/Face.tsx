@@ -1,7 +1,7 @@
 import React from "react"
-import { faceToSvgString } from "../tools/draw/faceToSvgString"
-import { FaceConfig, Overrides } from "../tools/types"
-import { objStringifyInOrder } from "../tools/utils";
+import { faceToSvgString } from "../src/faceToSvgString"
+import { FaceConfig, Overrides } from "../src/types"
+import { objStringifyInOrder } from "../src/utils";
 
 /*
     This component is responsible for rendering the face SVG string
@@ -53,7 +53,7 @@ export const Face: React.FC<{ faceConfig: FaceConfig, overrides?: Overrides, wid
     return (
         <div
             className={className}
-            style={{ ...widthStyle, ...heightStyle }}
+            style={{ ...widthStyle, ...heightStyle, aspectRatio: '2/3' }}
             dangerouslySetInnerHTML={{ __html: faceSvg }}>
         </div>
     )

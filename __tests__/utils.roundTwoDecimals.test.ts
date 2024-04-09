@@ -1,4 +1,4 @@
-import { roundTwoDecimals } from '../src/tools/utils';
+import { roundTwoDecimals } from '../src/utils';
 
 describe('roundTwoDecimals function tests', () => {
 

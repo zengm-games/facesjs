@@ -1,4 +1,4 @@
-import { isValidJSON } from '../src/tools/utils';
+import { isValidJSON } from '../src/utils';
 
 describe('isValidJSON function tests', () => {
 

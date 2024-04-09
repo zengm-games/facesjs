@@ -1,4 +1,4 @@
-import { flattenDict } from '../src/tools/utils';
+import { flattenDict } from '../src/utils';
 
 describe('flattenDict', () => {
     it('flattens a simple object with no nested structures', () => {

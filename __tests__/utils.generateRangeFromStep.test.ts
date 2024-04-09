@@ -1,4 +1,4 @@
-import { generateRangeFromStep } from '../src/tools/utils';
+import { generateRangeFromStep } from '../src/utils';
 
 describe('generateRangeFromStep function tests', () => {
 

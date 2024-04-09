@@ -1,4 +1,4 @@
-import { objStringifyInOrder } from '../src/tools/utils';
+import { objStringifyInOrder } from '../src/utils';
 
 describe('objStringifyInOrder function tests', () => {
 

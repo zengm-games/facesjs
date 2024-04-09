@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Face } from "../components/Face";
-import { svgsIndex } from "../tools/svg/svgs-index";
-import override from "../tools/draw/override";
-import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../tools/types";
-import { useStateStore } from "../store/face_store";
+import { Face } from "./Face";
+import { svgsIndex } from "../src/svgs-index";
+import override from "../src/override";
+import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../src/types";
+import { useStateStore } from "./stateStore";
 import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House } from "@phosphor-icons/react";
-import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON } from "../tools/utils";
-import { generate } from "../tools/generate";
+import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON } from "../src/utils";
+import { generate } from "../src/generate";
 import { Canvg } from 'canvg';
-import { faceToSvgString } from "../tools/draw/faceToSvgString";
+import { faceToSvgString } from "../src/faceToSvgString";
 
 import {
     ToastContainer, useToast

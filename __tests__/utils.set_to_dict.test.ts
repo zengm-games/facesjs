@@ -1,4 +1,4 @@
-import { set_to_dict } from '../src/tools/utils';
+import { set_to_dict } from '../src/utils';
 
 describe('set_to_dict function tests', () => {
 

@@ -1,6 +1,6 @@
 import svgPathBbox from "svg-path-bbox";
 import { display } from "./display";
-import { FaceConfig, Overrides } from "../types";
+import { FaceConfig, Overrides } from "./types";
 
 /**
  * An instance of this object can pretend to be the global "document"

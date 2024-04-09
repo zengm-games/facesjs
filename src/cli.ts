@@ -2,7 +2,7 @@
 
 import fs from "node:fs";
 import { parseArgs } from "node:util";
-import { faceToSvgString } from "./draw/faceToSvgString";
+import { faceToSvgString } from "./faceToSvgString";
 import { Gender, Overrides, Race } from "./types";
 import { generate } from "./generate";
 
