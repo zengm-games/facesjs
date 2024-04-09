@@ -63,7 +63,7 @@ export type FaceConfig = {
     },
     head: {
         id: string,
-        shaveOpacity: number,
+        shave: string,
     },
     eyeLine: {
         id: string,

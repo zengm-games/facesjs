@@ -154,18 +154,18 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
 
 
   // @ts-ignore
-  if (feature.shave) {
+  if (feature.shave && featureSVGString.includes("$[faceShave]")) {
     // @ts-ignore
-    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
+    featureSVGString = featureSVGString.replace(/\$\[faceShave\]/g, feature.shave);
   }
 
   // @ts-ignore
-  if (feature.shave) {
+  if (feature.shave && featureSVGString.includes("$[headShave]")) {
     // @ts-ignore
-    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
+    featureSVGString = featureSVGString.replace(/\$\[headShave\]/g, feature.shave);
   }
 
-  featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
+  featureSVGString = featureSVGString.replace(/\$\[skinColor\]/g, face.body.color);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
     face.hair.color,

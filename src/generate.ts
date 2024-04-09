@@ -85,9 +85,10 @@ export const generate = (
         },
         head: {
             id: getID("head", gender),
-            shaveOpacity: gender === "male" && Math.random() < 0.35
+            shave: `rgba(0,0,0,${gender === "male" && Math.random() < 0.25
                 ? roundTwoDecimals(Math.random() / 5)
-                : 0,
+                : 0
+                })`,
         },
         eyeLine: {
             id: Math.random() < 0.75 ? getID("eyeLine", gender) : "none",
