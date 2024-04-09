@@ -1,102 +1,104 @@
 {
-	"name": "facesjs",
-	"version": "5.0.0",
-	"description": "A JavaScript library for generating vector-based cartoon faces",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/zengm-games/facesjs.git"
-	},
-	"author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
-	"license": "Apache-2.0",
-	"bugs": {
-		"url": "https://github.com/zengm-games/facesjs/issues"
-	},
-	"keywords": [
-		"faces",
-		"cartoon",
-		"mii",
-		"avatar",
-		"svg",
-		"vector",
-		"react",
-		"vite"
-	],
-	"homepage": "https://zengm.com/facesjs/",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"test": "jest",
-		"build_old": "vite build",
-		"build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
-		"build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
-		"build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
-		"prepare": "yarn run build && husky install",
-		"start": "node tools/server.js"
-	},
-	"jest": {
-		"preset": "ts-jest",
-		"testEnvironment": "node"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.24.1",
-		"@babel/core": "^7.24.4",
-		"@babel/preset-env": "^7.24.4",
-		"@babel/preset-typescript": "^7.24.1",
-		"@nextui-org/react": "^2.2.10",
-		"@phosphor-icons/react": "^2.1.4",
-		"@rewind-ui/core": "^0.19.8",
-		"@tailwindcss/forms": "^0.5.7",
-		"@tailwindcss/typography": "^0.5.12",
-		"@types/jest": "^29.5.12",
-		"@types/node": "^20.12.3",
-		"@types/react": "^18.2.73",
-		"@types/react-dom": "^18.2.23",
-		"@types/react-syntax-highlighter": "^15.5.11",
-		"@vitejs/plugin-react-swc": "^3.6.0",
-		"autoprefixer": "^10.4.19",
-		"babel-plugin-add-module-exports": "^1.0.4",
-		"canvg": "^4.0.1",
-		"chokidar": "^3.6.0",
-		"class-variance-authority": "^0.7.0",
-		"cross-env": "^7.0.3",
-		"framer-motion": "^11.0.25",
-		"fs": "0.0.1-security",
-		"jest": "^29.7.0",
-		"path": "^0.12.7",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.22.3",
-		"svgo": "^3.2.0",
-		"tailwind-merge": "^2.2.2",
-		"tailwind-scrollbar": "^3.1.0",
-		"tailwindcss": "^3.4.3",
-		"ts-jest": "^29.1.2",
-		"typescript": "^5.4.4",
-		"vite": "^5.2.7",
-		"vitest": "^1.4.0",
-		"zustand": "^4.5.2"
-	},
-	"dependencies": {
-		"svg-path-bbox": "1.2.5"
-	},
-	"exports": {
-		"import": {
-			"types": "./build/esmodules/index.d.ts",
-			"default": "./build/esmodules/index.js"
-		},
-		"require": {
-			"types": "./build/commonjs/index.d.ts",
-			"default": "./build/commonjs/index.js"
-		}
-	},
-	"main": "./build/commonjs/index.js",
-	"types": "./build/commonjs/index.d.ts",
-	"files": [
-		"build"
-	],
-	"bin": "build/esmodules/cli.js",
-	"lint-staged": {
-		"*.{js,css,md}": "prettier --write"
-	},
-	"sideEffects": false
+  "name": "facesjs",
+  "version": "5.0.0",
+  "description": "A JavaScript library for generating vector-based cartoon faces",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zengm-games/facesjs.git"
+  },
+  "author": "Jeremy Scheff <jdscheff@gmail.com> (https://dumbmatter.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zengm-games/facesjs/issues"
+  },
+  "keywords": [
+    "faces",
+    "cartoon",
+    "mii",
+    "avatar",
+    "svg",
+    "vector",
+    "react",
+    "vite"
+  ],
+  "homepage": "https://zengm.com/facesjs/",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "test": "jest",
+    "build_old": "vite build",
+    "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
+    "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
+    "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
+    "prepare": "yarn run build && husky install",
+    "start": "node tools/server.js"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
+    "@nextui-org/react": "^2.2.10",
+    "@phosphor-icons/react": "^2.1.4",
+    "@rewind-ui/core": "^0.19.8",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.12",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.3",
+    "@types/react": "^18.2.73",
+    "@types/react-dom": "^18.2.23",
+    "@types/react-syntax-highlighter": "^15.5.11",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "autoprefixer": "^10.4.19",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "canvg": "^4.0.1",
+    "chokidar": "^3.6.0",
+    "class-variance-authority": "^0.7.0",
+    "cross-env": "^7.0.3",
+    "framer-motion": "^11.0.25",
+    "fs": "0.0.1-security",
+    "jest": "^29.7.0",
+    "path": "^0.12.7",
+    "prettier": "^3.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "svgo": "^3.2.0",
+    "tailwind-merge": "^2.2.2",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss": "^3.4.3",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.4",
+    "vite": "^5.2.7",
+    "vitest": "^1.4.0",
+    "zustand": "^4.5.2"
+  },
+  "dependencies": {
+    "husky": "^9.0.11",
+    "svg-path-bbox": "1.2.5"
+  },
+  "exports": {
+    "import": {
+      "types": "./build/esmodules/index.d.ts",
+      "default": "./build/esmodules/index.js"
+    },
+    "require": {
+      "types": "./build/commonjs/index.d.ts",
+      "default": "./build/commonjs/index.js"
+    }
+  },
+  "main": "./build/commonjs/index.js",
+  "types": "./build/commonjs/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "bin": "build/esmodules/cli.js",
+  "lint-staged": {
+    "*.{js,cjs,mjs,jsx,json,scss,ts,tsx}": "prettier --write"
+  },
+  "sideEffects": false
 }
