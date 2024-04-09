@@ -9,7 +9,19 @@ import {
   Race,
   TeamColors,
 } from "./types";
-import { pickRandom } from "../public/utils";
+
+function randomInt(
+  minInclusive: number,
+  max: number,
+  inclusiveMax: boolean = false
+) {
+  if (inclusiveMax) {
+    max += 1;
+  }
+  return Math.floor(
+    Math.random() * (max - minInclusive)
+  ) + minInclusive;
+}
 
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((_, index) => {
@@ -18,7 +30,7 @@ const getID = (type: Feature, gender: Gender): string => {
     );
   });
 
-  return pickRandom(validIDs) || "none";
+  return validIDs[randomInt(0, validIDs.length)];
 };
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
@@ -32,15 +44,23 @@ export const generate = (
     if (options && options.race) {
       return options.race;
     }
-
-    return pickRandom(["white", "asian", "brown", "black"]);
+    switch (randomInt(0, 4)) {
+      case 0:
+        return "white";
+      case 1:
+        return "asian";
+      case 2:
+        return "brown";
+      default:
+        return "black";
+    }
   })();
 
   const gender = options && options.gender ? options.gender : "male";
   // let teamColors: TeamColors = pickRandom(jerseyColorOptions);
   let teamColors: TeamColors = defaultTeamColors;
 
-  const eyeAngle = Math.round(Math.random() * 25 - 10);
+  const eyeAngle = randomInt(-10, 15, true);
 
   const palette = (() => {
     switch (playerRace) {
@@ -56,11 +76,10 @@ export const generate = (
         return colors.black;
     }
   })();
-  const skinColor: string = palette.skin[
-    Math.floor(Math.random() * palette.skin.length)
-  ] as string;
+  const skinColor =
+    palette.skin[randomInt(0, palette.skin.length)];
   const hairColor =
-    palette.hair[Math.floor(Math.random() * palette.hair.length)];
+    palette.hair[randomInt(0, palette.hair.length)];
   const isFlipped = () => Math.random() < 0.5;
 
   const face: FaceConfig = {
@@ -118,7 +137,7 @@ export const generate = (
     },
     eyebrow: {
       id: getID("eyebrow", gender),
-      angle: Math.round(Math.random() * 35 - 15),
+      angle: randomInt(-15, 20, true),
     },
     hair: {
       id: getID("hair", gender),
