@@ -102,8 +102,8 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
     return;
   }
   if (
-    info.name == "hair" &&
-    ["hat", "hat2", "hat3"].includes(face.accessories.id)
+    ["hat", "hat2", "hat3"].includes(face.accessories.id) &&
+    info.name == "hair"
   ) {
     if (
       [
@@ -153,26 +153,6 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
   }
 
 
-  if (featureSVGString.includes("shaveOpacity")) {
-    // @ts-ignore
-    if (feature.shaveOpacity) {
-      // @ts-ignore
-      featureSVGString = featureSVGString.replace(
-        /\$\[shaveOpacity\]/g,
-        // @ts-ignore
-        feature.shaveOpacity
-      );
-    }
-    else {
-      // @ts-ignore
-      featureSVGString = featureSVGString.replace(
-        /\$\[shaveOpacity\]/g,
-        "0"
-      );
-    }
-
-  }
-
   // @ts-ignore
   if (feature.shave) {
     // @ts-ignore
@@ -220,19 +200,6 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
         xAlign = "center";
       }
 
-      // @ts-ignore
-      if (feature.distance) {
-        let move_direction = i == 1 ? 1 : -1;
-        // @ts-ignore
-        position[0] += move_direction * feature.distance;
-      }
-
-      let shiftDirection = i == 1 ? 1 : -1;
-      if (info.shiftWithEyes) {
-        // @ts-ignore
-        position[0] += shiftDirection * face.eyeDistance;
-      }
-
       translate(
         svg.lastChild as SVGGraphicsElement,
         position[0],
@@ -259,11 +226,6 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
     } else if (scale !== 1) {
       // @ts-ignore
       scaleCentered(svg.lastChild, scale, scale);
-    }
-
-    if (info.opaqueLines) {
-      // @ts-ignore
-      svg.lastChild.setAttribute("stroke-opacity", String(face.lineOpacity));
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
@@ -341,7 +303,6 @@ export const display = (
     {
       name: "eyeLine",
       positions: [null],
-      opaqueLines: true,
     },
     {
       name: "smileLine",
@@ -349,16 +310,10 @@ export const display = (
         [150, 435],
         [250, 435],
       ],
-      opaqueLines: true,
     },
     {
       name: "miscLine",
       positions: [null],
-      opaqueLines: true,
-    },
-    {
-      name: "mouth",
-      positions: [[200, 440]],
     },
     {
       name: "facialHair",
@@ -371,7 +326,6 @@ export const display = (
         [140, 310],
         [260, 310],
       ],
-      shiftWithEyes: true,
     },
     {
       name: "eyebrow",
@@ -379,7 +333,10 @@ export const display = (
         [140, 270],
         [260, 270],
       ],
-      shiftWithEyes: true,
+    },
+    {
+      name: "mouth",
+      positions: [[200, 440]],
     },
     {
       name: "nose",
