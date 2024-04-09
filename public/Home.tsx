@@ -123,13 +123,13 @@ export const Home = (): JSX.Element => {
 					Usage
 				</h2>
 				<p className='font-bold mt-4'>1. Install from npm:</p>
-				<Snippet size='md' className="border-2 border-black">npm install --save facesjs </Snippet>
+				<Snippet size='md' className="border-2 border-black overflow-x-scroll w-full">npm install --save facesjs </Snippet>
 				<p className="mt-2">Or yarn:</p>
-				<Snippet size='md' className="border-2 border-black">yarn add facesjs</Snippet>
+				<Snippet size='md' className="border-2 border-black overflow-x-scroll w-full">yarn add facesjs</Snippet>
 				<p className='font-bold mt-4'>
 					2. Use the functions to generate & draw faces:
 				</p>
-				<Snippet size='md' className="border-2 border-black">
+				<Snippet size='md' className="border-2 border-black overflow-x-scroll w-full">
 					<span>{`import {display, generate} from "facesjs";`}</span>
 					<span></span>
 					<span>{'// Generate a random face'}</span>
@@ -141,7 +141,7 @@ export const Home = (): JSX.Element => {
 				<p className="mt-2">
 					Or use the element in React
 				</p>
-				<Snippet size='md' className="border-2 border-black language-jsx" >
+				<Snippet size='md' className="border-2 border-black language-jsx overflow-x-scroll w-full" >
 					<span>{'import {Face} from "facesjs";'}</span>
 					<span></span>
 					<span>{'export const ExampleFaceElement = (): JSX.Element => {'}</span>
@@ -156,7 +156,7 @@ export const Home = (): JSX.Element => {
 					<span>{'}'}</span>
 				</Snippet>
 				<Link
-					className="flex absolute top-0 right-0 p-4 font-bold items-center"
+					className="flex md:absolute md:top-0 md:right-0 p-4 font-bold items-center"
 					to="https://github.com/zengm-games/facesjs"
 				>
 					<GithubLogo

@@ -5,7 +5,7 @@ import { svgsIndex } from "../src/svgs-index";
 import override from "../src/override";
 import { CombinedState, FaceConfig, Overrides, ToolbarItemConfig } from "../src/types";
 import { useStateStore } from "./stateStore";
-import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House, List } from "@phosphor-icons/react";
+import { Shuffle, ArrowSquareOut, ClipboardText, DownloadSimple, UploadSimple, LinkSimple, House } from "@phosphor-icons/react";
 import { get_from_dict, roundTwoDecimals, set_to_dict, deepCopy, concatClassNames, doesStrLookLikeColor, luma, isValidJSON, encodeJSONForUrl, decodeFromUrlToJSON, objStringifyInOrder } from "../src/utils";
 import { generate } from "../src/generate";
 import { Canvg } from 'canvg';
@@ -711,18 +711,6 @@ export const EditorPage = (): JSX.Element => {
                         onClick={() => setFaceStore(generate())}
                     >
                         <Shuffle size={24} />
-                    </span>
-                    <span
-                        className="
-                            hover:bg-slate-50 
-                            hover:text-slate-900
-                            md:hidden
-                            cursor-pointer
-                            rounded-full 
-                            p-1
-                            m-0.5"
-                    >
-                        <List size={24} className="md:hidden" />
                     </span>
                 </div>
                 <div className="flex justify-between gap-4 items-center mr-12">
