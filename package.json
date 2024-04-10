@@ -26,7 +26,6 @@
   "scripts": {
     "dev": "vite",
     "test": "jest",
-    "build_old": "vite build",
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",

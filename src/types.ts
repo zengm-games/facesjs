@@ -111,15 +111,33 @@ export type FaceConfig = {
   };
 };
 
+export type GallerySize = "sm" | "md" | "lg";
+
 export type FaceState = {
   faceConfig: FaceConfig;
   setFaceStore: (newFace: FaceConfig) => void;
 };
 
-export type ToolbarItemConfig = {
+export type GalleryState = {
+  gallerySize: GallerySize;
+  gallerySectionConfigList: GallerySectionConfig[];
+  setGallerySize: (size: GallerySize) => void;
+  lastClickedSectionIndex: number;
+  setLastClickedSectionIndex: (index: number) => void;
+  lastSelectedFaceIndex: number;
+  setLastSelectedFaceIndex: (index: number) => void;
+  setRandomizeEnabledForSection: (
+    sectionIndex: number,
+    enabled: boolean,
+  ) => void;
+};
+
+export type GallerySectionConfig = {
   key: string;
   text: string;
   isSelected?: boolean;
+  randomizeEnabled?: boolean;
+  selectedValue?: number | string | boolean;
   hasSvgs?: boolean;
   noneAllowed?: boolean;
   selectionType?: "range" | "boolean" | "color" | "svgs";
@@ -136,17 +154,5 @@ export type ToolbarItemConfig = {
     valuesToRender?: any[];
   };
 };
-export type ToolbarConfig = {
-  [key: string]: ToolbarItemConfig[];
-};
 
-export type ToolbarState = {
-  toolbarConfig: ToolbarConfig;
-  getSelectedItem: () => ToolbarItemConfig | null;
-  isSelectedItem: (key: string) => boolean;
-  setSelectedItem: (key: string) => void;
-  setSelectedFeatureSection: (section: string) => void;
-  selectedFeatureSection: string;
-};
-
-export type CombinedState = ToolbarState & FaceState;
+export type CombinedState = FaceState & GalleryState;

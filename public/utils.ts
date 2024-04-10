@@ -1,3 +1,25 @@
+export const deleteFromDict = (obj: any, key: string): any => {
+  const keyParts: string[] = key.split(".");
+  let current: any = obj;
+
+  for (let i = 0; i < keyParts.length - 1; i++) {
+    const part: string = keyParts[i] as string;
+
+    if (!current[part] || typeof current[part] !== "object") {
+      return obj;
+    }
+
+    current = current[part];
+  }
+
+  const lastPart = keyParts[keyParts.length - 1];
+  if (lastPart !== undefined) {
+    delete current[lastPart];
+  }
+
+  return obj;
+};
+
 export const getFromDict = (obj: object, key: string): any => {
   let keyParts: string[] = key.split(".");
   let current: any = obj;

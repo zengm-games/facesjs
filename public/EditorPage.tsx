@@ -7,17 +7,21 @@ import {
   CombinedState,
   FaceConfig,
   Overrides,
-  ToolbarItemConfig,
+  GallerySectionConfig,
 } from "../src/types";
 import { useStateStore } from "./stateStore";
 import {
   Shuffle,
-  ArrowSquareOut,
-  ClipboardText,
   DownloadSimple,
   UploadSimple,
   LinkSimple,
   House,
+  CaretDown,
+  LockSimpleOpen,
+  LockSimple,
+  List,
+  Rows,
+  Square,
 } from "@phosphor-icons/react";
 import {
   getFromDict,
@@ -31,8 +35,8 @@ import {
   encodeJSONForUrl,
   decodeFromUrlToJSON,
   objStringifyInOrder,
+  deleteFromDict,
 } from "./utils";
-import { generate } from "../src/generate";
 import { Canvg } from "canvg";
 import { faceToSvgString } from "../src/faceToSvgString";
 
@@ -53,33 +57,236 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  ButtonGroup,
+  Dropdown,
+  DropdownMenu,
+  DropdownTrigger,
+  DropdownItem,
+  Tabs,
+  Tab,
 } from "@nextui-org/react";
+import { generate } from "../src/generate";
 
-type OverrideListItem = { override: Overrides; display: JSX.Element | string };
+type OverrideListItem = {
+  override: Overrides;
+  display: JSX.Element | string;
+  value: string | number | boolean;
+};
 type OverrideList = OverrideListItem[];
 
-const MainFaceDisplay = (): JSX.Element => {
+export const EditorPage = (): JSX.Element => {
+  let { setFaceStore, faceConfig } = useStateStore();
+  const navigate = useNavigate();
+  const modalDisclosure = useDisclosure();
+
+  let { param } = useParams();
+
+  useEffect(() => {
+    if (param) {
+      const decodedFaceConfig = decodeFromUrlToJSON(param) as FaceConfig;
+      if (
+        objStringifyInOrder(decodedFaceConfig) !==
+        objStringifyInOrder(faceConfig)
+      ) {
+        try {
+          setFaceStore(decodedFaceConfig);
+        } catch (error) {
+          console.error("Error parsing JSON from URL param:", error);
+        }
+      }
+    }
+  }, [param, setFaceStore]);
+
+  useEffect(() => {
+    if (faceConfig) {
+      const urlEncodeString = encodeJSONForUrl(faceConfig);
+      navigate(`/editor/${urlEncodeString}`, { replace: true });
+    }
+  }, [faceConfig, navigate]);
+
+  return (
+    <>
+      <EditorPageTopBar />
+      <div className="w-screen flex flex-col-reverse md:flex-row items-center justify-around">
+        <EditorPageGallery />
+        <MainFaceDisplay modalDisclosure={modalDisclosure} />
+      </div>
+      <EditJSONModal modalDisclosure={modalDisclosure} />
+      <ToastContainer position="bottom-right" max={3} />
+    </>
+  );
+};
+
+const MainFaceDisplayActionBar = ({
+  modalDisclosure,
+}: {
+  modalDisclosure: any;
+}) => {
+  let { faceConfig } = useStateStore();
+
+  const { onOpen } = modalDisclosure;
+
+  const dropdownConfig = [
+    {
+      groupName: "Copy",
+      groupIcon: LinkSimple,
+      baseAction: async () => {
+        await copyStringToClipboard(
+          window.location.href,
+          "Copied link to clipboard",
+        );
+      },
+      items: [
+        {
+          key: "link",
+          text: "Copy Link",
+          description: "Copy link to FacesJS Editor to Clipboard",
+          action: async () => {
+            await copyStringToClipboard(
+              window.location.href,
+              "Copied link to clipboard",
+            );
+          },
+        },
+        {
+          key: "json",
+          text: "Copy JSON",
+          description: "Copy Face JSON to Clipboard",
+          action: async () => {
+            await copyStringToClipboard(
+              JSON.stringify(faceConfig),
+              "Copied face config to clipboard",
+            );
+          },
+        },
+      ],
+    },
+    {
+      groupName: "Download",
+      groupIcon: DownloadSimple,
+      baseAction: async () => {
+        await DownloadFaceAsPng(faceConfig);
+      },
+      items: [
+        {
+          key: "png",
+          text: "Download PNG",
+          description: "Download face as PNG image",
+          action: async () => {
+            await DownloadFaceAsPng(faceConfig);
+          },
+        },
+        {
+          key: "svg",
+          text: "Download SVG",
+          description: "Download face as SVG",
+          action: async () => {
+            await DownloadFaceAsSvg(faceConfig);
+          },
+        },
+        {
+          key: "json",
+          text: "Download JSON",
+          description: "Download face as JSON",
+          action: async () => {
+            await DownloadFaceAsJSON(faceConfig);
+          },
+        },
+      ],
+    },
+    {
+      groupName: "Upload",
+      groupIcon: UploadSimple,
+      baseAction: (e: any) => {
+        onOpen(e);
+      },
+    },
+  ];
+
+  return (
+    <div className="flex border-t-5 border-slate-800 justify-between gap-4 items-center mr-12 bg-slate-800 text-white w-full">
+      {dropdownConfig.map((group) => {
+        if (!group.items) {
+          return (
+            <Button
+              onPress={group.baseAction}
+              className="bg-slate-800 text-white border-2 border-white"
+            >
+              {group.groupName}
+            </Button>
+          );
+        }
+
+        return (
+          <ButtonGroup>
+            <Button
+              onClick={group.baseAction}
+              className="bg-slate-800 text-white border-2 border-white"
+            >
+              {group.groupName}
+            </Button>
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                <Button
+                  isIconOnly
+                  className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white"
+                >
+                  <CaretDown size={32} />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Merge options"
+                // onSelectionChange={setSelectedOption}
+                className="max-w-[300px]"
+              >
+                {group.items.map((item) => (
+                  <DropdownItem
+                    key={item.key}
+                    description={item.description}
+                    onClick={item.action}
+                  >
+                    {item.text}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </ButtonGroup>
+        );
+      })}
+    </div>
+  );
+};
+
+const MainFaceDisplay = ({
+  modalDisclosure,
+}: {
+  modalDisclosure: any;
+}): JSX.Element => {
   let { faceConfig } = useStateStore();
 
   return (
-    <div className="flex justify-center md:w-5/12 w-full">
-      <div className="p-8 border-5 border-black rounded-md">
-        <Face faceConfig={faceConfig} maxWidth={400} />
+    <div className="flex justify-center md:w-1/3">
+      <div className=" border-5 border-slate-800 rounded-md">
+        <div className="p-8">
+          <Face faceConfig={faceConfig} maxWidth={400} />
+        </div>
+        <MainFaceDisplayActionBar modalDisclosure={modalDisclosure} />
       </div>
     </div>
   );
 };
 
 const getOverrideListForItem = (
-  item: ToolbarItemConfig | null,
+  gallerySectionConfig: GallerySectionConfig | null,
 ): OverrideList => {
-  if (!item) return [];
+  if (!gallerySectionConfig) return [];
 
   let overrideList: OverrideList = [];
 
-  if (item.selectionType === "svgs") {
-    if (item.key.includes("id")) {
-      let featureName = item.key.split(".")[0] as string;
+  if (gallerySectionConfig.selectionType === "svgs") {
+    if (gallerySectionConfig.key.includes("id")) {
+      let featureName = gallerySectionConfig.key.split(".")[0] as string;
       let svgNames: any[] = getFromDict(svgsIndex, featureName);
 
       svgNames = svgNames.sort((a, b) => {
@@ -114,20 +321,29 @@ const getOverrideListForItem = (
 
       for (let i = 0; i < svgNames.length; i++) {
         let overrides: Overrides = { [featureName]: { id: svgNames[i] } };
-        overrideList.push({ override: overrides, display: svgNames[i] });
+        overrideList.push({
+          override: overrides,
+          display: svgNames[i],
+          value: svgNames[i],
+        });
       }
     }
-  } else if (item.renderOptions?.valuesToRender) {
-    for (let i = 0; i < item.renderOptions.valuesToRender.length; i++) {
-      let valueToRender = item.renderOptions.valuesToRender[i];
+  } else if (gallerySectionConfig.renderOptions?.valuesToRender) {
+    for (
+      let i = 0;
+      i < gallerySectionConfig.renderOptions.valuesToRender.length;
+      i++
+    ) {
+      let valueToRender = gallerySectionConfig.renderOptions.valuesToRender[i];
       let overrides: Overrides = setToDict(
         {},
-        item.key,
+        gallerySectionConfig.key,
         valueToRender,
       ) as Overrides;
       overrideList.push({
         override: overrides,
         display: valueToRender,
+        value: valueToRender,
       });
     }
   }
@@ -135,33 +351,50 @@ const getOverrideListForItem = (
   return overrideList;
 };
 
+const newFaceConfigFromOverride = (
+  faceConfig: FaceConfig,
+  gallerySectionConfig: GallerySectionConfig,
+  chosenValue: any,
+): FaceConfig => {
+  let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+  let newOverride: Overrides = setToDict(
+    {},
+    gallerySectionConfig?.key || "",
+    chosenValue,
+  ) as Overrides;
+  override(faceConfigCopy, newOverride);
+  return faceConfigCopy;
+};
+
 const FeatureSelector = ({
-  selectedItem,
+  gallerySectionConfig,
   overrideList,
   stateStoreProps,
-  setCurrentIndexObj,
+  sectionIndex,
 }: {
-  selectedItem?: ToolbarItemConfig | null;
+  gallerySectionConfig?: GallerySectionConfig | null;
   overrideList: OverrideList;
   stateStoreProps: CombinedState;
-  setCurrentIndexObj: any;
+  sectionIndex: number;
 }) => {
-  let { faceConfig, setFaceStore, getSelectedItem } = stateStoreProps;
-  selectedItem = selectedItem || getSelectedItem();
+  let { faceConfig } = stateStoreProps;
 
-  if (!selectedItem) {
+  if (!gallerySectionConfig) {
     return <div>Select a feature</div>;
   }
 
-  const selectedVal = getFromDict(faceConfig, selectedItem?.key || "");
+  const selectedVal: string | number | boolean = getFromDict(
+    faceConfig,
+    gallerySectionConfig?.key || "",
+  );
 
-  if (selectedItem.selectionType === "svgs") {
+  if (gallerySectionConfig.selectionType === "svgs") {
     return (
       <Select
-        label={selectedItem.text}
+        label={gallerySectionConfig.text}
         className="max-w-xs"
-        // value={currentIndexObj.index}
-        selectedKeys={[selectedVal]}
+        // @ts-ignore Annoying type issue
+        selectedKeys={[gallerySectionConfig.selectedValue]}
         onChange={(e) => {
           let chosenValue = e.target.value;
 
@@ -169,22 +402,20 @@ const FeatureSelector = ({
             (overrideListItem: OverrideListItem) =>
               getFromDict(
                 overrideListItem.override,
-                selectedItem?.key || "",
+                gallerySectionConfig?.key || "",
               ) === chosenValue,
           );
 
-          let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-          let newOverride: Overrides = setToDict(
-            {},
-            selectedItem?.key || "",
+          let faceConfigCopy = newFaceConfigFromOverride(
+            faceConfig,
+            gallerySectionConfig,
             chosenValue,
-          ) as Overrides;
-          override(faceConfigCopy, newOverride);
-
-          setFaceStore(faceConfigCopy);
-          setCurrentIndexObj({
-            index: overrideChosenIndex,
-            feature_name: selectedItem?.key || "",
+          );
+          updateStores({
+            faceConfig: faceConfigCopy,
+            faceIndex: overrideChosenIndex,
+            sectionIndex,
+            stateStoreProps,
           });
         }}
       >
@@ -200,74 +431,77 @@ const FeatureSelector = ({
         })}
       </Select>
     );
-  } else if (selectedItem.selectionType === "range") {
+  } else if (gallerySectionConfig.selectionType === "range") {
     const handleChange = (val: number) => {
       let chosenValue = roundTwoDecimals(val);
       let overrideChosenIndex: number = overrideList.findIndex(
         (overrideListItem: OverrideListItem) =>
-          getFromDict(overrideListItem.override, selectedItem?.key || "") ===
-          chosenValue,
+          getFromDict(
+            overrideListItem.override,
+            gallerySectionConfig?.key || "",
+          ) === chosenValue,
       );
       if (!chosenValue) return;
-      let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-      let newOverride: Overrides = setToDict(
-        {},
-        selectedItem?.key || "",
+
+      let faceConfigCopy = newFaceConfigFromOverride(
+        faceConfig,
+        gallerySectionConfig,
         chosenValue,
-      ) as Overrides;
-      override(faceConfigCopy, newOverride);
-      setFaceStore(faceConfigCopy);
-      setCurrentIndexObj({
-        index: overrideChosenIndex,
-        feature_name: selectedItem?.key || "",
+      );
+      updateStores({
+        faceConfig: faceConfigCopy,
+        faceIndex: overrideChosenIndex,
+        sectionIndex,
+        stateStoreProps,
       });
     };
 
     return (
       <Slider
-        label={selectedItem.text}
-        step={selectedItem?.renderOptions?.rangeConfig?.sliderStep || 0.01}
-        maxValue={selectedItem?.renderOptions?.rangeConfig?.max}
-        minValue={selectedItem?.renderOptions?.rangeConfig?.min}
+        label={gallerySectionConfig.text}
+        step={
+          gallerySectionConfig?.renderOptions?.rangeConfig?.sliderStep || 0.01
+        }
+        maxValue={gallerySectionConfig?.renderOptions?.rangeConfig?.max}
+        minValue={gallerySectionConfig?.renderOptions?.rangeConfig?.min}
         defaultValue={0.4}
-        value={selectedVal || 0}
+        value={(selectedVal as number) || 0}
         className="max-w-md"
         onChange={(e) => {
           handleChange(e as number);
         }}
       ></Slider>
     );
-  } else if (selectedItem.selectionType == "boolean") {
+  } else if (gallerySectionConfig.selectionType == "boolean") {
     return (
       <Switch
-        isSelected={selectedVal || false}
+        isSelected={(selectedVal as boolean) || false}
         onValueChange={(e: boolean) => {
           let chosenValue = e || false;
           let overrideChosenIndex: number = overrideList.findIndex(
             (overrideListItem: OverrideListItem) =>
               getFromDict(
                 overrideListItem.override,
-                selectedItem?.key || "",
+                gallerySectionConfig?.key || "",
               ) === chosenValue,
           );
-          let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-          let newOverride: Overrides = setToDict(
-            {},
-            selectedItem?.key || "",
-            chosenValue,
-          ) as Overrides;
 
-          override(faceConfigCopy, newOverride);
-          setFaceStore(faceConfigCopy);
-          setCurrentIndexObj({
-            index: overrideChosenIndex,
-            feature_name: selectedItem?.key || "",
+          let faceConfigCopy = newFaceConfigFromOverride(
+            faceConfig,
+            gallerySectionConfig,
+            chosenValue,
+          );
+          updateStores({
+            faceConfig: faceConfigCopy,
+            faceIndex: overrideChosenIndex,
+            sectionIndex,
+            stateStoreProps,
           });
         }}
       />
     );
-  } else if (selectedItem.selectionType == "color") {
-    let numColors = selectedItem?.renderOptions?.colorCount || 1;
+  } else if (gallerySectionConfig.selectionType == "color") {
+    let numColors = gallerySectionConfig?.renderOptions?.colorCount || 1;
     let initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
       length: numColors,
     }).map(() => "valid");
@@ -285,10 +519,11 @@ const FeatureSelector = ({
 
     return (
       <div className="flex flex-col gap-2">
-        {selectedItem &&
+        {gallerySectionConfig &&
           Array.from({ length: numColors }).map((_, index) => {
             let hasMultipleColors = numColors > 1;
             let selectedColor =
+              // @ts-ignore TS doesnt like conditional array vs string
               (hasMultipleColors ? selectedVal[index] : selectedVal) ||
               "#000000";
 
@@ -297,38 +532,38 @@ const FeatureSelector = ({
                 <Input
                   type="color"
                   value={selectedColor}
-                  label={`${selectedItem?.text} Picker`}
-                  onChange={(e) => {
-                    let chosenValue = e.target.value || "#000000";
+                  label={`${gallerySectionConfig?.text} Picker`}
+                  onValueChange={(e) => {
+                    let chosenValue = e || "#000000";
                     let overrideChosenIndex: number = overrideList.findIndex(
                       (overrideListItem: OverrideListItem) =>
                         getFromDict(
                           overrideListItem.override,
-                          selectedItem?.key || "",
+                          gallerySectionConfig?.key || "",
                         ) === chosenValue,
                     );
                     let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
 
                     let colorToOverride = getFromDict(
                       faceConfigCopy,
-                      selectedItem?.key || "",
+                      gallerySectionConfig?.key || "",
                     );
                     if (hasMultipleColors) {
                       colorToOverride[index] = chosenValue;
                     } else {
                       colorToOverride = chosenValue;
                     }
-                    let newOverride: Overrides = setToDict(
-                      {},
-                      selectedItem?.key || "",
-                      colorToOverride,
-                    ) as Overrides;
 
-                    override(faceConfigCopy, newOverride);
-                    setFaceStore(faceConfigCopy);
-                    setCurrentIndexObj({
-                      index: overrideChosenIndex,
-                      feature_name: selectedItem?.key || "",
+                    faceConfigCopy = newFaceConfigFromOverride(
+                      faceConfig,
+                      gallerySectionConfig,
+                      chosenValue,
+                    );
+                    updateStores({
+                      faceConfig: faceConfigCopy,
+                      faceIndex: overrideChosenIndex,
+                      sectionIndex,
+                      stateStoreProps,
                     });
                   }}
                 />
@@ -340,7 +575,7 @@ const FeatureSelector = ({
                       ? "Color format must be #RRGGBB"
                       : null
                   }
-                  label={`${selectedItem?.text} Hex`}
+                  label={`${gallerySectionConfig?.text} Hex`}
                   onChange={(e) => {
                     let chosenValue = e.target.value;
 
@@ -353,31 +588,31 @@ const FeatureSelector = ({
                       (overrideListItem: OverrideListItem) =>
                         getFromDict(
                           overrideListItem.override,
-                          selectedItem?.key || "",
+                          gallerySectionConfig?.key || "",
                         ) === chosenValue,
                     );
                     let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
 
                     let colorToOverride = getFromDict(
                       faceConfigCopy,
-                      selectedItem?.key || "",
+                      gallerySectionConfig?.key || "",
                     );
                     if (hasMultipleColors) {
                       colorToOverride[index] = chosenValue;
                     } else {
                       colorToOverride = chosenValue;
                     }
-                    let newOverride: Overrides = setToDict(
-                      {},
-                      selectedItem?.key || "",
-                      colorToOverride,
-                    ) as Overrides;
 
-                    override(faceConfigCopy, newOverride);
-                    setFaceStore(faceConfigCopy);
-                    setCurrentIndexObj({
-                      index: overrideChosenIndex,
-                      feature_name: selectedItem?.key || "",
+                    faceConfigCopy = newFaceConfigFromOverride(
+                      faceConfig,
+                      gallerySectionConfig,
+                      chosenValue,
+                    );
+                    updateStores({
+                      faceConfig: faceConfigCopy,
+                      faceIndex: overrideChosenIndex,
+                      sectionIndex,
+                      stateStoreProps,
                     });
                   }}
                 />
@@ -391,140 +626,61 @@ const FeatureSelector = ({
   }
 };
 
-const EditorFeatureGallery = () => {
-  let stateStoreProps = useStateStore();
-  let {
-    getSelectedItem,
-    selectedFeatureSection,
-    toolbarConfig,
-    faceConfig,
-    setFaceStore,
-    setSelectedFeatureSection,
-    setSelectedItem,
-  } = stateStoreProps;
-  let selectedItem = getSelectedItem();
-
-  let toolbarItems: ToolbarItemConfig[] | undefined =
-    toolbarConfig[selectedFeatureSection];
-
-  return (
-    <div className="md:w-1/2 w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
-      {toolbarItems &&
-        toolbarItems.map((toolbarItem: ToolbarItemConfig) => {
-          let overrideList = getOverrideListForItem(toolbarItem);
-
-          let startingIndex = overrideList.findIndex((override) => {
-            if (!toolbarItem) return false;
-            return (
-              getFromDict(faceConfig, toolbarItem.key) ===
-              getFromDict(override.override, toolbarItem.key)
-            );
-          });
-          let [currentIndexObj, setCurrentIndexObj] = useState<{
-            feature_name: string;
-            index: number;
-          }>({ feature_name: toolbarItem?.key || "", index: startingIndex });
-
-          return (
-            <div className="py-6  border-t-2 border-t-slate-500">
-              <div className="my-1 mx-1 flex justify-between items-center">
-                <div className="flex items-center gap-1">
-                  <span>Choose {toolbarItem.text}</span>
-                  <span
-                    onClick={() => {
-                      setSelectedItem(toolbarItem.key);
-                      setSelectedFeatureSection(selectedFeatureSection);
-                    }}
-                  >
-                    <ArrowSquareOut
-                      size={20}
-                      weight="bold"
-                      className="cursor-pointer"
-                    />
-                  </span>
-                </div>
-
-                <div className="w-1/2 my-2 text-end">
-                  <FeatureSelector
-                    selectedItem={toolbarItem}
-                    overrideList={overrideList}
-                    stateStoreProps={stateStoreProps}
-                    setCurrentIndexObj={setCurrentIndexObj}
-                  />
-                </div>
-              </div>
-              <div className="w-full flex overflow-scroll gap-2">
-                {overrideList.map((overrideToRun: OverrideListItem, index) => {
-                  let faceConfigCopy = deepCopy(faceConfig);
-                  override(faceConfigCopy, overrideToRun.override);
-
-                  let isThisItemTheSelectedOne =
-                    currentIndexObj.index === index &&
-                    currentIndexObj.feature_name === toolbarItem?.key;
-
-                  return (
-                    <div
-                      key={index}
-                      className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center pb-2 active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
-                      onClick={() => {
-                        setFaceStore(faceConfigCopy);
-                        setCurrentIndexObj({
-                          index,
-                          feature_name: selectedItem?.key || "",
-                        });
-                      }}
-                    >
-                      <Face faceConfig={faceConfigCopy} maxWidth={75} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-    </div>
-  );
+const updateStores = ({
+  faceConfig,
+  faceIndex,
+  sectionIndex,
+  stateStoreProps,
+}: {
+  faceConfig: FaceConfig;
+  faceIndex: number;
+  sectionIndex: number;
+  stateStoreProps: any;
+}) => {
+  let { setFaceStore, setLastClickedSectionIndex, setLastSelectedFaceIndex } =
+    stateStoreProps;
+  setFaceStore(faceConfig);
+  setLastClickedSectionIndex(sectionIndex);
+  setLastSelectedFaceIndex(faceIndex);
 };
 
-const EditorItemGallery = () => {
+const EditorPageGallery = (): JSX.Element => {
   let stateStoreProps = useStateStore();
-  let { getSelectedItem, faceConfig, setFaceStore } = stateStoreProps;
-  let selectedItem = getSelectedItem();
 
-  let overrideList = getOverrideListForItem(selectedItem);
+  let {
+    faceConfig,
+    setFaceStore,
+    gallerySize,
+    gallerySectionConfigList,
+    lastSelectedFaceIndex,
+    lastClickedSectionIndex,
+    setRandomizeEnabledForSection,
+  } = stateStoreProps;
 
-  let startingIndex = overrideList.findIndex((override) => {
-    if (!selectedItem) return false;
-    return (
-      getFromDict(faceConfig, selectedItem.key) ===
-      getFromDict(override.override, selectedItem.key)
-    );
-  });
-
-  let [currentIndexObj, setCurrentIndexObj] = useState<{
-    feature_name: string;
-    index: number;
-  }>({ feature_name: selectedItem?.key || "", index: startingIndex });
-  let num_columns = 4;
+  let lastSelectedSectionConfig =
+    gallerySectionConfigList[lastClickedSectionIndex];
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!selectedItem) return;
-      if (currentIndexObj.index === -1) return;
+      if (!lastSelectedSectionConfig) return;
+      if (lastClickedSectionIndex === -1) return;
 
-      let overrideList = getOverrideListForItem(selectedItem);
-      let nextIndex = currentIndexObj.index;
+      let overrideList = getOverrideListForItem(lastSelectedSectionConfig);
+
+      let num_columns = gallerySize == "lg" ? 4 : overrideList.length;
+
+      let nextIndex = lastClickedSectionIndex;
       let listLength = overrideList.length;
-      let isLeftBound = currentIndexObj.index % num_columns === 0;
+      let isLeftBound = lastClickedSectionIndex % num_columns === 0;
       let isRightBound =
-        currentIndexObj.index % num_columns === num_columns - 1;
-      let isTopBound = currentIndexObj.index < num_columns;
+        lastClickedSectionIndex % num_columns === num_columns - 1;
+      let isTopBound = lastClickedSectionIndex < num_columns;
       let isBottomBound =
-        currentIndexObj.index >= overrideList.length - num_columns;
+        lastClickedSectionIndex >= overrideList.length - num_columns;
 
       let elementsOnBottomRow = listLength % num_columns;
       let isBottomRow =
-        currentIndexObj.index > listLength - elementsOnBottomRow;
+        lastClickedSectionIndex > listLength - elementsOnBottomRow;
 
       switch (event.key) {
         case "ArrowUp":
@@ -545,215 +701,145 @@ const EditorItemGallery = () => {
           return;
       }
 
-      if (
-        nextIndex !== currentIndexObj.index ||
-        selectedItem.key !== currentIndexObj.feature_name
-      ) {
-        event.preventDefault();
-        setCurrentIndexObj({
-          index: nextIndex,
-          feature_name: selectedItem.key || "",
-        });
+      // TODO revisit
+      // if (
+      //     nextIndex !== lastClickedSectionIndex ||
+      //     selectedItem.key !== currentIndexObj.feature_name
+      // ) {
+      //     event.preventDefault();
+      //     setCurrentIndexObj({
+      //         index: nextIndex,
+      //         feature_name: selectedItem.key || "",
+      //     });
 
-        let faceConfigCopy = deepCopy(faceConfig);
-        override(faceConfigCopy, overrideList[nextIndex]?.override);
-        setFaceStore(faceConfigCopy);
-      }
+      //     let faceConfigCopy = deepCopy(faceConfig);
+      //     override(faceConfigCopy, overrideList[nextIndex]?.override);
+      //     setFaceStore(faceConfigCopy);
+      // }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndexObj, selectedItem, faceConfig]);
-
-  if (!selectedItem) {
-    return <div>Select a feature</div>;
-  }
+  }, [lastClickedSectionIndex, lastSelectedFaceIndex, faceConfig]);
 
   return (
-    <div className="md:w-1/2 h-1/2 md:h-screen overflow-y-scroll w-full flex flex-col">
-      <div className="my-4 mx-1 flex justify-between items-center">
-        <span>Choose {selectedItem.text}</span>
+    <div className="md:w-1/2 w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
+      {gallerySectionConfigList &&
+        gallerySectionConfigList.map(
+          (
+            gallerySectionConfig: GallerySectionConfig,
+            sectionIndex: number,
+          ) => {
+            let overrideList = getOverrideListForItem(gallerySectionConfig);
 
-        <div className="w-1/2 text-end">
-          <FeatureSelector
-            overrideList={overrideList}
-            stateStoreProps={stateStoreProps}
-            setCurrentIndexObj={setCurrentIndexObj}
-          />
-        </div>
-      </div>
-      <div className={`grid grid-cols-${num_columns} gap-2`}>
-        {overrideList.map((overrideToRun: OverrideListItem, index) => {
-          let faceConfigCopy = deepCopy(faceConfig);
-          override(faceConfigCopy, overrideToRun.override);
-          let isThisItemTheSelectedOne =
-            currentIndexObj.index === index &&
-            currentIndexObj.feature_name === selectedItem?.key;
+            return (
+              <div className="py-6  border-t-2 border-t-slate-500">
+                <div className="my-1 mx-1 flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span>Choose {gallerySectionConfig.text}</span>
+                    <span
+                      onClick={() => {
+                        shuffleOptions(
+                          gallerySectionConfig,
+                          setFaceStore,
+                          faceConfig,
+                        );
+                      }}
+                    >
+                      <Shuffle
+                        size={28}
+                        weight="bold"
+                        className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-90 transition-transform ease-in-out"
+                      />
+                    </span>
+                    <Tooltip
+                      key={`tooltip-${sectionIndex}`}
+                      placement={"right"}
+                      content={"Enable to lock section when shuffling Face"}
+                    >
+                      <span
+                        onClick={() => {
+                          setRandomizeEnabledForSection(
+                            sectionIndex,
+                            !gallerySectionConfig.randomizeEnabled,
+                          );
+                        }}
+                      >
+                        {gallerySectionConfig.randomizeEnabled ? (
+                          <LockSimpleOpen
+                            size={28}
+                            weight="bold"
+                            className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
+                          />
+                        ) : (
+                          <LockSimple
+                            size={28}
+                            weight="bold"
+                            className="cursor-pointer bg-slate-500 text-white hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
+                          />
+                        )}
+                      </span>
+                    </Tooltip>
+                  </div>
 
-          return (
-            <div
-              key={index}
-              className={`rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center pb-2 active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
-              onClick={() => {
-                setFaceStore(faceConfigCopy);
-                setCurrentIndexObj({
-                  index,
-                  feature_name: selectedItem?.key || "",
-                });
-              }}
-            >
-              <Face faceConfig={faceConfigCopy} maxWidth={150} />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+                  <div className="w-1/2 my-2 text-end">
+                    <FeatureSelector
+                      gallerySectionConfig={gallerySectionConfig}
+                      overrideList={overrideList}
+                      stateStoreProps={stateStoreProps}
+                      sectionIndex={sectionIndex}
+                    />
+                  </div>
+                </div>
+                {gallerySize != "sm" && (
+                  <div
+                    className={concatClassNames(
+                      "w-full overflow-y-scroll flex justify-start overflow-scroll gap-8",
+                      gallerySize == "lg" ? `flex-wrap` : "",
+                    )}
+                  >
+                    {overrideList.map(
+                      (overrideToRun: OverrideListItem, faceIndex) => {
+                        let faceConfigCopy = deepCopy(faceConfig);
+                        override(faceConfigCopy, overrideToRun.override);
 
-const EditorPageGallery = (): JSX.Element => {
-  let stateStoreProps = useStateStore();
-  let { getSelectedItem } = stateStoreProps;
-  let selectedItem = getSelectedItem();
+                        let isThisItemTheSelectedOne =
+                          gallerySectionConfig.selectedValue ==
+                          overrideToRun.display;
 
-  if (!selectedItem) {
-    return <EditorFeatureGallery />;
-  } else {
-    return <EditorItemGallery />;
-  }
-};
-
-const shuffleOptions = (
-  toolbarItem: ToolbarItemConfig,
-  setFaceStore: any,
-  faceConfig: FaceConfig,
-) => {
-  let overrideList = getOverrideListForItem(toolbarItem);
-  let randomIndex = Math.floor(Math.random() * overrideList.length);
-  let faceConfigCopy = deepCopy(faceConfig);
-  override(faceConfigCopy, overrideList[randomIndex]?.override);
-  setFaceStore(faceConfigCopy);
-};
-
-const ToolbarItemSectionHead = ({ text }: { text: string }): JSX.Element => {
-  let {
-    setSelectedFeatureSection,
-    setSelectedItem,
-    selectedFeatureSection,
-    getSelectedItem,
-  } = useStateStore();
-
-  let selectedItem = getSelectedItem();
-  let isSelected = text === selectedFeatureSection && !selectedItem;
-
-  return (
-    <div
-      className={concatClassNames(
-        `
-                flex
-                justify-between
-                p-2
-                w-11/12
-                hover:bg-slate-200
-                active:scale-90
-                transition-transform
-                ease-in-out
-                items-center
-                cursor-pointer
-                `,
-        isSelected ? "bg-slate-100" : "",
-      )}
-      onClick={() => {
-        setSelectedFeatureSection(text);
-        setSelectedItem("");
-      }}
-    >
-      <span>{text}</span>
-    </div>
-  );
-};
-
-const ToolbarItem = ({
-  toolbarItem,
-  featureSection,
-}: {
-  toolbarItem: ToolbarItemConfig;
-  featureSection: string;
-}): JSX.Element => {
-  let { isSelected, text, key } = toolbarItem;
-  let { faceConfig, setFaceStore, setSelectedItem, setSelectedFeatureSection } =
-    useStateStore();
-
-  let indentStyle = { paddingLeft: `${20}px` };
-
-  return (
-    <div
-      style={{ ...indentStyle }}
-      className={concatClassNames(
-        `
-                flex
-                justify-between
-                p-2
-                w-11/12
-                hover:bg-slate-200
-                active:scale-90
-                transition-transform
-                ease-in-out
-                items-center
-                cursor-pointer
-                `,
-        isSelected ? "bg-slate-100" : "",
-      )}
-      onClick={() => {
-        setSelectedItem(key);
-        setSelectedFeatureSection(featureSection);
-      }}
-    >
-      <span>{text}</span>
-      <span
-        className="
-                    hover:bg-slate-50 
-                    rounded-full 
-                    p-1
-                    m-0.5"
-        onClick={(event) => {
-          event.stopPropagation();
-          shuffleOptions(toolbarItem, setFaceStore, faceConfig);
-        }}
-      >
-        <Shuffle size={24} />
-      </span>
-    </div>
-  );
-};
-
-const EditorPageToolbar = (): JSX.Element => {
-  const { toolbarConfig } = useStateStore();
-
-  return (
-    <div className="w-2/12 h-screen flex justify-start flex-col overflow-scroll">
-      {Object.keys(toolbarConfig).map((section, section_index) => (
-        <>
-          <ToolbarItemSectionHead
-            text={section}
-            key={`section-${section_index}`}
-          />
-
-          {toolbarConfig[section] &&
-            // @ts-ignore
-            toolbarConfig[section].map(
-              (toolbarItem: ToolbarItemConfig, item_index: number) => {
-                return (
-                  <ToolbarItem
-                    featureSection={section}
-                    toolbarItem={toolbarItem}
-                    key={`section-${section_index}-${item_index}`}
-                  />
-                );
-              },
-            )}
-        </>
-      ))}
+                        return (
+                          <div
+                            key={faceIndex}
+                            className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
+                            onClick={() => {
+                              updateStores({
+                                faceConfig: faceConfigCopy,
+                                faceIndex,
+                                sectionIndex,
+                                stateStoreProps,
+                              });
+                            }}
+                          >
+                            <Face
+                              faceConfig={faceConfigCopy}
+                              width={
+                                gallerySize == "md"
+                                  ? 100
+                                  : gallerySize == "sm"
+                                    ? 50
+                                    : 150
+                              }
+                            />
+                          </div>
+                        );
+                      },
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          },
+        )}
     </div>
   );
 };
@@ -778,23 +864,12 @@ const doToast = (message: string) => {
   });
 };
 
-const copyFaceConfigToClipboard = async (faceConfig: FaceConfig) => {
+const copyStringToClipboard = async (str: string, message: string) => {
   try {
-    // Use the Clipboard API to copy the text
-    await navigator.clipboard.writeText(JSON.stringify(faceConfig));
-    doToast("Face Config copied to clipboard");
+    await navigator.clipboard.writeText(str);
+    doToast(message);
   } catch (err) {
-    console.error("Failed to copyFaceConfigToClipboard: ", err);
-  }
-};
-
-const copyEditorURLToClipboard = async () => {
-  try {
-    const editorURL = window.location.href;
-    await navigator.clipboard.writeText(editorURL);
-    doToast("Editor URL copied to clipboard");
-  } catch (err) {
-    console.error("Failed to copyEditorURLToClipboard: ", err);
+    console.error("Failed to copyStringToClipboard: ", err);
   }
 };
 
@@ -811,7 +886,170 @@ function getCurrentTimestamp(): string {
   return `${year}${month}${day}${hour}${minute}${second}`;
 }
 
-const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
+const shuffleEntireFace = (
+  faceConfig: FaceConfig,
+  gallerySectionConfigList: GallerySectionConfig[],
+  setFaceStore: any,
+) => {
+  let faceConfigCopy = deepCopy(faceConfig);
+
+  for (let gallerySectionConfig of gallerySectionConfigList) {
+    if (gallerySectionConfig.randomizeEnabled) {
+      deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
+    }
+  }
+
+  let newFace = generate(faceConfigCopy);
+  setFaceStore(newFace);
+};
+
+const shuffleOptions = (
+  gallerySectionConfig: GallerySectionConfig,
+  setFaceStore: any,
+  faceConfig: FaceConfig,
+) => {
+  let faceConfigCopy = deepCopy(faceConfig);
+  faceConfigCopy = deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
+  let newFace = generate(faceConfigCopy);
+  setFaceStore(newFace);
+};
+
+const EditorPageTopBar = () => {
+  let {
+    setFaceStore,
+    faceConfig,
+    gallerySize,
+    setGallerySize,
+    gallerySectionConfigList,
+  } = useStateStore();
+  const navigate = useNavigate();
+
+  return (
+    <div className="bg-slate-800 text-white flex justify-between w-full">
+      <div className="flex text-xl p-2 justify-around w-2/12 items-center">
+        <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
+          <House weight="fill" size={24} onClick={() => navigate("/")} />
+        </span>
+        <span className="invisible md:visible">faces.js Editor</span>
+        <span
+          className="
+                            hover:bg-slate-50 
+                            hover:text-slate-900
+                            cursor-pointer
+                            rounded-full 
+                            p-1
+                            m-0.5"
+          onClick={() =>
+            shuffleEntireFace(
+              faceConfig,
+              gallerySectionConfigList,
+              setFaceStore,
+            )
+          }
+        >
+          <Shuffle size={24} />
+        </span>
+      </div>
+      <div className="flex items-center">
+        <Tabs
+          aria-label="Options"
+          selectedKey={gallerySize}
+          // @ts-ignore
+          onSelectionChange={setGallerySize}
+          className="[data-selected=true]:bg-slate-800 "
+          css={{
+            "& [data-selected='true']": {
+              backgroundColor: "#1e293b",
+              color: "white",
+            },
+          }}
+        >
+          <Tab key="sm" title={<List size={20} />}></Tab>
+          <Tab key="md" title={<Rows size={20} />}></Tab>
+          <Tab key="lg" title={<Square size={20} />}></Tab>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
+  let { setFaceStore } = useStateStore();
+  const { isOpen, onOpenChange } = modalDisclosure;
+
+  const [textAreaValue, setTextAreaValue] = useState("");
+  const [textAreaValid, setTextAreaValid] = useState(false);
+  const textRef = useRef<HTMLTextAreaElement>(null);
+
+  let errorMessage = (
+    <>
+      <span>Invalid JSON. Refer to the </span>
+      <Link
+        className="font-bold underline"
+        to="https://www.json.org/json-en.html"
+      >
+        JSON spec
+      </Link>
+    </>
+  );
+
+  return (
+    <Modal
+      className="w-1/2"
+      shadow="md"
+      size="xl"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
+      <ModalContent>
+        {(_) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">
+              Paste JSON to Render Face
+            </ModalHeader>
+            <ModalBody>
+              <Textarea
+                value={textAreaValue}
+                isInvalid={!textAreaValid}
+                ref={textRef}
+                // errorMessage={!textAreaValid ? ("Invalid JSON. Refer to the <a src='https://www.json.org/json-en.html'>JSON spec</a>") : null}
+                errorMessage={!textAreaValid ? errorMessage : null}
+                onValueChange={(e) => setTextAreaValue(e)}
+                placeholder="Input Face JSON"
+                size="lg"
+                className="my-6 min-h-90"
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                onClick={() => {
+                  let isValid = isValidJSON(textAreaValue);
+                  setTextAreaValid(isValid);
+
+                  if (!isValid) {
+                    doToast("Invalid JSON");
+                  } else {
+                    let faceConfigCopy: FaceConfig = JSON.parse(textAreaValue);
+                    setFaceStore(faceConfigCopy);
+                    onOpenChange();
+                  }
+                }}
+                size="md"
+              >
+                Draw
+              </Button>
+              <Button onClick={onOpenChange} size="md">
+                Close
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  );
+};
+
+const DownloadFaceAsPng = async (faceConfig: FaceConfig) => {
   const faceSvg = faceToSvgString(faceConfig);
 
   const downloadPng = async () => {
@@ -836,182 +1074,32 @@ const DownloadSvgAsPng = async (faceConfig: FaceConfig) => {
   await downloadPng();
 };
 
-export const EditorPage = (): JSX.Element => {
-  let { setFaceStore, faceConfig } = useStateStore();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const DownloadFaceAsSvg = (faceConfig: FaceConfig) => {
+  const faceSvg = faceToSvgString(faceConfig);
+  const blob = new Blob([faceSvg], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
 
-  const [textAreaValue, setTextAreaValue] = useState("");
-  const [textAreaValid, setTextAreaValid] = useState(false);
-  const textRef = useRef<HTMLTextAreaElement>(null);
-  const navigate = useNavigate();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `facesjs_render_${getCurrentTimestamp()}.svg`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
-  let { param } = useParams();
+  URL.revokeObjectURL(url);
+};
 
-  useEffect(() => {
-    if (param) {
-      const decodedFaceConfig = decodeFromUrlToJSON(param) as FaceConfig;
-      if (
-        objStringifyInOrder(decodedFaceConfig) !==
-        objStringifyInOrder(faceConfig)
-      ) {
-        try {
-          setFaceStore(decodedFaceConfig);
-        } catch (error) {
-          console.error("Error parsing JSON from URL param:", error);
-        }
-      }
-    }
-  }, [param, setFaceStore]);
+const DownloadFaceAsJSON = (faceConfig: FaceConfig) => {
+  const faceConfigString = JSON.stringify(faceConfig, null, 2);
+  const blob = new Blob([faceConfigString], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
 
-  useEffect(() => {
-    if (faceConfig) {
-      const urlEncodeString = encodeJSONForUrl(faceConfig);
-      navigate(`/editor/${urlEncodeString}`, { replace: true });
-    }
-  }, [faceConfig, navigate]);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `facesjs_render_${getCurrentTimestamp()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
-  let errorMessage = (
-    <>
-      <span>Invalid JSON. Refer to the </span>
-      <Link
-        className="font-bold underline"
-        to="https://www.json.org/json-en.html"
-      >
-        JSON spec
-      </Link>
-    </>
-  );
-
-  return (
-    <>
-      <div className="bg-slate-800 text-white flex justify-between w-full">
-        <div className="flex text-xl p-2 justify-around w-2/12 items-center">
-          <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
-            <House weight="fill" size={24} onClick={() => navigate("/")} />
-          </span>
-          <span className="invisible md:visible">faces.js Editor</span>
-          <span
-            className="
-                            hover:bg-slate-50 
-                            hover:text-slate-900
-                            cursor-pointer
-                            rounded-full 
-                            p-1
-                            m-0.5"
-            onClick={() => setFaceStore(generate())}
-          >
-            <Shuffle size={24} />
-          </span>
-        </div>
-        <div className="flex justify-between gap-4 items-center mr-12">
-          <span
-            className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-            onClick={async () => {
-              await copyEditorURLToClipboard();
-            }}
-          >
-            <Tooltip
-              content={"Copy link to this faces.js configuration"}
-              placement="bottom"
-              showArrow={true}
-            >
-              <LinkSimple size={24} />
-            </Tooltip>
-          </span>
-          <span
-            className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-            onClick={async () => {
-              await copyFaceConfigToClipboard(faceConfig);
-            }}
-          >
-            <Tooltip
-              content={"Copy JSON configuration to clipboard"}
-              placement="bottom"
-            >
-              <ClipboardText size={24} />
-            </Tooltip>
-            <ToastContainer position="bottom-right" />
-          </span>
-          <span
-            className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-            onClick={onOpen}
-          >
-            <Tooltip content={"Paste JSON to draw face"} placement="bottom">
-              <UploadSimple size={24} />
-            </Tooltip>
-          </span>
-          <span
-            className="hover:bg-slate-50 hover:text-slate-900 cursor-pointer rounded-full p-1 m-0.5"
-            onClick={async () => {
-              await DownloadSvgAsPng(faceConfig);
-            }}
-          >
-            <Tooltip content={"Download face as PNG image"} placement="bottom">
-              <DownloadSimple size={24} />
-            </Tooltip>
-          </span>
-        </div>
-      </div>
-      <div className="  font-bold w-screen flex  items-start ">
-        <EditorPageToolbar />
-        <div className="flex flex-col-reverse md:flex-row items-center justify-around w-5/6">
-          <EditorPageGallery />
-          <MainFaceDisplay />
-        </div>
-      </div>
-      <Modal
-        className="w-1/2"
-        shadow="md"
-        size="xl"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent>
-          {(_) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Paste JSON to Render Face
-              </ModalHeader>
-              <ModalBody>
-                <Textarea
-                  value={textAreaValue}
-                  isInvalid={!textAreaValid}
-                  ref={textRef}
-                  // errorMessage={!textAreaValid ? ("Invalid JSON. Refer to the <a src='https://www.json.org/json-en.html'>JSON spec</a>") : null}
-                  errorMessage={!textAreaValid ? errorMessage : null}
-                  onValueChange={(e) => setTextAreaValue(e)}
-                  placeholder="Input Face JSON"
-                  size="lg"
-                  className="my-6 min-h-90"
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  onClick={() => {
-                    let isValid = isValidJSON(textAreaValue);
-                    setTextAreaValid(isValid);
-
-                    if (!isValid) {
-                      doToast("Invalid JSON");
-                    } else {
-                      let faceConfigCopy: FaceConfig =
-                        JSON.parse(textAreaValue);
-                      setFaceStore(faceConfigCopy);
-                      onOpenChange();
-                    }
-                  }}
-                  size="md"
-                >
-                  Draw
-                </Button>
-                <Button onClick={onOpenChange} size="md">
-                  Close
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
-  );
+  URL.revokeObjectURL(url);
 };
