@@ -22,8 +22,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true
+    "noPropertyAccessFromIndexSignature": true
+    // "noUncheckedIndexedAccess": true
   },
   "include": ["src", "public", "tools"]
 }
