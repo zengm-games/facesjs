@@ -74,7 +74,8 @@
     "typescript": "^5.4.4",
     "vite": "^5.2.7",
     "vitest": "^1.4.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "react-intersection-observer": "^9.8.2"
   },
   "dependencies": {
     "husky": "^9.0.11",

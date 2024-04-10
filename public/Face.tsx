@@ -2,6 +2,7 @@ import React from "react";
 import { faceToSvgString } from "../src/faceToSvgString";
 import { FaceConfig, Overrides } from "../src/types";
 import { objStringifyInOrder } from "./utils";
+import { useInView } from "react-intersection-observer";
 
 /*
     This component is responsible for rendering the face SVG string
@@ -39,7 +40,6 @@ export const memoizeWithDeepComparison = <Fn extends (...args: any[]) => any>(
 };
 
 const faceToSvgStringMemoized = memoizeWithDeepComparison(faceToSvgString);
-const MEMOIZE_FACE = true;
 
 export const Face = ({
   faceConfig,
@@ -47,19 +47,22 @@ export const Face = ({
   maxWidth,
   width,
   className,
+  lazyLoad,
 }: {
   faceConfig: FaceConfig;
   overrides?: Overrides;
   maxWidth?: number;
   width?: number;
   className?: string;
+  lazyLoad?: boolean;
 }) => {
-  let faceSvg;
-  if (!MEMOIZE_FACE) {
-    faceSvg = faceToSvgString(faceConfig, overrides);
-  } else {
-    faceSvg = faceToSvgStringMemoized(faceConfig, overrides);
-  }
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0,
+  });
+
+  const faceSvg =
+    inView || !lazyLoad ? faceToSvgStringMemoized(faceConfig, overrides) : "";
 
   let widthStyle: React.CSSProperties = width
     ? { width: `${width}px` }
@@ -76,11 +79,16 @@ export const Face = ({
   widthStyle.minWidth = "60px";
   heightStyle.minHeight = "90px";
 
+  if (faceSvg && faceSvg.length > 0) {
+    console.log("returning faceSvg", { faceSvg });
+  }
+
   return (
     <div
+      ref={ref}
       className={className}
       style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
-      dangerouslySetInnerHTML={{ __html: faceSvg }}
+      dangerouslySetInnerHTML={{ __html: faceSvg || "" }}
     ></div>
   );
 };

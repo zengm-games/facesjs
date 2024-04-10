@@ -675,6 +675,7 @@ const EditorPageGallery = () => {
                                     ? 50
                                     : 150
                               }
+                              lazyLoad={true}
                             />
                           </div>
                         );
