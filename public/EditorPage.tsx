@@ -279,6 +279,42 @@ const MainFaceDisplay = ({
   );
 };
 
+const inputOnChange = ({
+  chosenValue,
+  faceConfig,
+  overrideList,
+  gallerySectionConfig,
+  sectionIndex,
+  stateStoreProps,
+}: {
+  chosenValue: any;
+  faceConfig: FaceConfig;
+  overrideList: OverrideList;
+  gallerySectionConfig: GallerySectionConfig;
+  sectionIndex: number;
+  stateStoreProps: any;
+}) => {
+  let overrideChosenIndex: number = overrideList.findIndex(
+    (overrideListItem: OverrideListItem) =>
+      getFromDict(
+        overrideListItem.override,
+        gallerySectionConfig?.key || "",
+      ) === chosenValue,
+  );
+
+  let faceConfigCopy = newFaceConfigFromOverride(
+    faceConfig,
+    gallerySectionConfig,
+    chosenValue,
+  );
+  updateStores({
+    faceConfig: faceConfigCopy,
+    faceIndex: overrideChosenIndex,
+    sectionIndex,
+    stateStoreProps,
+  });
+};
+
 const FeatureSelector = ({
   gallerySectionConfig,
   overrideList,
@@ -310,23 +346,11 @@ const FeatureSelector = ({
         selectedKeys={[gallerySectionConfig.selectedValue]}
         onChange={(e) => {
           let chosenValue = e.target.value;
-
-          let overrideChosenIndex: number = overrideList.findIndex(
-            (overrideListItem: OverrideListItem) =>
-              getFromDict(
-                overrideListItem.override,
-                gallerySectionConfig?.key || "",
-              ) === chosenValue,
-          );
-
-          let faceConfigCopy = newFaceConfigFromOverride(
-            faceConfig,
-            gallerySectionConfig,
+          inputOnChange({
             chosenValue,
-          );
-          updateStores({
-            faceConfig: faceConfigCopy,
-            faceIndex: overrideChosenIndex,
+            faceConfig,
+            overrideList,
+            gallerySectionConfig,
             sectionIndex,
             stateStoreProps,
           });
@@ -345,30 +369,6 @@ const FeatureSelector = ({
       </Select>
     );
   } else if (gallerySectionConfig.selectionType === "range") {
-    const handleChange = (val: number) => {
-      let chosenValue = roundTwoDecimals(val);
-      let overrideChosenIndex: number = overrideList.findIndex(
-        (overrideListItem: OverrideListItem) =>
-          getFromDict(
-            overrideListItem.override,
-            gallerySectionConfig?.key || "",
-          ) === chosenValue,
-      );
-      if (!chosenValue) return;
-
-      let faceConfigCopy = newFaceConfigFromOverride(
-        faceConfig,
-        gallerySectionConfig,
-        chosenValue,
-      );
-      updateStores({
-        faceConfig: faceConfigCopy,
-        faceIndex: overrideChosenIndex,
-        sectionIndex,
-        stateStoreProps,
-      });
-    };
-
     return (
       <Slider
         label={gallerySectionConfig.text}
@@ -381,7 +381,15 @@ const FeatureSelector = ({
         value={(selectedVal as number) || 0}
         className="max-w-md"
         onChange={(e) => {
-          handleChange(e as number);
+          let chosenValue = roundTwoDecimals(e as number);
+          inputOnChange({
+            chosenValue,
+            faceConfig,
+            overrideList,
+            gallerySectionConfig,
+            sectionIndex,
+            stateStoreProps,
+          });
         }}
       ></Slider>
     );
@@ -391,22 +399,11 @@ const FeatureSelector = ({
         isSelected={(selectedVal as boolean) || false}
         onValueChange={(e: boolean) => {
           let chosenValue = e || false;
-          let overrideChosenIndex: number = overrideList.findIndex(
-            (overrideListItem: OverrideListItem) =>
-              getFromDict(
-                overrideListItem.override,
-                gallerySectionConfig?.key || "",
-              ) === chosenValue,
-          );
-
-          let faceConfigCopy = newFaceConfigFromOverride(
-            faceConfig,
-            gallerySectionConfig,
+          inputOnChange({
             chosenValue,
-          );
-          updateStores({
-            faceConfig: faceConfigCopy,
-            faceIndex: overrideChosenIndex,
+            faceConfig,
+            overrideList,
+            gallerySectionConfig,
             sectionIndex,
             stateStoreProps,
           });
@@ -430,14 +427,48 @@ const FeatureSelector = ({
       setInputValidationArr(newArr); // Set the new array as the state
     };
 
+    const colorInputOnChange = ({
+      newColorValue,
+      hasMultipleColors,
+      colorIndex,
+    }: {
+      newColorValue: string;
+      hasMultipleColors: boolean;
+      colorIndex: number;
+    }) => {
+      updateValidationAtIndex(
+        colorIndex,
+        doesStrLookLikeColor(newColorValue) ? "valid" : "invalid",
+      );
+
+      let chosenValue: any = getFromDict(
+        faceConfig,
+        gallerySectionConfig?.key || "",
+      );
+      if (hasMultipleColors) {
+        chosenValue[colorIndex] = newColorValue;
+      } else {
+        chosenValue = newColorValue;
+      }
+
+      inputOnChange({
+        chosenValue,
+        faceConfig,
+        overrideList,
+        gallerySectionConfig,
+        sectionIndex,
+        stateStoreProps,
+      });
+    };
+
     return (
       <div className="flex flex-col gap-2">
         {gallerySectionConfig &&
-          Array.from({ length: numColors }).map((_, index) => {
+          Array.from({ length: numColors }).map((_, colorIndex) => {
             let hasMultipleColors = numColors > 1;
             let selectedColor =
               // @ts-ignore TS doesnt like conditional array vs string
-              (hasMultipleColors ? selectedVal[index] : selectedVal) ||
+              (hasMultipleColors ? selectedVal[colorIndex] : selectedVal) ||
               "#000000";
 
             return (
@@ -447,85 +478,27 @@ const FeatureSelector = ({
                   value={selectedColor}
                   label={`${gallerySectionConfig?.text} Picker`}
                   onValueChange={(e) => {
-                    let chosenValue = e || "#000000";
-                    let overrideChosenIndex: number = overrideList.findIndex(
-                      (overrideListItem: OverrideListItem) =>
-                        getFromDict(
-                          overrideListItem.override,
-                          gallerySectionConfig?.key || "",
-                        ) === chosenValue,
-                    );
-                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-
-                    let colorToOverride = getFromDict(
-                      faceConfigCopy,
-                      gallerySectionConfig?.key || "",
-                    );
-                    if (hasMultipleColors) {
-                      colorToOverride[index] = chosenValue;
-                    } else {
-                      colorToOverride = chosenValue;
-                    }
-
-                    faceConfigCopy = newFaceConfigFromOverride(
-                      faceConfig,
-                      gallerySectionConfig,
-                      chosenValue,
-                    );
-                    updateStores({
-                      faceConfig: faceConfigCopy,
-                      faceIndex: overrideChosenIndex,
-                      sectionIndex,
-                      stateStoreProps,
+                    colorInputOnChange({
+                      newColorValue: e || "#000000",
+                      hasMultipleColors,
+                      colorIndex,
                     });
                   }}
                 />
                 <Input
                   value={selectedColor}
-                  isInvalid={inputValidationArr[index] === "invalid"}
+                  isInvalid={inputValidationArr[colorIndex] === "invalid"}
                   errorMessage={
-                    inputValidationArr[index] === "invalid"
+                    inputValidationArr[colorIndex] === "invalid"
                       ? "Color format must be #RRGGBB"
                       : null
                   }
                   label={`${gallerySectionConfig?.text} Hex`}
                   onChange={(e) => {
-                    let chosenValue = e.target.value;
-
-                    updateValidationAtIndex(
-                      index,
-                      doesStrLookLikeColor(chosenValue) ? "valid" : "invalid",
-                    );
-
-                    let overrideChosenIndex: number = overrideList.findIndex(
-                      (overrideListItem: OverrideListItem) =>
-                        getFromDict(
-                          overrideListItem.override,
-                          gallerySectionConfig?.key || "",
-                        ) === chosenValue,
-                    );
-                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-
-                    let colorToOverride = getFromDict(
-                      faceConfigCopy,
-                      gallerySectionConfig?.key || "",
-                    );
-                    if (hasMultipleColors) {
-                      colorToOverride[index] = chosenValue;
-                    } else {
-                      colorToOverride = chosenValue;
-                    }
-
-                    faceConfigCopy = newFaceConfigFromOverride(
-                      faceConfig,
-                      gallerySectionConfig,
-                      chosenValue,
-                    );
-                    updateStores({
-                      faceConfig: faceConfigCopy,
-                      faceIndex: overrideChosenIndex,
-                      sectionIndex,
-                      stateStoreProps,
+                    colorInputOnChange({
+                      newColorValue: e.target.value || "#000000",
+                      hasMultipleColors,
+                      colorIndex,
                     });
                   }}
                 />
@@ -762,13 +735,6 @@ const EditorPageTopBar = () => {
           selectedKey={gallerySize}
           // @ts-ignore
           onSelectionChange={setGallerySize}
-          className="[data-selected=true]:bg-slate-800 "
-          css={{
-            "& [data-selected='true']": {
-              backgroundColor: "#1e293b",
-              color: "white",
-            },
-          }}
         >
           <Tab key="sm" title={<List size={20} />}></Tab>
           <Tab key="md" title={<Rows size={20} />}></Tab>
