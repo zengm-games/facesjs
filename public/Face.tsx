@@ -11,35 +11,7 @@ import { useInView } from "react-intersection-observer";
     The width and className are also optional
     The SVG string is then rendered in a div element
     The SVG string is set as the innerHTML of the div element
-    
-    ***
-    Memoization is used to speed up rendering by reusing the same SVG string
-    ***
 */
-
-export const memoizeWithDeepComparison = <Fn extends (...args: any[]) => any>(
-  fn: Fn,
-) => {
-  const cache = new Map<string, ReturnType<Fn>>();
-  return function (...args: Parameters<Fn>) {
-    const serializedArgs = args
-      .map((arg) =>
-        // objStringifyInOrder is used to stringify objects in a consistent order, flattening nested objects then sorting keys
-        typeof arg === "object"
-          ? objStringifyInOrder(arg)
-          : JSON.stringify(arg),
-      )
-      .join(",");
-    if (cache.has(serializedArgs)) {
-      return cache.get(serializedArgs);
-    }
-    const result = fn(...args);
-    cache.set(serializedArgs, result);
-    return result;
-  };
-};
-
-const faceToSvgStringMemoized = memoizeWithDeepComparison(faceToSvgString);
 
 export const Face = ({
   faceConfig,
@@ -62,7 +34,7 @@ export const Face = ({
   });
 
   const faceSvg =
-    inView || !lazyLoad ? faceToSvgStringMemoized(faceConfig, overrides) : "";
+    inView || !lazyLoad ? faceToSvgString(faceConfig, overrides) : "";
 
   let widthStyle: React.CSSProperties = width
     ? { width: `${width}px` }

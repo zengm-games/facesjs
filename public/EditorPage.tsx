@@ -109,7 +109,7 @@ export const EditorPage = () => {
   return (
     <>
       <EditorPageTopBar />
-      <div className="w-screen flex flex-col-reverse md:flex-row items-center justify-around">
+      <div className="w-screen flex flex-col-reverse md:flex-row items-center justify-around pt-16">
         <EditorPageGallery />
         <MainFaceDisplay modalDisclosure={modalDisclosure} />
       </div>
@@ -704,7 +704,7 @@ const EditorPageTopBar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-slate-800 text-white flex justify-between w-full">
+    <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
       <div className="flex text-xl p-2 justify-around w-2/12 items-center">
         <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
           <House weight="fill" size={24} onClick={() => navigate("/")} />
