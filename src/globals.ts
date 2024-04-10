@@ -57,6 +57,19 @@ export const distinctSkinColors = distinct(
     .flat(),
 );
 
+export const raceBySkinColor: { [key: string]: Race[] } =
+  distinctSkinColors.reduce(
+    (acc, color) => {
+      const races = Object.entries(colors)
+        .filter(([_, { skin }]) => skin.includes(color))
+        .map(([race]) => race as Race);
+
+      acc[color] = races;
+      return acc;
+    },
+    {} as { [key: string]: Race[] },
+  );
+
 export const distinctHairColors = distinct(
   Object.values(colors)
     .map((c) => c.hair)

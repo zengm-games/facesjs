@@ -79,10 +79,6 @@ export const Face = ({
   widthStyle.minWidth = "60px";
   heightStyle.minHeight = "90px";
 
-  if (faceSvg && faceSvg.length > 0) {
-    console.log("returning faceSvg", { faceSvg });
-  }
-
   return (
     <div
       ref={ref}

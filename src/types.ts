@@ -111,6 +111,8 @@ export type FaceConfig = {
   };
 };
 
+export type GenerateOptions = { gender?: Gender; race?: Race };
+
 export type GallerySize = "sm" | "md" | "lg";
 
 export type FaceState = {
