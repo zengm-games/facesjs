@@ -156,3 +156,11 @@ export type GallerySectionConfig = {
 };
 
 export type CombinedState = FaceState & GalleryState;
+
+export type OverrideListItem = {
+  override: Overrides;
+  display: JSX.Element | string;
+  value: string | number | boolean;
+};
+
+export type OverrideList = OverrideListItem[];

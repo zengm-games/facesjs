@@ -133,9 +133,8 @@ export const generateRangeFromSlots = (
   return returnArray;
 };
 
-export const distinct = (arr: any[]): any[] => {
-  // @ts-ignore
-  return [...new Set<any>(arr)];
+export const distinct = <T>(arr: T[]): T[] => {
+  return [...new Set(arr)];
 };
 
 export const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
@@ -177,12 +176,10 @@ export const objStringifyInOrder = (obj: any): string => {
 
 export const deepCopy = <T>(value: T): T => {
   if (typeof value !== "object" || value === null) {
-    // Return the value if value is not an object or is null
     return value;
   }
 
   if (Array.isArray(value)) {
-    // Handle arrays
     return value.map((item) => deepCopy(item)) as unknown as T;
   }
 
@@ -239,24 +236,59 @@ export const pickRandom = (arr: any[]): any => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-export const encodeJSONForUrl = (input: { [key: string]: any }): string => {
-  return encodeForUrl(JSON.stringify(input));
-};
-
-export const decodeFromUrlToJSON = (input: string): { [key: string]: any } => {
-  return JSON.parse(decodeFromUrl(input));
+const safeDecodeBase64 = (str: string): string | null => {
+  try {
+    return atob(str);
+  } catch (e) {
+    console.error("Error decoding base64 parameter:", { e, str });
+    return null;
+  }
 };
 
 export const encodeForUrl = (input: string): string => {
   return encodeURIComponent(input);
-  // return compressToEncodedURIComponent(input);
 };
 
 export const decodeFromUrl = (input: string): string => {
   return decodeURIComponent(input);
-  // const result = decompressFromEncodedURIComponent(input);
-  // if (result === null) {
-  //     throw new Error('Decompression failed');
-  // }
-  // return result;
+};
+
+export const encodeJSONForUrl = (input: { [key: string]: any }): string => {
+  return encodeForUrl(JSON.stringify(input));
+};
+
+export const decodeFromUrlToJSON = (
+  paramHash: string,
+  paramPathname: string,
+): { [key: string]: any } => {
+  let decodedString =
+    safeDecodeBase64(paramHash) || safeDecodeBase64(paramHash.slice(1));
+
+  if (decodedString) {
+    try {
+      return JSON.parse(decodedString);
+    } catch (e) {
+      console.error("Error parsing JSON from decoded string:", e);
+    }
+  }
+
+  try {
+    return JSON.parse(decodeFromUrl(paramPathname.replace("/editor/", "")));
+  } catch (e) {
+    console.error("Error decoding URL parameter:", { e, paramPathname });
+    return {};
+  }
+};
+
+export const getCurrentTimestampAsString = (): string => {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
+  const day = now.getDate().toString().padStart(2, "0");
+  const hour = now.getHours().toString().padStart(2, "0");
+  const minute = now.getMinutes().toString().padStart(2, "0");
+  const second = now.getSeconds().toString().padStart(2, "0");
+
+  return `${year}${month}${day}${hour}${minute}${second}`;
 };

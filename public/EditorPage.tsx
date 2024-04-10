@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Face } from "./Face";
-import { svgsIndex } from "../src/svgs-index";
 import override from "../src/override";
 import {
   CombinedState,
   FaceConfig,
-  Overrides,
   GallerySectionConfig,
+  OverrideList,
+  OverrideListItem,
 } from "../src/types";
 import { useStateStore } from "./stateStore";
 import {
@@ -23,25 +23,6 @@ import {
   Rows,
   Square,
 } from "@phosphor-icons/react";
-import {
-  getFromDict,
-  roundTwoDecimals,
-  setToDict,
-  deepCopy,
-  concatClassNames,
-  doesStrLookLikeColor,
-  luma,
-  isValidJSON,
-  encodeJSONForUrl,
-  decodeFromUrlToJSON,
-  objStringifyInOrder,
-  deleteFromDict,
-} from "./utils";
-import { Canvg } from "canvg";
-import { faceToSvgString } from "../src/faceToSvgString";
-
-import { ToastContainer, useToast } from "@rewind-ui/core";
-
 import {
   Select,
   SelectItem,
@@ -65,25 +46,46 @@ import {
   Tabs,
   Tab,
 } from "@nextui-org/react";
-import { generate } from "../src/generate";
+import {
+  getFromDict,
+  roundTwoDecimals,
+  deepCopy,
+  concatClassNames,
+  doesStrLookLikeColor,
+  isValidJSON,
+  encodeJSONForUrl,
+  decodeFromUrlToJSON,
+  objStringifyInOrder,
+} from "./utils";
 
-type OverrideListItem = {
-  override: Overrides;
-  display: JSX.Element | string;
-  value: string | number | boolean;
-};
-type OverrideList = OverrideListItem[];
+import { ToastContainer, useToast } from "@rewind-ui/core";
 
-export const EditorPage = (): JSX.Element => {
+import {
+  DownloadFaceAsJSON,
+  DownloadFaceAsPng,
+  DownloadFaceAsSvg,
+} from "./downloadFace";
+import { shuffleEntireFace, shuffleOptions } from "./shuffleFace";
+import {
+  getOverrideListForItem,
+  newFaceConfigFromOverride,
+} from "./overrideList";
+
+export const EditorPage = () => {
   let { setFaceStore, faceConfig } = useStateStore();
   const navigate = useNavigate();
   const modalDisclosure = useDisclosure();
 
-  let { param } = useParams();
+  const location = useLocation();
+  const paramHash = location.hash;
+  const paramPathname = location.pathname;
 
   useEffect(() => {
-    if (param) {
-      const decodedFaceConfig = decodeFromUrlToJSON(param) as FaceConfig;
+    if (paramHash || paramPathname) {
+      const decodedFaceConfig = decodeFromUrlToJSON(
+        paramHash,
+        paramPathname,
+      ) as FaceConfig;
       if (
         objStringifyInOrder(decodedFaceConfig) !==
         objStringifyInOrder(faceConfig)
@@ -95,7 +97,7 @@ export const EditorPage = (): JSX.Element => {
         }
       }
     }
-  }, [param, setFaceStore]);
+  }, [paramHash, paramPathname, setFaceStore]);
 
   useEffect(() => {
     if (faceConfig) {
@@ -275,95 +277,6 @@ const MainFaceDisplay = ({
       </div>
     </div>
   );
-};
-
-const getOverrideListForItem = (
-  gallerySectionConfig: GallerySectionConfig | null,
-): OverrideList => {
-  if (!gallerySectionConfig) return [];
-
-  let overrideList: OverrideList = [];
-
-  if (gallerySectionConfig.selectionType === "svgs") {
-    if (gallerySectionConfig.key.includes("id")) {
-      let featureName = gallerySectionConfig.key.split(".")[0] as string;
-      let svgNames: any[] = getFromDict(svgsIndex, featureName);
-
-      svgNames = svgNames.sort((a, b) => {
-        if (a === "none" || a === "bald") return -1;
-        if (b === "none" || b === "bald") return 1;
-
-        if (doesStrLookLikeColor(a) && doesStrLookLikeColor(b)) {
-          return luma(a) - luma(b);
-        }
-
-        let regex = /^([a-zA-Z-]+)(\d*)$/;
-        let matchA = a.match(regex);
-        let matchB = b.match(regex);
-
-        let textA = matchA ? matchA[1] : a,
-          numA = matchA ? matchA[2] : "";
-        let textB = matchB ? matchB[1] : b,
-          numB = matchB ? matchB[2] : "";
-
-        if (textA < textB) return -1;
-        if (textA > textB) return 1;
-
-        if (numA && numB) {
-          return parseInt(numA, 10) - parseInt(numB, 10);
-        }
-
-        if (numA) return 1;
-        if (numB) return -1;
-
-        return 0;
-      });
-
-      for (let i = 0; i < svgNames.length; i++) {
-        let overrides: Overrides = { [featureName]: { id: svgNames[i] } };
-        overrideList.push({
-          override: overrides,
-          display: svgNames[i],
-          value: svgNames[i],
-        });
-      }
-    }
-  } else if (gallerySectionConfig.renderOptions?.valuesToRender) {
-    for (
-      let i = 0;
-      i < gallerySectionConfig.renderOptions.valuesToRender.length;
-      i++
-    ) {
-      let valueToRender = gallerySectionConfig.renderOptions.valuesToRender[i];
-      let overrides: Overrides = setToDict(
-        {},
-        gallerySectionConfig.key,
-        valueToRender,
-      ) as Overrides;
-      overrideList.push({
-        override: overrides,
-        display: valueToRender,
-        value: valueToRender,
-      });
-    }
-  }
-
-  return overrideList;
-};
-
-const newFaceConfigFromOverride = (
-  faceConfig: FaceConfig,
-  gallerySectionConfig: GallerySectionConfig,
-  chosenValue: any,
-): FaceConfig => {
-  let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-  let newOverride: Overrides = setToDict(
-    {},
-    gallerySectionConfig?.key || "",
-    chosenValue,
-  ) as Overrides;
-  override(faceConfigCopy, newOverride);
-  return faceConfigCopy;
 };
 
 const FeatureSelector = ({
@@ -644,7 +557,7 @@ const updateStores = ({
   setLastSelectedFaceIndex(faceIndex);
 };
 
-const EditorPageGallery = (): JSX.Element => {
+const EditorPageGallery = () => {
   let stateStoreProps = useStateStore();
 
   let {
@@ -652,75 +565,8 @@ const EditorPageGallery = (): JSX.Element => {
     setFaceStore,
     gallerySize,
     gallerySectionConfigList,
-    lastSelectedFaceIndex,
-    lastClickedSectionIndex,
     setRandomizeEnabledForSection,
   } = stateStoreProps;
-
-  let lastSelectedSectionConfig =
-    gallerySectionConfigList[lastClickedSectionIndex];
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!lastSelectedSectionConfig) return;
-      if (lastClickedSectionIndex === -1) return;
-
-      let overrideList = getOverrideListForItem(lastSelectedSectionConfig);
-
-      let num_columns = gallerySize == "lg" ? 4 : overrideList.length;
-
-      let nextIndex = lastClickedSectionIndex;
-      let listLength = overrideList.length;
-      let isLeftBound = lastClickedSectionIndex % num_columns === 0;
-      let isRightBound =
-        lastClickedSectionIndex % num_columns === num_columns - 1;
-      let isTopBound = lastClickedSectionIndex < num_columns;
-      let isBottomBound =
-        lastClickedSectionIndex >= overrideList.length - num_columns;
-
-      let elementsOnBottomRow = listLength % num_columns;
-      let isBottomRow =
-        lastClickedSectionIndex > listLength - elementsOnBottomRow;
-
-      switch (event.key) {
-        case "ArrowUp":
-          if (!isTopBound) nextIndex -= num_columns;
-          break;
-        case "ArrowDown":
-          if (!isBottomBound) nextIndex += num_columns;
-          break;
-        case "ArrowLeft":
-          if (!isLeftBound) nextIndex -= 1;
-          if (isLeftBound && !isTopBound) nextIndex -= 1;
-          break;
-        case "ArrowRight":
-          if (!isRightBound) nextIndex += 1;
-          else if (isRightBound && !isBottomRow) nextIndex += 1;
-          break;
-        default:
-          return;
-      }
-
-      // TODO revisit
-      // if (
-      //     nextIndex !== lastClickedSectionIndex ||
-      //     selectedItem.key !== currentIndexObj.feature_name
-      // ) {
-      //     event.preventDefault();
-      //     setCurrentIndexObj({
-      //         index: nextIndex,
-      //         feature_name: selectedItem.key || "",
-      //     });
-
-      //     let faceConfigCopy = deepCopy(faceConfig);
-      //     override(faceConfigCopy, overrideList[nextIndex]?.override);
-      //     setFaceStore(faceConfigCopy);
-      // }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lastClickedSectionIndex, lastSelectedFaceIndex, faceConfig]);
 
   return (
     <div className="md:w-1/2 w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
@@ -873,47 +719,6 @@ const copyStringToClipboard = async (str: string, message: string) => {
   }
 };
 
-function getCurrentTimestamp(): string {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = (now.getMonth() + 1).toString().padStart(2, "0");
-  const day = now.getDate().toString().padStart(2, "0");
-  const hour = now.getHours().toString().padStart(2, "0");
-  const minute = now.getMinutes().toString().padStart(2, "0");
-  const second = now.getSeconds().toString().padStart(2, "0");
-
-  return `${year}${month}${day}${hour}${minute}${second}`;
-}
-
-const shuffleEntireFace = (
-  faceConfig: FaceConfig,
-  gallerySectionConfigList: GallerySectionConfig[],
-  setFaceStore: any,
-) => {
-  let faceConfigCopy = deepCopy(faceConfig);
-
-  for (let gallerySectionConfig of gallerySectionConfigList) {
-    if (gallerySectionConfig.randomizeEnabled) {
-      deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
-    }
-  }
-
-  let newFace = generate(faceConfigCopy);
-  setFaceStore(newFace);
-};
-
-const shuffleOptions = (
-  gallerySectionConfig: GallerySectionConfig,
-  setFaceStore: any,
-  faceConfig: FaceConfig,
-) => {
-  let faceConfigCopy = deepCopy(faceConfig);
-  faceConfigCopy = deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
-  let newFace = generate(faceConfigCopy);
-  setFaceStore(newFace);
-};
-
 const EditorPageTopBar = () => {
   let {
     setFaceStore,
@@ -1047,59 +852,4 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
       </ModalContent>
     </Modal>
   );
-};
-
-const DownloadFaceAsPng = async (faceConfig: FaceConfig) => {
-  const faceSvg = faceToSvgString(faceConfig);
-
-  const downloadPng = async () => {
-    const canvas = document.createElement("canvas");
-    const ctx: any = canvas.getContext("2d");
-    const v = await Canvg.from(ctx, faceSvg);
-
-    v.resize(600, 900, "xMidYMid meet");
-    await v.render();
-
-    canvas.toBlob((blob: any) => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `facesjs_render_${getCurrentTimestamp()}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-  };
-
-  await downloadPng();
-};
-
-const DownloadFaceAsSvg = (faceConfig: FaceConfig) => {
-  const faceSvg = faceToSvgString(faceConfig);
-  const blob = new Blob([faceSvg], { type: "image/svg+xml" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `facesjs_render_${getCurrentTimestamp()}.svg`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  URL.revokeObjectURL(url);
-};
-
-const DownloadFaceAsJSON = (faceConfig: FaceConfig) => {
-  const faceConfigString = JSON.stringify(faceConfig, null, 2);
-  const blob = new Blob([faceConfigString], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `facesjs_render_${getCurrentTimestamp()}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  URL.revokeObjectURL(url);
 };
