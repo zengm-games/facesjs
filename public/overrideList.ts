@@ -13,6 +13,7 @@ import {
   luma,
   setToDict,
 } from "./utils";
+import { useRef } from "react";
 
 export const getOverrideListForItem = (
   gallerySectionConfig: GallerySectionConfig | null,
@@ -83,6 +84,10 @@ export const getOverrideListForItem = (
         value: valueToRender,
       });
     }
+  }
+
+  for (let override of overrideList) {
+    override.ref = useRef(null);
   }
 
   return overrideList;

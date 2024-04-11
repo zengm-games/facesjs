@@ -163,6 +163,7 @@ export type OverrideListItem = {
   override: Overrides;
   display: JSX.Element | string;
   value: string | number | boolean;
+  ref?: any;
 };
 
 export type OverrideList = OverrideListItem[];

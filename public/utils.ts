@@ -236,33 +236,39 @@ export const pickRandom = (arr: any[]): any => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-const safeDecodeBase64 = (str: string): string | null => {
+const safeEncodeBase64 = (str: string): string | null => {
   try {
-    return atob(str);
+    return btoa(str);
   } catch (e) {
-    console.error("Error decoding base64 parameter:", { e, str });
+    console.log("Error encoding base64 parameter:", { e, str });
     return null;
   }
 };
 
-export const encodeForUrl = (input: string): string => {
-  return encodeURIComponent(input);
+const safeDecodeBase64 = (str: string): string | null => {
+  try {
+    return atob(str);
+  } catch (e) {
+    console.log("Error decoding base64 parameter:", { e, str });
+    return null;
+  }
 };
 
-export const decodeFromUrl = (input: string): string => {
-  return decodeURIComponent(input);
-};
-
-export const encodeJSONForUrl = (input: { [key: string]: any }): string => {
-  return encodeForUrl(JSON.stringify(input));
+export const encodeJSONForUrl = (input: {
+  [key: string]: any;
+}): string | null => {
+  return safeEncodeBase64(JSON.stringify(input));
 };
 
 export const decodeFromUrlToJSON = (
-  paramHash: string,
-  paramPathname: string,
+  paramOptions: (string | undefined)[],
 ): { [key: string]: any } => {
-  let decodedString =
-    safeDecodeBase64(paramHash) || safeDecodeBase64(paramHash.slice(1));
+  paramOptions = paramOptions.filter((param) => param && param.length > 0);
+  paramOptions = paramOptions.map((param) => [param, param!.slice(1)]).flat();
+
+  let decodedString = paramOptions
+    .map((param) => safeDecodeBase64(param!))
+    .find((decodedString) => decodedString !== null);
 
   if (decodedString) {
     try {
@@ -272,12 +278,7 @@ export const decodeFromUrlToJSON = (
     }
   }
 
-  try {
-    return JSON.parse(decodeFromUrl(paramPathname.replace("/editor/", "")));
-  } catch (e) {
-    console.error("Error decoding URL parameter:", { e, paramPathname });
-    return {};
-  }
+  return {};
 };
 
 export const getCurrentTimestampAsString = (): string => {

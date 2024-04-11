@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import { Face } from "./Face";
 import override from "../src/override";
 import {
@@ -78,14 +78,16 @@ export const EditorPage = () => {
 
   const location = useLocation();
   const paramHash = location.hash;
-  const paramPathname = location.pathname;
+
+  let params = useParams();
+  let param = params["param"];
 
   useEffect(() => {
-    if (paramHash || paramPathname) {
-      const decodedFaceConfig = decodeFromUrlToJSON(
+    if (param || paramHash) {
+      const decodedFaceConfig = decodeFromUrlToJSON([
         paramHash,
-        paramPathname,
-      ) as FaceConfig;
+        param,
+      ]) as FaceConfig;
       if (
         objStringifyInOrder(decodedFaceConfig) !==
         objStringifyInOrder(faceConfig)
@@ -97,7 +99,7 @@ export const EditorPage = () => {
         }
       }
     }
-  }, [paramHash, paramPathname, setFaceStore]);
+  }, [paramHash, setFaceStore]);
 
   useEffect(() => {
     if (faceConfig) {
@@ -266,12 +268,13 @@ const MainFaceDisplay = ({
   modalDisclosure: any;
 }): JSX.Element => {
   let { faceConfig } = useStateStore();
+  let ref = useRef<HTMLDivElement>(null);
 
   return (
     <div className="flex justify-center md:w-1/3">
       <div className=" border-5 border-slate-800 rounded-md">
         <div className="p-8">
-          <Face faceConfig={faceConfig} maxWidth={400} />
+          <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
         </div>
         <MainFaceDisplayActionBar modalDisclosure={modalDisclosure} />
       </div>
@@ -312,6 +315,7 @@ const inputOnChange = ({
     faceIndex: overrideChosenIndex,
     sectionIndex,
     stateStoreProps,
+    overrideList,
   });
 };
 
@@ -512,19 +516,29 @@ const FeatureSelector = ({
   }
 };
 
+// const scrollToFace = (ref: React.RefObject<HTMLDivElement>) => {
+//     if (ref.current) {
+//         ref.current!.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+//     }
+// };
+
 const updateStores = ({
   faceConfig,
   faceIndex,
   sectionIndex,
   stateStoreProps,
+  // overrideList,
 }: {
   faceConfig: FaceConfig;
   faceIndex: number;
   sectionIndex: number;
   stateStoreProps: any;
+  overrideList: OverrideList;
 }) => {
   let { setFaceStore, setLastClickedSectionIndex, setLastSelectedFaceIndex } =
     stateStoreProps;
+
+  // scrollToFace(overrideList[faceIndex].ref);
   setFaceStore(faceConfig);
   setLastClickedSectionIndex(sectionIndex);
   setLastSelectedFaceIndex(faceIndex);
@@ -636,10 +650,12 @@ const EditorPageGallery = () => {
                                 faceIndex,
                                 sectionIndex,
                                 stateStoreProps,
+                                overrideList,
                               });
                             }}
                           >
                             <Face
+                              ref={overrideToRun.ref}
                               faceConfig={faceConfigCopy}
                               width={
                                 gallerySize == "md"

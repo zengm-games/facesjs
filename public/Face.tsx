@@ -1,8 +1,7 @@
-import React from "react";
-import { faceToSvgString } from "../src/faceToSvgString";
+import React, { useEffect, useRef } from "react";
 import { FaceConfig, Overrides } from "../src/types";
-import { objStringifyInOrder } from "./utils";
 import { useInView } from "react-intersection-observer";
+import { display } from "../src/display";
 
 /*
     This component is responsible for rendering the face SVG string
@@ -13,28 +12,32 @@ import { useInView } from "react-intersection-observer";
     The SVG string is set as the innerHTML of the div element
 */
 
-export const Face = ({
-  faceConfig,
-  overrides,
-  maxWidth,
-  width,
-  className,
-  lazyLoad,
-}: {
-  faceConfig: FaceConfig;
-  overrides?: Overrides;
-  maxWidth?: number;
-  width?: number;
-  className?: string;
-  lazyLoad?: boolean;
-}) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
+export const Face = React.forwardRef<
+  HTMLDivElement,
+  {
+    faceConfig: FaceConfig;
+    overrides?: Overrides;
+    maxWidth?: number;
+    width?: number;
+    className?: string;
+    lazyLoad?: boolean;
+  }
+>(({ faceConfig, overrides, maxWidth, width, className, lazyLoad }, ref) => {
+  const [scrollRef, inView] = useInView({
+    triggerOnce: false,
     threshold: 0,
   });
 
-  const faceSvg =
-    inView || !lazyLoad ? faceToSvgString(faceConfig, overrides) : "";
+  useEffect(() => {
+    if (
+      (inView || !lazyLoad) &&
+      ref &&
+      typeof ref === "object" &&
+      ref.current
+    ) {
+      display(ref.current, faceConfig, overrides);
+    }
+  }, [inView, faceConfig, overrides, ref]);
 
   let widthStyle: React.CSSProperties = width
     ? { width: `${width}px` }
@@ -53,10 +56,22 @@ export const Face = ({
 
   return (
     <div
-      ref={ref}
+      ref={mergeRefs(ref, scrollRef)}
       className={className}
       style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
-      dangerouslySetInnerHTML={{ __html: faceSvg || "" }}
     ></div>
   );
+});
+
+const mergeRefs = (...refs: React.Ref<HTMLDivElement>[]) => {
+  return (node: HTMLDivElement) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref && typeof ref === "object") {
+        // @ts-ignore
+        ref.current = node;
+      }
+    });
+  };
 };
