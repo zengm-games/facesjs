@@ -714,11 +714,11 @@ const EditorPageTopBar = () => {
 
   return (
     <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
-      <div className="flex text-xl p-2 justify-around w-3/12 items-center">
+      <div className="flex gap-4 text-xl p-2 justify-around items-center">
         <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
           <House weight="fill" size={24} onClick={() => navigate("/")} />
         </span>
-        <span className="invisible md:visible">faces.js Editor</span>
+        <span className="hidden md:inline">faces.js Editor</span>
         <Badge
           content={optionsNotDisplayed ? optionsNotDisplayed : null}
           shape="rectangle"
