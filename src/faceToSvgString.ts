@@ -1,6 +1,7 @@
 import svgPathBbox from "svg-path-bbox";
-import { display } from "./display";
-import { FaceConfig, Overrides } from "./types";
+import type { Overrides } from "./types";
+import { FaceConfig } from "./types";
+import { display } from "./display.js";
 
 /**
  * An instance of this object can pretend to be the global "document"
@@ -12,37 +13,33 @@ class SvgDocument {
   public innerHTML = "";
 
   private container = {
-    appendChild(_: any) { },
+    appendChild(node: any) {},
   };
 
   appendChild(node: any) {
     this.root = node;
   }
 
-  getElementById(_: string) {
+  getElementById(id: string) {
     return this.container;
   }
 
-  createElementNS(_: string, tag: string) {
+  createElementNS(namespace: string, tag: string) {
     this.root = new SvgNode(tag, undefined);
     return this.root;
   }
-
   toXml() {
     return this.root!.toXml();
   }
 }
-
 class SvgNode {
   public attributes: Record<string, string> = {};
   public childNodes: SvgNode[] = [];
-
   public lastChild: SvgNode | undefined;
   private minX: number | undefined;
   private minY: number | undefined;
   private maxX: number | undefined;
   private maxY: number | undefined;
-
   constructor(
     public tag: string | undefined,
     public xml: string | undefined,
@@ -81,23 +78,19 @@ class SvgNode {
         if (this.maxY === undefined || bbox[3] > this.maxY) {
           this.maxY = bbox[3];
         }
-
         pathStart = pathEnd + 1;
       }
-
       this.xml = undefined;
     }
   }
-
   setAttribute(name: string, value: string) {
     this.attributes[name] = value;
   }
 
-  insertAdjacentHTML(_: string, content: string) {
+  insertAdjacentHTML(position: string, content: string) {
     this.lastChild = new SvgNode(undefined, content);
     this.childNodes.push(this.lastChild);
   }
-
   getBBox() {
     return {
       x: this.minX,
@@ -106,11 +99,9 @@ class SvgNode {
       height: this.maxY! - this.minY!,
     };
   }
-
   getAttribute(name: string) {
     return this.attributes[name];
   }
-
   toXml(): string {
     let s = "";
     if (this.tag) {
@@ -133,22 +124,25 @@ class SvgNode {
     return s;
   }
 }
-
 /**
  * Renders the given face in a pseudo DOM element and then returns the
  * SVG image as an XML string.
  */
-export const faceToSvgString = (face: FaceConfig, overrides?: Overrides): string => {
+export const faceToSvgString = (
+  face: FaceConfig,
+  overrides?: Overrides,
+): string => {
   const svgDocument = new SvgDocument();
-  const originalCreateElementNS = document.createElementNS.bind(document);
+  // Even though we will provide a pseudo HTML elment, display() accesses
+  // document.createElementNS() so we need to inject our own code there.
+  // Let's first save what's already there
+  const backup = global.document;
 
   try {
-    document.createElementNS = (namespaceURI: string, qualifiedName: string) =>
-      svgDocument.createElementNS(namespaceURI, qualifiedName) as any;
-
+    global.document = svgDocument as any;
     display(svgDocument as unknown as HTMLElement, face, overrides);
   } finally {
-    document.createElementNS = originalCreateElementNS;
+    global.document = backup;
   }
   return svgDocument.toXml();
 };

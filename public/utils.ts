@@ -293,3 +293,7 @@ export const getCurrentTimestampAsString = (): string => {
 
   return `${year}${month}${day}${hour}${minute}${second}`;
 };
+
+export const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

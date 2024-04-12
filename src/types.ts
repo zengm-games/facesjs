@@ -37,17 +37,11 @@ export type FeatureInfo = {
 };
 
 // export type FaceConfigSections = Exclude<keyof FaceConfig, FaceConfigGlobalAttrs>;
-export type FaceConfigGlobalAttrs =
-  | "fatness"
-  | "teamColors"
-  | "eyeDistance"
-  | "lineOpacity";
+export type FaceConfigGlobalAttrs = "fatness" | "teamColors";
 
 export type FaceConfig = {
   fatness: number;
-  lineOpacity: number;
   teamColors: TeamColors;
-  eyeDistance: number;
   hairBg: {
     id: string;
   };
@@ -96,7 +90,6 @@ export type FaceConfig = {
   mouth: {
     id: string;
     flip: boolean;
-    size: number;
   };
   nose: {
     id: string;
@@ -132,6 +125,11 @@ export type GalleryState = {
     sectionIndex: number,
     enabled: boolean,
   ) => void;
+
+  shuffleGenderSettingObject: Gender[];
+  shuffleRaceSettingObject: Race[];
+  setShuffleGenderSettingObject: (options: Gender[]) => void;
+  setShuffleRaceSettingObject: (options: Race[]) => void;
 };
 
 export type GallerySectionConfig = {

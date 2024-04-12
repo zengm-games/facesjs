@@ -13,14 +13,12 @@ import {
 function randomInt(
   minInclusive: number,
   max: number,
-  inclusiveMax: boolean = false
+  inclusiveMax: boolean = false,
 ) {
   if (inclusiveMax) {
     max += 1;
   }
-  return Math.floor(
-    Math.random() * (max - minInclusive)
-  ) + minInclusive;
+  return Math.floor(Math.random() * (max - minInclusive)) + minInclusive;
 }
 
 const getID = (type: Feature, gender: Gender): string => {
@@ -76,17 +74,13 @@ export const generate = (
         return colors.black;
     }
   })();
-  const skinColor =
-    palette.skin[randomInt(0, palette.skin.length)];
-  const hairColor =
-    palette.hair[randomInt(0, palette.hair.length)];
+  const skinColor = palette.skin[randomInt(0, palette.skin.length)];
+  const hairColor = palette.hair[randomInt(0, palette.hair.length)];
   const isFlipped = () => Math.random() < 0.5;
 
   const face: FaceConfig = {
     fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
-    lineOpacity: roundTwoDecimals((0.25 + 0.5 * Math.random()) ** 2),
     teamColors: teamColors,
-    eyeDistance: 8 * Math.random() - 4,
     hairBg: {
       id:
         Math.random() < (gender === "male" ? 0.1 : 0.9)
@@ -147,7 +141,6 @@ export const generate = (
     mouth: {
       id: getID("mouth", gender),
       flip: isFlipped(),
-      size: roundTwoDecimals(0.6 + Math.random() * 0.6),
     },
     nose: {
       id: getID("nose", gender),

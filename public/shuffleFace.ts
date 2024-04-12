@@ -1,43 +1,58 @@
 import { generate } from "../src/generate";
-import { raceBySkinColor } from "../src/globals";
 import {
   FaceConfig,
   GallerySectionConfig,
   GenerateOptions,
-  Race,
 } from "../src/types";
-import { deepCopy, deleteFromDict } from "./utils";
+import { deepCopy, deleteFromDict, pickRandom } from "./utils";
 
 export const shuffleEntireFace = (
   faceConfig: FaceConfig,
   gallerySectionConfigList: GallerySectionConfig[],
-  setFaceStore: any,
+  stateStore: any,
 ) => {
-  let faceConfigCopy = deepCopy(faceConfig);
+  let { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
+    stateStore;
+  let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
 
   let options: GenerateOptions = {};
+  console.log("shuffleEntireFace", {
+    shuffleGenderSettingObject,
+    shuffleRaceSettingObject,
+  });
 
   for (let gallerySectionConfig of gallerySectionConfigList) {
     if (gallerySectionConfig.randomizeEnabled) {
       deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
     }
+  }
 
+  for (let [featureName, featureVal] of Object.entries(faceConfigCopy)) {
     if (
-      !gallerySectionConfig.randomizeEnabled &&
-      gallerySectionConfig.key === "body.color" &&
-      faceConfig.body.color &&
-      raceBySkinColor[faceConfig.body.color]
+      featureVal === undefined ||
+      (typeof featureVal == "object" && Object.keys(featureVal).length === 0)
     ) {
-      let inferredRace: Race = raceBySkinColor[
-        faceConfig.body.color
-      ][0] as Race;
-      if (inferredRace) {
-        options.race = inferredRace;
-      }
+      // @ts-ignore
+      delete faceConfigCopy[featureName];
     }
   }
 
+  if (shuffleGenderSettingObject.length > 0) {
+    options.gender = pickRandom(shuffleGenderSettingObject);
+  }
+
+  if (shuffleRaceSettingObject.length > 0) {
+    options.race = pickRandom(shuffleRaceSettingObject);
+  }
+
   let newFace = generate(faceConfigCopy, options);
+  console.log("newFace", {
+    newFace,
+    faceConfigCopy,
+    options,
+    shuffleRaceSettingObject,
+    shuffleGenderSettingObject,
+  });
   setFaceStore(newFace);
 };
 

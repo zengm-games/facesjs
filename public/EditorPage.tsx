@@ -6,9 +6,11 @@ import {
   CombinedState,
   FaceConfig,
   GallerySectionConfig,
+  Gender,
   OverrideList,
   OverrideListItem,
   Overrides,
+  Race,
 } from "../src/types";
 import { useStateStore } from "./stateStore";
 import {
@@ -21,13 +23,17 @@ import {
   LockSimpleOpen,
   LockSimple,
   List,
+  Sliders,
   Rows,
   Square,
 } from "@phosphor-icons/react";
 import {
   Select,
+  Badge,
   SelectItem,
   Input,
+  CheckboxGroup,
+  Checkbox,
   Slider,
   Textarea,
   Switch,
@@ -43,6 +49,9 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownTrigger,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
   DropdownItem,
   Tabs,
   Tab,
@@ -57,6 +66,7 @@ import {
   encodeJSONForUrl,
   decodeFromUrlToJSON,
   objStringifyInOrder,
+  capitalizeFirstLetter,
 } from "./utils";
 
 import {
@@ -677,40 +687,119 @@ const copyStringToClipboard = async (str: string) => {
 };
 
 const EditorPageTopBar = () => {
+  const stateStore = useStateStore();
   let {
-    setFaceStore,
     faceConfig,
     gallerySize,
     setGallerySize,
     gallerySectionConfigList,
-  } = useStateStore();
+    shuffleGenderSettingObject,
+    shuffleRaceSettingObject,
+    setShuffleGenderSettingObject,
+    setShuffleRaceSettingObject,
+  } = stateStore;
   const navigate = useNavigate();
+
+  const genders = ["male", "female"];
+  const races = ["white", "black", "brown", "asian"];
+
+  const [genderInvalidOptions, setGenderInvalidOptions] =
+    useState<boolean>(false);
+  const [raceInvalidOptions, setRaceInvalidOptions] = useState<boolean>(false);
+
+  const optionsNotDisplayed =
+    genders.length +
+    races.length -
+    (shuffleGenderSettingObject.length + shuffleRaceSettingObject.length);
 
   return (
     <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
-      <div className="flex text-xl p-2 justify-around w-2/12 items-center">
+      <div className="flex text-xl p-2 justify-around w-3/12 items-center">
         <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
           <House weight="fill" size={24} onClick={() => navigate("/")} />
         </span>
         <span className="invisible md:visible">faces.js Editor</span>
-        <span
-          className="
-                            hover:bg-slate-50 
-                            hover:text-slate-900
-                            cursor-pointer
-                            rounded-full 
-                            p-1
-                            m-0.5"
-          onClick={() =>
-            shuffleEntireFace(
-              faceConfig,
-              gallerySectionConfigList,
-              setFaceStore,
-            )
-          }
+        <Badge
+          content={optionsNotDisplayed ? optionsNotDisplayed : null}
+          shape="rectangle"
+          isInvisible={!optionsNotDisplayed}
         >
-          <Shuffle size={24} />
-        </span>
+          <ButtonGroup>
+            <Button
+              className="bg-slate-800 text-white border-2 border-white"
+              onClick={() =>
+                shuffleEntireFace(
+                  faceConfig,
+                  gallerySectionConfigList,
+                  stateStore,
+                )
+              }
+            >
+              <Shuffle size={24} />
+            </Button>
+            <Popover placement="bottom" showArrow offset={10}>
+              <PopoverTrigger>
+                <Button className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white">
+                  <Sliders size={24} />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="">
+                {(titleProps) => (
+                  <div className="px-1 py-2 w-full">
+                    <p
+                      className="text-small font-bold text-foreground"
+                      {...titleProps}
+                    >
+                      Customize Shuffle
+                    </p>
+                    <div className="flex gap-4">
+                      <CheckboxGroup
+                        label="Gender"
+                        isInvalid={genderInvalidOptions}
+                        value={shuffleGenderSettingObject}
+                        errorMessage={
+                          genderInvalidOptions ? "Select at least one" : null
+                        }
+                        onValueChange={(genderList: any[]) => {
+                          setShuffleGenderSettingObject(genderList as Gender[]);
+                          setGenderInvalidOptions(genderList.length < 1);
+                        }}
+                      >
+                        {genders.map((gender: string) => {
+                          return (
+                            <Checkbox value={gender}>
+                              {capitalizeFirstLetter(gender)}
+                            </Checkbox>
+                          );
+                        })}
+                      </CheckboxGroup>
+                      <CheckboxGroup
+                        label="Race"
+                        value={shuffleRaceSettingObject}
+                        isInvalid={raceInvalidOptions}
+                        errorMessage={
+                          raceInvalidOptions ? "Select at least one" : null
+                        }
+                        onValueChange={(raceList: any[]) => {
+                          setShuffleRaceSettingObject(raceList as Race[]);
+                          setRaceInvalidOptions(raceList.length < 1);
+                        }}
+                      >
+                        {races.map((race: string) => {
+                          return (
+                            <Checkbox value={race}>
+                              {capitalizeFirstLetter(race)}
+                            </Checkbox>
+                          );
+                        })}
+                      </CheckboxGroup>
+                    </div>
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
+          </ButtonGroup>
+        </Badge>
       </div>
       <div className="flex items-center">
         <Tabs

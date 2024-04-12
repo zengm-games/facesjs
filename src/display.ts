@@ -95,8 +95,11 @@ const translate = (
 // Defines the range of fat/skinny, relative to the original width of the default head.
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
-
-const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) => {
+const drawFeature = (
+  svg: SVGSVGElement,
+  face: FaceConfig,
+  info: FeatureInfo,
+) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -152,20 +155,19 @@ const drawFeature = (svg: SVGSVGElement, face: FaceConfig, info: FeatureInfo) =>
     return;
   }
 
-
   // @ts-ignore
-  if (feature.shave && featureSVGString.includes("$[faceShave]")) {
+  if (feature.shave) {
     // @ts-ignore
-    featureSVGString = featureSVGString.replace(/\$\[faceShave\]/g, feature.shave);
+    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
   }
 
   // @ts-ignore
-  if (feature.shave && featureSVGString.includes("$[headShave]")) {
+  if (feature.shave) {
     // @ts-ignore
-    featureSVGString = featureSVGString.replace(/\$\[headShave\]/g, feature.shave);
+    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
-  featureSVGString = featureSVGString.replace(/\$\[skinColor\]/g, face.body.color);
+  featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
   featureSVGString = featureSVGString.replace(
     /\$\[hairColor\]/g,
     face.hair.color,

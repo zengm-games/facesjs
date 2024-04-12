@@ -321,6 +321,24 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
         gallerySectionConfigList: [...state.gallerySectionConfigList],
       };
     }),
+
+  shuffleGenderSettingObject: ["male"],
+  shuffleRaceSettingObject: ["white", "brown", "black", "asian"],
+
+  setShuffleGenderSettingObject: (options: string[]) =>
+    set((state: CombinedState) => {
+      return {
+        ...state,
+        shuffleGenderSettingObject: options,
+      };
+    }),
+  setShuffleRaceSettingObject: (options: string[]) =>
+    set((state: CombinedState) => {
+      return {
+        ...state,
+        shuffleRaceSettingObject: options,
+      };
+    }),
 });
 
 export const useStateStore = create<CombinedState>()(
