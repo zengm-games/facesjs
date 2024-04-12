@@ -742,8 +742,6 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
 
   let errorMessage = <span>Invalid JSON</span>;
 
-  console.log("Face Config:", { faceConfig });
-
   return (
     <Modal
       className="w-1/2"
