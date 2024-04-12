@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { FaceConfig, Overrides } from "../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../src/display";

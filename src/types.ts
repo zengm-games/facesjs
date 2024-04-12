@@ -161,7 +161,7 @@ export type CombinedState = FaceState & GalleryState;
 
 export type OverrideListItem = {
   override: Overrides;
-  display: JSX.Element | string;
+  display: string;
   value: string | number | boolean;
   ref?: any;
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Face } from "./Face";
 import override from "../src/override";
 import {
@@ -8,6 +8,7 @@ import {
   GallerySectionConfig,
   OverrideList,
   OverrideListItem,
+  Overrides,
 } from "../src/types";
 import { useStateStore } from "./stateStore";
 import {
@@ -57,8 +58,6 @@ import {
   decodeFromUrlToJSON,
   objStringifyInOrder,
 } from "./utils";
-
-import { ToastContainer, useToast } from "@rewind-ui/core";
 
 import {
   DownloadFaceAsJSON,
@@ -116,7 +115,6 @@ export const EditorPage = () => {
         <MainFaceDisplay modalDisclosure={modalDisclosure} />
       </div>
       <EditJSONModal modalDisclosure={modalDisclosure} />
-      <ToastContainer position="bottom-right" max={3} />
     </>
   );
 };
@@ -135,10 +133,7 @@ const MainFaceDisplayActionBar = ({
       groupName: "Copy",
       groupIcon: LinkSimple,
       baseAction: async () => {
-        await copyStringToClipboard(
-          window.location.href,
-          "Copied link to clipboard",
-        );
+        await copyStringToClipboard(window.location.href);
       },
       items: [
         {
@@ -146,10 +141,7 @@ const MainFaceDisplayActionBar = ({
           text: "Copy Link",
           description: "Copy link to FacesJS Editor to Clipboard",
           action: async () => {
-            await copyStringToClipboard(
-              window.location.href,
-              "Copied link to clipboard",
-            );
+            await copyStringToClipboard(window.location.href);
           },
         },
         {
@@ -157,10 +149,7 @@ const MainFaceDisplayActionBar = ({
           text: "Copy JSON",
           description: "Copy Face JSON to Clipboard",
           action: async () => {
-            await copyStringToClipboard(
-              JSON.stringify(faceConfig),
-              "Copied face config to clipboard",
-            );
+            await copyStringToClipboard(JSON.stringify(faceConfig));
           },
         },
       ],
@@ -213,6 +202,7 @@ const MainFaceDisplayActionBar = ({
         if (!group.items) {
           return (
             <Button
+              key={`button-${group.groupName}`}
               onPress={group.baseAction}
               className="bg-slate-800 text-white border-2 border-white"
             >
@@ -222,7 +212,7 @@ const MainFaceDisplayActionBar = ({
         }
 
         return (
-          <ButtonGroup>
+          <ButtonGroup key={`button-group-${group.groupName}`}>
             <Button
               onClick={group.baseAction}
               className="bg-slate-800 text-white border-2 border-white"
@@ -241,7 +231,6 @@ const MainFaceDisplayActionBar = ({
               <DropdownMenu
                 disallowEmptySelection
                 aria-label="Merge options"
-                // onSelectionChange={setSelectedOption}
                 className="max-w-[300px]"
               >
                 {group.items.map((item) => (
@@ -262,11 +251,7 @@ const MainFaceDisplayActionBar = ({
   );
 };
 
-const MainFaceDisplay = ({
-  modalDisclosure,
-}: {
-  modalDisclosure: any;
-}): JSX.Element => {
+const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   let { faceConfig } = useStateStore();
   let ref = useRef<HTMLDivElement>(null);
 
@@ -336,7 +321,7 @@ const FeatureSelector = ({
     return <div>Select a feature</div>;
   }
 
-  const selectedVal: string | number | boolean = getFromDict(
+  let selectedVal: string | number | boolean = getFromDict(
     faceConfig,
     gallerySectionConfig?.key || "",
   );
@@ -344,6 +329,7 @@ const FeatureSelector = ({
   if (gallerySectionConfig.selectionType === "svgs") {
     return (
       <Select
+        key={`select-${sectionIndex}`}
         label={gallerySectionConfig.text}
         className="max-w-xs"
         // @ts-ignore Annoying type issue
@@ -375,6 +361,7 @@ const FeatureSelector = ({
   } else if (gallerySectionConfig.selectionType === "range") {
     return (
       <Slider
+        key={`Slider-${sectionIndex}`}
         label={gallerySectionConfig.text}
         step={
           gallerySectionConfig?.renderOptions?.rangeConfig?.sliderStep || 0.01
@@ -400,6 +387,7 @@ const FeatureSelector = ({
   } else if (gallerySectionConfig.selectionType == "boolean") {
     return (
       <Switch
+        key={`Switch-${sectionIndex}`}
         isSelected={(selectedVal as boolean) || false}
         onValueChange={(e: boolean) => {
           let chosenValue = e || false;
@@ -426,9 +414,9 @@ const FeatureSelector = ({
       indexToUpdate: number,
       newValue: "invalid" | "valid" | undefined,
     ) => {
-      const newArr = [...inputValidationArr]; // Copy the array
-      newArr[indexToUpdate] = newValue; // Update the specific element
-      setInputValidationArr(newArr); // Set the new array as the state
+      const newArr = [...inputValidationArr];
+      newArr[indexToUpdate] = newValue;
+      setInputValidationArr(newArr);
     };
 
     const colorInputOnChange = ({
@@ -468,7 +456,7 @@ const FeatureSelector = ({
     return (
       <div className="flex flex-col gap-2">
         {gallerySectionConfig &&
-          Array.from({ length: numColors }).map((_, colorIndex) => {
+          Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
             let hasMultipleColors = numColors > 1;
             let selectedColor =
               // @ts-ignore TS doesnt like conditional array vs string
@@ -476,8 +464,12 @@ const FeatureSelector = ({
               "#000000";
 
             return (
-              <div className="flex gap-2">
+              <div
+                key={`color-${sectionIndex}-${colorIndex}`}
+                className="flex gap-2"
+              >
                 <Input
+                  key={`Input-color-${sectionIndex}-${colorIndex}`}
                   type="color"
                   value={selectedColor}
                   label={`${gallerySectionConfig?.text} Picker`}
@@ -490,6 +482,7 @@ const FeatureSelector = ({
                   }}
                 />
                 <Input
+                  key={`Input-${sectionIndex}-${colorIndex}`}
                   value={selectedColor}
                   isInvalid={inputValidationArr[colorIndex] === "invalid"}
                   errorMessage={
@@ -516,18 +509,11 @@ const FeatureSelector = ({
   }
 };
 
-// const scrollToFace = (ref: React.RefObject<HTMLDivElement>) => {
-//     if (ref.current) {
-//         ref.current!.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-//     }
-// };
-
 const updateStores = ({
   faceConfig,
   faceIndex,
   sectionIndex,
   stateStoreProps,
-  // overrideList,
 }: {
   faceConfig: FaceConfig;
   faceIndex: number;
@@ -538,7 +524,6 @@ const updateStores = ({
   let { setFaceStore, setLastClickedSectionIndex, setLastSelectedFaceIndex } =
     stateStoreProps;
 
-  // scrollToFace(overrideList[faceIndex].ref);
   setFaceStore(faceConfig);
   setLastClickedSectionIndex(sectionIndex);
   setLastSelectedFaceIndex(faceIndex);
@@ -566,7 +551,10 @@ const EditorPageGallery = () => {
             let overrideList = getOverrideListForItem(gallerySectionConfig);
 
             return (
-              <div className="py-6  border-t-2 border-t-slate-500">
+              <div
+                key={`section-${sectionIndex}`}
+                className="py-6  border-t-2 border-t-slate-500"
+              >
                 <div className="my-1 mx-1 flex justify-between items-center">
                   <div className="flex items-center gap-1">
                     <span>Choose {gallerySectionConfig.text}</span>
@@ -680,30 +668,9 @@ const EditorPageGallery = () => {
   );
 };
 
-const doToast = (message: string) => {
-  const toast = useToast();
-
-  toast.add({
-    id: "face-config-copy-toast",
-    closeOnClick: true,
-    color: "green",
-    description: "",
-    duration: 3000,
-    iconType: "success",
-    pauseOnHover: true,
-    radius: "lg",
-    shadow: "none",
-    shadowColor: "green",
-    showProgress: false,
-    title: message,
-    tone: "solid",
-  });
-};
-
-const copyStringToClipboard = async (str: string, message: string) => {
+const copyStringToClipboard = async (str: string) => {
   try {
     await navigator.clipboard.writeText(str);
-    doToast(message);
   } catch (err) {
     console.error("Failed to copyStringToClipboard: ", err);
   }
@@ -762,24 +729,20 @@ const EditorPageTopBar = () => {
 };
 
 const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
-  let { setFaceStore } = useStateStore();
+  let { setFaceStore, faceConfig } = useStateStore();
   const { isOpen, onOpenChange } = modalDisclosure;
 
-  const [textAreaValue, setTextAreaValue] = useState("");
-  const [textAreaValid, setTextAreaValid] = useState(false);
+  const [textAreaValue, setTextAreaValue] = useState<string>(
+    JSON.stringify(faceConfig),
+  );
+  const [textAreaValid, setTextAreaValid] = useState<boolean>(
+    isValidJSON(JSON.stringify(faceConfig)),
+  );
   const textRef = useRef<HTMLTextAreaElement>(null);
 
-  let errorMessage = (
-    <>
-      <span>Invalid JSON. Refer to the </span>
-      <Link
-        className="font-bold underline"
-        to="https://www.json.org/json-en.html"
-      >
-        JSON spec
-      </Link>
-    </>
-  );
+  let errorMessage = <span>Invalid JSON</span>;
+
+  console.log("Face Config:", { faceConfig });
 
   return (
     <Modal
@@ -800,9 +763,12 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
                 value={textAreaValue}
                 isInvalid={!textAreaValid}
                 ref={textRef}
-                // errorMessage={!textAreaValid ? ("Invalid JSON. Refer to the <a src='https://www.json.org/json-en.html'>JSON spec</a>") : null}
                 errorMessage={!textAreaValid ? errorMessage : null}
-                onValueChange={(e) => setTextAreaValue(e)}
+                onChange={(e) => {
+                  setTextAreaValue(e.target.value);
+                  let isValid = isValidJSON(e.target.value);
+                  setTextAreaValid(isValid);
+                }}
                 placeholder="Input Face JSON"
                 size="lg"
                 className="my-6 min-h-90"
@@ -814,11 +780,15 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
                   let isValid = isValidJSON(textAreaValue);
                   setTextAreaValid(isValid);
 
-                  if (!isValid) {
-                    doToast("Invalid JSON");
-                  } else {
-                    let faceConfigCopy: FaceConfig = JSON.parse(textAreaValue);
+                  if (isValid) {
+                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+                    let overrides: Overrides = JSON.parse(textAreaValue);
+                    override(faceConfigCopy, overrides);
                     setFaceStore(faceConfigCopy);
+
+                    // By running setTextAreaValue, we can write-back the JSON to text area, in the event user
+                    // remove some features from JSON string, and we fill-in the missing features
+                    setTextAreaValue(JSON.stringify(faceConfigCopy));
                     onOpenChange();
                   }
                 }}

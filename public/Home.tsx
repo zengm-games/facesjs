@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Face } from "./Face";
 import { generate } from "../src/generate";
@@ -28,15 +28,20 @@ const FaceWrapper = ({
     setFaceConfig(generate());
   }, [stateKey]);
 
+  let faceRef = useRef(null);
+
   const isLargeFace = index === 4;
 
   return (
     <div
       className={`cursor-pointer rounded-lg hover:bg-[#ccc] w-full ${isLargeFace ? " col-span-2 row-span-2" : ""}`}
-      // style={{ width: isLargeFace ? '400px' : '120px' }}
       onClick={handleNavigate}
     >
-      <Face faceConfig={faceConfig} maxWidth={isLargeFace ? 400 : 200} />
+      <Face
+        faceConfig={faceConfig}
+        maxWidth={isLargeFace ? 400 : 200}
+        ref={faceRef}
+      />
     </div>
   );
 };
@@ -53,7 +58,7 @@ const BunchOfFaces = ({ stateKey }: { stateKey: number }) => {
   );
 };
 
-export const Home = (): JSX.Element => {
+export const Home = () => {
   const [stateKey, setStateKey] = useState(0);
 
   useEffect(() => {
@@ -161,9 +166,7 @@ export const Home = (): JSX.Element => {
         >
           <span>{'import {Face} from "facesjs";'}</span>
           <span></span>
-          <span>
-            {"export const ExampleFaceElement = (): JSX.Element => {"}
-          </span>
+          <span>{"export const ExampleFaceElement = () => {"}</span>
           <span className="pl-4">{"// Generate a random face"}</span>
           <span className="pl-4">{"const faceConfig = generate();"}</span>
           <span></span>
