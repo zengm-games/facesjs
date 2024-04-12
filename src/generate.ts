@@ -1,3 +1,4 @@
+import { pickRandom } from "../public/utils";
 import { colors } from "./globals";
 import override from "./override";
 import { svgsGenders, svgsIndex } from "./svgs-index";
@@ -28,7 +29,7 @@ const getID = (type: Feature, gender: Gender): string => {
     );
   });
 
-  return validIDs[randomInt(0, validIDs.length)];
+  return pickRandom(validIDs);
 };
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
@@ -42,16 +43,8 @@ export const generate = (
     if (options && options.race) {
       return options.race;
     }
-    switch (randomInt(0, 4)) {
-      case 0:
-        return "white";
-      case 1:
-        return "asian";
-      case 2:
-        return "brown";
-      default:
-        return "black";
-    }
+
+    return pickRandom(["white", "asian", "brown", "black"]);
   })();
 
   const gender = options && options.gender ? options.gender : "male";
@@ -74,8 +67,8 @@ export const generate = (
         return colors.black;
     }
   })();
-  const skinColor = palette.skin[randomInt(0, palette.skin.length)];
-  const hairColor = palette.hair[randomInt(0, palette.hair.length)];
+  const skinColor = pickRandom(palette.skin);
+  const hairColor = pickRandom(palette.hair);
   const isFlipped = () => Math.random() < 0.5;
 
   const face: FaceConfig = {

@@ -37,7 +37,7 @@ const scaleStrokeWidthAndChildren = (
   }
   const children = element.childNodes as unknown as SVGGraphicsElement[];
   for (let i = 0; i < children.length; i++) {
-    scaleStrokeWidthAndChildren(children[i] as SVGGraphicsElement, factor);
+    scaleStrokeWidthAndChildren(children[i], factor);
   }
 };
 
@@ -192,7 +192,7 @@ const drawFeature = (
 
     const position = info.positions[i];
 
-    if (position) {
+    if (position !== null) {
       // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
       let xAlign;
       if (feature.id === "nose4" || feature.id === "pinocchio") {
