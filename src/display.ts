@@ -1,6 +1,6 @@
-import override from "./override";
-import svgs from "./svgs";
-import { FaceConfig, FeatureInfo, Overrides } from "./types";
+import type { Face } from "./generate.js";
+import override, { Overrides } from "./override.js";
+import svgs from "./svgs.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
@@ -95,11 +95,13 @@ const translate = (
 // Defines the range of fat/skinny, relative to the original width of the default head.
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
-const drawFeature = (
-  svg: SVGSVGElement,
-  face: FaceConfig,
-  info: FeatureInfo,
-) => {
+type FeatureInfo = {
+  name: Exclude<keyof Face, "fatness" | "teamColors">;
+  positions: [null] | [number, number][];
+  scaleFatness?: true;
+};
+
+const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -250,7 +252,7 @@ const drawFeature = (
 
 export const display = (
   container: HTMLElement | string | null,
-  face: FaceConfig,
+  face: Face,
   overrides?: Overrides,
 ): void => {
   override(face, overrides);

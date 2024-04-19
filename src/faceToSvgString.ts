@@ -1,6 +1,6 @@
 import svgPathBbox from "svg-path-bbox";
-import type { Overrides } from "./types";
-import { FaceConfig } from "./types";
+import type { Overrides } from "./override.js";
+import { Face } from "./generate.js";
 import { display } from "./display.js";
 
 /**
@@ -28,18 +28,22 @@ class SvgDocument {
     this.root = new SvgNode(tag, undefined);
     return this.root;
   }
+
   toXml() {
     return this.root!.toXml();
   }
 }
+
 class SvgNode {
   public attributes: Record<string, string> = {};
   public childNodes: SvgNode[] = [];
+
   public lastChild: SvgNode | undefined;
   private minX: number | undefined;
   private minY: number | undefined;
   private maxX: number | undefined;
   private maxY: number | undefined;
+
   constructor(
     public tag: string | undefined,
     public xml: string | undefined,
@@ -78,11 +82,14 @@ class SvgNode {
         if (this.maxY === undefined || bbox[3] > this.maxY) {
           this.maxY = bbox[3];
         }
+
         pathStart = pathEnd + 1;
       }
+
       this.xml = undefined;
     }
   }
+
   setAttribute(name: string, value: string) {
     this.attributes[name] = value;
   }
@@ -91,6 +98,7 @@ class SvgNode {
     this.lastChild = new SvgNode(undefined, content);
     this.childNodes.push(this.lastChild);
   }
+
   getBBox() {
     return {
       x: this.minX,
@@ -99,9 +107,11 @@ class SvgNode {
       height: this.maxY! - this.minY!,
     };
   }
+
   getAttribute(name: string) {
     return this.attributes[name];
   }
+
   toXml(): string {
     let s = "";
     if (this.tag) {
@@ -124,14 +134,12 @@ class SvgNode {
     return s;
   }
 }
+
 /**
  * Renders the given face in a pseudo DOM element and then returns the
  * SVG image as an XML string.
  */
-export const faceToSvgString = (
-  face: FaceConfig,
-  overrides?: Overrides,
-): string => {
+export const faceToSvgString = (face: Face, overrides?: Overrides): string => {
   const svgDocument = new SvgDocument();
   // Even though we will provide a pseudo HTML elment, display() accesses
   // document.createElementNS() so we need to inject our own code there.
