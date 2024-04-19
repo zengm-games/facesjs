@@ -4,6 +4,7 @@ import { getCurrentTimestampAsString } from "./utils";
 import { Canvg } from "canvg";
 
 export const DownloadFaceAsPng = async (faceConfig: FaceConfig) => {
+  // @ts-ignore
   const faceSvg = faceToSvgString(faceConfig);
 
   const downloadPng = async () => {
@@ -29,6 +30,7 @@ export const DownloadFaceAsPng = async (faceConfig: FaceConfig) => {
 };
 
 export const DownloadFaceAsSvg = (faceConfig: FaceConfig) => {
+  // @ts-ignore
   const faceSvg = faceToSvgString(faceConfig);
   const blob = new Blob([faceSvg], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);

@@ -29,7 +29,6 @@ import {
 } from "@phosphor-icons/react";
 import {
   Select,
-  Badge,
   SelectItem,
   Input,
   CheckboxGroup,
@@ -638,6 +637,8 @@ const EditorPageGallery = () => {
                           gallerySectionConfig.selectedValue ==
                           overrideToRun.display;
 
+                        let faceWidth = gallerySize == "md" ? 100 : 150;
+
                         return (
                           <div
                             key={faceIndex}
@@ -655,13 +656,7 @@ const EditorPageGallery = () => {
                             <Face
                               ref={overrideToRun.ref}
                               faceConfig={faceConfigCopy}
-                              width={
-                                gallerySize == "md"
-                                  ? 100
-                                  : gallerySize == "sm"
-                                    ? 50
-                                    : 150
-                              }
+                              width={faceWidth}
                               lazyLoad={true}
                             />
                           </div>
@@ -707,11 +702,6 @@ const EditorPageTopBar = () => {
     useState<boolean>(false);
   const [raceInvalidOptions, setRaceInvalidOptions] = useState<boolean>(false);
 
-  const optionsNotDisplayed =
-    genders.length +
-    races.length -
-    (shuffleGenderSettingObject.length + shuffleRaceSettingObject.length);
-
   return (
     <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
       <div className="flex gap-4 text-xl p-2 justify-around items-center">
@@ -719,87 +709,84 @@ const EditorPageTopBar = () => {
           <House weight="fill" size={24} onClick={() => navigate("/")} />
         </span>
         <span className="hidden md:inline">faces.js Editor</span>
-        <Badge
-          content={optionsNotDisplayed ? optionsNotDisplayed : null}
-          shape="rectangle"
-          isInvisible={!optionsNotDisplayed}
-        >
-          <ButtonGroup>
-            <Button
-              className="bg-slate-800 text-white border-2 border-white"
-              onClick={() =>
-                shuffleEntireFace(
-                  faceConfig,
-                  gallerySectionConfigList,
-                  stateStore,
-                )
-              }
-            >
-              <Shuffle size={24} />
-            </Button>
-            <Popover placement="bottom" showArrow offset={10}>
-              <PopoverTrigger>
-                <Button className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white">
-                  <Sliders size={24} />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="">
-                {(titleProps) => (
-                  <div className="px-1 py-2 w-full">
-                    <p
-                      className="text-small font-bold text-foreground"
-                      {...titleProps}
+        <ButtonGroup>
+          <Button
+            className="bg-slate-800 text-white border-2 border-white"
+            onClick={() =>
+              shuffleEntireFace(
+                faceConfig,
+                gallerySectionConfigList,
+                stateStore,
+              )
+            }
+          >
+            <Shuffle size={24} />
+          </Button>
+          <Popover placement="bottom" showArrow offset={10}>
+            <PopoverTrigger>
+              <Button className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white">
+                <Sliders size={24} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="">
+              {(titleProps) => (
+                <div className="px-1 py-2 w-full">
+                  <p
+                    className="text-small font-bold text-foreground"
+                    {...titleProps}
+                  >
+                    Customize Shuffle
+                  </p>
+                  <div className="flex gap-4">
+                    <CheckboxGroup
+                      label="Gender"
+                      isInvalid={genderInvalidOptions}
+                      value={shuffleGenderSettingObject}
+                      style={{ maxWidth: "120px" }}
+                      errorMessage={
+                        genderInvalidOptions
+                          ? "Defaults will be used if no option selected"
+                          : null
+                      }
+                      onValueChange={(genderList: any[]) => {
+                        setShuffleGenderSettingObject(genderList as Gender[]);
+                        setGenderInvalidOptions(genderList.length < 1);
+                      }}
                     >
-                      Customize Shuffle
-                    </p>
-                    <div className="flex gap-4">
-                      <CheckboxGroup
-                        label="Gender"
-                        isInvalid={genderInvalidOptions}
-                        value={shuffleGenderSettingObject}
-                        errorMessage={
-                          genderInvalidOptions ? "Select at least one" : null
-                        }
-                        onValueChange={(genderList: any[]) => {
-                          setShuffleGenderSettingObject(genderList as Gender[]);
-                          setGenderInvalidOptions(genderList.length < 1);
-                        }}
-                      >
-                        {genders.map((gender: string) => {
-                          return (
-                            <Checkbox value={gender}>
-                              {capitalizeFirstLetter(gender)}
-                            </Checkbox>
-                          );
-                        })}
-                      </CheckboxGroup>
-                      <CheckboxGroup
-                        label="Race"
-                        value={shuffleRaceSettingObject}
-                        isInvalid={raceInvalidOptions}
-                        errorMessage={
-                          raceInvalidOptions ? "Select at least one" : null
-                        }
-                        onValueChange={(raceList: any[]) => {
-                          setShuffleRaceSettingObject(raceList as Race[]);
-                          setRaceInvalidOptions(raceList.length < 1);
-                        }}
-                      >
-                        {races.map((race: string) => {
-                          return (
-                            <Checkbox value={race}>
-                              {capitalizeFirstLetter(race)}
-                            </Checkbox>
-                          );
-                        })}
-                      </CheckboxGroup>
-                    </div>
+                      {genders.map((gender: string) => {
+                        return (
+                          <Checkbox value={gender}>
+                            {capitalizeFirstLetter(gender)}
+                          </Checkbox>
+                        );
+                      })}
+                    </CheckboxGroup>
+                    <CheckboxGroup
+                      label="Race"
+                      value={shuffleRaceSettingObject}
+                      isInvalid={raceInvalidOptions}
+                      errorMessage={
+                        raceInvalidOptions ? "Select at least one" : null
+                      }
+                      onValueChange={(raceList: any[]) => {
+                        setShuffleRaceSettingObject(raceList as Race[]);
+                        setRaceInvalidOptions(raceList.length < 1);
+                      }}
+                    >
+                      {races.map((race: string) => {
+                        return (
+                          <Checkbox value={race}>
+                            {capitalizeFirstLetter(race)}
+                          </Checkbox>
+                        );
+                      })}
+                    </CheckboxGroup>
                   </div>
-                )}
-              </PopoverContent>
-            </Popover>
-          </ButtonGroup>
-        </Badge>
+                </div>
+              )}
+            </PopoverContent>
+          </Popover>
+        </ButtonGroup>
       </div>
       <div className="flex items-center">
         <Tabs

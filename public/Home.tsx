@@ -6,6 +6,7 @@ import { GithubLogo } from "@phosphor-icons/react";
 
 import { Snippet, Kbd, Button } from "@nextui-org/react";
 import { encodeJSONForUrl } from "./utils";
+import { FaceConfig } from "../src/types";
 
 const FaceWrapper = ({
   index,
@@ -14,7 +15,9 @@ const FaceWrapper = ({
   index: number;
   stateKey: number;
 }) => {
-  const [faceConfig, setFaceConfig] = useState(generate());
+  const [faceConfig, setFaceConfig] = useState<FaceConfig>(
+    generate() as FaceConfig,
+  );
 
   // Upon face click, take that face to the Editor
   const navigate = useNavigate();
@@ -25,7 +28,7 @@ const FaceWrapper = ({
 
   // Use statekey to trigger refresh upon clicking of R or refresh button
   useEffect(() => {
-    setFaceConfig(generate());
+    setFaceConfig(generate() as FaceConfig);
   }, [stateKey]);
 
   let faceRef = useRef(null);

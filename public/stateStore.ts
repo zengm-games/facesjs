@@ -271,7 +271,7 @@ for (const gallerySectionConfig of gallerySectionConfigList) {
 }
 
 const generateFirstFace = (): FaceConfig => {
-  let faceConfig = generate();
+  let faceConfig = generate() as FaceConfig;
   return faceConfig;
 };
 
