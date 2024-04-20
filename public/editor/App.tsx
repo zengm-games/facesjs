@@ -13,7 +13,10 @@ const App = () => {
       <TopBar />
       <div className="flex flex-col-reverse md:flex-row items-center md:items-start pt-16 gap-2 mx-2">
         <FeatureGallery />
-        <MainFace modalDisclosure={modalDisclosure} />
+        <MainFace
+          className="md:sticky md:top-16"
+          modalDisclosure={modalDisclosure}
+        />
       </div>
       <EditJsonModal modalDisclosure={modalDisclosure} />
     </NextUIProvider>
