@@ -73,7 +73,7 @@ export const EditorPage = () => {
   return (
     <>
       <EditorPageTopBar />
-      <div className="flex flex-col-reverse md:flex-row items-center pt-16">
+      <div className="flex flex-col-reverse md:flex-row items-center md:items-start pt-16 gap-2">
         <EditorPageGallery />
         <MainFaceDisplay modalDisclosure={modalDisclosure} />
       </div>
@@ -227,7 +227,7 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="w-1/2 md:w-fit border-5 border-slate-800 rounded-md mx-2">
+    <div className="w-1/2 md:w-1/3 lg:w-fit border-5 border-slate-800 rounded-md md:mr-2">
       <div className="px-2">
         <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>
