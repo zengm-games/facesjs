@@ -89,14 +89,14 @@ const MainFaceDisplayActionBar = ({
   faceRef: RefObject<HTMLDivElement>;
   modalDisclosure: any;
 }) => {
-  let { faceConfig } = useStateStore();
+  const { faceConfig } = useStateStore();
 
   const { onOpen } = modalDisclosure;
 
   const dropdownConfig = [
     {
       groupName: "Copy",
-      groupIcon: LinkSimple,
+      groupIcon: <LinkSimple size={24} />,
       baseAction: async () => {
         await copyStringToClipboard(window.location.href);
       },
@@ -104,7 +104,7 @@ const MainFaceDisplayActionBar = ({
         {
           key: "link",
           text: "Copy Link",
-          description: "Copy link to FacesJS Editor to Clipboard",
+          description: "Copy the link to the editor with this face loaded",
           action: async () => {
             await copyStringToClipboard(window.location.href);
           },
@@ -112,7 +112,7 @@ const MainFaceDisplayActionBar = ({
         {
           key: "json",
           text: "Copy JSON",
-          description: "Copy Face JSON to Clipboard",
+          description: "Copy current face JSON",
           action: async () => {
             await copyStringToClipboard(JSON.stringify(faceConfig));
           },
@@ -121,10 +121,10 @@ const MainFaceDisplayActionBar = ({
     },
     {
       groupName: "Download",
-      groupIcon: DownloadSimple,
+      groupIcon: <DownloadSimple size={24} />,
       baseAction: async () => {
         if (faceRef.current) {
-          await downloadFaceSvg(faceRef.current);
+          await downloadFacePng(faceRef.current);
         }
       },
       items: [
@@ -132,11 +132,6 @@ const MainFaceDisplayActionBar = ({
           key: "png",
           text: "Download PNG",
           description: "Download face as a PNG file",
-          action: async () => {
-            if (faceRef.current) {
-              await downloadFacePng(faceRef.current);
-            }
-          },
         },
         {
           key: "svg",
@@ -160,24 +155,24 @@ const MainFaceDisplayActionBar = ({
     },
     {
       groupName: "Upload",
-      groupIcon: UploadSimple,
-      baseAction: (e: any) => {
-        onOpen(e);
-      },
+      groupIcon: <UploadSimple size={24} />,
+      baseAction: onOpen,
     },
   ];
 
   return (
-    <div className="flex border-t-5 border-slate-800 justify-between gap-4 items-center mr-12 bg-slate-800 text-white w-full">
+    <div className="flex gap-4 flex-wrap justify-center border-t-5 border-slate-800  bg-slate-800 text-white">
       {dropdownConfig.map((group) => {
         if (!group.items) {
           return (
             <Button
               key={`button-${group.groupName}`}
+              isIconOnly
               onPress={group.baseAction}
               className="bg-slate-800 text-white border-2 border-white"
+              title={group.groupName}
             >
-              {group.groupName}
+              {group.groupIcon}
             </Button>
           );
         }
@@ -185,30 +180,28 @@ const MainFaceDisplayActionBar = ({
         return (
           <ButtonGroup key={`button-group-${group.groupName}`}>
             <Button
+              isIconOnly
               onClick={group.baseAction}
-              className="bg-slate-800 text-white border-2 border-white"
+              className="bg-slate-800 text-white border-2 border-white min-w-0"
+              title={group.groupName}
             >
-              {group.groupName}
+              {group.groupIcon}
             </Button>
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <Button
                   isIconOnly
-                  className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white"
+                  className="bg-slate-800 text-white border-2 border-l-0 border-white"
                 >
-                  <CaretDown size={32} />
+                  <CaretDown size={24} />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Merge options"
-                className="max-w-[300px]"
-              >
+              <DropdownMenu disallowEmptySelection className="max-w-[300px]">
                 {group.items.map((item) => (
                   <DropdownItem
                     key={item.key}
                     description={item.description}
-                    onClick={item.action}
+                    onClick={item.action ?? group.baseAction}
                   >
                     {item.text}
                   </DropdownItem>
@@ -227,7 +220,7 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="w-1/2 md:w-1/3 lg:w-fit border-5 border-slate-800 rounded-md md:mr-2">
+    <div className="w-1/2 md:w-1/3 lg:w-fit lg:min-w-[400px] border-5 border-slate-800 rounded-md md:mr-2">
       <div className="px-2">
         <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>
@@ -258,7 +251,7 @@ const inputOnChange = ({
     (overrideListItem) =>
       getFromDict(
         overrideListItem.override,
-        gallerySectionConfig?.key || "",
+        gallerySectionConfig?.key ?? "",
       ) === chosenValue,
   );
 
@@ -295,7 +288,7 @@ const FeatureSelector = ({
 
   let selectedVal: string | number | boolean = getFromDict(
     faceConfig,
-    gallerySectionConfig?.key || "",
+    gallerySectionConfig?.key ?? "",
   );
 
   if (gallerySectionConfig.selectionType === "svgs") {
@@ -336,7 +329,7 @@ const FeatureSelector = ({
         key={`Slider-${sectionIndex}`}
         label={gallerySectionConfig.text}
         step={
-          gallerySectionConfig?.renderOptions?.rangeConfig?.sliderStep || 0.01
+          gallerySectionConfig?.renderOptions?.rangeConfig?.sliderStep ?? 0.01
         }
         maxValue={gallerySectionConfig?.renderOptions?.rangeConfig?.max}
         minValue={gallerySectionConfig?.renderOptions?.rangeConfig?.min}
@@ -375,7 +368,7 @@ const FeatureSelector = ({
       />
     );
   } else if (gallerySectionConfig.selectionType == "color") {
-    let numColors = gallerySectionConfig?.renderOptions?.colorCount || 1;
+    let numColors = gallerySectionConfig?.renderOptions?.colorCount ?? 1;
     let initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
       length: numColors,
     }).map(() => "valid");
@@ -407,7 +400,7 @@ const FeatureSelector = ({
 
       let chosenValue: any = getFromDict(
         faceConfig,
-        gallerySectionConfig?.key || "",
+        gallerySectionConfig?.key ?? "",
       );
       if (hasMultipleColors) {
         chosenValue[colorIndex] = newColorValue;
@@ -514,122 +507,115 @@ const EditorPageGallery = () => {
 
   return (
     <div className="w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
-      {gallerySectionConfigList &&
-        gallerySectionConfigList.map(
-          (
-            gallerySectionConfig: GallerySectionConfig,
-            sectionIndex: number,
-          ) => {
-            let overrideList = getOverrideListForItem(gallerySectionConfig);
+      {gallerySectionConfigList?.map((gallerySectionConfig, sectionIndex) => {
+        const overrideList = getOverrideListForItem(gallerySectionConfig);
 
-            return (
-              <div
-                key={`section-${sectionIndex}`}
-                className="py-6  border-t-2 border-t-slate-500"
-              >
-                <div className="my-1 mx-1 flex justify-between items-center">
-                  <div className="flex items-center gap-1">
-                    <span>Choose {gallerySectionConfig.text}</span>
-                    <span
-                      onClick={() => {
-                        shuffleOptions(
-                          gallerySectionConfig,
-                          setFaceStore,
-                          faceConfig,
-                        );
-                      }}
-                    >
-                      <Shuffle
+        return (
+          <div
+            key={`section-${sectionIndex}`}
+            className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-500"}`}
+          >
+            <div className="my-1 mx-1 flex justify-between items-center">
+              <div className="flex items-center gap-1">
+                <span>Choose {gallerySectionConfig.text}</span>
+                <span
+                  onClick={() => {
+                    shuffleOptions(
+                      gallerySectionConfig,
+                      setFaceStore,
+                      faceConfig,
+                    );
+                  }}
+                >
+                  <Shuffle
+                    size={28}
+                    weight="bold"
+                    className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-90 transition-transform ease-in-out"
+                  />
+                </span>
+                <Tooltip
+                  key={`tooltip-${sectionIndex}`}
+                  placement={"right"}
+                  content={"Enable to lock section when shuffling Face"}
+                >
+                  <span
+                    onClick={() => {
+                      setRandomizeEnabledForSection(
+                        sectionIndex,
+                        !gallerySectionConfig.randomizeEnabled,
+                      );
+                    }}
+                  >
+                    {gallerySectionConfig.randomizeEnabled ? (
+                      <LockSimpleOpen
                         size={28}
                         weight="bold"
-                        className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-90 transition-transform ease-in-out"
+                        className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
                       />
-                    </span>
-                    <Tooltip
-                      key={`tooltip-${sectionIndex}`}
-                      placement={"right"}
-                      content={"Enable to lock section when shuffling Face"}
-                    >
-                      <span
-                        onClick={() => {
-                          setRandomizeEnabledForSection(
-                            sectionIndex,
-                            !gallerySectionConfig.randomizeEnabled,
-                          );
-                        }}
-                      >
-                        {gallerySectionConfig.randomizeEnabled ? (
-                          <LockSimpleOpen
-                            size={28}
-                            weight="bold"
-                            className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
-                          />
-                        ) : (
-                          <LockSimple
-                            size={28}
-                            weight="bold"
-                            className="cursor-pointer bg-slate-500 text-white hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
-                          />
-                        )}
-                      </span>
-                    </Tooltip>
-                  </div>
-
-                  <div className="w-1/2 my-2 text-end">
-                    <FeatureSelector
-                      gallerySectionConfig={gallerySectionConfig}
-                      overrideList={overrideList}
-                      stateStoreProps={stateStoreProps}
-                      sectionIndex={sectionIndex}
-                    />
-                  </div>
-                </div>
-                {gallerySize != "sm" && (
-                  <div
-                    className={concatClassNames(
-                      "w-full overflow-y-scroll flex justify-start overflow-scroll gap-8",
-                      gallerySize == "lg" ? `flex-wrap` : "",
+                    ) : (
+                      <LockSimple
+                        size={28}
+                        weight="bold"
+                        className="cursor-pointer bg-slate-500 text-white hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
+                      />
                     )}
-                  >
-                    {overrideList.map((overrideToRun, faceIndex) => {
-                      let faceConfigCopy = deepCopy(faceConfig);
-                      override(faceConfigCopy, overrideToRun.override);
-
-                      let isThisItemTheSelectedOne =
-                        gallerySectionConfig.selectedValue ==
-                        overrideToRun.display;
-
-                      let faceWidth = gallerySize == "md" ? 100 : 150;
-
-                      return (
-                        <div
-                          key={faceIndex}
-                          className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
-                          onClick={() => {
-                            updateStores({
-                              faceConfig: faceConfigCopy,
-                              faceIndex,
-                              sectionIndex,
-                              stateStoreProps,
-                              overrideList,
-                            });
-                          }}
-                        >
-                          <Face
-                            ref={overrideToRun.ref}
-                            faceConfig={faceConfigCopy}
-                            width={faceWidth}
-                            lazyLoad={true}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                  </span>
+                </Tooltip>
               </div>
-            );
-          },
-        )}
+
+              <div className="w-1/2 my-2 text-end">
+                <FeatureSelector
+                  gallerySectionConfig={gallerySectionConfig}
+                  overrideList={overrideList}
+                  stateStoreProps={stateStoreProps}
+                  sectionIndex={sectionIndex}
+                />
+              </div>
+            </div>
+            {gallerySize != "sm" && (
+              <div
+                className={concatClassNames(
+                  "w-full overflow-y-scroll flex justify-start overflow-scroll gap-8",
+                  gallerySize == "lg" ? `flex-wrap` : "",
+                )}
+              >
+                {overrideList.map((overrideToRun, faceIndex) => {
+                  let faceConfigCopy = deepCopy(faceConfig);
+                  override(faceConfigCopy, overrideToRun.override);
+
+                  let isThisItemTheSelectedOne =
+                    gallerySectionConfig.selectedValue == overrideToRun.display;
+
+                  let faceWidth = gallerySize == "md" ? 100 : 150;
+
+                  return (
+                    <div
+                      key={faceIndex}
+                      className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
+                      onClick={() => {
+                        updateStores({
+                          faceConfig: faceConfigCopy,
+                          faceIndex,
+                          sectionIndex,
+                          stateStoreProps,
+                          overrideList,
+                        });
+                      }}
+                    >
+                      <Face
+                        ref={overrideToRun.ref}
+                        faceConfig={faceConfigCopy}
+                        width={faceWidth}
+                        lazyLoad={true}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

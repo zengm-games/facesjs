@@ -97,7 +97,7 @@ export const newFaceConfigFromOverride = (
   const faceConfigCopy = deepCopy(faceConfig);
   const newOverride: Overrides = setToDict(
     {},
-    gallerySectionConfig?.key || "",
+    gallerySectionConfig?.key ?? "",
     chosenValue,
   ) as Overrides;
   override(faceConfigCopy, newOverride);
