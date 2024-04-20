@@ -28,28 +28,57 @@ export type GalleryState = {
   setShuffleRaceSettingObject: (options: Race[]) => void;
 };
 
-export type GallerySectionConfig = {
+type GallerySectionConfigBase = {
   key: string;
   text: string;
   isSelected?: boolean;
-  randomizeEnabled?: boolean;
-  selectedValue?: number | string | boolean;
+  randomizeEnabled: boolean;
   hasSvgs?: boolean;
   noneAllowed?: boolean;
-  selectionType?: "range" | "boolean" | "color" | "svgs";
-  renderOptions?: {
-    rangeConfig?: {
+};
+
+type GallerySectionConfigRange = GallerySectionConfigBase & {
+  selectionType: "range";
+  selectedValue: number;
+  renderOptions: {
+    rangeConfig: {
       min: number;
       max: number;
-      step?: number;
-      sliderStep?: number;
+      step: number;
+      sliderStep: number;
     };
-    isColor?: boolean;
-    colorCount?: number;
-    isBoolean?: boolean;
-    valuesToRender?: any[];
+    valuesToRender: number[];
   };
 };
+
+type GallerySectionConfigBoolean = GallerySectionConfigBase & {
+  selectionType: "boolean";
+  selectedValue: boolean;
+  renderOptions: {
+    isBoolean: boolean;
+    valuesToRender: boolean[];
+  };
+};
+
+type GallerySectionConfigColor = GallerySectionConfigBase & {
+  selectionType: "color";
+  selectedValue: string | [string, string, string];
+  renderOptions: {
+    isColor: boolean;
+    colorCount: number;
+  };
+};
+
+type GallerySectionConfigSvgs = GallerySectionConfigBase & {
+  selectionType: "svgs";
+  selectedValue: string;
+};
+
+export type GallerySectionConfig =
+  | GallerySectionConfigRange
+  | GallerySectionConfigBoolean
+  | GallerySectionConfigColor
+  | GallerySectionConfigSvgs;
 
 export type CombinedState = FaceState & GalleryState;
 

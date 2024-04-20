@@ -7,21 +7,55 @@ import {
   distinctSkinColors,
   jerseyColorOptions,
 } from "./globals";
-import { Face } from "../../src/types";
+import { Face, TeamColors } from "../../src/types";
 
-const gallerySectionConfigList: GallerySectionConfig[] = [
+const gallerySectionInfos: (Pick<
+  GallerySectionConfig,
+  "key" | "text" | "isSelected" | "hasSvgs"
+> &
+  (
+    | {
+        selectionType: "color";
+        renderOptions: {
+          isColor: boolean;
+          colorCount: number;
+          valuesToRender: TeamColors[] | string[];
+        };
+      }
+    | {
+        selectionType: "range";
+        renderOptions: {
+          rangeConfig: {
+            min: number;
+            max: number;
+          };
+        };
+      }
+    | {
+        selectionType: "boolean";
+        renderOptions: {
+          isBoolean: boolean;
+        };
+      }
+    | {
+        selectionType: "svgs";
+      }
+  ))[] = [
   {
     key: "body.color",
     text: "Skin Color",
     isSelected: true,
+    selectionType: "color",
     renderOptions: {
       isColor: true,
+      colorCount: 1,
       valuesToRender: distinctSkinColors,
     },
   },
   {
     key: "body.size",
     text: "Body Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0.8,
@@ -33,15 +67,18 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
     key: "body.id",
     text: "Body Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "head.id",
     text: "Head Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "fatness",
     text: "Face Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0,
@@ -49,15 +86,16 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
       },
     },
   },
-
   {
     key: "mouth.id",
     text: "Mouth Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "mouth.size",
     text: "Mouth Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0.8,
@@ -68,19 +106,21 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
   {
     key: "mouth.flip",
     text: "Mouth Flip",
+    selectionType: "boolean",
     renderOptions: {
       isBoolean: true,
     },
   },
-
   {
     key: "eye.id",
     text: "Eye Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "eye.angle",
     text: "Eye Angle",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: -10,
@@ -88,15 +128,16 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
       },
     },
   },
-
   {
     key: "ear.id",
     text: "Ear Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "ear.size",
     text: "Ear Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0.5,
@@ -104,23 +145,26 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
       },
     },
   },
-
   {
     key: "hair.id",
     text: "Hair Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "hair.color",
     text: "Hair Color",
+    selectionType: "color",
     renderOptions: {
       isColor: true,
+      colorCount: 1,
       valuesToRender: distinctHairColors,
     },
   },
   {
     key: "hair.flip",
     text: "Hair Flip",
+    selectionType: "boolean",
     renderOptions: {
       isBoolean: true,
     },
@@ -129,22 +173,24 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
     key: "hairBg.id",
     text: "Hair Background",
     hasSvgs: true,
+    selectionType: "svgs",
   },
-
   {
     key: "facialHair.id",
     text: "Facial Hair Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
-
   {
     key: "eyebrow.id",
     text: "Eyebrow Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "eyebrow.angle",
     text: "Eyebrow Angle",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: -15,
@@ -152,15 +198,16 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
       },
     },
   },
-
   {
     key: "nose.id",
     text: "Nose Shape",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "nose.size",
     text: "Nose Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0.5,
@@ -171,24 +218,27 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
   {
     key: "nose.flip",
     text: "Nose Flip",
+    selectionType: "boolean",
     renderOptions: {
       isBoolean: true,
     },
   },
-
   {
     key: "eyeLine.id",
     text: "Eye Line Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "smileLine.id",
     text: "Smile Line Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "smileLine.size",
     text: "Smile Line Size",
+    selectionType: "range",
     renderOptions: {
       rangeConfig: {
         min: 0.25,
@@ -200,27 +250,31 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
     key: "miscLine.id",
     text: "Misc Line Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
-
   {
     key: "glasses.id",
     text: "Glasses Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "accessories.id",
     text: "Accessories Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
 
   {
     key: "jersey.id",
     text: "Jersey Style",
     hasSvgs: true,
+    selectionType: "svgs",
   },
   {
     key: "teamColors",
     text: "Team Colors",
+    selectionType: "color",
     renderOptions: {
       isColor: true,
       colorCount: 3,
@@ -229,42 +283,59 @@ const gallerySectionConfigList: GallerySectionConfig[] = [
   },
 ];
 
-for (const gallerySectionConfig of gallerySectionConfigList) {
-  gallerySectionConfig.randomizeEnabled = true;
+const gallerySectionConfigList: GallerySectionConfig[] =
+  gallerySectionInfos.map((gallerySectionConfig) => {
+    if (gallerySectionConfig.selectionType === "range") {
+      const rangeConfig = gallerySectionConfig.renderOptions.rangeConfig;
 
-  if (
-    gallerySectionConfig.renderOptions &&
-    gallerySectionConfig.renderOptions.rangeConfig
-  ) {
-    const rangeConfig = gallerySectionConfig.renderOptions.rangeConfig;
-
-    if (!rangeConfig.step || !rangeConfig.sliderStep) {
       const range = rangeConfig.max - rangeConfig.min;
-      rangeConfig.step = roundTwoDecimals(range / 5);
-      rangeConfig.sliderStep = Math.max(roundTwoDecimals(range / 35), 0.01);
-    }
+      const step = roundTwoDecimals(range / 5);
+      const sliderStep = Math.max(roundTwoDecimals(range / 35), 0.01);
 
-    gallerySectionConfig.renderOptions.valuesToRender = generateRangeFromStep(
-      rangeConfig.min,
-      rangeConfig.max,
-      rangeConfig.step,
-    );
-    gallerySectionConfig.selectionType = "range";
-  } else if (
-    gallerySectionConfig.renderOptions &&
-    gallerySectionConfig.renderOptions.isBoolean
-  ) {
-    gallerySectionConfig.renderOptions.valuesToRender = [false, true];
-    gallerySectionConfig.selectionType = "boolean";
-  } else if (
-    gallerySectionConfig.renderOptions &&
-    gallerySectionConfig.renderOptions.isColor
-  ) {
-    gallerySectionConfig.selectionType = "color";
-  } else {
-    gallerySectionConfig.selectionType = "svgs";
-  }
-}
+      const valuesToRender = generateRangeFromStep(
+        rangeConfig.min,
+        rangeConfig.max,
+        step,
+      );
+
+      return {
+        ...gallerySectionConfig,
+        renderOptions: {
+          ...gallerySectionConfig.renderOptions,
+          rangeConfig: {
+            ...gallerySectionConfig.renderOptions.rangeConfig,
+            step,
+            sliderStep,
+          },
+          valuesToRender,
+        },
+        randomizeEnabled: true,
+        selectedValue: rangeConfig.min,
+      };
+    } else if (gallerySectionConfig.selectionType === "boolean") {
+      return {
+        ...gallerySectionConfig,
+        renderOptions: {
+          ...gallerySectionConfig.renderOptions,
+          valuesToRender: [false, true],
+        },
+        randomizeEnabled: true,
+        selectedValue: false,
+      };
+    } else if (gallerySectionConfig.selectionType === "color") {
+      return {
+        ...gallerySectionConfig,
+        randomizeEnabled: true,
+        selectedValue: "???",
+      };
+    } else {
+      return {
+        ...gallerySectionConfig,
+        randomizeEnabled: true,
+        selectedValue: "???",
+      };
+    }
+  });
 
 const generateFirstFace = () => {
   let faceConfig: Face;
@@ -302,7 +373,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
         faceConfig: { ...newFace },
       };
     }),
-  gallerySectionConfigList: gallerySectionConfigList,
+  gallerySectionConfigList,
   gallerySize: "md",
   setGallerySize: (size: GallerySize) =>
     set((state: CombinedState) => {

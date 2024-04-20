@@ -42,10 +42,8 @@ const inputOnChange = ({
 }) => {
   const overrideChosenIndex: number = overrideList.findIndex(
     (overrideListItem) =>
-      getFromDict(
-        overrideListItem.override,
-        gallerySectionConfig?.key ?? "",
-      ) === chosenValue,
+      getFromDict(overrideListItem.override, gallerySectionConfig.key ?? "") ===
+      chosenValue,
   );
 
   const faceConfigCopy = newFaceConfigFromOverride(
@@ -68,7 +66,7 @@ const FeatureSelector = ({
   stateStoreProps,
   sectionIndex,
 }: {
-  gallerySectionConfig?: GallerySectionConfig | null;
+  gallerySectionConfig: GallerySectionConfig;
   overrideList: OverrideList;
   stateStoreProps: CombinedState;
   sectionIndex: number;
@@ -81,7 +79,7 @@ const FeatureSelector = ({
 
   const selectedVal: string | number | boolean = getFromDict(
     faceConfig,
-    gallerySectionConfig?.key ?? "",
+    gallerySectionConfig.key ?? "",
   );
 
   if (gallerySectionConfig.selectionType === "svgs") {
@@ -90,7 +88,6 @@ const FeatureSelector = ({
         key={`select-${sectionIndex}`}
         label={gallerySectionConfig.text}
         className="max-w-xs"
-        // @ts-expect-error Annoying type issue
         selectedKeys={[gallerySectionConfig.selectedValue]}
         onChange={(e) => {
           const chosenValue = e.target.value;
@@ -107,8 +104,8 @@ const FeatureSelector = ({
         {overrideList.map((overrideToRun) => {
           return (
             <SelectItem
-              key={overrideToRun.display as string}
-              value={overrideToRun.display as string}
+              key={overrideToRun.display}
+              value={overrideToRun.display}
             >
               {overrideToRun.display}
             </SelectItem>
@@ -121,11 +118,9 @@ const FeatureSelector = ({
       <Slider
         key={`Slider-${sectionIndex}`}
         label={gallerySectionConfig.text}
-        step={
-          gallerySectionConfig?.renderOptions?.rangeConfig?.sliderStep ?? 0.01
-        }
-        maxValue={gallerySectionConfig?.renderOptions?.rangeConfig?.max}
-        minValue={gallerySectionConfig?.renderOptions?.rangeConfig?.min}
+        step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
+        maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
+        minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
         defaultValue={0.4}
         value={(selectedVal as number) || 0}
         className="max-w-md"
@@ -161,7 +156,7 @@ const FeatureSelector = ({
       />
     );
   } else if (gallerySectionConfig.selectionType == "color") {
-    const numColors = gallerySectionConfig?.renderOptions?.colorCount ?? 1;
+    const numColors = gallerySectionConfig.renderOptions.colorCount;
     const initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
       length: numColors,
     }).map(() => "valid");
@@ -193,7 +188,7 @@ const FeatureSelector = ({
 
       let chosenValue: any = getFromDict(
         faceConfig,
-        gallerySectionConfig?.key ?? "",
+        gallerySectionConfig.key ?? "",
       );
       if (hasMultipleColors) {
         chosenValue[colorIndex] = newColorValue;
@@ -230,7 +225,7 @@ const FeatureSelector = ({
                   key={`Input-color-${sectionIndex}-${colorIndex}`}
                   type="color"
                   value={selectedColor}
-                  label={`${gallerySectionConfig?.text} Picker`}
+                  label={`${gallerySectionConfig.text} Picker`}
                   onValueChange={(e) => {
                     colorInputOnChange({
                       newColorValue: e || "#000000",
@@ -248,7 +243,7 @@ const FeatureSelector = ({
                       ? "Color format must be #RRGGBB"
                       : null
                   }
-                  label={`${gallerySectionConfig?.text} Hex`}
+                  label={`${gallerySectionConfig.text} Hex`}
                   onChange={(e) => {
                     colorInputOnChange({
                       newColorValue: e.target.value || "#000000",
@@ -300,7 +295,7 @@ export const FeatureGallery = () => {
 
   return (
     <div className="w-full flex flex-col overflow-y-auto">
-      {gallerySectionConfigList?.map((gallerySectionConfig, sectionIndex) => {
+      {gallerySectionConfigList.map((gallerySectionConfig, sectionIndex) => {
         const overrideList = getOverrideListForItem(gallerySectionConfig);
 
         return (
