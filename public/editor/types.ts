@@ -33,7 +33,6 @@ type GallerySectionConfigBase = {
   text: string;
   isSelected?: boolean;
   randomizeEnabled: boolean;
-  hasSvgs?: boolean;
   noneAllowed?: boolean;
 };
 
@@ -55,7 +54,6 @@ type GallerySectionConfigBoolean = GallerySectionConfigBase & {
   selectionType: "boolean";
   selectedValue: boolean;
   renderOptions: {
-    isBoolean: boolean;
     valuesToRender: boolean[];
   };
 };
@@ -64,7 +62,6 @@ type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
   selectedValue: string | [string, string, string];
   renderOptions: {
-    isColor: boolean;
     colorCount: number;
   };
 };

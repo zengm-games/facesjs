@@ -11,13 +11,12 @@ import { Face, TeamColors } from "../../src/types";
 
 const gallerySectionInfos: (Pick<
   GallerySectionConfig,
-  "key" | "text" | "isSelected" | "hasSvgs"
+  "key" | "text" | "isSelected"
 > &
   (
     | {
         selectionType: "color";
         renderOptions: {
-          isColor: boolean;
           colorCount: number;
           valuesToRender: TeamColors[] | string[];
         };
@@ -33,9 +32,6 @@ const gallerySectionInfos: (Pick<
       }
     | {
         selectionType: "boolean";
-        renderOptions: {
-          isBoolean: boolean;
-        };
       }
     | {
         selectionType: "svgs";
@@ -47,7 +43,6 @@ const gallerySectionInfos: (Pick<
     isSelected: true,
     selectionType: "color",
     renderOptions: {
-      isColor: true,
       colorCount: 1,
       valuesToRender: distinctSkinColors,
     },
@@ -66,13 +61,11 @@ const gallerySectionInfos: (Pick<
   {
     key: "body.id",
     text: "Body Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "head.id",
     text: "Head Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -89,7 +82,6 @@ const gallerySectionInfos: (Pick<
   {
     key: "mouth.id",
     text: "Mouth Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -107,14 +99,10 @@ const gallerySectionInfos: (Pick<
     key: "mouth.flip",
     text: "Mouth Flip",
     selectionType: "boolean",
-    renderOptions: {
-      isBoolean: true,
-    },
   },
   {
     key: "eye.id",
     text: "Eye Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -131,7 +119,6 @@ const gallerySectionInfos: (Pick<
   {
     key: "ear.id",
     text: "Ear Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -148,7 +135,6 @@ const gallerySectionInfos: (Pick<
   {
     key: "hair.id",
     text: "Hair Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -156,7 +142,6 @@ const gallerySectionInfos: (Pick<
     text: "Hair Color",
     selectionType: "color",
     renderOptions: {
-      isColor: true,
       colorCount: 1,
       valuesToRender: distinctHairColors,
     },
@@ -165,26 +150,20 @@ const gallerySectionInfos: (Pick<
     key: "hair.flip",
     text: "Hair Flip",
     selectionType: "boolean",
-    renderOptions: {
-      isBoolean: true,
-    },
   },
   {
     key: "hairBg.id",
     text: "Hair Background",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "facialHair.id",
     text: "Facial Hair Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "eyebrow.id",
     text: "Eyebrow Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -201,7 +180,6 @@ const gallerySectionInfos: (Pick<
   {
     key: "nose.id",
     text: "Nose Shape",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -219,20 +197,15 @@ const gallerySectionInfos: (Pick<
     key: "nose.flip",
     text: "Nose Flip",
     selectionType: "boolean",
-    renderOptions: {
-      isBoolean: true,
-    },
   },
   {
     key: "eyeLine.id",
     text: "Eye Line Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "smileLine.id",
     text: "Smile Line Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -249,26 +222,22 @@ const gallerySectionInfos: (Pick<
   {
     key: "miscLine.id",
     text: "Misc Line Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "glasses.id",
     text: "Glasses Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
     key: "accessories.id",
     text: "Accessories Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
 
   {
     key: "jersey.id",
     text: "Jersey Style",
-    hasSvgs: true,
     selectionType: "svgs",
   },
   {
@@ -276,7 +245,6 @@ const gallerySectionInfos: (Pick<
     text: "Team Colors",
     selectionType: "color",
     renderOptions: {
-      isColor: true,
       colorCount: 3,
       valuesToRender: jerseyColorOptions,
     },
@@ -316,7 +284,6 @@ const gallerySectionConfigList: GallerySectionConfig[] =
       return {
         ...gallerySectionConfig,
         renderOptions: {
-          ...gallerySectionConfig.renderOptions,
           valuesToRender: [false, true],
         },
         randomizeEnabled: true,
