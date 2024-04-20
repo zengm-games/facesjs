@@ -23,7 +23,7 @@ const getID = (type: Feature, gender: Gender): string => {
   return validIDs[randomInt(0, validIDs.length)];
 };
 
-const colors = {
+export const colors = {
   white: {
     skin: ["#f2d6cb", "#ddb7a0"],
     hair: [

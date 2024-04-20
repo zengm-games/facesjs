@@ -6,7 +6,7 @@ import {
   distinctHairColors,
   distinctSkinColors,
   jerseyColorOptions,
-} from "./globals";
+} from "./defaultColors";
 import { Face } from "../../src/types";
 
 const gallerySectionInfos: (Pick<
