@@ -311,27 +311,33 @@ export const FeatureGallery = () => {
             <div className="mb-1 mx-1 flex justify-between items-center">
               <div className="flex items-center gap-1">
                 <span>{gallerySectionConfig.text}</span>
-                <span
-                  onClick={() => {
-                    shuffleOptions(
-                      gallerySectionConfig,
-                      setFaceStore,
-                      faceConfig,
-                    );
-                  }}
-                >
-                  <Shuffle
-                    size={28}
-                    weight="bold"
-                    className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-90 transition-transform ease-in-out"
-                  />
-                </span>
                 <Tooltip
-                  key={`tooltip-${sectionIndex}`}
+                  key={`tooltip1-${sectionIndex}`}
                   placement={"right"}
-                  content={"Enable to lock section when shuffling Face"}
+                  content={`Randomize ${gallerySectionConfig.text}`}
                 >
-                  <span
+                  <button
+                    onClick={() => {
+                      shuffleOptions(
+                        gallerySectionConfig,
+                        setFaceStore,
+                        faceConfig,
+                      );
+                    }}
+                  >
+                    <Shuffle
+                      size={28}
+                      weight="bold"
+                      className="cursor-pointer hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-90 transition-transform ease-in-out"
+                    />
+                  </button>
+                </Tooltip>
+                <Tooltip
+                  key={`tooltip2-${sectionIndex}`}
+                  placement={"right"}
+                  content={`Lock current ${gallerySectionConfig.text} when shuffling whole face`}
+                >
+                  <button
                     onClick={() => {
                       setRandomizeEnabledForSection(
                         sectionIndex,
@@ -352,7 +358,7 @@ export const FeatureGallery = () => {
                         className="cursor-pointer bg-slate-500 text-white hover:text-white hover:bg-slate-800 rounded-full p-1 active:scale-80 transition-transform ease-in-out"
                       />
                     )}
-                  </span>
+                  </button>
                 </Tooltip>
               </div>
 
