@@ -1,4 +1,4 @@
-import { concatClassNames } from "../public/utils";
+import { concatClassNames } from "../public/editor/utils";
 
 describe("concatClassNames function tests", () => {
   it("returns an empty string when no classnames are provided", () => {

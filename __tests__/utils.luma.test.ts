@@ -1,4 +1,4 @@
-import { luma } from "../public/utils";
+import { luma } from "../public/editor/utils";
 
 describe("luma function tests", () => {
   it("calculates the luma of a dark color correctly", () => {

@@ -1,9 +1,9 @@
-import { generate } from "../src/generate";
+import { generate } from "../../src/generate";
 import {
   FaceConfig,
   GallerySectionConfig,
   GenerateOptions,
-} from "../src/types";
+} from "../../src/types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
 
 export const shuffleEntireFace = (

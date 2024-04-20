@@ -1,4 +1,4 @@
-import { objStringifyInOrder } from "../public/utils";
+import { objStringifyInOrder } from "../public/editor/utils";
 
 describe("objStringifyInOrder function tests", () => {
   it("returns an empty string for an empty object", () => {

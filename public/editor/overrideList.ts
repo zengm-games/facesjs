@@ -1,11 +1,11 @@
-import override from "../src/override";
-import { svgsIndex } from "../src/svgs-index";
+import override from "../../src/override";
+import { svgsIndex } from "../../src/svgs-index";
 import {
   FaceConfig,
   GallerySectionConfig,
   OverrideList,
   Overrides,
-} from "../src/types";
+} from "../../src/types";
 import {
   deepCopy,
   doesStrLookLikeColor,

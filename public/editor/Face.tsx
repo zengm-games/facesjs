@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { FaceConfig, Overrides } from "../src/types";
+import { FaceConfig, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
-import { display } from "../src/display";
+import { display } from "../../src/display";
 
 /*
     This component is responsible for rendering the face SVG string

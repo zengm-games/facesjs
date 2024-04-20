@@ -1,4 +1,4 @@
-import { flattenDict } from "../public/utils";
+import { flattenDict } from "../public/editor/utils";
 
 describe("flattenDict", () => {
   it("flattens a simple object with no nested structures", () => {

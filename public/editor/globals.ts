@@ -1,4 +1,4 @@
-import { TeamColors } from "../src/types";
+import { TeamColors } from "../../src/types";
 import { distinct } from "./utils";
 
 const colors = {

@@ -1,4 +1,4 @@
-import { distinct } from "../public/utils";
+import { distinct } from "../public/editor/utils";
 
 describe("distinct function tests", () => {
   it("removes duplicate numbers from an array", () => {

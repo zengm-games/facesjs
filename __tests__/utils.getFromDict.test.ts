@@ -1,4 +1,4 @@
-import { getFromDict } from "../public/utils";
+import { getFromDict } from "../public/editor/utils";
 
 describe("getFromDict function tests", () => {
   it("retrieves a value from a plain object at root level", () => {

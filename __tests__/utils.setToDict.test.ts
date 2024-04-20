@@ -1,4 +1,4 @@
-import { setToDict } from "../public/utils";
+import { setToDict } from "../public/editor/utils";
 
 describe("setToDict function tests", () => {
   it("sets a value in a plain object at root level", () => {

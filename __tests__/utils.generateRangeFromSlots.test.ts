@@ -1,4 +1,4 @@
-import { generateRangeFromSlots } from "../public/utils";
+import { generateRangeFromSlots } from "../public/editor/utils";
 
 describe("generateRangeFromSlots function tests", () => {
   it("generates a range with specified number of slots", () => {

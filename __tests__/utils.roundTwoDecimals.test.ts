@@ -1,4 +1,4 @@
-import { roundTwoDecimals } from "../public/utils";
+import { roundTwoDecimals } from "../public/editor/utils";
 
 describe("roundTwoDecimals function tests", () => {
   it("rounds a positive number correctly", () => {

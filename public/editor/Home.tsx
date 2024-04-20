@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Face } from "./Face";
-import { generate } from "../src/generate";
+import { generate } from "../../src/generate";
 import { GithubLogo } from "@phosphor-icons/react";
 
 import { Snippet, Kbd, Button } from "@nextui-org/react";
 import { encodeJSONForUrl } from "./utils";
-import { FaceConfig } from "../src/types";
+import { FaceConfig } from "../../src/types";
 
 const FaceWrapper = ({
   index,
@@ -23,7 +23,7 @@ const FaceWrapper = ({
   const navigate = useNavigate();
   const handleNavigate = () => {
     const encodedValue = encodeJSONForUrl(faceConfig);
-    navigate(`/editor/${encodedValue}`);
+    navigate(`/${encodedValue}`);
   };
 
   // Use statekey to trigger refresh upon clicking of R or refresh button

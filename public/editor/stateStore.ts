@@ -4,8 +4,8 @@ import {
   FaceConfig,
   GallerySectionConfig,
   GallerySize,
-} from "../src/types";
-import { generate } from "../src/generate";
+} from "../../src/types";
+import { generate } from "../../src/generate";
 import { generateRangeFromStep, getFromDict, roundTwoDecimals } from "./utils";
 import {
   distinctHairColors,

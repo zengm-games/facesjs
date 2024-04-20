@@ -1,9 +1,7 @@
 build
 dist
 node_modules
-viewer/build
 src/svgs.ts
 src/svgs-index.ts
-test.html
 yarn-error.log
 *.DS_Store

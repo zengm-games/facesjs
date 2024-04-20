@@ -1,4 +1,4 @@
-import { isValidJSON } from "../public/utils";
+import { isValidJSON } from "../public/editor/utils";
 
 describe("isValidJSON function tests", () => {
   it("returns true for a valid JSON object string", () => {

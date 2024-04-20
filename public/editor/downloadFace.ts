@@ -1,5 +1,5 @@
-import { faceToSvgString } from "../src/faceToSvgString";
-import { FaceConfig } from "../src/types";
+import { faceToSvgString } from "../../src/faceToSvgString";
+import { FaceConfig } from "../../src/types";
 import { getCurrentTimestampAsString } from "./utils";
 import { Canvg } from "canvg";
 

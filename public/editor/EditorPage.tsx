@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Face } from "./Face";
-import override from "../src/override";
+import override from "../../src/override";
 import {
   CombinedState,
   FaceConfig,
@@ -11,7 +11,7 @@ import {
   OverrideListItem,
   Overrides,
   Race,
-} from "../src/types";
+} from "../../src/types";
 import { useStateStore } from "./stateStore";
 import {
   Shuffle,
@@ -112,7 +112,7 @@ export const EditorPage = () => {
   useEffect(() => {
     if (faceConfig) {
       const urlEncodeString = encodeJSONForUrl(faceConfig);
-      navigate(`/editor/${urlEncodeString}`, { replace: true });
+      navigate(`/${urlEncodeString}`, { replace: true });
     }
   }, [faceConfig, navigate]);
 

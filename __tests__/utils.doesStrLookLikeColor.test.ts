@@ -1,4 +1,4 @@
-import { doesStrLookLikeColor } from "../public/utils";
+import { doesStrLookLikeColor } from "../public/editor/utils";
 
 describe("doesStrLookLikeColor function tests", () => {
   it("returns true for valid 6-digit hexadecimal color", () => {

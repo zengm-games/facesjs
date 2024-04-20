@@ -1,4 +1,4 @@
-import { generateRangeFromStep } from "../public/utils";
+import { generateRangeFromStep } from "../public/editor/utils";
 
 describe("generateRangeFromStep function tests", () => {
   it("generates a range with a positive step", () => {

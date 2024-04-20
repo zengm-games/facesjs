@@ -1,5 +1,5 @@
 // deleteFromDict.test.ts
-import { deleteFromDict } from "../public/utils";
+import { deleteFromDict } from "../public/editor/utils";
 
 describe("deleteFromDict", () => {
   it("deletes a top-level property", () => {
