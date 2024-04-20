@@ -105,7 +105,7 @@ export const generate = (
     body: {
       id: getID("body", gender),
       color: skinColor,
-      size: gender === "female" ? 0.95 : 1,
+      size: Math.random() * 0.1 + (gender === "female" ? 0.8 : 0.95),
     },
     jersey: {
       id: getID("jersey", gender),

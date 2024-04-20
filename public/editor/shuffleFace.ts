@@ -46,8 +46,13 @@ export const shuffleOptions = (
   setFaceStore: any,
   faceConfig: Face,
 ) => {
-  let faceConfigCopy = deepCopy(faceConfig);
-  faceConfigCopy = deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
+  console.log("shuffle", gallerySectionConfig.key, faceConfig.body.size);
+  const faceConfigCopy = deleteFromDict(
+    deepCopy(faceConfig),
+    gallerySectionConfig.key,
+  );
+  console.log("a", faceConfigCopy.body.size);
   const newFace = generate(faceConfigCopy);
+  console.log("b", newFace.body.size);
   setFaceStore(newFace);
 };
