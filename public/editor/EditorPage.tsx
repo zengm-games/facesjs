@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import { Face } from "./Face";
 import override from "../../src/override";
 import {
@@ -62,9 +61,6 @@ import {
   concatClassNames,
   doesStrLookLikeColor,
   isValidJSON,
-  encodeJSONForUrl,
-  decodeFromUrlToJSON,
-  objStringifyInOrder,
   capitalizeFirstLetter,
 } from "./utils";
 
@@ -80,41 +76,7 @@ import {
 } from "./overrideList";
 
 export const EditorPage = () => {
-  let { setFaceStore, faceConfig } = useStateStore();
-  const navigate = useNavigate();
   const modalDisclosure = useDisclosure();
-
-  const location = useLocation();
-  const paramHash = location.hash;
-
-  let params = useParams();
-  let param = params["param"];
-
-  useEffect(() => {
-    if (param || paramHash) {
-      const decodedFaceConfig = decodeFromUrlToJSON([
-        paramHash,
-        param,
-      ]) as FaceConfig;
-      if (
-        objStringifyInOrder(decodedFaceConfig) !==
-        objStringifyInOrder(faceConfig)
-      ) {
-        try {
-          setFaceStore(decodedFaceConfig);
-        } catch (error) {
-          console.error("Error parsing JSON from URL param:", error);
-        }
-      }
-    }
-  }, [paramHash, setFaceStore]);
-
-  useEffect(() => {
-    if (faceConfig) {
-      const urlEncodeString = encodeJSONForUrl(faceConfig);
-      navigate(`/${urlEncodeString}`, { replace: true });
-    }
-  }, [faceConfig, navigate]);
 
   return (
     <>
@@ -693,8 +655,6 @@ const EditorPageTopBar = () => {
     setShuffleGenderSettingObject,
     setShuffleRaceSettingObject,
   } = stateStore;
-  const navigate = useNavigate();
-
   const genders = ["male", "female"];
   const races = ["white", "black", "brown", "asian"];
 
@@ -706,7 +666,7 @@ const EditorPageTopBar = () => {
     <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
       <div className="flex gap-4 text-xl p-2 justify-around items-center">
         <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
-          <House weight="fill" size={24} onClick={() => navigate("/")} />
+          <House weight="fill" size={24} href="/" />
         </span>
         <span className="hidden md:inline">faces.js Editor</span>
         <ButtonGroup>

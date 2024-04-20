@@ -270,8 +270,18 @@ for (const gallerySectionConfig of gallerySectionConfigList) {
   }
 }
 
-const generateFirstFace = (): FaceConfig => {
-  let faceConfig = generate() as FaceConfig;
+const generateFirstFace = () => {
+  let faceConfig: FaceConfig;
+  if (location.hash.length <= 1) {
+    faceConfig = generate();
+  } else {
+    try {
+      faceConfig = JSON.parse(atob(location.hash.slice(1)));
+    } catch (error) {
+      console.error(error);
+      faceConfig = generate();
+    }
+  }
   return faceConfig;
 };
 
@@ -281,6 +291,8 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   faceConfig: generateFirstFace(),
   setFaceStore: (newFace: FaceConfig) =>
     set((state: CombinedState) => {
+      history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
+
       for (let gallerySectionConfig of gallerySectionConfigList) {
         gallerySectionConfig.selectedValue = getFromDict(
           newFace,

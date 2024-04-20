@@ -1,6 +1,6 @@
-# 5.0.0 (2024-04-08)
+# 4.1.0 (???)
 
-- Re-vamped FacesJS site, including Home & Editor
+- #35 - @tomkennedy22 rewrote the editor UI and added a ton of functionality.
 
 # 4.0.0 (2023-11-19)
 

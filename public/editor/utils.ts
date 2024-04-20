@@ -158,22 +158,6 @@ export const flattenDict = (obj: any | any[], parentKey = "", result = {}) => {
   return result;
 };
 
-// objStringifyInOrder is used to stringify objects in a consistent order, flattening nested objects then sorting keys
-export const objStringifyInOrder = (obj: any): string => {
-  let flattenedObj = flattenDict(obj);
-
-  let returnString = "";
-
-  Object.keys(flattenedObj)
-    .sort()
-    .forEach((key) => {
-      // @ts-ignore
-      returnString += `${key}: ${flattenedObj[key]}\n`;
-    });
-
-  return returnString;
-};
-
 export const deepCopy = <T>(value: T): T => {
   if (typeof value !== "object" || value === null) {
     return value;
@@ -234,51 +218,6 @@ export const isValidJSON = (value: string): boolean => {
 
 export const pickRandom = (arr: any[]): any => {
   return arr[Math.floor(Math.random() * arr.length)];
-};
-
-const safeEncodeBase64 = (str: string): string | null => {
-  try {
-    return btoa(str);
-  } catch (e) {
-    console.log("Error encoding base64 parameter:", { e, str });
-    return null;
-  }
-};
-
-const safeDecodeBase64 = (str: string): string | null => {
-  try {
-    return atob(str);
-  } catch (e) {
-    console.log("Error decoding base64 parameter:", { e, str });
-    return null;
-  }
-};
-
-export const encodeJSONForUrl = (input: {
-  [key: string]: any;
-}): string | null => {
-  return safeEncodeBase64(JSON.stringify(input));
-};
-
-export const decodeFromUrlToJSON = (
-  paramOptions: (string | undefined)[],
-): { [key: string]: any } => {
-  paramOptions = paramOptions.filter((param) => param && param.length > 0);
-  paramOptions = paramOptions.map((param) => [param, param!.slice(1)]).flat();
-
-  let decodedString = paramOptions
-    .map((param) => safeDecodeBase64(param!))
-    .find((decodedString) => decodedString !== null);
-
-  if (decodedString) {
-    try {
-      return JSON.parse(decodedString);
-    } catch (e) {
-      console.error("Error parsing JSON from decoded string:", e);
-    }
-  }
-
-  return {};
 };
 
 export const getCurrentTimestampAsString = (): string => {
