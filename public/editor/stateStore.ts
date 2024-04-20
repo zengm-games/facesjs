@@ -316,7 +316,7 @@ const gallerySectionConfigList: GallerySectionConfig[] =
     }
   });
 
-const generateFirstFace = () => {
+const generateInitialFace = () => {
   let faceConfig: Face;
   if (location.hash.length <= 1) {
     faceConfig = generate();
@@ -331,20 +331,30 @@ const generateFirstFace = () => {
   return faceConfig;
 };
 
+const applyValuesToGallerySectionConfigList = (
+  gallerySectionConfigList: GallerySectionConfig[],
+  face: Face,
+) => {
+  for (const gallerySectionConfig of gallerySectionConfigList) {
+    gallerySectionConfig.selectedValue = getFromDict(
+      face,
+      gallerySectionConfig.key,
+    );
+  }
+};
+
+const initialFace = generateInitialFace();
+applyValuesToGallerySectionConfigList(gallerySectionConfigList, initialFace);
+
 const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   set: any,
 ) => ({
-  faceConfig: generateFirstFace(),
+  faceConfig: initialFace,
   setFaceStore: (newFace: Face) =>
     set((state: CombinedState) => {
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
 
-      for (const gallerySectionConfig of gallerySectionConfigList) {
-        gallerySectionConfig.selectedValue = getFromDict(
-          newFace,
-          gallerySectionConfig.key,
-        );
-      }
+      applyValuesToGallerySectionConfigList(gallerySectionConfigList, newFace);
 
       return {
         ...state,
