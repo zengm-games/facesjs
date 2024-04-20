@@ -310,7 +310,7 @@ export const FeatureGallery = () => {
           >
             <div className="my-1 mx-1 flex justify-between items-center">
               <div className="flex items-center gap-1">
-                <span>Choose {gallerySectionConfig.text}</span>
+                <span>{gallerySectionConfig.text}</span>
                 <span
                   onClick={() => {
                     shuffleOptions(
@@ -367,7 +367,7 @@ export const FeatureGallery = () => {
             </div>
             {gallerySize != "sm" && (
               <div
-                className={`w-full overflow-y-scroll flex justify-start overflow-scroll gap-8${gallerySize == "lg" ? " flex-wrap" : ""}`}
+                className={`w-full flex justify-start gap-8${gallerySize === "lg" ? " flex-wrap" : ""}${gallerySize === "md" ? " overflow-x-scroll" : ""}`}
               >
                 {overrideList.map((overrideToRun, faceIndex) => {
                   const faceConfigCopy = deepCopy(faceConfig);
