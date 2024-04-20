@@ -40,7 +40,7 @@ const inputOnChange = ({
   sectionIndex: number;
   stateStoreProps: any;
 }) => {
-  let overrideChosenIndex: number = overrideList.findIndex(
+  const overrideChosenIndex: number = overrideList.findIndex(
     (overrideListItem) =>
       getFromDict(
         overrideListItem.override,
@@ -48,7 +48,7 @@ const inputOnChange = ({
       ) === chosenValue,
   );
 
-  let faceConfigCopy = newFaceConfigFromOverride(
+  const faceConfigCopy = newFaceConfigFromOverride(
     faceConfig,
     gallerySectionConfig,
     chosenValue,
@@ -73,13 +73,13 @@ const FeatureSelector = ({
   stateStoreProps: CombinedState;
   sectionIndex: number;
 }) => {
-  let { faceConfig } = stateStoreProps;
+  const { faceConfig } = stateStoreProps;
 
   if (!gallerySectionConfig) {
     return <div>Select a feature</div>;
   }
 
-  let selectedVal: string | number | boolean = getFromDict(
+  const selectedVal: string | number | boolean = getFromDict(
     faceConfig,
     gallerySectionConfig?.key ?? "",
   );
@@ -90,10 +90,10 @@ const FeatureSelector = ({
         key={`select-${sectionIndex}`}
         label={gallerySectionConfig.text}
         className="max-w-xs"
-        // @ts-ignore Annoying type issue
+        // @ts-expect-error Annoying type issue
         selectedKeys={[gallerySectionConfig.selectedValue]}
         onChange={(e) => {
-          let chosenValue = e.target.value;
+          const chosenValue = e.target.value;
           inputOnChange({
             chosenValue,
             faceConfig,
@@ -130,7 +130,7 @@ const FeatureSelector = ({
         value={(selectedVal as number) || 0}
         className="max-w-md"
         onChange={(e) => {
-          let chosenValue = roundTwoDecimals(e as number);
+          const chosenValue = roundTwoDecimals(e as number);
           inputOnChange({
             chosenValue,
             faceConfig,
@@ -148,7 +148,7 @@ const FeatureSelector = ({
         key={`Switch-${sectionIndex}`}
         isSelected={(selectedVal as boolean) || false}
         onValueChange={(e: boolean) => {
-          let chosenValue = e || false;
+          const chosenValue = e || false;
           inputOnChange({
             chosenValue,
             faceConfig,
@@ -161,8 +161,8 @@ const FeatureSelector = ({
       />
     );
   } else if (gallerySectionConfig.selectionType == "color") {
-    let numColors = gallerySectionConfig?.renderOptions?.colorCount ?? 1;
-    let initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
+    const numColors = gallerySectionConfig?.renderOptions?.colorCount ?? 1;
+    const initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
       length: numColors,
     }).map(() => "valid");
     const [inputValidationArr, setInputValidationArr] =
@@ -215,9 +215,9 @@ const FeatureSelector = ({
       <div className="flex flex-col gap-2">
         {gallerySectionConfig &&
           Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
-            let hasMultipleColors = numColors > 1;
-            let selectedColor =
-              // @ts-ignore TS doesnt like conditional array vs string
+            const hasMultipleColors = numColors > 1;
+            const selectedColor =
+              // @ts-expect-error TS doesnt like conditional array vs string
               (hasMultipleColors ? selectedVal[colorIndex] : selectedVal) ||
               "#000000";
 
@@ -288,7 +288,7 @@ const updateStores = ({
 };
 
 export const FeatureGallery = () => {
-  let stateStoreProps = useStateStore();
+  const stateStoreProps = useStateStore();
 
   const {
     faceConfig,
@@ -370,13 +370,13 @@ export const FeatureGallery = () => {
                 className={`w-full overflow-y-scroll flex justify-start overflow-scroll gap-8${gallerySize == "lg" ? " flex-wrap" : ""}`}
               >
                 {overrideList.map((overrideToRun, faceIndex) => {
-                  let faceConfigCopy = deepCopy(faceConfig);
+                  const faceConfigCopy = deepCopy(faceConfig);
                   override(faceConfigCopy, overrideToRun.override);
 
-                  let isThisItemTheSelectedOne =
+                  const isThisItemTheSelectedOne =
                     gallerySectionConfig.selectedValue == overrideToRun.display;
 
-                  let faceWidth = gallerySize == "md" ? 100 : 150;
+                  const faceWidth = gallerySize == "md" ? 100 : 150;
 
                   return (
                     <div

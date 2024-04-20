@@ -1,6 +1,9 @@
-/** @type {import('tailwindcss').Config} */
-const { nextui } = require("@nextui-org/react");
+import { nextui } from "@nextui-org/react";
+import typography from "@tailwindcss/typography";
+import scrollbar from "tailwind-scrollbar";
+import forms from "@tailwindcss/forms";
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./public/editor/index.html",
@@ -21,9 +24,9 @@ export default {
   },
   darkMode: "class",
   plugins: [
-    require("@tailwindcss/typography"),
-    require("tailwind-scrollbar")({ nocompatible: true }),
-    require("@tailwindcss/forms")({
+    typography,
+    scrollbar({ nocompatible: true }),
+    forms({
       strategy: "class",
     }),
     nextui(),

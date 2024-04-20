@@ -151,21 +151,21 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     }
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   let featureSVGString = svgs[info.name][feature.id];
   if (!featureSVGString) {
     return;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   if (feature.shave) {
-    // @ts-ignore
+    // @ts-expect-error
     featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   if (feature.shave) {
-    // @ts-ignore
+    // @ts-expect-error
     featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
   }
 
@@ -198,7 +198,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
       // Special case, for the pinocchio nose it should not be centered but should stick out to the left or right
       let xAlign;
       if (feature.id === "nose4" || feature.id === "pinocchio") {
-        // @ts-ignore
+        // @ts-expect-error
         xAlign = feature.flip ? "right" : "left";
       } else {
         xAlign = "center";
@@ -213,29 +213,29 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     }
 
     if (feature.hasOwnProperty("angle")) {
-      // @ts-ignore
+      // @ts-expect-error
       rotateCentered(svg.lastChild, (i === 0 ? 1 : -1) * feature.angle);
     }
 
     // Flip if feature.flip is specified or if this is the second position (for eyes and eyebrows). Scale if feature.size is specified.
-    // @ts-ignore
+    // @ts-expect-error
     const scale = feature.hasOwnProperty("size") ? feature.size : 1;
     if (info.name === "body" || info.name === "jersey") {
-      // @ts-ignore
+      // @ts-expect-error
       scaleCentered(svg.lastChild, bodySize, 1);
-      // @ts-ignore
+      // @ts-expect-error
     } else if (feature.flip || i === 1) {
-      // @ts-ignore
+      // @ts-expect-error
       scaleCentered(svg.lastChild, -scale, scale);
     } else if (scale !== 1) {
-      // @ts-ignore
+      // @ts-expect-error
       scaleCentered(svg.lastChild, scale, scale);
     }
 
     if (info.scaleFatness && info.positions[0] !== null) {
       // Scale individual feature relative to the edge of the head. If fatness is 1, then there are 47 pixels on each side. If fatness is 0, then there are 78 pixels on each side.
       const distance = (78 - 47) * (1 - face.fatness);
-      // @ts-ignore
+      // @ts-expect-error
       translate(svg.lastChild, distance, 0, "left", "top");
     }
   }
@@ -245,7 +245,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
     info.positions.length === 1 &&
     info.positions[0] === null
   ) {
-    // @ts-ignore
+    // @ts-expect-error
     scaleCentered(svg.lastChild, fatScale(face.fatness), 1);
   }
 };

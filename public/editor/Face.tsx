@@ -60,7 +60,7 @@ const mergeRefs = (...refs: React.Ref<HTMLDivElement>[]) => {
       if (typeof ref === "function") {
         ref(node);
       } else if (ref && typeof ref === "object") {
-        // @ts-ignore
+        // @ts-expect-error
         ref.current = node;
       }
     });

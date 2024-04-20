@@ -14,7 +14,7 @@ const override = (obj: Overrides, overrides?: Overrides) => {
     ) {
       obj[key] = value;
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       override(obj[key], value);
     }
   }

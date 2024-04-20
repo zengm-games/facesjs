@@ -25,7 +25,7 @@ import { shuffleEntireFace } from "./shuffleFace";
 
 export const TopBar = () => {
   const stateStore = useStateStore();
-  let {
+  const {
     faceConfig,
     gallerySize,
     setGallerySize,
@@ -132,7 +132,7 @@ export const TopBar = () => {
         <Tabs
           aria-label="Options"
           selectedKey={gallerySize}
-          // @ts-ignore
+          // @ts-expect-error
           onSelectionChange={setGallerySize}
         >
           <Tab key="sm" title={<List size={20} />}></Tab>

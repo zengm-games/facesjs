@@ -9,7 +9,7 @@ import {
 } from "./globals";
 import { Face } from "../../src/types";
 
-let gallerySectionConfigList: GallerySectionConfig[] = [
+const gallerySectionConfigList: GallerySectionConfig[] = [
   {
     key: "body.color",
     text: "Skin Color",
@@ -239,7 +239,7 @@ for (const gallerySectionConfig of gallerySectionConfigList) {
     const rangeConfig = gallerySectionConfig.renderOptions.rangeConfig;
 
     if (!rangeConfig.step || !rangeConfig.sliderStep) {
-      let range = rangeConfig.max - rangeConfig.min;
+      const range = rangeConfig.max - rangeConfig.min;
       rangeConfig.step = roundTwoDecimals(range / 5);
       rangeConfig.sliderStep = Math.max(roundTwoDecimals(range / 35), 0.01);
     }
@@ -289,7 +289,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
     set((state: CombinedState) => {
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
 
-      for (let gallerySectionConfig of gallerySectionConfigList) {
+      for (const gallerySectionConfig of gallerySectionConfigList) {
         gallerySectionConfig.selectedValue = getFromDict(
           newFace,
           gallerySectionConfig.key,

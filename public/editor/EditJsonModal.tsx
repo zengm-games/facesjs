@@ -18,7 +18,7 @@ export const EditJsonModal = ({
 }: {
   modalDisclosure: any;
 }) => {
-  let { setFaceStore, faceConfig } = useStateStore();
+  const { setFaceStore, faceConfig } = useStateStore();
   const { isOpen, onOpenChange } = modalDisclosure;
 
   const [textAreaValue, setTextAreaValue] = useState<string>(() =>
@@ -42,7 +42,7 @@ export const EditJsonModal = ({
                 errorMessage={!textAreaValid ? "Invalid JSON" : null}
                 onChange={(e) => {
                   setTextAreaValue(e.target.value);
-                  let isValid = isValidJSON(e.target.value);
+                  const isValid = isValidJSON(e.target.value);
                   setTextAreaValid(isValid);
                 }}
                 size="lg"
@@ -55,7 +55,7 @@ export const EditJsonModal = ({
               </Button>
               <Button
                 onClick={() => {
-                  let isValid = isValidJSON(textAreaValue);
+                  const isValid = isValidJSON(textAreaValue);
                   setTextAreaValid(isValid);
 
                   if (isValid) {

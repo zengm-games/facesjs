@@ -21,10 +21,10 @@ export const deleteFromDict = (obj: any, key: string): any => {
 };
 
 export const getFromDict = (obj: object, key: string): any => {
-  let keyParts: string[] = key.split(".");
+  const keyParts: string[] = key.split(".");
   let current: any = obj;
 
-  for (let part of keyParts) {
+  for (const part of keyParts) {
     if (current instanceof Map) {
       if (!current.has(part)) {
         return null;
@@ -51,7 +51,7 @@ export const setToDict = (
   const keys: string[] = key.trim().split(".");
   let current_container = container;
 
-  for (let [ind, currentKey] of keys.entries()) {
+  for (const [ind, currentKey] of keys.entries()) {
     if (ind === keys.length - 1) {
       if (current_container instanceof Map) {
         current_container.set(currentKey, value);
@@ -94,7 +94,7 @@ export const generateRangeFromStep = (
     throw new Error("Start cannot be greater than end when step is positive");
   }
 
-  let returnArray: number[] = [];
+  const returnArray: number[] = [];
   let track = start;
   while (track <= end) {
     returnArray.push(track);
@@ -109,7 +109,7 @@ export const generateRangeFromSlots = (
   end: number,
   slots: number,
 ): number[] => {
-  let returnArray: number[] = [];
+  const returnArray: number[] = [];
 
   if (slots === 0) {
     return returnArray;
@@ -124,7 +124,7 @@ export const generateRangeFromSlots = (
     [start, end] = [end, start];
   }
 
-  let step = (end - start) / slots;
+  const step = (end - start) / slots;
 
   for (let i = start; i <= end; i += step) {
     returnArray.push(roundTwoDecimals(i));
@@ -146,12 +146,12 @@ export const flattenDict = (obj: any | any[], parentKey = "", result = {}) => {
 
   for (const [key, value] of Object.entries(obj)) {
     const storeKey = objIsArray ? `[${key}]` : key;
-    let newKey = parentKey ? `${parentKey}.${storeKey}` : storeKey;
+    const newKey = parentKey ? `${parentKey}.${storeKey}` : storeKey;
 
     if (value && (Array.isArray(value) || typeof value === "object")) {
       flattenDict(value, newKey, result);
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       result[newKey] = value;
     }
   }

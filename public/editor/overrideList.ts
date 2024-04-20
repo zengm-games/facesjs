@@ -20,7 +20,7 @@ export const getOverrideListForItem = (
 
   if (gallerySectionConfig.selectionType === "svgs") {
     if (gallerySectionConfig.key.includes("id")) {
-      let featureName = gallerySectionConfig.key.split(".")[0] as string;
+      const featureName = gallerySectionConfig.key.split(".")[0] as string;
       let svgNames: any[] = getFromDict(svgsIndex, featureName);
 
       svgNames = svgNames.sort((a, b) => {
@@ -31,13 +31,13 @@ export const getOverrideListForItem = (
           return luma(a) - luma(b);
         }
 
-        let regex = /^([a-zA-Z-]+)(\d*)$/;
-        let matchA = a.match(regex);
-        let matchB = b.match(regex);
+        const regex = /^([a-zA-Z-]+)(\d*)$/;
+        const matchA = a.match(regex);
+        const matchB = b.match(regex);
 
-        let textA = matchA ? matchA[1] : a,
+        const textA = matchA ? matchA[1] : a,
           numA = matchA ? matchA[2] : "";
-        let textB = matchB ? matchB[1] : b,
+        const textB = matchB ? matchB[1] : b,
           numB = matchB ? matchB[2] : "";
 
         if (textA < textB) return -1;
@@ -54,7 +54,7 @@ export const getOverrideListForItem = (
       });
 
       for (let i = 0; i < svgNames.length; i++) {
-        let overrides: Overrides = { [featureName]: { id: svgNames[i] } };
+        const overrides: Overrides = { [featureName]: { id: svgNames[i] } };
         overrideList.push({
           override: overrides,
           display: svgNames[i],
@@ -68,8 +68,9 @@ export const getOverrideListForItem = (
       i < gallerySectionConfig.renderOptions.valuesToRender.length;
       i++
     ) {
-      let valueToRender = gallerySectionConfig.renderOptions.valuesToRender[i];
-      let overrides: Overrides = setToDict(
+      const valueToRender =
+        gallerySectionConfig.renderOptions.valuesToRender[i];
+      const overrides: Overrides = setToDict(
         {},
         gallerySectionConfig.key,
         valueToRender,
@@ -82,7 +83,7 @@ export const getOverrideListForItem = (
     }
   }
 
-  for (let override of overrideList) {
+  for (const override of overrideList) {
     override.ref = useRef(null);
   }
 
