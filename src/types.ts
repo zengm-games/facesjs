@@ -84,8 +84,8 @@ export type FaceConfig = {
   };
   hair: {
     id: string;
-    color?: string;
-    flip?: boolean;
+    color: string;
+    flip: boolean;
   };
   mouth: {
     id: string;

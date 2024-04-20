@@ -33,7 +33,7 @@ function randomInt(
 }
 
 const getID = (type: Feature, gender: Gender): string => {
-  const validIDs = svgsIndex[type].filter((id, index) => {
+  const validIDs = svgsIndex[type].filter((_id, index) => {
     return (
       svgsGenders[type][index] === "both" || svgsGenders[type][index] === gender
     );
