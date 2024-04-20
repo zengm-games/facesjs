@@ -33,7 +33,6 @@ type GallerySectionConfigBase = {
   text: string;
   isSelected?: boolean;
   randomizeEnabled: boolean;
-  noneAllowed?: boolean;
 };
 
 type GallerySectionConfigRange = GallerySectionConfigBase & {
@@ -60,7 +59,12 @@ type GallerySectionConfigBoolean = GallerySectionConfigBase & {
 
 type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
-  selectedValue: string | [string, string, string];
+  selectedValue: string;
+};
+
+type GallerySectionConfigColors = GallerySectionConfigBase & {
+  selectionType: "colors";
+  selectedValue: string[];
   renderOptions: {
     colorCount: number;
   };
@@ -75,6 +79,7 @@ export type GallerySectionConfig =
   | GallerySectionConfigRange
   | GallerySectionConfigBoolean
   | GallerySectionConfigColor
+  | GallerySectionConfigColors
   | GallerySectionConfigSvgs;
 
 export type CombinedState = FaceState & GalleryState;

@@ -155,8 +155,14 @@ const FeatureSelector = ({
         }}
       />
     );
-  } else if (gallerySectionConfig.selectionType == "color") {
-    const numColors = gallerySectionConfig.renderOptions.colorCount;
+  } else if (
+    gallerySectionConfig.selectionType == "color" ||
+    gallerySectionConfig.selectionType === "colors"
+  ) {
+    const numColors =
+      gallerySectionConfig.selectionType == "color"
+        ? 1
+        : gallerySectionConfig.renderOptions.colorCount;
     const initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
       length: numColors,
     }).map(() => "valid");
@@ -210,7 +216,8 @@ const FeatureSelector = ({
       <div className="flex flex-col gap-2">
         {gallerySectionConfig &&
           Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
-            const hasMultipleColors = numColors > 1;
+            const hasMultipleColors =
+              gallerySectionConfig.selectionType == "colors";
             const selectedColor =
               // @ts-expect-error TS doesnt like conditional array vs string
               (hasMultipleColors ? selectedVal[colorIndex] : selectedVal) ||

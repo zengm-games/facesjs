@@ -7,7 +7,7 @@ import {
   distinctSkinColors,
   jerseyColorOptions,
 } from "./globals";
-import { Face, TeamColors } from "../../src/types";
+import { Face } from "../../src/types";
 
 const gallerySectionInfos: (Pick<
   GallerySectionConfig,
@@ -17,8 +17,14 @@ const gallerySectionInfos: (Pick<
     | {
         selectionType: "color";
         renderOptions: {
+          valuesToRender: string[];
+        };
+      }
+    | {
+        selectionType: "colors";
+        renderOptions: {
           colorCount: number;
-          valuesToRender: TeamColors[] | string[];
+          valuesToRender: string[][];
         };
       }
     | {
@@ -43,7 +49,6 @@ const gallerySectionInfos: (Pick<
     isSelected: true,
     selectionType: "color",
     renderOptions: {
-      colorCount: 1,
       valuesToRender: distinctSkinColors,
     },
   },
@@ -142,7 +147,6 @@ const gallerySectionInfos: (Pick<
     text: "Hair Color",
     selectionType: "color",
     renderOptions: {
-      colorCount: 1,
       valuesToRender: distinctHairColors,
     },
   },
@@ -243,7 +247,7 @@ const gallerySectionInfos: (Pick<
   {
     key: "teamColors",
     text: "Team Colors",
-    selectionType: "color",
+    selectionType: "colors",
     renderOptions: {
       colorCount: 3,
       valuesToRender: jerseyColorOptions,
@@ -294,6 +298,14 @@ const gallerySectionConfigList: GallerySectionConfig[] =
         ...gallerySectionConfig,
         randomizeEnabled: true,
         selectedValue: "???",
+      };
+    } else if (gallerySectionConfig.selectionType === "colors") {
+      return {
+        ...gallerySectionConfig,
+        randomizeEnabled: true,
+        selectedValue: Array(
+          gallerySectionConfig.renderOptions.colorCount,
+        ).fill("#000000"),
       };
     } else {
       return {
