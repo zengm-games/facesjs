@@ -65,9 +65,9 @@ import {
 } from "./utils";
 
 import {
-  DownloadFaceAsJSON,
-  DownloadFaceAsPng,
-  DownloadFaceAsSvg,
+  downloadFaceJson,
+  downloadFacePng,
+  downloadFaceSvg,
 } from "./downloadFace";
 import { shuffleEntireFace, shuffleOptions } from "./shuffleFace";
 import {
@@ -129,31 +129,31 @@ const MainFaceDisplayActionBar = ({
       groupName: "Download",
       groupIcon: DownloadSimple,
       baseAction: async () => {
-        await DownloadFaceAsPng(faceConfig);
+        await downloadFacePng(faceConfig);
       },
       items: [
         {
           key: "png",
           text: "Download PNG",
-          description: "Download face as PNG image",
+          description: "Download face as a PNG file",
           action: async () => {
-            await DownloadFaceAsPng(faceConfig);
+            await downloadFacePng(faceConfig);
           },
         },
         {
           key: "svg",
           text: "Download SVG",
-          description: "Download face as SVG",
+          description: "Download face as a SVG file",
           action: async () => {
-            await DownloadFaceAsSvg(faceConfig);
+            await downloadFaceSvg(faceConfig);
           },
         },
         {
           key: "json",
           text: "Download JSON",
-          description: "Download face as JSON",
+          description: "Download face as a JSON file",
           action: async () => {
-            await DownloadFaceAsJSON(faceConfig);
+            await downloadFaceJson(faceConfig);
           },
         },
       ],
