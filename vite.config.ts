@@ -5,7 +5,9 @@ import path from "node:path";
 import { processSVGs } from "./tools/lib/process-svgs.js";
 
 export default defineConfig({
-  root: "public/editor",
+  build: {
+    outDir: "../../build-site/editor",
+  },
   plugins: [
     react(),
     {
@@ -24,6 +26,7 @@ export default defineConfig({
       },
     },
   ],
+  root: "public/editor",
   server: {
     host: true,
     strictPort: true,

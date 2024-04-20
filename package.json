@@ -29,6 +29,7 @@
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
+    "build-site": "node tools/process-svgs.js && rm -rf build-site && node tools/build-site.js && vite build",
     "prepare": "node tools/process-svgs.js && husky",
     "prepublishOnly": "yarn run build",
     "start": "node tools/server.js"
@@ -45,7 +46,6 @@
     "@nextui-org/react": "^2.2.10",
     "@phosphor-icons/react": "^2.1.4",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.12",
