@@ -1,19 +1,16 @@
+import { Face } from "../../src/types";
 import { generate } from "../../src/generate";
-import {
-  FaceConfig,
-  GallerySectionConfig,
-  GenerateOptions,
-} from "../../src/types";
+import { GallerySectionConfig, GenerateOptions } from "./types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
 
 export const shuffleEntireFace = (
-  faceConfig: FaceConfig,
+  faceConfig: Face,
   gallerySectionConfigList: GallerySectionConfig[],
   stateStore: any,
 ) => {
-  let { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
+  const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
     stateStore;
-  let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
+  const faceConfigCopy = deepCopy(faceConfig);
 
   let options: GenerateOptions = {};
   console.log("shuffleEntireFace", {
@@ -59,10 +56,10 @@ export const shuffleEntireFace = (
 export const shuffleOptions = (
   gallerySectionConfig: GallerySectionConfig,
   setFaceStore: any,
-  faceConfig: FaceConfig,
+  faceConfig: Face,
 ) => {
   let faceConfigCopy = deepCopy(faceConfig);
   faceConfigCopy = deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
-  let newFace = generate(faceConfigCopy);
+  const newFace = generate(faceConfigCopy);
   setFaceStore(newFace);
 };

@@ -1,10 +1,5 @@
 import { create, StateCreator } from "zustand";
-import {
-  CombinedState,
-  FaceConfig,
-  GallerySectionConfig,
-  GallerySize,
-} from "../../src/types";
+import { CombinedState, GallerySectionConfig, GallerySize } from "./types";
 import { generate } from "../../src/generate";
 import { generateRangeFromStep, getFromDict, roundTwoDecimals } from "./utils";
 import {
@@ -12,6 +7,7 @@ import {
   distinctSkinColors,
   jerseyColorOptions,
 } from "./globals";
+import { Face } from "../../src/types";
 
 let gallerySectionConfigList: GallerySectionConfig[] = [
   {
@@ -271,7 +267,7 @@ for (const gallerySectionConfig of gallerySectionConfigList) {
 }
 
 const generateFirstFace = () => {
-  let faceConfig: FaceConfig;
+  let faceConfig: Face;
   if (location.hash.length <= 1) {
     faceConfig = generate();
   } else {
@@ -289,7 +285,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   set: any,
 ) => ({
   faceConfig: generateFirstFace(),
-  setFaceStore: (newFace: FaceConfig) =>
+  setFaceStore: (newFace: Face) =>
     set((state: CombinedState) => {
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
 

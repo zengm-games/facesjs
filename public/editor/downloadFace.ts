@@ -1,4 +1,4 @@
-import { FaceConfig } from "../../src/types";
+import { Face } from "../../src/types";
 import { getCurrentTimestampAsString } from "./utils";
 
 // https://blog.logrocket.com/programmatically-downloading-files-browser/
@@ -62,7 +62,7 @@ export const downloadFaceSvg = (svgString: string) => {
   downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.svg`);
 };
 
-export const downloadFaceJson = (faceConfig: FaceConfig) => {
+export const downloadFaceJson = (faceConfig: Face) => {
   const faceConfigString = JSON.stringify(faceConfig, null, 2);
   const blob = new Blob([faceConfigString], { type: "application/json" });
   downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.json`);

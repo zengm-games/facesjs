@@ -1,12 +1,12 @@
 import React, { forwardRef, useEffect } from "react";
-import { FaceConfig, Overrides } from "../../src/types";
+import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
 
 export const Face = forwardRef<
   HTMLDivElement,
   {
-    faceConfig: FaceConfig;
+    faceConfig: FaceType;
     overrides?: Overrides;
     maxWidth?: number;
     width?: number;

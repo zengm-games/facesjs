@@ -1,25 +1,6 @@
-import override, { type Overrides } from "./override.js";
+import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
-
-export type Gender = "male" | "female";
-
-type Feature =
-  | "accessories"
-  | "body"
-  | "ear"
-  | "eye"
-  | "eyebrow"
-  | "eyeLine"
-  | "facialHair"
-  | "glasses"
-  | "hair"
-  | "hairBg"
-  | "head"
-  | "jersey"
-  | "miscLine"
-  | "mouth"
-  | "nose"
-  | "smileLine";
+import { Feature, Gender, Overrides, Race, TeamColors } from "./types.js";
 
 function randomInt(
   minInclusive: number,
@@ -41,8 +22,6 @@ const getID = (type: Feature, gender: Gender): string => {
 
   return validIDs[randomInt(0, validIDs.length)];
 };
-
-export type Race = "asian" | "black" | "brown" | "white";
 
 const colors = {
   white: {
@@ -70,11 +49,7 @@ const colors = {
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
 
-const defaultTeamColors: [string, string, string] = [
-  "#89bfd3",
-  "#7a1319",
-  "#07364f",
-];
+const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
@@ -198,5 +173,3 @@ export const generate = (
 
   return face;
 };
-
-export type Face = ReturnType<typeof generate>;

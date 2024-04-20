@@ -1,6 +1,6 @@
-import type { Face } from "./generate.js";
-import override, { Overrides } from "./override.js";
+import override from "./override.js";
 import svgs from "./svgs.js";
+import { Face, Overrides } from "./types.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 

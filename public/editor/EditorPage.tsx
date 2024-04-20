@@ -1,16 +1,6 @@
 import React, { RefObject, useRef, useState } from "react";
-import { Face } from "./Face";
 import override from "../../src/override";
-import {
-  CombinedState,
-  FaceConfig,
-  GallerySectionConfig,
-  Gender,
-  OverrideList,
-  OverrideListItem,
-  Overrides,
-  Race,
-} from "../../src/types";
+import { Face as FaceType, Gender, Overrides, Race } from "../../src/types";
 import { useStateStore } from "./stateStore";
 import {
   Shuffle,
@@ -74,6 +64,8 @@ import {
   getOverrideListForItem,
   newFaceConfigFromOverride,
 } from "./overrideList";
+import { CombinedState, GallerySectionConfig, OverrideList } from "./types";
+import { Face } from "./Face";
 
 export const EditorPage = () => {
   const modalDisclosure = useDisclosure();
@@ -258,14 +250,14 @@ const inputOnChange = ({
   stateStoreProps,
 }: {
   chosenValue: any;
-  faceConfig: FaceConfig;
+  faceConfig: FaceType;
   overrideList: OverrideList;
   gallerySectionConfig: GallerySectionConfig;
   sectionIndex: number;
   stateStoreProps: any;
 }) => {
   let overrideChosenIndex: number = overrideList.findIndex(
-    (overrideListItem: OverrideListItem) =>
+    (overrideListItem) =>
       getFromDict(
         overrideListItem.override,
         gallerySectionConfig?.key || "",
@@ -497,7 +489,7 @@ const updateStores = ({
   sectionIndex,
   stateStoreProps,
 }: {
-  faceConfig: FaceConfig;
+  faceConfig: FaceType;
   faceIndex: number;
   sectionIndex: number;
   stateStoreProps: any;
@@ -601,41 +593,39 @@ const EditorPageGallery = () => {
                       gallerySize == "lg" ? `flex-wrap` : "",
                     )}
                   >
-                    {overrideList.map(
-                      (overrideToRun: OverrideListItem, faceIndex) => {
-                        let faceConfigCopy = deepCopy(faceConfig);
-                        override(faceConfigCopy, overrideToRun.override);
+                    {overrideList.map((overrideToRun, faceIndex) => {
+                      let faceConfigCopy = deepCopy(faceConfig);
+                      override(faceConfigCopy, overrideToRun.override);
 
-                        let isThisItemTheSelectedOne =
-                          gallerySectionConfig.selectedValue ==
-                          overrideToRun.display;
+                      let isThisItemTheSelectedOne =
+                        gallerySectionConfig.selectedValue ==
+                        overrideToRun.display;
 
-                        let faceWidth = gallerySize == "md" ? 100 : 150;
+                      let faceWidth = gallerySize == "md" ? 100 : 150;
 
-                        return (
-                          <div
-                            key={faceIndex}
-                            className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
-                            onClick={() => {
-                              updateStores({
-                                faceConfig: faceConfigCopy,
-                                faceIndex,
-                                sectionIndex,
-                                stateStoreProps,
-                                overrideList,
-                              });
-                            }}
-                          >
-                            <Face
-                              ref={overrideToRun.ref}
-                              faceConfig={faceConfigCopy}
-                              width={faceWidth}
-                              lazyLoad={true}
-                            />
-                          </div>
-                        );
-                      },
-                    )}
+                      return (
+                        <div
+                          key={faceIndex}
+                          className={` rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out ${isThisItemTheSelectedOne ? "bg-slate-200 hover:border-slate-500 " : ""}`}
+                          onClick={() => {
+                            updateStores({
+                              faceConfig: faceConfigCopy,
+                              faceIndex,
+                              sectionIndex,
+                              stateStoreProps,
+                              overrideList,
+                            });
+                          }}
+                        >
+                          <Face
+                            ref={overrideToRun.ref}
+                            faceConfig={faceConfigCopy}
+                            width={faceWidth}
+                            lazyLoad={true}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -826,8 +816,8 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
                   setTextAreaValid(isValid);
 
                   if (isValid) {
-                    let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-                    let overrides: Overrides = JSON.parse(textAreaValue);
+                    const faceConfigCopy = deepCopy(faceConfig);
+                    const overrides: Overrides = JSON.parse(textAreaValue);
                     override(faceConfigCopy, overrides);
                     setFaceStore(faceConfigCopy);
 

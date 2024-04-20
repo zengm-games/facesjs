@@ -1,11 +1,7 @@
 import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
-import {
-  FaceConfig,
-  GallerySectionConfig,
-  OverrideList,
-  Overrides,
-} from "../../src/types";
+import { Face as FaceType, Overrides } from "../../src/types";
+import { GallerySectionConfig, OverrideList } from "./types";
 import {
   deepCopy,
   doesStrLookLikeColor,
@@ -17,10 +13,10 @@ import { useRef } from "react";
 
 export const getOverrideListForItem = (
   gallerySectionConfig: GallerySectionConfig | null,
-): OverrideList => {
+) => {
   if (!gallerySectionConfig) return [];
 
-  let overrideList: OverrideList = [];
+  const overrideList: OverrideList = [];
 
   if (gallerySectionConfig.selectionType === "svgs") {
     if (gallerySectionConfig.key.includes("id")) {
@@ -94,12 +90,12 @@ export const getOverrideListForItem = (
 };
 
 export const newFaceConfigFromOverride = (
-  faceConfig: FaceConfig,
+  faceConfig: FaceType,
   gallerySectionConfig: GallerySectionConfig,
   chosenValue: any,
-): FaceConfig => {
-  let faceConfigCopy: FaceConfig = deepCopy(faceConfig);
-  let newOverride: Overrides = setToDict(
+) => {
+  const faceConfigCopy = deepCopy(faceConfig);
+  const newOverride: Overrides = setToDict(
     {},
     gallerySectionConfig?.key || "",
     chosenValue,
