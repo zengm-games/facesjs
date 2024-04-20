@@ -1,7 +1,7 @@
-import { Race, TeamColors } from "./types";
-import { distinct } from "../public/utils";
+import { TeamColors } from "../src/types";
+import { distinct } from "./utils";
 
-export const colors: { [key in Race]: { skin: string[]; hair: string[] } } = {
+const colors = {
   white: {
     skin: ["#f2d6cb", "#ddb7a0"],
     hair: [

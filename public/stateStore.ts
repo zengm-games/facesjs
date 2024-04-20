@@ -11,7 +11,7 @@ import {
   distinctHairColors,
   distinctSkinColors,
   jerseyColorOptions,
-} from "../src/globals";
+} from "./globals";
 
 let gallerySectionConfigList: GallerySectionConfig[] = [
   {
