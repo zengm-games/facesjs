@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import { Face } from "./Face";
 import override from "../../src/override";
 import {
@@ -91,8 +91,10 @@ export const EditorPage = () => {
 };
 
 const MainFaceDisplayActionBar = ({
+  faceRef,
   modalDisclosure,
 }: {
+  faceRef: RefObject<HTMLDivElement>;
   modalDisclosure: any;
 }) => {
   let { faceConfig } = useStateStore();
@@ -129,7 +131,9 @@ const MainFaceDisplayActionBar = ({
       groupName: "Download",
       groupIcon: DownloadSimple,
       baseAction: async () => {
-        await downloadFacePng(faceConfig);
+        if (faceRef.current) {
+          await downloadFaceSvg(faceRef.current.innerHTML);
+        }
       },
       items: [
         {
@@ -137,7 +141,9 @@ const MainFaceDisplayActionBar = ({
           text: "Download PNG",
           description: "Download face as a PNG file",
           action: async () => {
-            await downloadFacePng(faceConfig);
+            if (faceRef.current) {
+              await downloadFacePng(faceRef.current.innerHTML);
+            }
           },
         },
         {
@@ -145,7 +151,9 @@ const MainFaceDisplayActionBar = ({
           text: "Download SVG",
           description: "Download face as a SVG file",
           action: async () => {
-            await downloadFaceSvg(faceConfig);
+            if (faceRef.current) {
+              await downloadFaceSvg(faceRef.current.innerHTML);
+            }
           },
         },
         {
@@ -223,8 +231,8 @@ const MainFaceDisplayActionBar = ({
 };
 
 const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
-  let { faceConfig } = useStateStore();
-  let ref = useRef<HTMLDivElement>(null);
+  const { faceConfig } = useStateStore();
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
     <div className="flex justify-center md:w-1/3">
@@ -232,7 +240,10 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
         <div className="p-8">
           <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
         </div>
-        <MainFaceDisplayActionBar modalDisclosure={modalDisclosure} />
+        <MainFaceDisplayActionBar
+          modalDisclosure={modalDisclosure}
+          faceRef={ref}
+        />
       </div>
     </div>
   );

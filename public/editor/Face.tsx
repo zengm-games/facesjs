@@ -1,18 +1,9 @@
-import React, { useEffect } from "react";
+import React, { forwardRef, useEffect } from "react";
 import { FaceConfig, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
 
-/*
-    This component is responsible for rendering the face SVG string
-    It uses the faceToSvgString function to generate the SVG string
-    It requires the faceConfig to be set, with the overrides being optional
-    The width and className are also optional
-    The SVG string is then rendered in a div element
-    The SVG string is set as the innerHTML of the div element
-*/
-
-export const Face = React.forwardRef<
+export const Face = forwardRef<
   HTMLDivElement,
   {
     faceConfig: FaceConfig;
@@ -59,7 +50,7 @@ export const Face = React.forwardRef<
       ref={mergeRefs(ref, scrollRef)}
       className={className}
       style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
-    ></div>
+    />
   );
 });
 

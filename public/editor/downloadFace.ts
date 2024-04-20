@@ -1,4 +1,3 @@
-import { faceToSvgString } from "../../src/faceToSvgString";
 import { FaceConfig } from "../../src/types";
 import { getCurrentTimestampAsString } from "./utils";
 import { Canvg } from "canvg";
@@ -23,16 +22,14 @@ const downloadBlob = (blob: Blob, filename: string) => {
   a.click();
 };
 
-export const downloadFacePng = async (faceConfig: FaceConfig) => {
-  const faceSvg = faceToSvgString(faceConfig);
-
+export const downloadFacePng = async (svg: string) => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     return;
   }
 
-  const v = await Canvg.from(ctx, faceSvg);
+  const v = await Canvg.from(ctx, svg);
 
   v.resize(600, 900, "xMidYMid meet");
   await v.render();
@@ -44,9 +41,8 @@ export const downloadFacePng = async (faceConfig: FaceConfig) => {
   });
 };
 
-export const downloadFaceSvg = (faceConfig: FaceConfig) => {
-  const faceSvg = faceToSvgString(faceConfig);
-  const blob = new Blob([faceSvg], { type: "image/svg+xml" });
+export const downloadFaceSvg = (svg: string) => {
+  const blob = new Blob([svg], { type: "image/svg+xml" });
   downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.svg`);
 };
 
