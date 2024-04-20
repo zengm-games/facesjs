@@ -1,11 +1,21 @@
 import React from "react";
-import { NextUIProvider } from "@nextui-org/react";
-import { EditorPage } from "./EditorPage";
+import { NextUIProvider, useDisclosure } from "@nextui-org/react";
+import { FeatureGallery } from "./FeatureGallery";
+import { TopBar } from "./TopBar";
+import { MainFace } from "./MainFace";
+import { EditJsonModal } from "./EditJsonModal";
 
 const App = () => {
+  const modalDisclosure = useDisclosure();
+
   return (
     <NextUIProvider>
-      <EditorPage />
+      <TopBar />
+      <div className="flex flex-col-reverse md:flex-row items-center md:items-start pt-16 gap-2 mx-2">
+        <FeatureGallery />
+        <MainFace modalDisclosure={modalDisclosure} />
+      </div>
+      <EditJsonModal modalDisclosure={modalDisclosure} />
     </NextUIProvider>
   );
 };

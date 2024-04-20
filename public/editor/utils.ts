@@ -175,11 +175,6 @@ export const deepCopy = <T>(value: T): T => {
   return copiedObject as T;
 };
 
-export const concatClassNames = (...classNames: string[]): string => {
-  let joinedClassNames = classNames.join(" ");
-  return joinedClassNames.trim().replace(/\s+/g, " ");
-};
-
 export const luma = (colorHex: string): number => {
   if (!doesStrLookLikeColor(colorHex)) {
     throw new Error("Invalid hexadecimal color");
