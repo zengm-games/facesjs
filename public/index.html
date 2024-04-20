@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>
+      faces.js - A JavaScript library for generating vector-based cartoon faces
+    </title>
+    <meta charset="utf-8"/>
+    <link
+      href="http://fonts.googleapis.com/css?family=Arvo:400,400italic,700"
+      rel="stylesheet"
+      type="text/css"
+/>
+    <style type="text/css">
+      body {
+        background-color: #ddd;
+        font-family: "Arvo", serif;
+      }
+      h1 {
+        margin-bottom: 0;
+      }
+      h3 {
+        margin: 6px 0 12px;
+      }
+      pre {
+        background-color: #fff;
+        padding: 2px;
+      }
+      code {
+        font-size: 14px;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      a:visited {
+        color: #00f;
+      }
+      #container {
+        margin: 0 auto;
+        width: 608px;
+      }
+      #faces {
+        margin: 0 -1px;
+      }
+      #faces div {
+        height: 180px;
+        float: left;
+        margin: 1px;
+        width: 120px;
+      }
+      #faces div.big {
+        height: 362px;
+        float: right;
+        width: 242px;
+      }
+      .jsfiddle {
+        background-color: #f5f5f5;
+        font-size: 14px;
+        font-style: italic;
+        margin-top: -1em;
+        padding: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>faces.js</h1>
+      <h3>A JavaScript library for generating vector-based cartoon faces</h3>
+      <div id="faces">
+        <div id="c0" class="big" onclick="javascript:newFace(0)"></div>
+        <div id="c1" onclick="javascript:newFace(1)"></div>
+        <div id="c2" onclick="javascript:newFace(2)"></div>
+        <div id="c3" onclick="javascript:newFace(3)"></div>
+        <div id="c4" onclick="javascript:newFace(4)"></div>
+        <div id="c5" onclick="javascript:newFace(5)"></div>
+        <div id="c6" onclick="javascript:newFace(6)"></div>
+        <div id="c7" onclick="javascript:newFace(7)"></div>
+        <div id="c8" onclick="javascript:newFace(8)"></div>
+        <div id="c9" onclick="javascript:newFace(9)"></div>
+        <div id="c10" onclick="javascript:newFace(10)"></div>
+        <div id="c11" onclick="javascript:newFace(11)"></div>
+      </div>
+      <p>
+        <i
+          >To load new random faces,
+          <a href="javascript:newFaces()">click here</a> or press "r" on your
+          keyboard.</i
+        >
+      </p>
+      <p>
+        faces.js is a JavaScript library that generates and displays cartoon
+        faces, somewhat reminiscent of how the Nintendo Wii generates random
+        Miis. Faces are drawn as scalable vector graphics (SVG). Each face can
+        also be represented by a small JavaScript object, which allows you to
+        store that object and then draw the same face again later.
+      </p>
+      <p>
+        As you can probably tell, the number of options for each facial feature
+        (eyes, nose, mouth, etc.) is fairly limited, and some of the current
+        options are fairly crude. So
+        <b
+          >
+          <a href="https://github.com/zengm-games/facesjs" target="_parent"
+            >fork it on GitHub</a
+          >
+        </b
+        >
+        and add some new options!
+      </p>
+      <h2>Usage</h2>
+      <p>1. Install from npm:</p>
+      <pre><code>$ npm install --save facesjs</code></pre>
+      <p>Or yarn:</p>
+      <pre><code>$ yarn add facesjs</code></pre>
+      <p>
+        2. Display a randomly-generated face (the size of the
+        <code>#my-div-id</code> div determines the size of the displayed face):
+      </p>
+      <pre><code>import { display, generate } from "facesjs";
+
+// Generate a random face
+const face = generate();
+
+// Display in a div with id "my-div-id"
+display("my-div-id", face);
+</code></pre>
+
+      <h2>More</h2>
+      <p>
+        See all the available facial features in
+        <a href="/editor" target="_parent">the faces.js editor</a>.
+      </p>
+      <p>
+        For more documentation and information (additional options, SVG export, CLI),
+        <a href="https://github.com/zengm-games/facesjs" target="_parent"
+          >see the README on GitHub</a
+        >.
+      </p>
+    </div>
+
+    <a href="https://github.com/zengm-games/facesjs" target="_parent"
+      ><img
+        style="position: absolute; top: 0; right: 0; border: 0"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+        alt="Fork me on GitHub"
+/></a>
+
+    <script src="build/bundle.js"></script>
+    <script>
+      function newFace(i) {
+        document
+          .getElementById("c" + i)
+          .style
+          .backgroundImage = "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
+        var face = faces.generate(undefined, {
+          gender: Math.random() < 0.5
+            ? "male"
+            : "female"
+        });
+        faces.display("c" + i, face);
+      }
+
+      function newFaces() {
+        var i;
+        for (i = 0; i < 12; i++) {
+          newFace(i);
+        }
+      }
+      newFaces(); // Generate faces for initial page load
+
+      // Generate new faces when "r" is pressed
+      document.addEventListener("keydown", function (e) {
+        if (e.keyCode === 82 && !e.ctrlKey) {
+          // 82 is "r"
+          newFaces();
+        }
+      }, false,);
+    </script>
+  </body>
+</html>
