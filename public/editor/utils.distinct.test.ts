@@ -1,37 +1,38 @@
-import { distinct } from "../public/editor/utils";
+import { describe, expect, test } from "vitest";
+import { distinct } from "./utils";
 
 describe("distinct function tests", () => {
-  it("removes duplicate numbers from an array", () => {
+  test("removes duplicate numbers from an array", () => {
     const arr = [1, 2, 2, 3];
     const expected = [1, 2, 3];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("removes duplicate strings from an array", () => {
+  test("removes duplicate strings from an array", () => {
     const arr = ["a", "b", "b", "c"];
     const expected = ["a", "b", "c"];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("handles an array with mixed types correctly", () => {
+  test("handles an array with mixed types correctly", () => {
     const arr = [1, "1", 2, "2", "2"];
     const expected = [1, "1", 2, "2"];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("returns an empty array when given an empty array", () => {
+  test("returns an empty array when given an empty array", () => {
     const arr: any[] = [];
     const expected: any[] = [];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("removes duplicate boolean values from an array", () => {
+  test("removes duplicate boolean values from an array", () => {
     const arr = [true, false, true, false];
     const expected = [true, false];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("removes duplicates when array contains objects (by reference)", () => {
+  test("removes duplicates when array contains objects (by reference)", () => {
     const obj1 = { a: 1 };
     const obj2 = { b: 2 };
     const arr: any[] = [obj1, obj1, obj2, obj2];
@@ -39,13 +40,13 @@ describe("distinct function tests", () => {
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("handles an array with falsy values correctly", () => {
+  test("handles an array with falsy values correctly", () => {
     const arr = [0, "", null, undefined, false, 0];
     const expected = [0, "", null, undefined, false];
     expect(distinct(arr)).toEqual(expected);
   });
 
-  it("removes duplicates in an array of complex mixed types", () => {
+  test("removes duplicates in an array of complex mixed types", () => {
     const arr = [1, "a", 1, "a", null, undefined, null, true, false, true];
     const expected = [1, "a", null, undefined, true, false];
     expect(distinct(arr)).toEqual(expected);

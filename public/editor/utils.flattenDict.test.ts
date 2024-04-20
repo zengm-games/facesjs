@@ -1,25 +1,26 @@
-import { flattenDict } from "../public/editor/utils";
+import { describe, expect, test } from "vitest";
+import { flattenDict } from "./utils";
 
 describe("flattenDict", () => {
-  it("flattens a simple object with no nested structures", () => {
+  test("flattens a simple object with no nested structures", () => {
     const obj = { a: 1, b: 2, c: 3 };
     const expected = { a: 1, b: 2, c: 3 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens an object with nested objects", () => {
+  test("flattens an object with nested objects", () => {
     const obj = { a: 1, b: { c: 2, d: { e: 3 } } };
     const expected = { a: 1, "b.c": 2, "b.d.e": 3 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens an object with arrays, including the array index in the key", () => {
+  test("flattens an object with arrays, including the array index in the key", () => {
     const obj = { a: [1, 2], b: { c: [3, 4] } };
     const expected = { "a.[0]": 1, "a.[1]": 2, "b.c.[0]": 3, "b.c.[1]": 4 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles mixed objects and arrays with nested structures", () => {
+  test("handles mixed objects and arrays with nested structures", () => {
     const obj = { a: 1, b: [2, { c: 3, d: [4, 5] }] };
     const expected = {
       a: 1,
@@ -31,25 +32,25 @@ describe("flattenDict", () => {
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles empty objects and arrays correctly", () => {
+  test("handles empty objects and arrays correctly", () => {
     const obj = { a: {}, b: [] };
     const expected = {};
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles empty objects parent correctly", () => {
+  test("handles empty objects parent correctly", () => {
     const obj = {};
     const expected = {};
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens a deeply nested object", () => {
+  test("flattens a deeply nested object", () => {
     const obj = { a: { b: { c: { d: 1 } } } };
     const expected = { "a.b.c.d": 1 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens a deeply nested array", () => {
+  test("flattens a deeply nested array", () => {
     const obj = [
       [
         [1, 2],
@@ -68,31 +69,31 @@ describe("flattenDict", () => {
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens an object with mixed nested arrays and objects", () => {
+  test("flattens an object with mixed nested arrays and objects", () => {
     const obj = { a: [1, { b: 2 }], c: { d: [3, 4] } };
     const expected = { "a.[0]": 1, "a.[1].b": 2, "c.d.[0]": 3, "c.d.[1]": 4 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles an empty object correctly", () => {
+  test("handles an empty object correctly", () => {
     const obj = {};
     const expected = {};
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles an empty array correctly", () => {
+  test("handles an empty array correctly", () => {
     const obj: any = [];
     const expected = {};
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens an array of objects", () => {
+  test("flattens an array of objects", () => {
     const obj = [{ a: 1 }, { b: 2 }];
     const expected = { "[0].a": 1, "[1].b": 2 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens an array of arrays", () => {
+  test("flattens an array of arrays", () => {
     const obj = [
       [1, 2],
       [3, 4],
@@ -101,31 +102,31 @@ describe("flattenDict", () => {
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles null values within the structure", () => {
+  test("handles null values within the structure", () => {
     const obj = { a: null, b: { c: null } };
     const expected = { a: null, "b.c": null };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("handles undefined values within the structure", () => {
+  test("handles undefined values within the structure", () => {
     const obj = { a: undefined, b: { c: undefined } };
     const expected = { a: undefined, "b.c": undefined };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens objects with special characters in keys", () => {
+  test("flattens objects with special characters in keys", () => {
     const obj = { "a-a": { "b b": { "c.c": 1 } } };
     const expected = { "a-a.b b.c.c": 1 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it("flattens long chains of objects", () => {
+  test("flattens long chains of objects", () => {
     const obj = { a: { b: { c: { d: { e: { f: 1 } } } } } };
     const expected = { "a.b.c.d.e.f": 1 };
     expect(flattenDict(obj)).toEqual(expected);
   });
 
-  it('flattens objects with "Array" and "Object" as keys', () => {
+  test('flattens objects with "Array" and "Object" as keys', () => {
     const obj = { Array: { Object: { a: 1 } } };
     const expected = { "Array.Object.a": 1 };
     expect(flattenDict(obj)).toEqual(expected);

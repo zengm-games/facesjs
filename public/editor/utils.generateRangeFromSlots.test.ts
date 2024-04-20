@@ -1,7 +1,8 @@
-import { generateRangeFromSlots } from "../public/editor/utils";
+import { describe, expect, test } from "vitest";
+import { generateRangeFromSlots } from "./utils";
 
 describe("generateRangeFromSlots function tests", () => {
-  it("generates a range with specified number of slots", () => {
+  test("generates a range with specified number of slots", () => {
     const start = 0;
     const end = 10;
     const slots = 5;
@@ -9,7 +10,7 @@ describe("generateRangeFromSlots function tests", () => {
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 
-  it("handles floating point steps correctly", () => {
+  test("handles floating point steps correctly", () => {
     const start = 1;
     const end = 2;
     const slots = 3;
@@ -17,7 +18,7 @@ describe("generateRangeFromSlots function tests", () => {
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 
-  it("returns just the start and end for 1 slot", () => {
+  test("returns just the start and end for 1 slot", () => {
     const start = 0;
     const end = 5;
     const slots = 1;
@@ -25,7 +26,7 @@ describe("generateRangeFromSlots function tests", () => {
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 
-  it("returns a single value when start and end are the same", () => {
+  test("returns a single value when start and end are the same", () => {
     const start = 5;
     const end = 5;
     const slots = 3;
@@ -33,7 +34,7 @@ describe("generateRangeFromSlots function tests", () => {
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 
-  it("correctly handles negative start and end values", () => {
+  test("correctly handles negative start and end values", () => {
     const start = -5;
     const end = -1;
     const slots = 4;
@@ -41,7 +42,7 @@ describe("generateRangeFromSlots function tests", () => {
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 
-  it("handles zero slots (should return an empty array)", () => {
+  test("handles zero slots (should return an empty array)", () => {
     const start = 0;
     const end = 10;
     const slots = 0;
