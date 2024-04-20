@@ -4,12 +4,12 @@
     <title>
       faces.js - A JavaScript library for generating vector-based cartoon faces
     </title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link
       href="http://fonts.googleapis.com/css?family=Arvo:400,400italic,700"
       rel="stylesheet"
       type="text/css"
-/>
+    />
     <style type="text/css">
       body {
         background-color: #ddd;
@@ -19,7 +19,7 @@
         margin-bottom: 0;
       }
       h3 {
-        margin: 6px 0 12px;
+        margin: 6px 0 12px 0;
       }
       pre {
         background-color: #fff;
@@ -39,7 +39,7 @@
         width: 608px;
       }
       #faces {
-        margin: 0 -1px;
+        margin: 0 -1px 0 -1px;
       }
       #faces div {
         height: 180px;
@@ -97,13 +97,7 @@
         As you can probably tell, the number of options for each facial feature
         (eyes, nose, mouth, etc.) is fairly limited, and some of the current
         options are fairly crude. So
-        <b
-          >
-          <a href="https://github.com/zengm-games/facesjs"
-            >fork it on GitHub</a
-          >
-        </b
-        >
+        <b><a href="https://github.com/zengm-games/facesjs">fork it on GitHub</a></b>
         and add some new options!
       </p>
       <h2>Usage</h2>
@@ -127,7 +121,7 @@ display("my-div-id", face);
       <h2>More</h2>
       <p>
         See all the available facial features in
-        <a href="editor">the faces.js editor</a>.
+        <a href="editor.html">the faces.js editor</a>.
       </p>
       <p>
         For more documentation and information (additional options, SVG export, CLI),
@@ -142,19 +136,15 @@ display("my-div-id", face);
         style="position: absolute; top: 0; right: 0; border: 0"
         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
         alt="Fork me on GitHub"
-/></a>
+    /></a>
 
     <script src="build/bundle.js"></script>
     <script>
       function newFace(i) {
-        document
-          .getElementById("c" + i)
-          .style
-          .backgroundImage = "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
+        document.getElementById("c" + i).style.backgroundImage =
+          "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
         var face = faces.generate(undefined, {
-          gender: Math.random() < 0.5
-            ? "male"
-            : "female"
+          gender: Math.random() < 0.5 ? "male" : "female",
         });
         faces.display("c" + i, face);
       }
@@ -168,12 +158,16 @@ display("my-div-id", face);
       newFaces(); // Generate faces for initial page load
 
       // Generate new faces when "r" is pressed
-      document.addEventListener("keydown", function (e) {
-        if (e.keyCode === 82 && !e.ctrlKey) {
-          // 82 is "r"
-          newFaces();
-        }
-      }, false,);
+      document.addEventListener(
+        "keydown",
+        function (e) {
+          if (e.keyCode === 82 && !e.ctrlKey) {
+            // 82 is "r"
+            newFaces();
+          }
+        },
+        false,
+      );
     </script>
   </body>
 </html>
