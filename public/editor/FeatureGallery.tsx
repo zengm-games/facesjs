@@ -306,9 +306,9 @@ export const FeatureGallery = () => {
         return (
           <div
             key={`section-${sectionIndex}`}
-            className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-500"}`}
+            className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-400"}`}
           >
-            <div className="my-1 mx-1 flex justify-between items-center">
+            <div className="mb-1 mx-1 flex justify-between items-center">
               <div className="flex items-center gap-1">
                 <span>{gallerySectionConfig.text}</span>
                 <span
@@ -356,7 +356,7 @@ export const FeatureGallery = () => {
                 </Tooltip>
               </div>
 
-              <div className="w-1/2 my-2 text-end">
+              <div className="w-1/2 mb-2 text-end">
                 <FeatureSelector
                   gallerySectionConfig={gallerySectionConfig}
                   overrideList={overrideList}
