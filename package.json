@@ -56,10 +56,10 @@
     "@vitejs/plugin-react-swc": "^3.6.0",
     "autoprefixer": "^10.4.19",
     "babel-plugin-add-module-exports": "^1.0.4",
-    "canvg": "^4.0.1",
     "chokidar": "^3.6.0",
     "cross-env": "^7.0.3",
     "framer-motion": "^11.0.25",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.38",
@@ -78,7 +78,6 @@
     "zustand": "^4.5.2"
   },
   "dependencies": {
-    "husky": "^9.0.11",
     "svg-path-bbox": "1.2.5"
   },
   "exports": {
@@ -98,7 +97,7 @@
   ],
   "bin": "build/esmodules/cli.js",
   "lint-staged": {
-    "*.{js,cjs,mjs,jsx,json,scss,ts,tsx}": "prettier --write"
+    "*.{js,cjs,mjs,jsx,json,scss,ts,tsx,html,css}": "prettier --write"
   },
   "sideEffects": false
 }

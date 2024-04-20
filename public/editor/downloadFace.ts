@@ -1,6 +1,5 @@
 import { FaceConfig } from "../../src/types";
 import { getCurrentTimestampAsString } from "./utils";
-import { Canvg } from "canvg";
 
 // https://blog.logrocket.com/programmatically-downloading-files-browser/
 const downloadBlob = (blob: Blob, filename: string) => {
@@ -22,27 +21,44 @@ const downloadBlob = (blob: Blob, filename: string) => {
   a.click();
 };
 
-export const downloadFacePng = async (svg: string) => {
+export const downloadFacePng = async (svgString: string) => {
   const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 600;
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     return;
   }
 
-  const v = await Canvg.from(ctx, svg);
+  // I wish this wasn't needed, but it seems to be
+  const fixedSvgString = svgString
+    .replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ')
+    .replace('width="100%"', `width="${canvas.width}"`)
+    .replace('height="100%"', `height="${canvas.height}"`);
 
-  v.resize(600, 900, "xMidYMid meet");
-  await v.render();
-
-  canvas.toBlob((blob) => {
-    if (blob) {
-      downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.png`);
-    }
+  const svgBlob = new Blob([fixedSvgString], {
+    type: "image/svg+xml;charset=utf-8",
   });
+  const url = URL.createObjectURL(svgBlob);
+
+  const img = new Image();
+  img.width = canvas.width;
+  img.height = canvas.height;
+  img.addEventListener("load", function () {
+    ctx.drawImage(this, 0, 0);
+    URL.revokeObjectURL(url);
+
+    canvas.toBlob((blob) => {
+      if (blob) {
+        downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.png`);
+      }
+    });
+  });
+  img.src = url;
 };
 
-export const downloadFaceSvg = (svg: string) => {
-  const blob = new Blob([svg], { type: "image/svg+xml" });
+export const downloadFaceSvg = (svgString: string) => {
+  const blob = new Blob([svgString], { type: "image/svg+xml" });
   downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.svg`);
 };
 
