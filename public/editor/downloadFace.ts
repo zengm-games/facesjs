@@ -21,7 +21,7 @@ const downloadBlob = (blob: Blob, filename: string) => {
   a.click();
 };
 
-export const downloadFacePng = async (svgString: string) => {
+export const downloadFacePng = async (wrapper: HTMLDivElement) => {
   const canvas = document.createElement("canvas");
   canvas.width = 400;
   canvas.height = 600;
@@ -30,13 +30,14 @@ export const downloadFacePng = async (svgString: string) => {
     return;
   }
 
-  // I wish this wasn't needed, but it seems to be
-  const fixedSvgString = svgString
-    .replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ')
-    .replace('width="100%"', `width="${canvas.width}"`)
-    .replace('height="100%"', `height="${canvas.height}"`);
+  // Without overriding these attributes, the export either fails or is weirdly sized
+  const svg = wrapper.children[0].cloneNode(true) as SVGSVGElement;
+  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svg.setAttribute("width", `${canvas.width}`);
+  svg.setAttribute("height", `${canvas.height}`);
+  const svgString = svg.outerHTML;
 
-  const svgBlob = new Blob([fixedSvgString], {
+  const svgBlob = new Blob([svgString], {
     type: "image/svg+xml;charset=utf-8",
   });
   const url = URL.createObjectURL(svgBlob);
@@ -57,8 +58,8 @@ export const downloadFacePng = async (svgString: string) => {
   img.src = url;
 };
 
-export const downloadFaceSvg = (svgString: string) => {
-  const blob = new Blob([svgString], { type: "image/svg+xml" });
+export const downloadFaceSvg = (wrapper: HTMLDivElement) => {
+  const blob = new Blob([wrapper.innerHTML], { type: "image/svg+xml" });
   downloadBlob(blob, `facesjs-${getCurrentTimestampAsString()}.svg`);
 };
 

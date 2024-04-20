@@ -124,7 +124,7 @@ const MainFaceDisplayActionBar = ({
       groupIcon: DownloadSimple,
       baseAction: async () => {
         if (faceRef.current) {
-          await downloadFaceSvg(faceRef.current.innerHTML);
+          await downloadFaceSvg(faceRef.current);
         }
       },
       items: [
@@ -134,7 +134,7 @@ const MainFaceDisplayActionBar = ({
           description: "Download face as a PNG file",
           action: async () => {
             if (faceRef.current) {
-              await downloadFacePng(faceRef.current.innerHTML);
+              await downloadFacePng(faceRef.current);
             }
           },
         },
@@ -144,7 +144,7 @@ const MainFaceDisplayActionBar = ({
           description: "Download face as a SVG file",
           action: async () => {
             if (faceRef.current) {
-              await downloadFaceSvg(faceRef.current.innerHTML);
+              await downloadFaceSvg(faceRef.current);
             }
           },
         },
