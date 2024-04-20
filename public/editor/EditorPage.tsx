@@ -73,7 +73,7 @@ export const EditorPage = () => {
   return (
     <>
       <EditorPageTopBar />
-      <div className="w-screen flex flex-col-reverse md:flex-row items-center justify-around pt-16">
+      <div className="flex flex-col-reverse md:flex-row items-center pt-16">
         <EditorPageGallery />
         <MainFaceDisplay modalDisclosure={modalDisclosure} />
       </div>
@@ -227,16 +227,14 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex justify-center md:w-1/3">
-      <div className=" border-5 border-slate-800 rounded-md">
-        <div className="p-8">
-          <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
-        </div>
-        <MainFaceDisplayActionBar
-          modalDisclosure={modalDisclosure}
-          faceRef={ref}
-        />
+    <div className="w-1/2 md:w-fit border-5 border-slate-800 rounded-md mx-2">
+      <div className="px-2">
+        <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>
+      <MainFaceDisplayActionBar
+        modalDisclosure={modalDisclosure}
+        faceRef={ref}
+      />
     </div>
   );
 };
@@ -515,7 +513,7 @@ const EditorPageGallery = () => {
   } = stateStoreProps;
 
   return (
-    <div className="md:w-1/2 w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
+    <div className="w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
       {gallerySectionConfigList &&
         gallerySectionConfigList.map(
           (
