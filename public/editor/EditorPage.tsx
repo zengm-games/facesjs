@@ -98,23 +98,20 @@ const MainFaceDisplayActionBar = ({
       groupName: "Copy",
       groupIcon: <LinkSimple size={24} />,
       baseAction: async () => {
-        await copyStringToClipboard(window.location.href);
+        await copyStringToClipboard(JSON.stringify(faceConfig));
       },
       items: [
+        {
+          key: "json",
+          text: "Copy JSON",
+          description: "Copy current face JSON",
+        },
         {
           key: "link",
           text: "Copy Link",
           description: "Copy the link to the editor with this face loaded",
           action: async () => {
             await copyStringToClipboard(window.location.href);
-          },
-        },
-        {
-          key: "json",
-          text: "Copy JSON",
-          description: "Copy current face JSON",
-          action: async () => {
-            await copyStringToClipboard(JSON.stringify(faceConfig));
           },
         },
       ],
@@ -136,7 +133,7 @@ const MainFaceDisplayActionBar = ({
         {
           key: "svg",
           text: "Download SVG",
-          description: "Download face as a SVG file",
+          description: "Download face as an SVG file",
           action: async () => {
             if (faceRef.current) {
               await downloadFaceSvg(faceRef.current);
@@ -220,7 +217,7 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="w-1/2 md:w-1/3 lg:w-fit lg:min-w-[400px] border-5 border-slate-800 rounded-md md:mr-2">
+    <div className="flex-shrink-0 w-[280px] lg:w-[350px] xl:w-[400px] border-5 border-slate-800 rounded-md md:mr-2">
       <div className="px-2">
         <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>
@@ -753,15 +750,13 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
   let { setFaceStore, faceConfig } = useStateStore();
   const { isOpen, onOpenChange } = modalDisclosure;
 
-  const [textAreaValue, setTextAreaValue] = useState<string>(
+  const [textAreaValue, setTextAreaValue] = useState<string>(() =>
     JSON.stringify(faceConfig),
   );
-  const [textAreaValid, setTextAreaValid] = useState<boolean>(
+  const [textAreaValid, setTextAreaValid] = useState<boolean>(() =>
     isValidJSON(JSON.stringify(faceConfig)),
   );
   const textRef = useRef<HTMLTextAreaElement>(null);
-
-  let errorMessage = <span>Invalid JSON</span>;
 
   return (
     <Modal
@@ -774,26 +769,27 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
       <ModalContent>
         {(_) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Paste JSON to Render Face
-            </ModalHeader>
+            <ModalHeader>JSON face object</ModalHeader>
             <ModalBody>
               <Textarea
                 value={textAreaValue}
                 isInvalid={!textAreaValid}
                 ref={textRef}
-                errorMessage={!textAreaValid ? errorMessage : null}
+                description={!textAreaValid ? null : <div className="h-4" />}
+                errorMessage={!textAreaValid ? "Invalid JSON" : null}
                 onChange={(e) => {
                   setTextAreaValue(e.target.value);
                   let isValid = isValidJSON(e.target.value);
                   setTextAreaValid(isValid);
                 }}
-                placeholder="Input Face JSON"
                 size="lg"
-                className="my-6 min-h-90"
+                className="min-h-90"
               />
             </ModalBody>
             <ModalFooter>
+              <Button onClick={onOpenChange} size="md" color="danger">
+                Close
+              </Button>
               <Button
                 onClick={() => {
                   let isValid = isValidJSON(textAreaValue);
@@ -812,11 +808,10 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
                   }
                 }}
                 size="md"
+                color="primary"
+                isDisabled={!textAreaValid}
               >
                 Draw
-              </Button>
-              <Button onClick={onOpenChange} size="md">
-                Close
               </Button>
             </ModalFooter>
           </>
