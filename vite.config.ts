@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vitest/config";
 import chokidar from "chokidar";
-import path from "path";
+import path from "node:path";
 import { processSVGs } from "./tools/lib/process-svgs.js";
 
 export default defineConfig({

@@ -1,8 +1,8 @@
-const resolve = require("@rollup/plugin-node-resolve").default;
-const babel = require("@rollup/plugin-babel").default;
-const commonjs = require("@rollup/plugin-commonjs");
+import resolve from "@rollup/plugin-node-resolve";
+import babel from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
 
-module.exports = {
+export default {
   input: "public/bundle.js",
   output: {
     file: "public/build/bundle.js",
@@ -14,7 +14,7 @@ module.exports = {
       extensions: [".ts", ".js"],
     }),
     commonjs({
-      include: "node_modules/**", // Include all files within the src directory
+      include: "node_modules/**",
     }),
     babel({
       babelHelpers: "bundled",
