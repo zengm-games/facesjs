@@ -29,7 +29,8 @@
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
-    "prepare": "yarn run build && husky install",
+    "prepare": "node tools/process-svgs.js && husky",
+    "prepublishOnly": "yarn run build",
     "start": "node tools/server.js"
   },
   "jest": {
