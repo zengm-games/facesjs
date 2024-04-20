@@ -73,7 +73,7 @@ export const EditorPage = () => {
   return (
     <>
       <EditorPageTopBar />
-      <div className="flex flex-col-reverse md:flex-row items-center md:items-start pt-16 gap-2">
+      <div className="flex flex-col-reverse md:flex-row items-center md:items-start pt-16 gap-2 mx-2">
         <EditorPageGallery />
         <MainFaceDisplay modalDisclosure={modalDisclosure} />
       </div>
@@ -217,7 +217,7 @@ const MainFaceDisplay = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex-shrink-0 w-[280px] lg:w-[350px] xl:w-[400px] border-5 border-slate-800 rounded-md md:mr-2">
+    <div className="flex-shrink-0 w-[280px] lg:w-[350px] xl:w-[400px] border-5 border-slate-800 rounded-md">
       <div className="px-2">
         <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>
@@ -503,7 +503,7 @@ const EditorPageGallery = () => {
   } = stateStoreProps;
 
   return (
-    <div className="w-full h-1/2 md:h-screen flex flex-col overflow-y-scroll pb-20 pr-3">
+    <div className="w-full flex flex-col overflow-y-auto">
       {gallerySectionConfigList?.map((gallerySectionConfig, sectionIndex) => {
         const overrideList = getOverrideListForItem(gallerySectionConfig);
 
@@ -759,13 +759,7 @@ const EditJSONModal = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   return (
-    <Modal
-      className="w-1/2"
-      shadow="md"
-      size="xl"
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-    >
+    <Modal shadow="md" size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         {(_) => (
           <>
