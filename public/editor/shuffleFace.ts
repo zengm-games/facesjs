@@ -1,4 +1,4 @@
-import { Face } from "../../src/types";
+import { Face, Overrides } from "../../src/types";
 import { generate } from "../../src/generate";
 import { GallerySectionConfig, GenerateOptions } from "./types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
@@ -10,26 +10,21 @@ export const shuffleEntireFace = (
 ) => {
   const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
     stateStore;
-  const faceConfigCopy = deepCopy(faceConfig);
+  const faceConfigCopy: Overrides = deepCopy(faceConfig);
 
-  let options: GenerateOptions = {};
-  console.log("shuffleEntireFace", {
-    shuffleGenderSettingObject,
-    shuffleRaceSettingObject,
-  });
+  const options: GenerateOptions = {};
 
-  for (let gallerySectionConfig of gallerySectionConfigList) {
+  for (const gallerySectionConfig of gallerySectionConfigList) {
     if (gallerySectionConfig.randomizeEnabled) {
       deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
     }
   }
 
-  for (let [featureName, featureVal] of Object.entries(faceConfigCopy)) {
+  for (const [featureName, featureVal] of Object.entries(faceConfigCopy)) {
     if (
       featureVal === undefined ||
       (typeof featureVal == "object" && Object.keys(featureVal).length === 0)
     ) {
-      // @ts-ignore
       delete faceConfigCopy[featureName];
     }
   }
@@ -42,14 +37,7 @@ export const shuffleEntireFace = (
     options.race = pickRandom(shuffleRaceSettingObject);
   }
 
-  let newFace = generate(faceConfigCopy, options);
-  console.log("newFace", {
-    newFace,
-    faceConfigCopy,
-    options,
-    shuffleRaceSettingObject,
-    shuffleGenderSettingObject,
-  });
+  const newFace = generate(faceConfigCopy, options);
   setFaceStore(newFace);
 };
 
