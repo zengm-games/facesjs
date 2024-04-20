@@ -1,7 +1,24 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
+
+const mergeRefs = <T extends HTMLElement>(...refs: React.Ref<T>[]) => {
+  return (node: T | null) => {
+    for (const ref of refs) {
+      if (!ref) {
+        continue;
+      }
+
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref && typeof ref === "object") {
+        // @ts-expect-error
+        ref.current = node;
+      }
+    }
+  };
+};
 
 export const Face = forwardRef<
   HTMLDivElement,
@@ -19,14 +36,11 @@ export const Face = forwardRef<
     threshold: 0,
   });
 
+  const faceRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (
-      (inView || !lazyLoad) &&
-      ref &&
-      typeof ref === "object" &&
-      ref.current
-    ) {
-      display(ref.current, faceConfig, overrides);
+    if ((inView || !lazyLoad) && faceRef.current) {
+      display(faceRef.current, faceConfig, overrides);
     }
   }, [inView, faceConfig, overrides, ref]);
 
@@ -47,22 +61,9 @@ export const Face = forwardRef<
 
   return (
     <div
-      ref={mergeRefs(ref, scrollRef)}
+      ref={mergeRefs(ref, faceRef, scrollRef)}
       className={className}
       style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
     />
   );
 });
-
-const mergeRefs = (...refs: React.Ref<HTMLDivElement>[]) => {
-  return (node: HTMLDivElement) => {
-    refs.forEach((ref) => {
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref && typeof ref === "object") {
-        // @ts-expect-error
-        ref.current = node;
-      }
-    });
-  };
-};

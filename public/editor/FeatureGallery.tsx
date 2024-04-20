@@ -22,7 +22,7 @@ import {
   getOverrideListForItem,
   newFaceConfigFromOverride,
 } from "./overrideList";
-import { CombinedState, GallerySectionConfig, OverrideList } from "./types";
+import { CombinedState, GallerySectionConfig, OverrideListItem } from "./types";
 import { Face } from "./Face";
 
 const inputOnChange = ({
@@ -35,14 +35,14 @@ const inputOnChange = ({
 }: {
   chosenValue: any;
   faceConfig: FaceType;
-  overrideList: OverrideList;
+  overrideList: OverrideListItem[];
   gallerySectionConfig: GallerySectionConfig;
   sectionIndex: number;
   stateStoreProps: any;
 }) => {
   const overrideChosenIndex: number = overrideList.findIndex(
     (overrideListItem) =>
-      getFromDict(overrideListItem.override, gallerySectionConfig.key ?? "") ===
+      getFromDict(overrideListItem.override, gallerySectionConfig.key) ===
       chosenValue,
   );
 
@@ -67,7 +67,7 @@ const FeatureSelector = ({
   sectionIndex,
 }: {
   gallerySectionConfig: GallerySectionConfig;
-  overrideList: OverrideList;
+  overrideList: OverrideListItem[];
   stateStoreProps: CombinedState;
   sectionIndex: number;
 }) => {
@@ -79,7 +79,7 @@ const FeatureSelector = ({
 
   const selectedVal: string | number | boolean = getFromDict(
     faceConfig,
-    gallerySectionConfig.key ?? "",
+    gallerySectionConfig.key,
   );
 
   if (gallerySectionConfig.selectionType === "svgs") {
@@ -104,10 +104,10 @@ const FeatureSelector = ({
         {overrideList.map((overrideToRun) => {
           return (
             <SelectItem
-              key={overrideToRun.display}
-              value={overrideToRun.display}
+              key={String(overrideToRun.value)}
+              value={String(overrideToRun.value)}
             >
-              {overrideToRun.display}
+              {overrideToRun.value}
             </SelectItem>
           );
         })}
@@ -192,10 +192,7 @@ const FeatureSelector = ({
         doesStrLookLikeColor(newColorValue) ? "valid" : "invalid",
       );
 
-      let chosenValue: any = getFromDict(
-        faceConfig,
-        gallerySectionConfig.key ?? "",
-      );
+      let chosenValue: any = getFromDict(faceConfig, gallerySectionConfig.key);
       if (hasMultipleColors) {
         chosenValue[colorIndex] = newColorValue;
       } else {
@@ -279,7 +276,7 @@ const updateStores = ({
   faceIndex: number;
   sectionIndex: number;
   stateStoreProps: any;
-  overrideList: OverrideList;
+  overrideList: OverrideListItem[];
 }) => {
   const { setFaceStore, setLastClickedSectionIndex, setLastSelectedFaceIndex } =
     stateStoreProps;
@@ -382,7 +379,7 @@ export const FeatureGallery = () => {
                   override(faceConfigCopy, overrideToRun.override);
 
                   const isThisItemTheSelectedOne =
-                    gallerySectionConfig.selectedValue == overrideToRun.display;
+                    gallerySectionConfig.selectedValue == overrideToRun.value;
 
                   const faceWidth = gallerySize == "md" ? 100 : 150;
 
@@ -401,7 +398,6 @@ export const FeatureGallery = () => {
                       }}
                     >
                       <Face
-                        ref={overrideToRun.ref}
                         faceConfig={faceConfigCopy}
                         width={faceWidth}
                         lazyLoad={true}

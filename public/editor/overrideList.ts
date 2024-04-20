@@ -1,7 +1,7 @@
 import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
 import { Face as FaceType, Overrides } from "../../src/types";
-import { GallerySectionConfig, OverrideList } from "./types";
+import { GallerySectionConfig, OverrideListItem } from "./types";
 import {
   deepCopy,
   doesStrLookLikeColor,
@@ -9,14 +9,13 @@ import {
   luma,
   setToDict,
 } from "./utils";
-import { useRef } from "react";
 
 export const getOverrideListForItem = (
   gallerySectionConfig: GallerySectionConfig | null,
 ) => {
   if (!gallerySectionConfig) return [];
 
-  const overrideList: OverrideList = [];
+  const overrideList: OverrideListItem[] = [];
 
   if (gallerySectionConfig.selectionType === "svgs") {
     if (gallerySectionConfig.key.includes("id")) {
@@ -57,12 +56,14 @@ export const getOverrideListForItem = (
         const overrides: Overrides = { [featureName]: { id: svgNames[i] } };
         overrideList.push({
           override: overrides,
-          display: svgNames[i],
           value: svgNames[i],
         });
       }
     }
-  } else if (gallerySectionConfig.renderOptions?.valuesToRender) {
+  } else if (
+    gallerySectionConfig.selectionType === "range" ||
+    gallerySectionConfig.selectionType === "boolean"
+  ) {
     for (
       let i = 0;
       i < gallerySectionConfig.renderOptions.valuesToRender.length;
@@ -77,14 +78,9 @@ export const getOverrideListForItem = (
       ) as Overrides;
       overrideList.push({
         override: overrides,
-        display: valueToRender,
         value: valueToRender,
       });
     }
-  }
-
-  for (const override of overrideList) {
-    override.ref = useRef(null);
   }
 
   return overrideList;
@@ -98,7 +94,7 @@ export const newFaceConfigFromOverride = (
   const faceConfigCopy = deepCopy(faceConfig);
   const newOverride: Overrides = setToDict(
     {},
-    gallerySectionConfig?.key ?? "",
+    gallerySectionConfig?.key,
     chosenValue,
   ) as Overrides;
   override(faceConfigCopy, newOverride);

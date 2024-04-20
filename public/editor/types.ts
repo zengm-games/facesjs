@@ -86,9 +86,5 @@ export type CombinedState = FaceState & GalleryState;
 
 export type OverrideListItem = {
   override: Overrides;
-  display: string;
   value: string | number | boolean;
-  ref?: any;
 };
-
-export type OverrideList = OverrideListItem[];
