@@ -139,25 +139,6 @@ export const distinct = <T>(arr: T[]): T[] => {
 
 export const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
-// flattenDict is used to flatten a nested object into a single level object
-// Turns {a: {b: {c: 1, d: 2}}} into {'a.b.c': 1, 'a.b.d': 2}
-export const flattenDict = (obj: any | any[], parentKey = "", result = {}) => {
-  const objIsArray = Array.isArray(obj);
-
-  for (const [key, value] of Object.entries(obj)) {
-    const storeKey = objIsArray ? `[${key}]` : key;
-    const newKey = parentKey ? `${parentKey}.${storeKey}` : storeKey;
-
-    if (value && (Array.isArray(value) || typeof value === "object")) {
-      flattenDict(value, newKey, result);
-    } else {
-      // @ts-expect-error
-      result[newKey] = value;
-    }
-  }
-  return result;
-};
-
 export const luma = (colorHex: string): number => {
   if (!doesStrLookLikeColor(colorHex)) {
     throw new Error("Invalid hexadecimal color");
