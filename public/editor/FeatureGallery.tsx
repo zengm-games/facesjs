@@ -158,15 +158,13 @@ const FeatureSelector = ({
       gallerySectionConfig.selectionType == "color"
         ? 1
         : gallerySectionConfig.renderOptions.colorCount;
-    const initialValidArr: (undefined | "invalid" | "valid")[] = Array.from({
-      length: numColors,
-    }).map(() => "valid");
-    const [inputValidationArr, setInputValidationArr] =
-      useState<(undefined | "invalid" | "valid")[]>(initialValidArr);
+    const [inputValidationArr, setInputValidationArr] = useState<boolean[]>(
+      Array(numColors).fill(true),
+    );
 
     const updateValidationAtIndex = (
       indexToUpdate: number,
-      newValue: "invalid" | "valid" | undefined,
+      newValue: boolean,
     ) => {
       const newArr = [...inputValidationArr];
       newArr[indexToUpdate] = newValue;
@@ -182,10 +180,7 @@ const FeatureSelector = ({
       hasMultipleColors: boolean;
       colorIndex: number;
     }) => {
-      updateValidationAtIndex(
-        colorIndex,
-        doesStrLookLikeColor(newColorValue) ? "valid" : "invalid",
-      );
+      updateValidationAtIndex(colorIndex, doesStrLookLikeColor(newColorValue));
 
       let chosenValue = getFromDict(faceConfig, gallerySectionConfig.key);
       if (hasMultipleColors) {
@@ -236,12 +231,7 @@ const FeatureSelector = ({
                 <Input
                   key={`Input-${sectionIndex}-${colorIndex}`}
                   value={selectedColor}
-                  isInvalid={inputValidationArr[colorIndex] === "invalid"}
-                  errorMessage={
-                    inputValidationArr[colorIndex] === "invalid"
-                      ? "Color format must be #RRGGBB"
-                      : null
-                  }
+                  isInvalid={!inputValidationArr[colorIndex]}
                   label={`${gallerySectionConfig.text} Hex`}
                   onChange={(e) => {
                     colorInputOnChange({
@@ -302,7 +292,7 @@ export const FeatureGallery = () => {
             key={`section-${sectionIndex}`}
             className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-400"}`}
           >
-            <div className="mb-1 mx-1 flex justify-between items-center">
+            <div className="m-1 flex justify-between items-center">
               <div className="flex items-center gap-1">
                 <span>{gallerySectionConfig.text}</span>
                 <Tooltip
