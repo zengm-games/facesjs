@@ -19,6 +19,7 @@ import {
   PopoverContent,
   Tabs,
   Tab,
+  Tooltip,
 } from "@nextui-org/react";
 import { capitalizeFirstLetter } from "./utils";
 import { shuffleEntireFace } from "./shuffleFace";
@@ -54,7 +55,10 @@ export const TopBar = () => {
         <ButtonGroup>
           <Popover placement="bottom" showArrow offset={10}>
             <PopoverTrigger>
-              <Button className="bg-slate-800 text-white border-2 border-r-0 border-white">
+              <Button
+                className="bg-slate-800 text-white border-2 border-r-0 border-white"
+                title="Randomization settings"
+              >
                 <Sliders size={24} />
               </Button>
             </PopoverTrigger>
@@ -62,10 +66,10 @@ export const TopBar = () => {
               {(titleProps) => (
                 <div className="px-1 py-2 w-full">
                   <p
-                    className="text-small font-bold text-foreground"
+                    className="text-medium font-bold text-foreground-500 mb-1"
                     {...titleProps}
                   >
-                    Customize Shuffle
+                    Randomization settings
                   </p>
                   <div className="flex gap-4">
                     <CheckboxGroup
@@ -116,18 +120,20 @@ export const TopBar = () => {
               )}
             </PopoverContent>
           </Popover>
-          <Button
-            className="bg-slate-800 text-white border-2 border-white"
-            onClick={() =>
-              shuffleEntireFace(
-                faceConfig,
-                gallerySectionConfigList,
-                stateStore,
-              )
-            }
-          >
-            <Shuffle size={24} />
-          </Button>
+          <Tooltip content="Randomize all unlocked features" delay={500}>
+            <Button
+              className="bg-slate-800 text-white border-2 border-white"
+              onClick={() =>
+                shuffleEntireFace(
+                  faceConfig,
+                  gallerySectionConfigList,
+                  stateStore,
+                )
+              }
+            >
+              <Shuffle size={24} />
+            </Button>
+          </Tooltip>
         </ButtonGroup>
       </div>
       <div className="flex items-center mr-2">

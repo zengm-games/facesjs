@@ -75,7 +75,7 @@ const SliderOverrideInput = ({
 
   return (
     <input
-      className="px-1 py-0.5 w-12 text-right text-small text-default-700 font-medium bg-default-100 outline-none transition-colors rounded-small border-medium border-transparent hover:border-primary focus:border-primary"
+      className="px-1 py-0.5 w-12 text-right text-small text-default-700 font-medium bg-default-100 outline-none transition-colors rounded-sm border-medium border-transparent hover:border-primary focus:border-primary"
       type="text"
       value={valueString}
       onChange={(e) => {
@@ -342,9 +342,8 @@ export const FeatureGallery = () => {
                   {gallerySectionConfig.text}
                 </span>
                 <Tooltip
-                  key={`tooltip1-${sectionIndex}`}
-                  placement={"right"}
                   content={`Randomize ${gallerySectionConfig.text}`}
+                  delay={500}
                 >
                   <button
                     onClick={() => {
@@ -363,9 +362,8 @@ export const FeatureGallery = () => {
                   </button>
                 </Tooltip>
                 <Tooltip
-                  key={`tooltip2-${sectionIndex}`}
-                  placement={"right"}
-                  content={`Lock current ${gallerySectionConfig.text} when shuffling whole face`}
+                  content={`Lock current ${gallerySectionConfig.text} when randomizing whole face`}
+                  delay={500}
                 >
                   <button
                     onClick={() => {
