@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     emptyOutDir: true,
-    outDir: "../../build-site",
+    outDir: "../build-site",
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, "public/index.html"),
