@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { processSVGs } from "./tools/lib/process-svgs.js";
 
 export default defineConfig({
+  base: "/facesjs",
   build: {
     chunkSizeWarningLimit: 1000,
     emptyOutDir: true,
