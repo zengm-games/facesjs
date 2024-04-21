@@ -119,12 +119,12 @@ Generage a male white face and save it to test.svg:
 
 ## Development
 
-Running `yarn run start` will do a few things:
+Running `yarn run dev` will do a few things:
 
-1. Give you a URL to open the face viewer UI in your browser
+1. Give you a URL to open the face editor UI in your browser
 2. Watch for changes to the code
 3. Watch for changes to the facial feature SVG files
-4. Update the face viewer UI when any code or SVG changes
+4. Update the face editor UI when any code or SVG changes
 
 This lets you immediately see your changes as you work.
 
@@ -162,4 +162,4 @@ or CommonJS:
 
 ## Credits
 
-[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, [Lia Cui](https://liacui.carrd.co/) made most of the female graphics, and [gurushida](https://github.com/gurushida) wrote the code to export faces as SVG strings.
+[dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, [Lia Cui](https://liacui.carrd.co/) made most of the female graphics, [gurushida](https://github.com/gurushida) wrote the code to export faces as SVG strings, and [tomkennedy22](https://github.com/tomkennedy22) wrote most of the editor UI code.

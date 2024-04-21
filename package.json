@@ -29,8 +29,7 @@
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
     "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
-    "prepublishOnly": "yarn test && yarn run build",
-    "start": "node tools/server.js"
+    "prepublishOnly": "yarn test && yarn run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.1",
