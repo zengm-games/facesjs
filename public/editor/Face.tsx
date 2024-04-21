@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useRef } from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
+import override from "../../src/override";
 
 const mergeRefs = <T extends HTMLElement>(...refs: React.Ref<T>[]) => {
   return (node: T | null) => {
@@ -27,10 +28,9 @@ export const Face = forwardRef<
     overrides?: Overrides;
     maxWidth?: number;
     width?: number;
-    className?: string;
     lazyLoad?: boolean;
   }
->(({ faceConfig, overrides, maxWidth, width, className, lazyLoad }, ref) => {
+>(({ faceConfig, overrides, maxWidth, width, lazyLoad }, ref) => {
   const [scrollRef, inView] = useInView({
     triggerOnce: false,
     threshold: 0,
@@ -40,7 +40,14 @@ export const Face = forwardRef<
 
   useEffect(() => {
     if ((inView || !lazyLoad) && faceRef.current) {
-      display(faceRef.current, faceConfig, overrides);
+      if (overrides) {
+        // Only apply overrides if face is in viewport
+        const faceConfigCopy = structuredClone(faceConfig);
+        override(faceConfigCopy, overrides);
+        display(faceRef.current, faceConfig, overrides);
+      } else {
+        display(faceRef.current, faceConfig);
+      }
     }
   }, [inView, faceConfig, overrides, ref]);
 
@@ -62,7 +69,6 @@ export const Face = forwardRef<
   return (
     <div
       ref={mergeRefs(ref, faceRef, scrollRef)}
-      className={className}
       style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
     />
   );

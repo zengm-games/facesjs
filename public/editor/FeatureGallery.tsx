@@ -401,10 +401,7 @@ export const FeatureGallery = () => {
                 className={`w-full flex justify-start gap-8${gallerySize === "lg" ? " flex-wrap" : ""}${gallerySize === "md" ? " overflow-x-scroll" : ""}`}
               >
                 {overrideList.map((overrideToRun, faceIndex) => {
-                  const faceConfigCopy = structuredClone(faceConfig);
-                  override(faceConfigCopy, overrideToRun.override);
-
-                  const isThisItemTheSelectedOne =
+                  const selected =
                     gallerySectionConfig.selectedValue == overrideToRun.value;
 
                   const faceWidth = gallerySize == "md" ? 100 : 150;
@@ -412,8 +409,11 @@ export const FeatureGallery = () => {
                   return (
                     <div
                       key={faceIndex}
-                      className={`rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out${isThisItemTheSelectedOne ? " bg-slate-200 hover:border-slate-500" : ""}`}
+                      className={`rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out${selected ? " bg-slate-200 hover:border-slate-500" : ""}`}
                       onClick={() => {
+                        const faceConfigCopy = structuredClone(faceConfig);
+                        override(faceConfigCopy, overrideToRun.override);
+
                         updateStores({
                           faceConfig: faceConfigCopy,
                           faceIndex,
@@ -424,7 +424,8 @@ export const FeatureGallery = () => {
                       }}
                     >
                       <Face
-                        faceConfig={faceConfigCopy}
+                        faceConfig={faceConfig}
+                        overrides={overrideToRun.override}
                         width={faceWidth}
                         lazyLoad={true}
                       />
