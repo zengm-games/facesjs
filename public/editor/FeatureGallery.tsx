@@ -158,25 +158,23 @@ const FeatureSelector = ({
     };
 
     return (
-      <div>
-        <Slider
-          key={`Slider-${sectionIndex}`}
-          label={gallerySectionConfig.text}
-          step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
-          maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
-          minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
-          defaultValue={0.4}
-          value={inputValue}
-          className="max-w-md"
-          // @ts-expect-error
-          onChange={onChange}
-          renderValue={({ children, ...props }) => (
-            <output {...props}>
-              <SliderOverrideInput onChange={onChange} value={inputValue} />
-            </output>
-          )}
-        ></Slider>
-      </div>
+      <Slider
+        key={`Slider-${sectionIndex}`}
+        label={gallerySectionConfig.text}
+        step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
+        maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
+        minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
+        defaultValue={0.4}
+        value={inputValue}
+        className="max-w-md"
+        // @ts-expect-error
+        onChange={onChange}
+        renderValue={({ children, ...props }) => (
+          <output {...props}>
+            <SliderOverrideInput onChange={onChange} value={inputValue} />
+          </output>
+        )}
+      ></Slider>
     );
   } else if (gallerySectionConfig.selectionType == "boolean") {
     return (
@@ -392,7 +390,7 @@ export const FeatureGallery = () => {
                 </Tooltip>
               </div>
 
-              <div className="w-1/2 mb-2 text-end">
+              <div className="w-1/2 mb-2 flex justify-end">
                 <FeatureSelector
                   gallerySectionConfig={gallerySectionConfig}
                   overrideList={overrideList}
