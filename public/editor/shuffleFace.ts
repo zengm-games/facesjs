@@ -43,6 +43,11 @@ export const shuffleEntireFace = (
     options.race = pickRandom(shuffleRaceSettingObject);
   }
 
+  // Special case for team colors
+  if (!(faceConfigCopy as any).teamColors) {
+    (faceConfigCopy as any).teamColors = pickRandom(jerseyColorOptions);
+  }
+
   const newFace = generate(faceConfigCopy, options);
   setFaceStore(newFace);
 };
