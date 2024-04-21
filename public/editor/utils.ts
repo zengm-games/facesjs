@@ -211,7 +211,7 @@ export const isValidJSON = (value: string): boolean => {
   }
 };
 
-export const pickRandom = (arr: any[]): any => {
+export const pickRandom = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 

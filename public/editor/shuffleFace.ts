@@ -2,6 +2,7 @@ import { Face, Overrides } from "../../src/types";
 import { generate } from "../../src/generate";
 import { GallerySectionConfig, GenerateOptions } from "./types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
+import { jerseyColorOptions } from "./defaultColors";
 
 export const shuffleEntireFace = (
   faceConfig: Face,
@@ -46,13 +47,19 @@ export const shuffleOptions = (
   setFaceStore: any,
   faceConfig: Face,
 ) => {
-  console.log("shuffle", gallerySectionConfig.key, faceConfig.body.size);
-  const faceConfigCopy = deleteFromDict(
-    deepCopy(faceConfig),
-    gallerySectionConfig.key,
-  );
-  console.log("a", faceConfigCopy.body.size);
-  const newFace = generate(faceConfigCopy);
-  console.log("b", newFace.body.size);
-  setFaceStore(newFace);
+  // Special case for team colors
+  if (gallerySectionConfig.key === "teamColors") {
+    const newFace = {
+      ...faceConfig,
+      teamColors: pickRandom(jerseyColorOptions),
+    };
+    setFaceStore(newFace);
+  } else {
+    const faceConfigCopy = deleteFromDict(
+      deepCopy(faceConfig),
+      gallerySectionConfig.key,
+    );
+    const newFace = generate(faceConfigCopy);
+    setFaceStore(newFace);
+  }
 };
