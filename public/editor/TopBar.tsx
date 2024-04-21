@@ -31,30 +31,17 @@ export const TopBar = () => {
   const genders: Gender[] = ["male", "female"];
   const races: Race[] = ["white", "black", "brown", "asian"];
 
-  const [genderInvalidOptions, setGenderInvalidOptions] =
-    useState<boolean>(false);
-  const [raceInvalidOptions, setRaceInvalidOptions] = useState<boolean>(false);
+  const [genderInvalidOptions, setGenderInvalidOptions] = useState(false);
+  const [raceInvalidOptions, setRaceInvalidOptions] = useState(false);
 
   return (
-    <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
+    <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50">
       <div className="flex gap-4 text-xl p-2 justify-around items-center">
         <span className="hidden md:inline">faces.js editor</span>
         <ButtonGroup>
-          <Button
-            className="bg-slate-800 text-white border-2 border-white"
-            onClick={() =>
-              shuffleEntireFace(
-                faceConfig,
-                gallerySectionConfigList,
-                stateStore,
-              )
-            }
-          >
-            <Shuffle size={24} />
-          </Button>
           <Popover placement="bottom" showArrow offset={10}>
             <PopoverTrigger>
-              <Button className="bg-slate-800 text-white border-t-2 border-r-2 border-b-2 border-white">
+              <Button className="bg-slate-800 text-white border-2 border-r-0 border-white">
                 <Sliders size={24} />
               </Button>
             </PopoverTrigger>
@@ -116,9 +103,21 @@ export const TopBar = () => {
               )}
             </PopoverContent>
           </Popover>
+          <Button
+            className="bg-slate-800 text-white border-2 border-white"
+            onClick={() =>
+              shuffleEntireFace(
+                faceConfig,
+                gallerySectionConfigList,
+                stateStore,
+              )
+            }
+          >
+            <Shuffle size={24} />
+          </Button>
         </ButtonGroup>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center mr-2">
         <Tabs
           aria-label="Options"
           selectedKey={gallerySize}
