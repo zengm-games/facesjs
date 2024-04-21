@@ -116,7 +116,6 @@ const FeatureSelector = ({
       <Select
         key={`select-${sectionIndex}`}
         label={gallerySectionConfig.text}
-        className="max-w-xs"
         selectedKeys={[gallerySectionConfig.selectedValue]}
         onChange={(e) => {
           const chosenValue = e.target.value;
@@ -170,7 +169,6 @@ const FeatureSelector = ({
         minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
         defaultValue={0.4}
         value={inputValue}
-        className="max-w-md"
         // @ts-expect-error
         onChange={onChange}
         renderValue={({ children, ...props }) => (
@@ -341,7 +339,9 @@ export const FeatureGallery = () => {
           >
             <div className="m-1 flex justify-between items-center">
               <div className="flex items-center gap-1">
-                <span>{gallerySectionConfig.text}</span>
+                <span className="hidden sm:block">
+                  {gallerySectionConfig.text}
+                </span>
                 <Tooltip
                   key={`tooltip1-${sectionIndex}`}
                   placement={"right"}
