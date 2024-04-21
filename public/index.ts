@@ -4,10 +4,10 @@ import { generate } from "../src/generate";
 const newFace = (i: number) => {
   document.getElementById(`c${i}`)!.style.backgroundImage =
     "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
-  var face = generate(undefined, {
+  const face = generate(undefined, {
     gender: Math.random() < 0.5 ? "male" : "female",
   });
-  display("c" + i, face);
+  display(`c${i}`, face);
 };
 
 const newFaces = () => {
@@ -22,8 +22,8 @@ newFaces();
 // Generate new faces when "r" is pressed
 document.addEventListener(
   "keydown",
-  function (e) {
-    if (e.code === "KeyR" && !e.ctrlKey) {
+  (event) => {
+    if (event.code === "KeyR" && !event.ctrlKey) {
       newFaces();
     }
   },

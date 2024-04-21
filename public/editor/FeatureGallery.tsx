@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import override from "../../src/override";
 import { Face as FaceType } from "../../src/types";
 import { useStateStore } from "./stateStore";
@@ -55,6 +55,35 @@ const inputOnChange = ({
   });
 };
 
+const SliderOverrideInput = ({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+}) => {
+  const [valueString, setValueString] = useState(String(value));
+
+  useEffect(() => {
+    setValueString(String(value));
+  }, [value]);
+
+  return (
+    <input
+      className="px-1 py-0.5 w-12 text-right text-small text-default-700 font-medium bg-default-100 outline-none transition-colors rounded-small border-medium border-transparent hover:border-primary focus:border-primary"
+      type="text"
+      value={valueString}
+      onChange={(e) => {
+        setValueString(e.target.value);
+        const parsedValue = parseFloat(e.target.value);
+        if (!Number.isNaN(parsedValue)) {
+          onChange(parsedValue);
+        }
+      }}
+    />
+  );
+};
+
 const FeatureSelector = ({
   gallerySectionConfig,
   overrideList,
@@ -109,28 +138,40 @@ const FeatureSelector = ({
       </Select>
     );
   } else if (gallerySectionConfig.selectionType === "range") {
+    const inputValue = (selectedVal as number) || 0;
+
+    const onChange = (newValue: number) => {
+      const chosenValue = roundTwoDecimals(newValue);
+      inputOnChange({
+        chosenValue,
+        faceConfig,
+        overrideList,
+        gallerySectionConfig,
+        sectionIndex,
+        stateStoreProps,
+      });
+    };
+
     return (
-      <Slider
-        key={`Slider-${sectionIndex}`}
-        label={gallerySectionConfig.text}
-        step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
-        maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
-        minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
-        defaultValue={0.4}
-        value={(selectedVal as number) || 0}
-        className="max-w-md"
-        onChange={(e) => {
-          const chosenValue = roundTwoDecimals(e as number);
-          inputOnChange({
-            chosenValue,
-            faceConfig,
-            overrideList,
-            gallerySectionConfig,
-            sectionIndex,
-            stateStoreProps,
-          });
-        }}
-      ></Slider>
+      <div>
+        <Slider
+          key={`Slider-${sectionIndex}`}
+          label={gallerySectionConfig.text}
+          step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
+          maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
+          minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
+          defaultValue={0.4}
+          value={inputValue}
+          className="max-w-md"
+          // @ts-expect-error
+          onChange={onChange}
+          renderValue={({ children, ...props }) => (
+            <output {...props}>
+              <SliderOverrideInput onChange={onChange} value={inputValue} />
+            </output>
+          )}
+        ></Slider>
+      </div>
     );
   } else if (gallerySectionConfig.selectionType == "boolean") {
     return (
