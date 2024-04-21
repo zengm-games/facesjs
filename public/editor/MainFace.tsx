@@ -155,20 +155,12 @@ const MainFaceActionBar = ({
   );
 };
 
-export const MainFace = ({
-  className,
-  modalDisclosure,
-}: {
-  className: string;
-  modalDisclosure: any;
-}) => {
+export const MainFace = ({ modalDisclosure }: { modalDisclosure: any }) => {
   const { faceConfig } = useStateStore();
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      className={`flex-shrink-0 w-[280px] lg:w-[350px] xl:w-[400px] border-5 border-slate-800 rounded-md ${className}`}
-    >
+    <div className="border-5 border-slate-800 rounded-md">
       <div className="px-2">
         <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
       </div>

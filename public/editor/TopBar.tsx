@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Gender, Race } from "../../src/types";
 import { useStateStore } from "./stateStore";
-import {
-  Shuffle,
-  House,
-  List,
-  Sliders,
-  Rows,
-  Square,
-} from "@phosphor-icons/react";
+import { Shuffle, List, Sliders, Rows, Square } from "@phosphor-icons/react";
 import {
   CheckboxGroup,
   Checkbox,
@@ -45,10 +38,7 @@ export const TopBar = () => {
   return (
     <div className="bg-slate-800 text-white flex justify-between w-full fixed z-50	">
       <div className="flex gap-4 text-xl p-2 justify-around items-center">
-        <span className="cursor-pointer rounded-full p-1 m-0.5 hover:bg-slate-50 hover:text-slate-900">
-          <House weight="fill" size={24} href="/" />
-        </span>
-        <span className="hidden md:inline">faces.js Editor</span>
+        <span className="hidden md:inline">faces.js editor</span>
         <ButtonGroup>
           <Button
             className="bg-slate-800 text-white border-2 border-white"
