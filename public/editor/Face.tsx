@@ -32,10 +32,7 @@ export const Face = forwardRef<
     lazyLoad?: boolean;
   }
 >(({ faceConfig, overrides, maxWidth, width = 400, lazyLoad }, ref) => {
-  const [scrollRef, inView] = useInView({
-    triggerOnce: false,
-    threshold: 0,
-  });
+  const [scrollRef, inView] = useInView();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
