@@ -20,6 +20,13 @@ export const shuffleEntireFace = (
   for (const gallerySectionConfig of gallerySectionConfigList) {
     if (gallerySectionConfig.randomizeEnabled) {
       deleteFromDict(faceConfigCopy, gallerySectionConfig.key);
+
+      if (
+        gallerySectionConfig.selectionType === "svgs" &&
+        gallerySectionConfig.flip
+      ) {
+        deleteFromDict(faceConfigCopy, gallerySectionConfig.flip.key);
+      }
     }
   }
 
@@ -69,6 +76,13 @@ export const shuffleFeature = (
       deepCopy(faceConfig),
       gallerySectionConfig.key,
     );
+
+    if (
+      gallerySectionConfig.selectionType === "svgs" &&
+      gallerySectionConfig.flip
+    ) {
+      deleteFromDict(overrides, gallerySectionConfig.flip.key);
+    }
 
     const options: GenerateOptions = {};
     if (shuffleGenderSettingObject.length > 0) {
