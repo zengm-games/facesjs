@@ -8,6 +8,7 @@ import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
 import override from "../../src/override";
+import { deepCopy } from "./utils";
 
 const mergeRefs = <T extends HTMLElement>(...refs: React.Ref<T>[]) => {
   return (node: T | null) => {
@@ -47,7 +48,7 @@ export const Face = forwardRef<
     if ((inView || !lazyLoad) && faceRef.current) {
       if (overrides) {
         // Only apply overrides if face is in viewport
-        const faceConfigCopy = structuredClone(faceConfig);
+        const faceConfigCopy = deepCopy(faceConfig);
         override(faceConfigCopy, overrides);
         display(faceRef.current, faceConfig, overrides);
       } else {

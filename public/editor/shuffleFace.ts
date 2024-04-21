@@ -6,7 +6,7 @@ import {
   GallerySectionConfig,
   GenerateOptions,
 } from "./types";
-import { deleteFromDict, pickRandom } from "./utils";
+import { deepCopy, deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
 
 export const shuffleEntireFace = (
@@ -16,7 +16,7 @@ export const shuffleEntireFace = (
 ) => {
   const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
     stateStore;
-  const faceConfigCopy: Overrides = structuredClone(faceConfig);
+  const faceConfigCopy: Overrides = deepCopy(faceConfig);
 
   const options: GenerateOptions = {};
 
@@ -61,7 +61,7 @@ export const shuffleOptions = (
     setFaceStore(newFace);
   } else {
     const overrides = deleteFromDict(
-      structuredClone(faceConfig),
+      deepCopy(faceConfig),
       gallerySectionConfig.key,
     );
     const newFace = generate(overrides);

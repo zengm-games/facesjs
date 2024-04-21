@@ -11,7 +11,12 @@ import {
   Switch,
   Tooltip,
 } from "@nextui-org/react";
-import { getFromDict, roundTwoDecimals, doesStrLookLikeColor } from "./utils";
+import {
+  getFromDict,
+  roundTwoDecimals,
+  doesStrLookLikeColor,
+  deepCopy,
+} from "./utils";
 import { shuffleOptions } from "./shuffleFace";
 import {
   getOverrideListForItem,
@@ -411,7 +416,7 @@ export const FeatureGallery = () => {
                       key={faceIndex}
                       className={`rounded-lg cursor-pointer hover:bg-slate-100 hover:border-slate-500 border-2 border-inherit flex justify-center active:scale-90 transition-transform ease-in-out${selected ? " bg-slate-200 hover:border-slate-500" : ""}`}
                       onClick={() => {
-                        const faceConfigCopy = structuredClone(faceConfig);
+                        const faceConfigCopy = deepCopy(faceConfig);
                         override(faceConfigCopy, overrideToRun.override);
 
                         updateStores({

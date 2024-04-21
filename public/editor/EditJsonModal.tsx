@@ -12,7 +12,7 @@ import {
   ModalFooter,
   type useDisclosure,
 } from "@nextui-org/react";
-import { isValidJSON } from "./utils";
+import { deepCopy, isValidJSON } from "./utils";
 
 export const EditJsonModal = ({
   modalDisclosure,
@@ -60,7 +60,7 @@ export const EditJsonModal = ({
                   setTextAreaValid(isValid);
 
                   if (isValid) {
-                    const faceConfigCopy = structuredClone(faceConfig);
+                    const faceConfigCopy = deepCopy(faceConfig);
                     const overrides = JSON.parse(textAreaValue) as Overrides;
                     override(faceConfigCopy, overrides);
                     setFaceStore(faceConfigCopy);
