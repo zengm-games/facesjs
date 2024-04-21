@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useRef,
+  type CSSProperties,
+} from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
@@ -30,7 +35,7 @@ export const Face = forwardRef<
     width?: number;
     lazyLoad?: boolean;
   }
->(({ faceConfig, overrides, maxWidth, width, lazyLoad }, ref) => {
+>(({ faceConfig, overrides, maxWidth, width = 400, lazyLoad }, ref) => {
   const [scrollRef, inView] = useInView({
     triggerOnce: false,
     threshold: 0,
@@ -49,27 +54,21 @@ export const Face = forwardRef<
         display(faceRef.current, faceConfig);
       }
     }
-  }, [inView, faceConfig, overrides, ref]);
+  }, [inView, faceConfig, overrides]);
 
-  let widthStyle: React.CSSProperties = width
-    ? { width: `${width}px` }
-    : { width: "400px" };
-  let heightStyle: React.CSSProperties = width
-    ? { height: `${width * 1.5}px` }
-    : { height: "600px" };
+  const style: CSSProperties = {
+    aspectRatio: "2/3",
+    minWidth: 60,
+    minHeight: 90,
+  };
 
-  if (maxWidth) {
-    widthStyle = { maxWidth: `${maxWidth}px` };
-    heightStyle = { maxHeight: `${maxWidth * 1.5}px` };
+  if (maxWidth !== undefined) {
+    style.maxWidth = maxWidth;
+    style.maxHeight = maxWidth * 1.5;
+  } else {
+    style.width = width;
+    style.height = width * 1.5;
   }
 
-  widthStyle.minWidth = "60px";
-  heightStyle.minHeight = "90px";
-
-  return (
-    <div
-      ref={mergeRefs(ref, faceRef, scrollRef)}
-      style={{ ...widthStyle, ...heightStyle, aspectRatio: "2/3" }}
-    />
-  );
+  return <div ref={mergeRefs(ref, faceRef, scrollRef)} style={style} />;
 });
