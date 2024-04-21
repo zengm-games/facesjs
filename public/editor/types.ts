@@ -47,14 +47,6 @@ type GallerySectionConfigRange = GallerySectionConfigBase & {
   };
 };
 
-type GallerySectionConfigBoolean = GallerySectionConfigBase & {
-  selectionType: "boolean";
-  selectedValue: boolean;
-  renderOptions: {
-    valuesToRender: boolean[];
-  };
-};
-
 type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
   selectedValue: string;
@@ -71,11 +63,14 @@ type GallerySectionConfigColors = GallerySectionConfigBase & {
 type GallerySectionConfigSvgs = GallerySectionConfigBase & {
   selectionType: "svgs";
   selectedValue: string;
+  flip?: {
+    key: string;
+    selectedValue: boolean;
+  };
 };
 
 export type GallerySectionConfig =
   | GallerySectionConfigRange
-  | GallerySectionConfigBoolean
   | GallerySectionConfigColor
   | GallerySectionConfigColors
   | GallerySectionConfigSvgs;

@@ -37,10 +37,10 @@ const gallerySectionInfos: (Pick<
         };
       }
     | {
-        selectionType: "boolean";
-      }
-    | {
         selectionType: "svgs";
+        flip?: {
+          key: string;
+        };
       }
   ))[] = [
   {
@@ -88,6 +88,7 @@ const gallerySectionInfos: (Pick<
     key: "mouth.id",
     text: "Mouth Shape",
     selectionType: "svgs",
+    flip: { key: "mouth.flip" },
   },
   {
     key: "mouth.size",
@@ -99,11 +100,6 @@ const gallerySectionInfos: (Pick<
         max: 1.2,
       },
     },
-  },
-  {
-    key: "mouth.flip",
-    text: "Mouth Flip",
-    selectionType: "boolean",
   },
   {
     key: "eye.id",
@@ -141,6 +137,7 @@ const gallerySectionInfos: (Pick<
     key: "hair.id",
     text: "Hair Style",
     selectionType: "svgs",
+    flip: { key: "hair.flip" },
   },
   {
     key: "hair.color",
@@ -149,11 +146,6 @@ const gallerySectionInfos: (Pick<
     renderOptions: {
       valuesToRender: distinctHairColors,
     },
-  },
-  {
-    key: "hair.flip",
-    text: "Hair Flip",
-    selectionType: "boolean",
   },
   {
     key: "hairBg.id",
@@ -185,6 +177,7 @@ const gallerySectionInfos: (Pick<
     key: "nose.id",
     text: "Nose Shape",
     selectionType: "svgs",
+    flip: { key: "nose.flip" },
   },
   {
     key: "nose.size",
@@ -196,11 +189,6 @@ const gallerySectionInfos: (Pick<
         max: 1.25,
       },
     },
-  },
-  {
-    key: "nose.flip",
-    text: "Nose Flip",
-    selectionType: "boolean",
   },
   {
     key: "eyeLine.id",
@@ -284,15 +272,6 @@ const gallerySectionConfigList: GallerySectionConfig[] =
         randomizeEnabled: true,
         selectedValue: rangeConfig.min,
       };
-    } else if (gallerySectionConfig.selectionType === "boolean") {
-      return {
-        ...gallerySectionConfig,
-        renderOptions: {
-          valuesToRender: [false, true],
-        },
-        randomizeEnabled: true,
-        selectedValue: false,
-      };
     } else if (gallerySectionConfig.selectionType === "color") {
       return {
         ...gallerySectionConfig,
@@ -308,10 +287,18 @@ const gallerySectionConfigList: GallerySectionConfig[] =
         ).fill("#000000"),
       };
     } else {
+      const flip = gallerySectionConfig.flip
+        ? {
+            ...gallerySectionConfig.flip,
+            selectedValue: false,
+          }
+        : undefined;
+
       return {
         ...gallerySectionConfig,
         randomizeEnabled: true,
         selectedValue: "???",
+        flip,
       };
     }
   });
@@ -335,11 +322,12 @@ const applyValuesToGallerySectionConfigList = (
   gallerySectionConfigList: GallerySectionConfig[],
   face: Face,
 ) => {
-  for (const gallerySectionConfig of gallerySectionConfigList) {
-    gallerySectionConfig.selectedValue = getFromDict(
-      face,
-      gallerySectionConfig.key,
-    );
+  for (const row of gallerySectionConfigList) {
+    row.selectedValue = getFromDict(face, row.key);
+
+    if (row.selectionType === "svgs" && row.flip) {
+      row.flip.selectedValue = getFromDict(face, row.flip.key);
+    }
   }
 };
 

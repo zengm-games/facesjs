@@ -28,27 +28,26 @@ import { Face } from "./Face";
 const inputOnChange = ({
   chosenValue,
   faceConfig,
+  key,
   overrideList,
-  gallerySectionConfig,
   sectionIndex,
   stateStoreProps,
 }: {
   chosenValue: unknown;
   faceConfig: FaceType;
+  key: string;
   overrideList: OverrideListItem[];
-  gallerySectionConfig: GallerySectionConfig;
   sectionIndex: number;
   stateStoreProps: CombinedState;
 }) => {
-  const overrideChosenIndex: number = overrideList.findIndex(
+  const overrideChosenIndex = overrideList.findIndex(
     (overrideListItem) =>
-      getFromDict(overrideListItem.override, gallerySectionConfig.key) ===
-      chosenValue,
+      getFromDict(overrideListItem.override, key) === chosenValue,
   );
 
   const faceConfigCopy = newFaceConfigFromOverride(
     faceConfig,
-    gallerySectionConfig,
+    key,
     chosenValue,
   );
   updateStores({
@@ -112,34 +111,54 @@ const FeatureSelector = ({
   );
 
   if (gallerySectionConfig.selectionType === "svgs") {
+    const flip = gallerySectionConfig.flip;
+
     return (
-      <Select
-        key={`select-${sectionIndex}`}
-        label={gallerySectionConfig.text}
-        selectedKeys={[gallerySectionConfig.selectedValue]}
-        onChange={(e) => {
-          const chosenValue = e.target.value;
-          inputOnChange({
-            chosenValue,
-            faceConfig,
-            overrideList,
-            gallerySectionConfig,
-            sectionIndex,
-            stateStoreProps,
-          });
-        }}
-      >
-        {overrideList.map((overrideToRun) => {
-          return (
-            <SelectItem
-              key={String(overrideToRun.value)}
-              value={String(overrideToRun.value)}
-            >
-              {overrideToRun.value}
-            </SelectItem>
-          );
-        })}
-      </Select>
+      <div key={sectionIndex} className="w-full flex gap-4">
+        <Select
+          label={gallerySectionConfig.text}
+          selectedKeys={[gallerySectionConfig.selectedValue]}
+          onChange={(e) => {
+            const chosenValue = e.target.value;
+            inputOnChange({
+              chosenValue,
+              faceConfig,
+              key: gallerySectionConfig.key,
+              overrideList,
+              sectionIndex,
+              stateStoreProps,
+            });
+          }}
+        >
+          {overrideList.map((overrideToRun) => {
+            return (
+              <SelectItem
+                key={String(overrideToRun.value)}
+                value={String(overrideToRun.value)}
+              >
+                {overrideToRun.value}
+              </SelectItem>
+            );
+          })}
+        </Select>
+        {flip ? (
+          <Switch
+            isSelected={flip.selectedValue}
+            onValueChange={(chosenValue) => {
+              inputOnChange({
+                chosenValue,
+                faceConfig,
+                key: flip.key,
+                overrideList: [],
+                sectionIndex,
+                stateStoreProps,
+              });
+            }}
+          >
+            Flip
+          </Switch>
+        ) : null}
+      </div>
     );
   } else if (gallerySectionConfig.selectionType === "range") {
     const inputValue = (selectedVal as number) || 0;
@@ -149,8 +168,8 @@ const FeatureSelector = ({
       inputOnChange({
         chosenValue,
         faceConfig,
+        key: gallerySectionConfig.key,
         overrideList,
-        gallerySectionConfig,
         sectionIndex,
         stateStoreProps,
       });
@@ -158,7 +177,7 @@ const FeatureSelector = ({
 
     return (
       <Slider
-        key={`Slider-${sectionIndex}`}
+        key={sectionIndex}
         label={
           <span className="text-xs text-foreground-600">
             {gallerySectionConfig.text}
@@ -177,24 +196,6 @@ const FeatureSelector = ({
           </output>
         )}
       ></Slider>
-    );
-  } else if (gallerySectionConfig.selectionType == "boolean") {
-    return (
-      <Switch
-        key={`Switch-${sectionIndex}`}
-        isSelected={(selectedVal as boolean) || false}
-        onValueChange={(e: boolean) => {
-          const chosenValue = e || false;
-          inputOnChange({
-            chosenValue,
-            faceConfig,
-            overrideList,
-            gallerySectionConfig,
-            sectionIndex,
-            stateStoreProps,
-          });
-        }}
-      />
     );
   } else if (
     gallerySectionConfig.selectionType == "color" ||
@@ -238,8 +239,8 @@ const FeatureSelector = ({
       inputOnChange({
         chosenValue,
         faceConfig,
+        key: gallerySectionConfig.key,
         overrideList,
-        gallerySectionConfig,
         sectionIndex,
         stateStoreProps,
       });
@@ -258,12 +259,8 @@ const FeatureSelector = ({
             hasMultipleColors ? selectedVal[colorIndex] : selectedVal;
 
           return (
-            <div
-              key={`color-${sectionIndex}-${colorIndex}`}
-              className="flex gap-2"
-            >
+            <div key={colorIndex} className="flex gap-2">
               <Input
-                key={`Input-color-${sectionIndex}-${colorIndex}`}
                 type="color"
                 value={selectedColor}
                 onValueChange={(e) => {
@@ -275,7 +272,6 @@ const FeatureSelector = ({
                 }}
               />
               <Input
-                key={`Input-${sectionIndex}-${colorIndex}`}
                 value={selectedColor}
                 isInvalid={!inputValidationArr[colorIndex]}
                 onChange={(e) => {
@@ -333,7 +329,7 @@ export const FeatureGallery = () => {
 
         return (
           <div
-            key={`section-${sectionIndex}`}
+            key={sectionIndex}
             className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-400"}`}
           >
             <div className="m-1 flex justify-between items-center">
@@ -390,7 +386,7 @@ export const FeatureGallery = () => {
                 </Tooltip>
               </div>
 
-              <div className="w-1/2 mb-2 flex justify-end">
+              <div className="w-1/2 max-w-md mb-2 flex justify-end">
                 <FeatureSelector
                   gallerySectionConfig={gallerySectionConfig}
                   overrideList={overrideList}

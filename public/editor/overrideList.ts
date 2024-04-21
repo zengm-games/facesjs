@@ -5,10 +5,8 @@ import { GallerySectionConfig, OverrideListItem } from "./types";
 import { deepCopy, doesStrLookLikeColor, luma, setToDict } from "./utils";
 
 export const getOverrideListForItem = (
-  gallerySectionConfig: GallerySectionConfig | null,
+  gallerySectionConfig: GallerySectionConfig,
 ) => {
-  if (!gallerySectionConfig) return [];
-
   const overrideList: OverrideListItem[] = [];
 
   if (gallerySectionConfig.selectionType === "svgs") {
@@ -54,10 +52,7 @@ export const getOverrideListForItem = (
         });
       }
     }
-  } else if (
-    gallerySectionConfig.selectionType === "range" ||
-    gallerySectionConfig.selectionType === "boolean"
-  ) {
+  } else if (gallerySectionConfig.selectionType === "range") {
     for (
       let i = 0;
       i < gallerySectionConfig.renderOptions.valuesToRender.length;
@@ -82,15 +77,11 @@ export const getOverrideListForItem = (
 
 export const newFaceConfigFromOverride = (
   faceConfig: FaceType,
-  gallerySectionConfig: GallerySectionConfig,
+  key: string,
   chosenValue: unknown,
 ) => {
   const faceConfigCopy = deepCopy(faceConfig);
-  const newOverride: Overrides = setToDict(
-    {},
-    gallerySectionConfig?.key,
-    chosenValue,
-  ) as Overrides;
+  const newOverride: Overrides = setToDict({}, key, chosenValue) as Overrides;
   override(faceConfigCopy, newOverride);
   return faceConfigCopy;
 };
