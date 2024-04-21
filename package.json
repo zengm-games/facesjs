@@ -27,7 +27,7 @@
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
-    "build-site": "node tools/process-svgs.js && rm -rf build-site && node tools/build-site.js && vite build",
+    "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
     "prepublishOnly": "yarn test && yarn run build",
     "start": "node tools/server.js"
@@ -50,7 +50,6 @@
     "babel-plugin-add-module-exports": "^1.0.4",
     "chokidar": "^3.6.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.20.2",
     "eslint": "^9.1.0",
     "framer-motion": "^11.0.25",
     "husky": "^9.0.11",
