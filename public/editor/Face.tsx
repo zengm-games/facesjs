@@ -1,26 +1,14 @@
-import { forwardRef, useEffect, useRef, type CSSProperties } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  type CSSProperties,
+} from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
-import override from "../../src/override";
 import { deepCopy } from "./utils";
-
-const mergeRefs = <T extends HTMLElement>(...refs: React.Ref<T>[]) => {
-  return (node: T | null) => {
-    for (const ref of refs) {
-      if (!ref) {
-        continue;
-      }
-
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref && typeof ref === "object") {
-        // @ts-expect-error
-        ref.current = node;
-      }
-    }
-  };
-};
 
 export const Face = forwardRef<
   HTMLDivElement,
@@ -32,7 +20,7 @@ export const Face = forwardRef<
     lazyLoad?: boolean;
   }
 >(({ faceConfig, overrides, maxWidth, width = 400, lazyLoad }, ref) => {
-  const [scrollRef, inView] = useInView();
+  const [inViewRef, inView] = useInView();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
@@ -40,9 +28,7 @@ export const Face = forwardRef<
     if ((inView || !lazyLoad) && faceRef.current) {
       if (overrides) {
         // Only apply overrides if face is in viewport
-        const faceConfigCopy = deepCopy(faceConfig);
-        override(faceConfigCopy, overrides);
-        display(faceRef.current, faceConfig, overrides);
+        display(faceRef.current, deepCopy(faceConfig), overrides);
       } else {
         display(faceRef.current, faceConfig);
       }
@@ -63,5 +49,18 @@ export const Face = forwardRef<
     style.height = width * 1.5;
   }
 
-  return <div ref={mergeRefs(ref, faceRef, scrollRef)} style={style} />;
+  const setRefs = useCallback(
+    (node: HTMLDivElement) => {
+      if (ref) {
+        // @ts-expect-error
+        ref.current = node;
+      }
+      // @ts-expect-error
+      faceRef.current = node;
+      inViewRef(node);
+    },
+    [inViewRef],
+  );
+
+  return <div ref={setRefs} style={style} />;
 });
