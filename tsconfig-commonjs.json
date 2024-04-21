@@ -1,6 +1,6 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "declarationDir": "build/commonjs"
-    }
+  "extends": "./tsconfig-esmodules.json",
+  "compilerOptions": {
+    "declarationDir": "build/commonjs"
+  }
 }
