@@ -1,4 +1,3 @@
-import React from "react";
 import { NextUIProvider, useDisclosure } from "@nextui-org/react";
 import { FeatureGallery } from "./FeatureGallery";
 import { TopBar } from "./TopBar";

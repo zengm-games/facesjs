@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import override from "../../src/override";
 import { Overrides } from "../../src/types";
 import { useStateStore } from "./stateStore";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import override from "../../src/override";
 import { Face as FaceType } from "../../src/types";
 import { useStateStore } from "./stateStore";

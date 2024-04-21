@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  type CSSProperties,
-} from "react";
+import { forwardRef, useEffect, useRef, type CSSProperties } from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";

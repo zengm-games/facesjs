@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardBody, Link } from "@nextui-org/react";
 
 export const Credits = () => {
