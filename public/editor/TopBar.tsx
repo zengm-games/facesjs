@@ -28,8 +28,8 @@ export const TopBar = () => {
     setShuffleGenderSettingObject,
     setShuffleRaceSettingObject,
   } = stateStore;
-  const genders = ["male", "female"];
-  const races = ["white", "black", "brown", "asian"];
+  const genders: Gender[] = ["male", "female"];
+  const races: Race[] = ["white", "black", "brown", "asian"];
 
   const [genderInvalidOptions, setGenderInvalidOptions] =
     useState<boolean>(false);
@@ -78,12 +78,12 @@ export const TopBar = () => {
                           ? "Defaults will be used if no option selected"
                           : null
                       }
-                      onValueChange={(genderList: any[]) => {
+                      onValueChange={(genderList) => {
                         setShuffleGenderSettingObject(genderList as Gender[]);
                         setGenderInvalidOptions(genderList.length < 1);
                       }}
                     >
-                      {genders.map((gender: string) => {
+                      {genders.map((gender) => {
                         return (
                           <Checkbox value={gender}>
                             {capitalizeFirstLetter(gender)}
@@ -98,12 +98,12 @@ export const TopBar = () => {
                       errorMessage={
                         raceInvalidOptions ? "Select at least one" : null
                       }
-                      onValueChange={(raceList: any[]) => {
+                      onValueChange={(raceList) => {
                         setShuffleRaceSettingObject(raceList as Race[]);
                         setRaceInvalidOptions(raceList.length < 1);
                       }}
                     >
-                      {races.map((race: string) => {
+                      {races.map((race) => {
                         return (
                           <Checkbox value={race}>
                             {capitalizeFirstLetter(race)}

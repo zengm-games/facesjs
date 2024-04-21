@@ -2,13 +2,7 @@ import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { GallerySectionConfig, OverrideListItem } from "./types";
-import {
-  deepCopy,
-  doesStrLookLikeColor,
-  getFromDict,
-  luma,
-  setToDict,
-} from "./utils";
+import { doesStrLookLikeColor, luma, setToDict } from "./utils";
 
 export const getOverrideListForItem = (
   gallerySectionConfig: GallerySectionConfig | null,
@@ -19,10 +13,10 @@ export const getOverrideListForItem = (
 
   if (gallerySectionConfig.selectionType === "svgs") {
     if (gallerySectionConfig.key.includes("id")) {
-      const featureName = gallerySectionConfig.key.split(".")[0] as string;
-      let svgNames: any[] = getFromDict(svgsIndex, featureName);
+      const featureName = gallerySectionConfig.key.split(".")[0];
 
-      svgNames = svgNames.sort((a, b) => {
+      const svgNames = (svgsIndex as Record<string, string[]>)[featureName];
+      svgNames.sort((a, b) => {
         if (a === "none" || a === "bald") return -1;
         if (b === "none" || b === "bald") return 1;
 
@@ -52,11 +46,11 @@ export const getOverrideListForItem = (
         return 0;
       });
 
-      for (let i = 0; i < svgNames.length; i++) {
-        const overrides: Overrides = { [featureName]: { id: svgNames[i] } };
+      for (const svgName of svgNames) {
+        const overrides: Overrides = { [featureName]: { id: svgName } };
         overrideList.push({
           override: overrides,
-          value: svgNames[i],
+          value: svgName,
         });
       }
     }
@@ -89,9 +83,9 @@ export const getOverrideListForItem = (
 export const newFaceConfigFromOverride = (
   faceConfig: FaceType,
   gallerySectionConfig: GallerySectionConfig,
-  chosenValue: any,
+  chosenValue: unknown,
 ) => {
-  const faceConfigCopy = deepCopy(faceConfig);
+  const faceConfigCopy = structuredClone(faceConfig);
   const newOverride: Overrides = setToDict(
     {},
     gallerySectionConfig?.key,

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardBody,
-  Link,
-  NextUIProvider,
-  useDisclosure,
-} from "@nextui-org/react";
+import { NextUIProvider, useDisclosure } from "@nextui-org/react";
 import { FeatureGallery } from "./FeatureGallery";
 import { TopBar } from "./TopBar";
 import { MainFace } from "./MainFace";

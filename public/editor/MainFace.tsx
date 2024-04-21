@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   DropdownItem,
+  type useDisclosure,
 } from "@nextui-org/react";
 import { Face } from "./Face";
 import {
@@ -30,7 +31,7 @@ const MainFaceActionBar = ({
   modalDisclosure,
 }: {
   faceRef: RefObject<HTMLDivElement>;
-  modalDisclosure: any;
+  modalDisclosure: ReturnType<typeof useDisclosure>;
 }) => {
   const { faceConfig } = useStateStore();
 
@@ -155,7 +156,11 @@ const MainFaceActionBar = ({
   );
 };
 
-export const MainFace = ({ modalDisclosure }: { modalDisclosure: any }) => {
+export const MainFace = ({
+  modalDisclosure,
+}: {
+  modalDisclosure: ReturnType<typeof useDisclosure>;
+}) => {
   const { faceConfig } = useStateStore();
   const ref = useRef<HTMLDivElement>(null);
 

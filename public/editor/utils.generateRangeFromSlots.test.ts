@@ -46,7 +46,7 @@ describe("generateRangeFromSlots function tests", () => {
     const start = 0;
     const end = 10;
     const slots = 0;
-    const expected: any[] = [];
+    const expected: number[] = [];
     expect(generateRangeFromSlots(start, end, slots)).toEqual(expected);
   });
 });

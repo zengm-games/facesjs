@@ -21,8 +21,8 @@ describe("distinct function tests", () => {
   });
 
   test("returns an empty array when given an empty array", () => {
-    const arr: any[] = [];
-    const expected: any[] = [];
+    const arr: unknown[] = [];
+    const expected: unknown[] = [];
     expect(distinct(arr)).toEqual(expected);
   });
 
@@ -35,7 +35,7 @@ describe("distinct function tests", () => {
   test("removes duplicates when array contains objects (by reference)", () => {
     const obj1 = { a: 1 };
     const obj2 = { b: 2 };
-    const arr: any[] = [obj1, obj1, obj2, obj2];
+    const arr = [obj1, obj1, obj2, obj2];
     const expected = [obj1, obj2]; // Note: objects are considered distinct by reference, not by value
     expect(distinct(arr)).toEqual(expected);
   });

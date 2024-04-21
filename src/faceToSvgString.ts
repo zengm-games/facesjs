@@ -12,10 +12,10 @@ class SvgDocument {
   public innerHTML = "";
 
   private container = {
-    appendChild(_node: any) {},
+    appendChild(_node: unknown) {},
   };
 
-  appendChild(node: any) {
+  appendChild(node: SvgNode) {
     this.root = node;
   }
 

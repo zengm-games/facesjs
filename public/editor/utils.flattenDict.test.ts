@@ -82,7 +82,7 @@ describe("flattenDict", () => {
   });
 
   test("handles an empty array correctly", () => {
-    const obj: any = [];
+    const obj: unknown[] = [];
     const expected = {};
     expect(flattenDict(obj)).toEqual(expected);
   });

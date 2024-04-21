@@ -17,21 +17,19 @@
     "mii",
     "avatar",
     "svg",
-    "vector",
-    "react",
-    "vite"
+    "vector"
   ],
   "homepage": "https://zengm.com/facesjs/",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "eslint && vitest run",
+    "test": "tsc --noEmit --emitDeclarationOnly false && eslint && vitest run",
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc && yarn run tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
     "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
     "build-site": "node tools/process-svgs.js && rm -rf build-site && node tools/build-site.js && vite build",
     "prepare": "node tools/process-svgs.js && husky",
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "yarn test && yarn run build",
     "start": "node tools/server.js"
   },
   "devDependencies": {

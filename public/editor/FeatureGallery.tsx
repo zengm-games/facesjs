@@ -11,12 +11,7 @@ import {
   Switch,
   Tooltip,
 } from "@nextui-org/react";
-import {
-  getFromDict,
-  roundTwoDecimals,
-  deepCopy,
-  doesStrLookLikeColor,
-} from "./utils";
+import { getFromDict, roundTwoDecimals, doesStrLookLikeColor } from "./utils";
 import { shuffleOptions } from "./shuffleFace";
 import {
   getOverrideListForItem,
@@ -33,12 +28,12 @@ const inputOnChange = ({
   sectionIndex,
   stateStoreProps,
 }: {
-  chosenValue: any;
+  chosenValue: unknown;
   faceConfig: FaceType;
   overrideList: OverrideListItem[];
   gallerySectionConfig: GallerySectionConfig;
   sectionIndex: number;
-  stateStoreProps: any;
+  stateStoreProps: CombinedState;
 }) => {
   const overrideChosenIndex: number = overrideList.findIndex(
     (overrideListItem) =>
@@ -192,7 +187,7 @@ const FeatureSelector = ({
         doesStrLookLikeColor(newColorValue) ? "valid" : "invalid",
       );
 
-      let chosenValue: any = getFromDict(faceConfig, gallerySectionConfig.key);
+      let chosenValue = getFromDict(faceConfig, gallerySectionConfig.key);
       if (hasMultipleColors) {
         chosenValue[colorIndex] = newColorValue;
       } else {
@@ -275,7 +270,7 @@ const updateStores = ({
   faceConfig: FaceType;
   faceIndex: number;
   sectionIndex: number;
-  stateStoreProps: any;
+  stateStoreProps: CombinedState;
   overrideList: OverrideListItem[];
 }) => {
   const { setFaceStore, setLastClickedSectionIndex, setLastSelectedFaceIndex } =
@@ -375,7 +370,7 @@ export const FeatureGallery = () => {
                 className={`w-full flex justify-start gap-8${gallerySize === "lg" ? " flex-wrap" : ""}${gallerySize === "md" ? " overflow-x-scroll" : ""}`}
               >
                 {overrideList.map((overrideToRun, faceIndex) => {
-                  const faceConfigCopy = deepCopy(faceConfig);
+                  const faceConfigCopy = structuredClone(faceConfig);
                   override(faceConfigCopy, overrideToRun.override);
 
                   const isThisItemTheSelectedOne =

@@ -1,9 +1,9 @@
 export const deleteFromDict = (obj: any, key: string): any => {
-  const keyParts: string[] = key.split(".");
-  let current: any = obj;
+  const keyParts = key.split(".");
+  let current = obj;
 
   for (let i = 0; i < keyParts.length - 1; i++) {
-    const part: string = keyParts[i] as string;
+    const part = keyParts[i];
 
     if (!current[part] || typeof current[part] !== "object") {
       return obj;
@@ -12,7 +12,7 @@ export const deleteFromDict = (obj: any, key: string): any => {
     current = current[part];
   }
 
-  const lastPart = keyParts[keyParts.length - 1];
+  const lastPart = keyParts.at(-1);
   if (lastPart !== undefined) {
     delete current[lastPart];
   }
@@ -21,8 +21,8 @@ export const deleteFromDict = (obj: any, key: string): any => {
 };
 
 export const getFromDict = (obj: object, key: string): any => {
-  const keyParts: string[] = key.split(".");
-  let current: any = obj;
+  const keyParts = key.split(".");
+  let current = obj;
 
   for (const part of keyParts) {
     if (current instanceof Map) {
@@ -34,6 +34,7 @@ export const getFromDict = (obj: object, key: string): any => {
       if (!(part in current)) {
         return null;
       }
+      // @ts-expect-error
       current = current[part];
     } else {
       return null;
@@ -156,23 +157,6 @@ export const flattenDict = (obj: any | any[], parentKey = "", result = {}) => {
     }
   }
   return result;
-};
-
-export const deepCopy = <T>(value: T): T => {
-  if (typeof value !== "object" || value === null) {
-    return value;
-  }
-
-  if (Array.isArray(value)) {
-    return value.map((item) => deepCopy(item)) as unknown as T;
-  }
-
-  const copiedObject: Record<string, any> = {};
-  for (const [key, val] of Object.entries(value)) {
-    copiedObject[key] = deepCopy(val);
-  }
-
-  return copiedObject as T;
 };
 
 export const luma = (colorHex: string): number => {
