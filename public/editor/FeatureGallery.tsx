@@ -160,7 +160,11 @@ const FeatureSelector = ({
     return (
       <Slider
         key={`Slider-${sectionIndex}`}
-        label={gallerySectionConfig.text}
+        label={
+          <span className="text-xs text-foreground-600">
+            {gallerySectionConfig.text}
+          </span>
+        }
         step={gallerySectionConfig.renderOptions.rangeConfig.sliderStep}
         maxValue={gallerySectionConfig.renderOptions.rangeConfig.max}
         minValue={gallerySectionConfig.renderOptions.rangeConfig.min}
@@ -245,49 +249,48 @@ const FeatureSelector = ({
 
     return (
       <div className="flex flex-col gap-2">
-        {gallerySectionConfig &&
-          Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
-            const hasMultipleColors =
-              gallerySectionConfig.selectionType == "colors";
-            const selectedColor =
-              // @ts-expect-error TS doesnt like conditional array vs string
-              (hasMultipleColors ? selectedVal[colorIndex] : selectedVal) ||
-              "#000000";
+        <label className="text-xs text-foreground-600">
+          {gallerySectionConfig.text}
+        </label>
+        {Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
+          const hasMultipleColors =
+            gallerySectionConfig.selectionType == "colors";
+          const selectedColor =
+            // @ts-expect-error TS doesnt like conditional array vs string
+            hasMultipleColors ? selectedVal[colorIndex] : selectedVal;
 
-            return (
-              <div
-                key={`color-${sectionIndex}-${colorIndex}`}
-                className="flex gap-2"
-              >
-                <Input
-                  key={`Input-color-${sectionIndex}-${colorIndex}`}
-                  type="color"
-                  value={selectedColor}
-                  label={`${gallerySectionConfig.text} Picker`}
-                  onValueChange={(e) => {
-                    colorInputOnChange({
-                      newColorValue: e || "#000000",
-                      hasMultipleColors,
-                      colorIndex,
-                    });
-                  }}
-                />
-                <Input
-                  key={`Input-${sectionIndex}-${colorIndex}`}
-                  value={selectedColor}
-                  isInvalid={!inputValidationArr[colorIndex]}
-                  label={`${gallerySectionConfig.text} Hex`}
-                  onChange={(e) => {
-                    colorInputOnChange({
-                      newColorValue: e.target.value || "#000000",
-                      hasMultipleColors,
-                      colorIndex,
-                    });
-                  }}
-                />
-              </div>
-            );
-          })}
+          return (
+            <div
+              key={`color-${sectionIndex}-${colorIndex}`}
+              className="flex gap-2"
+            >
+              <Input
+                key={`Input-color-${sectionIndex}-${colorIndex}`}
+                type="color"
+                value={selectedColor}
+                onValueChange={(e) => {
+                  colorInputOnChange({
+                    newColorValue: e,
+                    hasMultipleColors,
+                    colorIndex,
+                  });
+                }}
+              />
+              <Input
+                key={`Input-${sectionIndex}-${colorIndex}`}
+                value={selectedColor}
+                isInvalid={!inputValidationArr[colorIndex]}
+                onChange={(e) => {
+                  colorInputOnChange({
+                    newColorValue: e.target.value,
+                    hasMultipleColors,
+                    colorIndex,
+                  });
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   } else {
