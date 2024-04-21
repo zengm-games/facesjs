@@ -16,13 +16,13 @@ const App = () => {
         <div className="md:sticky md:top-16 flex-shrink-0 w-[280px] lg:w-[350px] xl:w-[400px] flex flex-col h-full">
           <MainFace modalDisclosure={modalDisclosure} />
 
-          <div className="hidden md:block mt-3">
+          <div className="hidden md:block mt-6">
             <Credits />
           </div>
         </div>
       </div>
       <EditJsonModal modalDisclosure={modalDisclosure} />
-      <div className="md:hidden mb-3 mx-2">
+      <div className="md:hidden mb-2 mx-2">
         <Credits />
       </div>
     </NextUIProvider>
