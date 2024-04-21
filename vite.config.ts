@@ -5,6 +5,7 @@ import path from "node:path";
 import { processSVGs } from "./tools/lib/process-svgs.js";
 
 export default defineConfig({
+  base: "/editor/",
   build: {
     outDir: "../../build-site/editor",
   },

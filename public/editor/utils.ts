@@ -1,4 +1,4 @@
-export const deleteFromDict = (obj: any, key: string): any => {
+export const deleteFromDict = (obj: Record<string, any>, key: string): any => {
   const keyParts = key.split(".");
   let current = obj;
 
@@ -20,7 +20,7 @@ export const deleteFromDict = (obj: any, key: string): any => {
   return obj;
 };
 
-export const getFromDict = (obj: object, key: string): any => {
+export const getFromDict = (obj: Record<string, any>, key: string): any => {
   const keyParts = key.split(".");
   let current = obj;
 
@@ -34,7 +34,6 @@ export const getFromDict = (obj: object, key: string): any => {
       if (!(part in current)) {
         return null;
       }
-      // @ts-expect-error
       current = current[part];
     } else {
       return null;
@@ -45,7 +44,7 @@ export const getFromDict = (obj: object, key: string): any => {
 };
 
 export const setToDict = (
-  container: { [key: string]: any } | Map<any, any>,
+  container: Record<string, any>,
   key: string,
   value: any,
 ) => {
@@ -57,7 +56,7 @@ export const setToDict = (
       if (current_container instanceof Map) {
         current_container.set(currentKey, value);
       } else {
-        (current_container as { [key: string]: any })[currentKey] = value;
+        current_container[currentKey] = value;
       }
     } else {
       if (current_container instanceof Map) {
@@ -73,7 +72,7 @@ export const setToDict = (
           !current_container[currentKey] ||
           typeof current_container[currentKey] !== "object"
         ) {
-          (current_container as { [key: string]: any })[currentKey] = {};
+          current_container[currentKey] = {};
         }
         current_container = current_container[currentKey];
       }
