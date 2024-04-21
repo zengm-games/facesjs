@@ -328,7 +328,7 @@ export const FeatureGallery = () => {
   } = stateStoreProps;
 
   return (
-    <div className="w-full flex flex-col overflow-y-auto">
+    <div className="w-full flex flex-col overflow-hidden">
       {gallerySectionConfigList.map((gallerySectionConfig, sectionIndex) => {
         const overrideList = getOverrideListForItem(gallerySectionConfig);
 
@@ -404,7 +404,7 @@ export const FeatureGallery = () => {
             </div>
             {gallerySize != "sm" && (
               <div
-                className={`w-full flex justify-start gap-8${gallerySize === "lg" ? " flex-wrap" : ""}${gallerySize === "md" ? " overflow-x-scroll" : ""}`}
+                className={`w-full flex justify-start gap-8${gallerySize === "lg" ? " flex-wrap" : ""}${gallerySize === "md" ? " overflow-x-auto" : ""}`}
               >
                 {overrideList.map((overrideToRun, faceIndex) => {
                   const selected =
