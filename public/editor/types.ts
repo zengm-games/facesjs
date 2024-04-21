@@ -50,6 +50,9 @@ type GallerySectionConfigRange = GallerySectionConfigBase & {
 type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
   selectedValue: string;
+  renderOptions: {
+    valuesToRender: string[];
+  };
 };
 
 type GallerySectionConfigColors = GallerySectionConfigBase & {
@@ -57,6 +60,7 @@ type GallerySectionConfigColors = GallerySectionConfigBase & {
   selectedValue: string[];
   renderOptions: {
     colorCount: number;
+    valuesToRender: string[][];
   };
 };
 
@@ -79,5 +83,5 @@ export type CombinedState = FaceState & GalleryState;
 
 export type OverrideListItem = {
   override: Overrides;
-  value: string | number | boolean;
+  value: string | number | string[];
 };

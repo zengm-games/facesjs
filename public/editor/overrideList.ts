@@ -52,7 +52,11 @@ export const getOverrideListForItem = (
         });
       }
     }
-  } else if (gallerySectionConfig.selectionType === "range") {
+  } else if (
+    gallerySectionConfig.selectionType === "range" ||
+    gallerySectionConfig.selectionType === "color" ||
+    gallerySectionConfig.selectionType === "colors"
+  ) {
     for (
       let i = 0;
       i < gallerySectionConfig.renderOptions.valuesToRender.length;
