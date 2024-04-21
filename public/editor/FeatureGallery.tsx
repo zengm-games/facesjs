@@ -17,7 +17,7 @@ import {
   doesStrLookLikeColor,
   deepCopy,
 } from "./utils";
-import { shuffleOptions } from "./shuffleFace";
+import { shuffleFeature } from "./shuffleFace";
 import {
   getOverrideListForItem,
   newFaceConfigFromOverride,
@@ -321,7 +321,6 @@ export const FeatureGallery = () => {
 
   const {
     faceConfig,
-    setFaceStore,
     gallerySize,
     gallerySectionConfigList,
     setRandomizeEnabledForSection,
@@ -349,9 +348,9 @@ export const FeatureGallery = () => {
                 >
                   <button
                     onClick={() => {
-                      shuffleOptions(
+                      shuffleFeature(
                         gallerySectionConfig,
-                        setFaceStore,
+                        stateStoreProps,
                         faceConfig,
                       );
                     }}

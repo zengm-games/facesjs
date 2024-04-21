@@ -1,13 +1,10 @@
 import { Face, Overrides } from "../../src/types";
 import { generate } from "../../src/generate";
-import {
-  CombinedState,
-  FaceState,
-  GallerySectionConfig,
-  GenerateOptions,
-} from "./types";
+import { CombinedState, GallerySectionConfig } from "./types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
+
+type GenerateOptions = Parameters<typeof generate>[1];
 
 export const shuffleEntireFace = (
   faceConfig: Face,
@@ -52,11 +49,14 @@ export const shuffleEntireFace = (
   setFaceStore(newFace);
 };
 
-export const shuffleOptions = (
+export const shuffleFeature = (
   gallerySectionConfig: GallerySectionConfig,
-  setFaceStore: FaceState["setFaceStore"],
+  stateStore: CombinedState,
   faceConfig: Face,
 ) => {
+  const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
+    stateStore;
+
   // Special case for team colors
   if (gallerySectionConfig.key === "teamColors") {
     const newFace = {
@@ -69,7 +69,16 @@ export const shuffleOptions = (
       deepCopy(faceConfig),
       gallerySectionConfig.key,
     );
-    const newFace = generate(overrides);
+
+    const options: GenerateOptions = {};
+    if (shuffleGenderSettingObject.length > 0) {
+      options.gender = pickRandom(shuffleGenderSettingObject);
+    }
+    if (shuffleRaceSettingObject.length > 0) {
+      options.race = pickRandom(shuffleRaceSettingObject);
+    }
+
+    const newFace = generate(overrides, options);
     setFaceStore(newFace);
   }
 };

@@ -1,7 +1,5 @@
 import { Face, Gender, Overrides, Race } from "../../src";
 
-export type GenerateOptions = { gender?: Gender; race?: Race };
-
 export type GallerySize = "sm" | "md" | "lg";
 
 export type FaceState = {
