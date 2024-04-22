@@ -3,12 +3,12 @@
 <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 600" style="enable-background:new 0 0 400 600;" xml:space="preserve">
 <style type="text/css">
-	.female9-st0{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
-	.female9-st1{stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st1{stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
 </style>
-<path class="female9-st0" d="M224,379.5c-0.9-2.3-2.7-6-6.2-9c-4.3-3.8-8.6-4.4-13.2-5c-11.9-1.6-21.1,2.7-23.8,4c-5.4,2.7-9.4,6.1-12.3,9"
+<path class="st0" d="M224,379.5c-0.9-2.3-2.7-6-6.2-9c-4.3-3.8-8.6-4.4-13.2-5c-11.9-1.6-21.1,2.7-23.8,4c-5.4,2.7-9.4,6.1-12.3,9"
 	/>
-<ellipse class="female9-st1" cx="200.2" cy="379.5" rx="11.5" ry="13"/>
-<path class="female9-st1" d="M161.5,368.5c2.7,2.3,5.3,4.7,8,7"/>
-<path class="female9-st1" d="M169.5,360.5c3,3.3,6,6.7,9,10"/>
+<ellipse class="st1" cx="200.2" cy="379.5" rx="11.5" ry="13"/>
+<path class="st1" d="M161.5,368.5c2.7,2.3,5.3,4.7,8,7"/>
+<path class="st1" d="M169.5,360.5c3,3.3,6,6.7,9,10"/>
 </svg>

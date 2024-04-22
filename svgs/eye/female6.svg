@@ -3,17 +3,17 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 600" style="enable-background:new 0 0 400 600;" xml:space="preserve">
 <style type="text/css">
-	.female6-st0{fill:#FFFFFF;}
-	.female6-st1{fill:none;stroke:#000000;stroke-width:5;}
-	.female6-st2{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st0{fill:#FFFFFF;}
+	.st1{fill:none;stroke:#000000;stroke-width:5;}
+	.st2{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
 </style>
 <g id="eye6">
-	<path id="Shape_9" class="female6-st0" d="M232.6,309.6c0,0-11.4-24.4-41.3-22.7c-20,1.1-24.4,11.4-24.4,11.4l5.8,14.7
+	<path id="Shape_9" class="st0" d="M232.6,309.6c0,0-11.4-24.4-41.3-22.7c-20,1.1-24.4,11.4-24.4,11.4l5.8,14.7
 		C203,316.3,232.6,309.6,232.6,309.6z"/>
 	<path id="Shape_9_00000097500031951903640660000002839569381374693055_" d="M199.6,310.5c5.5-0.3,9.7-5,9.4-10.5
 		c-0.3-5.5-5-9.7-10.5-9.4s-9.7,5-9.4,10.5C189.4,306.6,194.1,310.8,199.6,310.5z"/>
-	<path id="Outline" class="female6-st1" d="M232.6,309.6c0,0-1.1-20-41.3-22.7c-20,1.1-24.4,11.4-24.4,11.4l5.8,14.7"/>
+	<path id="Outline" class="st1" d="M232.6,309.6c0,0-1.1-20-41.3-22.7c-20,1.1-24.4,11.4-24.4,11.4l5.8,14.7"/>
 </g>
-<path class="female6-st2" d="M151.5,289.5c0.2,0.7,1.3,5.4,6,8c4.1,2.3,8.2,1.2,9,1"/>
-<path class="female6-st2" d="M149.5,304.5c0.8,0.9,3.8,4.2,9,5c5.1,0.8,9-1.4,10-2"/>
+<path class="st2" d="M151.5,289.5c0.2,0.7,1.3,5.4,6,8c4.1,2.3,8.2,1.2,9,1"/>
+<path class="st2" d="M149.5,304.5c0.8,0.9,3.8,4.2,9,5c5.1,0.8,9-1.4,10-2"/>
 </svg>
