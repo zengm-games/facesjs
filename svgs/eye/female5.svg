@@ -3,18 +3,18 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 600" style="enable-background:new 0 0 400 600;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#FFFFFF;}
-	.st1{fill:none;stroke:#000000;stroke-width:5;}
-	.st2{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.female5-st0{fill:#FFFFFF;}
+	.female5-st1{fill:none;stroke:#000000;stroke-width:5;}
+	.female5-st2{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
 </style>
 <g id="eye5">
-	<path id="White" class="st0" d="M232.2,315.6c3.9-10.5,2.3-25.4,2.3-25.4s-35.9-6.3-45.8-5.2c-9.9,1-24.3,7.6-24.3,7.6
+	<path id="White" class="female5-st0" d="M232.2,315.6c3.9-10.5,2.3-25.4,2.3-25.4s-35.9-6.3-45.8-5.2c-9.9,1-24.3,7.6-24.3,7.6
 		s-1.4,10.2,7.6,24.3L232.2,315.6z"/>
 	<path id="Shape_9" d="M204.4,313.5c-4.1,0.4-8.2-5.9-9-14.1c-0.9-8.2,1.8-15.3,5.9-15.7c4.1-0.4,8.2,5.9,9,14.1
 		C211.1,306.1,208.5,313.1,204.4,313.5z"/>
-	<path id="Outline" class="st1" d="M232.2,315.6c4.4-5.5,2.3-25.4,2.3-25.4s-35.9-6.3-45.8-5.2c-9.9,1-24.3,7.6-24.3,7.6
+	<path id="Outline" class="female5-st1" d="M232.2,315.6c4.4-5.5,2.3-25.4,2.3-25.4s-35.9-6.3-45.8-5.2c-9.9,1-24.3,7.6-24.3,7.6
 		s1.6,14.9,7.6,24.3"/>
 </g>
-<path class="st2" d="M140.5,287.5c2.1,1.5,5.8,3.8,11,5c5.7,1.3,10.4,0.6,13,0"/>
-<path class="st2" d="M167.5,305.5c-2,0.8-5.1,1.8-9,2c-0.9,0-4.5,0.2-9-1c-3.9-1-6.9-2.6-9-4"/>
+<path class="female5-st2" d="M140.5,287.5c2.1,1.5,5.8,3.8,11,5c5.7,1.3,10.4,0.6,13,0"/>
+<path class="female5-st2" d="M167.5,305.5c-2,0.8-5.1,1.8-9,2c-0.9,0-4.5,0.2-9-1c-3.9-1-6.9-2.6-9-4"/>
 </svg>
