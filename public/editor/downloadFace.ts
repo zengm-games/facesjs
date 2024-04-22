@@ -12,7 +12,7 @@ const downloadBlob = (blob: Blob, filename: string) => {
   const clickHandler = () => {
     setTimeout(() => {
       URL.revokeObjectURL(url);
-      removeEventListener("click", clickHandler);
+      a.removeEventListener("click", clickHandler);
     }, 30 * 1000);
   };
 
