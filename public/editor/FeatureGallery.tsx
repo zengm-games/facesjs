@@ -114,7 +114,7 @@ const FeatureSelector = ({
     const flip = gallerySectionConfig.flip;
 
     return (
-      <div key={sectionIndex} className="w-full flex gap-4">
+      <div key={sectionIndex} className="w-full max-w-md flex gap-4">
         <Select
           label={gallerySectionConfig.text}
           selectedKeys={[gallerySectionConfig.selectedValue]}
@@ -178,6 +178,7 @@ const FeatureSelector = ({
     return (
       <Slider
         key={sectionIndex}
+        className="max-w-md"
         label={
           <span className="text-xs text-foreground-600">
             {gallerySectionConfig.text}
@@ -247,10 +248,10 @@ const FeatureSelector = ({
     };
 
     return (
-      <div className="flex flex-col gap-2">
-        <label className="text-xs text-foreground-600">
-          {gallerySectionConfig.text}
-        </label>
+      <div
+        key={sectionIndex}
+        className="flex gap-2 flex-wrap justify-end items-end"
+      >
         {Array.from({ length: Math.min(numColors) }).map((_, colorIndex) => {
           const hasMultipleColors =
             gallerySectionConfig.selectionType == "colors";
@@ -259,29 +260,36 @@ const FeatureSelector = ({
             hasMultipleColors ? selectedVal[colorIndex] : selectedVal;
 
           return (
-            <div key={colorIndex} className="flex gap-2">
-              <Input
-                type="color"
-                value={selectedColor}
-                onValueChange={(e) => {
-                  colorInputOnChange({
-                    newColorValue: e,
-                    hasMultipleColors,
-                    colorIndex,
-                  });
-                }}
-              />
-              <Input
-                value={selectedColor}
-                isInvalid={!inputValidationArr[colorIndex]}
-                onChange={(e) => {
-                  colorInputOnChange({
-                    newColorValue: e.target.value,
-                    hasMultipleColors,
-                    colorIndex,
-                  });
-                }}
-              />
+            <div key={colorIndex} className="w-48">
+              {colorIndex === 0 ? (
+                <label className="text-xs text-foreground-600 mb-2">
+                  {gallerySectionConfig.text}
+                </label>
+              ) : null}
+              <div key={colorIndex} className="flex gap-2">
+                <Input
+                  type="color"
+                  value={selectedColor}
+                  onValueChange={(e) => {
+                    colorInputOnChange({
+                      newColorValue: e,
+                      hasMultipleColors,
+                      colorIndex,
+                    });
+                  }}
+                />
+                <Input
+                  value={selectedColor}
+                  isInvalid={!inputValidationArr[colorIndex]}
+                  onChange={(e) => {
+                    colorInputOnChange({
+                      newColorValue: e.target.value,
+                      hasMultipleColors,
+                      colorIndex,
+                    });
+                  }}
+                />
+              </div>
             </div>
           );
         })}
@@ -332,8 +340,8 @@ export const FeatureGallery = () => {
             key={sectionIndex}
             className={`${sectionIndex === 0 ? "pb-6" : "py-6 border-t-2 border-t-slate-400"}`}
           >
-            <div className="m-1 flex justify-between items-center">
-              <div className="flex items-center gap-1">
+            <div className="m-1 flex gap-4 justify-between items-center">
+              <div className="flex items-center gap-1 shrink-0">
                 <span className="hidden sm:block">
                   {gallerySectionConfig.text}
                 </span>
@@ -386,7 +394,7 @@ export const FeatureGallery = () => {
                 </Tooltip>
               </div>
 
-              <div className="w-1/2 max-w-md mb-2 flex justify-end">
+              <div className="mb-2 flex justify-end grow">
                 <FeatureSelector
                   gallerySectionConfig={gallerySectionConfig}
                   overrideList={overrideList}
