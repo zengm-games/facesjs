@@ -21,7 +21,6 @@ body {
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 18px;
 
@@ -30,21 +29,28 @@ body {
     margin: 0;
   }
 
-  .github-link {
+  .navbar-button {
+    align-self: stretch;
     display: flex;
-    gap: 5px;
+    align-items: center;
     background-color: #89bfd3;
     color: #000;
-    justify-content: center;
-    align-items: center;
     font-size: 15px;
-    border: none;
     padding: 10px;
     border-radius: 4px;
     text-decoration: none;
   }
-  .github-link:hover{
+  .navbar-button:hover{
     box-shadow: 6px 6px 0px black;
+  }
+
+  .editor {
+    margin-right: 1rem;
+    margin-left: auto;
+  }
+
+  .github {
+    gap: 5px;
   }
 }
 
@@ -120,7 +126,8 @@ a:visited {
     <div id="container">
     <div class="navbar">
       <h1>faces.js</h1>
-      <a href="https://github.com/zengm-games/facesjs" class="github-link">
+      <a href="/facesjs/editor/" class="navbar-button editor">Face editor</a>
+      <a href="https://github.com/zengm-games/facesjs" class="navbar-button github">
         Fork me<span class="hide-sm"> on GitHub</span>
         <svg width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g transform="translate(-140.000000, -7559.000000)" fill="#000000">
@@ -189,7 +196,7 @@ display("my-div-id", face);
       <h2>More</h2>
       <p>
         See all the available facial features in
-        <a href="/facesjs/editor">the faces.js editor</a>.
+        <a href="/facesjs/editor/">the faces.js editor</a>.
       </p>
       <p>
         For more documentation and information (additional options, SVG export, CLI),
