@@ -134,26 +134,6 @@ If you want a brand new "class" of facial features (like facial hair, or earring
 
 If you find any of this confusing, feel free to reach out to me for help! I would love for someone to help me make better looking faces :)
 
-## Technical details
-
-### Minimizing import size
-
-If you generate and display faces in separate bundles, you can decrease file size by only including the `display` or `generate` function in each bundle. You can import the `display` and `generate` functions individually and rely on tree shaking from your bundler. ES modules:
-
-    import { display } from "facesjs";
-
-or CommonJS:
-
-    const { generate } = require("facesjs");
-
-Or, import them directly if you don't trust your bundler :). ES modules:
-
-    import generate from "facesjs/build/esmodules/generate";
-
-or CommonJS:
-
-    const display = require("facesjs/build/commonjs/display");
-
 ## Credits
 
 [dumbmatter](https://github.com/dumbmatter) wrote most of the code, [TravisJB89](https://github.com/TravisJB89) made most of the graphics, [Lia Cui](https://liacui.carrd.co/) made most of the female graphics, [gurushida](https://github.com/gurushida) wrote the code to export faces as SVG strings, and [tomkennedy22](https://github.com/tomkennedy22) wrote most of the editor UI code.

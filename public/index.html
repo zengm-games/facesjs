@@ -319,21 +319,6 @@ const svg = faceToSvgString(face);</code></pre>
       <p>If you find any of this confusing, feel free to reach out to me for
       help! I would love for someone to help me make better looking faces
       :)</p>
-      <h2 id="technical-details">Technical details</h2>
-      <h3 id="minimizing-import-size">Minimizing import size</h3>
-      <p>If you generate and display faces in separate bundles, you can
-      decrease file size by only including the <code>display</code> or
-      <code>generate</code> function in each bundle. You can import the
-      <code>display</code> and <code>generate</code> functions individually
-      and rely on tree shaking from your bundler. ES modules:</p>
-      <pre><code>import { display } from &quot;facesjs&quot;;</code></pre>
-      <p>or CommonJS:</p>
-      <pre><code>const { generate } = require(&quot;facesjs&quot;);</code></pre>
-      <p>Or, import them directly if you don’t trust your bundler :). ES
-      modules:</p>
-      <pre><code>import generate from &quot;facesjs/build/esmodules/generate&quot;;</code></pre>
-      <p>or CommonJS:</p>
-      <pre><code>const display = require(&quot;facesjs/build/commonjs/display&quot;);</code></pre>
       <h2 id="credits">Credits</h2>
       <p><a href="https://github.com/dumbmatter">dumbmatter</a> wrote most of
       the code, <a href="https://github.com/TravisJB89">TravisJB89</a> made
