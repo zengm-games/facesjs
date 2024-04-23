@@ -1,7 +1,6 @@
 import svgPathBbox from "svg-path-bbox";
-import type { Overrides } from "./override.js";
-import { Face } from "./generate.js";
 import { display } from "./display.js";
+import { Face, Overrides } from "./types.js";
 
 /**
  * An instance of this object can pretend to be the global "document"
@@ -13,18 +12,18 @@ class SvgDocument {
   public innerHTML = "";
 
   private container = {
-    appendChild(node: any) {},
+    appendChild(_node: unknown) {},
   };
 
-  appendChild(node: any) {
+  appendChild(node: SvgNode) {
     this.root = node;
   }
 
-  getElementById(id: string) {
+  getElementById(_id: string) {
     return this.container;
   }
 
-  createElementNS(namespace: string, tag: string) {
+  createElementNS(_namespace: string, tag: string) {
     this.root = new SvgNode(tag, undefined);
     return this.root;
   }
@@ -94,7 +93,7 @@ class SvgNode {
     this.attributes[name] = value;
   }
 
-  insertAdjacentHTML(position: string, content: string) {
+  insertAdjacentHTML(_position: string, content: string) {
     this.lastChild = new SvgNode(undefined, content);
     this.childNodes.push(this.lastChild);
   }
@@ -153,4 +152,4 @@ export const faceToSvgString = (face: Face, overrides?: Overrides): string => {
     global.document = backup;
   }
   return svgDocument.toXml();
-}
+};

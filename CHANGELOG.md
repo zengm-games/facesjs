@@ -1,3 +1,7 @@
+# 4.1.0 (???)
+
+- #35 - @tomkennedy22 rewrote the editor UI and added a ton of functionality. The main new features are a gallery of faces showing previews of all features you can select, and the ability to export a face in SVG or PNG format.
+
 # 4.0.0 (2023-11-19)
 
 - Added `faceToSvgString` function to output faces as SVG strings, rather than only rendering to the DOM via `display`.

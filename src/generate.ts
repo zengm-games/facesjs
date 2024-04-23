@@ -1,41 +1,20 @@
-import override, { type Overrides } from "./override.js";
+import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
-
-export type Gender = "male" | "female";
-
-type Feature =
-  | "accessories"
-  | "body"
-  | "ear"
-  | "eye"
-  | "eyebrow"
-  | "eyeLine"
-  | "facialHair"
-  | "glasses"
-  | "hair"
-  | "hairBg"
-  | "head"
-  | "jersey"
-  | "miscLine"
-  | "mouth"
-  | "nose"
-  | "smileLine";
+import { Feature, Gender, Overrides, Race, TeamColors } from "./types.js";
 
 function randomInt(
   minInclusive: number,
   max: number,
-  inclusiveMax: boolean = false
+  inclusiveMax: boolean = false,
 ) {
   if (inclusiveMax) {
     max += 1;
   }
-  return Math.floor(
-    Math.random() * (max - minInclusive)
-  ) + minInclusive;
+  return Math.floor(Math.random() * (max - minInclusive)) + minInclusive;
 }
 
 const getID = (type: Feature, gender: Gender): string => {
-  const validIDs = svgsIndex[type].filter((id, index) => {
+  const validIDs = svgsIndex[type].filter((_id, index) => {
     return (
       svgsGenders[type][index] === "both" || svgsGenders[type][index] === gender
     );
@@ -44,9 +23,7 @@ const getID = (type: Feature, gender: Gender): string => {
   return validIDs[randomInt(0, validIDs.length)];
 };
 
-export type Race = "asian" | "black" | "brown" | "white";
-
-const colors = {
+export const colors = {
   white: {
     skin: ["#f2d6cb", "#ddb7a0"],
     hair: [
@@ -72,7 +49,7 @@ const colors = {
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
 
-const defaultTeamColors = ["#89bfd3", "#7a1319", "#07364f"];
+const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
@@ -112,10 +89,8 @@ export const generate = (
         return colors.black;
     }
   })();
-  const skinColor =
-    palette.skin[randomInt(0, palette.skin.length)];
-  const hairColor =
-    palette.hair[randomInt(0, palette.hair.length)];
+  const skinColor = palette.skin[randomInt(0, palette.skin.length)];
+  const hairColor = palette.hair[randomInt(0, palette.hair.length)];
   const isFlipped = Math.random() < 0.5;
 
   const face = {
@@ -130,7 +105,9 @@ export const generate = (
     body: {
       id: getID("body", gender),
       color: skinColor,
-      size: gender === "female" ? 0.95 : 1,
+      size: roundTwoDecimals(
+        Math.random() * 0.1 + (gender === "female" ? 0.8 : 0.95),
+      ),
     },
     jersey: {
       id: getID("jersey", gender),
@@ -198,5 +175,3 @@ export const generate = (
 
   return face;
 };
-
-export type Face = ReturnType<typeof generate>;

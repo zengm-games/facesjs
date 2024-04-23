@@ -1,4 +1,4 @@
-module.exports = {
+export const genders = {
   accessories: {
     "eye-black": "both",
     hat: "both",

@@ -6,7 +6,24 @@
     "strict": true,
     "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "build/esmodules"
+    "declarationDir": "build/esmodules",
+    "useDefineForClassFields": true,
+    "lib": ["esnext", "ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true
+    // "noUncheckedIndexedAccess": true
   },
-  "include": ["src"]
+  "include": ["src", "public", "tools"]
 }

@@ -1,6 +1,4 @@
-export type Overrides = {
-  [key: string]: boolean | string | number | any[] | Overrides;
-};
+import { Overrides } from "./types";
 
 const override = (obj: Overrides, overrides?: Overrides) => {
   if (!overrides || !obj) {
@@ -16,7 +14,7 @@ const override = (obj: Overrides, overrides?: Overrides) => {
     ) {
       obj[key] = value;
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       override(obj[key], value);
     }
   }
