@@ -4,7 +4,6 @@
     <title>faces.js - A JavaScript library for generating vector-based cartoon faces</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" async src="index.ts"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -223,7 +222,7 @@ display(element, face);</code></pre>
       constructed face.</p>
       <h3 id="overrides">Overrides</h3>
       <p>Both <code>display</code> and <code>generate</code> accept an
-      optional final argument, specifying values to override either the
+      optional argument, specifying values to override either the
       randomly generated face (for <code>generate</code>) or the supplied face
       (for <code>display</code>). For instance:</p>
       <pre><code># Generate a random face that always has blue skin
@@ -325,5 +324,6 @@ const svg = faceToSvgString(face);</code></pre>
       href="https://github.com/tomkennedy22">tomkennedy22</a> wrote most of
       the editor UI code.</p>
     </div>
+    <script type="module" src="index.ts"></script>
   </body>
 </html>
