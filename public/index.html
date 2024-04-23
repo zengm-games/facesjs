@@ -15,8 +15,10 @@
 */
 body {
   background-color: #ddd;
+  color: #222;
   font-family: "Arvo", serif;
   margin: 8px;
+  line-height: 1.5rem;
 }
 
 .navbar {
@@ -61,12 +63,21 @@ body {
 }
 
 pre {
-  background-color: #fff;
-  padding: 2px;
+  background-color: #ccc;
+  color: #000;
+  padding: 12px 16px;
+  border-radius: 4px;
 }
 
 code {
   font-size: 14px;
+}
+
+p code {
+  background-color: #ccc;
+  color: #000;
+  padding: 2px 5px;
+  border-radius: 4px;
 }
 
 a:hover {
@@ -124,22 +135,21 @@ a:visited {
   </head>
   <body>
     <div id="container">
-    <div class="navbar">
-      <h1>faces.js</h1>
-      <a href="/facesjs/editor/" class="navbar-button editor">Face editor</a>
-      <a href="https://github.com/zengm-games/facesjs" class="navbar-button github">
-        Fork me<span class="hide-sm"> on GitHub</span>
-        <svg width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <g transform="translate(-140.000000, -7559.000000)" fill="#000000">
-            <g transform="translate(56.000000, 160.000000)">
-              <path d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399" id="github-[#142]"></path>
+      <div class="navbar">
+        <h1>faces.js</h1>
+        <a href="/facesjs/editor/" class="navbar-button editor">Face editor</a>
+        <a href="https://github.com/zengm-games/facesjs" class="navbar-button github">
+          Fork me<span class="hide-sm"> on GitHub</span>
+          <svg width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g transform="translate(-140.000000, -7559.000000)" fill="#000000">
+              <g transform="translate(56.000000, 160.000000)">
+                <path d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399" id="github-[#142]"></path>
+              </g>
             </g>
-          </g>
-        </svg>
-      </a>
-  </div>
-  <h2 class="subtitle">A JavaScript library for generating vector-based cartoon faces</h2>
-    
+          </svg>
+        </a>
+      </div>
+      <h2 class="subtitle">A JavaScript library for generating vector-based cartoon faces</h2>
       <div id="faces">
         <div id="c0" class="big" onclick="javascript:newFace(0)"></div>
         <div id="c1" onclick="javascript:newFace(1)"></div>
@@ -154,56 +164,154 @@ a:visited {
         <div id="c10" class="hide-sm" onclick="javascript:newFace(10)"></div>
         <div id="c11" class="hide-sm" onclick="javascript:newFace(11)"></div>
       </div>
-      <p style="margin-top: 0.5em">
-        <i
-          >To load new random faces,
-          <a href="javascript:newFaces()">click here</a> or press "r" on your
-          keyboard.</i
-        >
+      <p style="font-style: italic; margin-top: 0.25em">
+        To load new random faces, <a href="javascript:newFaces()">click here</a> or press "r" on your keyboard.
       </p>
       <p>
-        faces.js is a JavaScript library that generates and displays cartoon
-        faces, somewhat reminiscent of how the Nintendo Wii generates random
-        Miis. Faces are drawn as scalable vector graphics (SVG). Each face can
-        also be represented by a small JavaScript object, which allows you to
-        store that object and then draw the same face again later.
+        faces.js is a JavaScript library that generates and displays cartoon faces, somewhat reminiscent of Nintendo's Miis. Faces are drawn as SVGs and are also be represented by a small JavaScript object, which allows you to store that object and then draw the same face again later.
       </p>
       <p>
-        As you can probably tell, the number of options for each facial feature
-        (eyes, nose, mouth, etc.) is fairly limited, and some of the current
-        options are fairly crude. So
-        <b><a href="https://github.com/zengm-games/facesjs">fork it on GitHub</a></b>
-        and add some new options!
+        Originally faces.js was made for <a href="https://basketball-gm.com/">Basketball GM</a> and other games by <a href="https://zengm.com/">ZenGM</a>, but now it is used in several other projects.
       </p>
-      <h2>Usage</h2>
-      <p>1. Install from npm:</p>
-      <pre><code>$ npm install --save facesjs</code></pre>
-      <p>Or yarn:</p>
-      <pre><code>$ yarn add facesjs</code></pre>
-      <p>
-        2. Display a randomly-generated face (the size of the
-        <code>#my-div-id</code> div determines the size of the displayed face):
-      </p>
-      <pre><code>import { display, generate } from "facesjs";
 
-// Generate a random face
+      <h1>For users</h1>
+
+      <p>You can use the <a href="/facesjs/editor/">face editor</a> to generate a custom face, and then export in JSON/SVG/PNG format.</p>
+
+      <h1>For developers</h1>
+
+      <h2 id="installation">Installation</h2>
+      <pre><code>npm install --save facesjs</code></pre>
+      <h2 id="use">Use</h2>
+      <p>Import it with ES modules:</p>
+      <pre><code>import { display, generate } from &quot;facesjs&quot;;</code></pre>
+      <p>or CommonJS:</p>
+      <pre><code>const { display, generate } = require(&quot;facesjs&quot;);</code></pre>
+      <p>Then, generate a random face:</p>
+      <pre><code>const face = generate();</code></pre>
+      <p>And display it:</p>
+      <pre><code>// Display in a div with id &quot;my-div-id&quot;
+display(&quot;my-div-id&quot;, face);
+
+// Display in a div you already have a reference to
+const element = document.getElementById(&quot;my-div-id&quot;);
+display(element, face);</code></pre>
+      <p>If you’d like a non-random face, look inside the <code>face</code>
+      variable and you’ll see all the available options for a manually
+      constructed face.</p>
+      <h3 id="overrides">Overrides</h3>
+      <p>Both <code>display</code> and <code>generate</code> accept an
+      optional final argument, specifying values to override either the
+      randomly generated face (for <code>generate</code>) or the supplied face
+      (for <code>display</code>). For instance:</p>
+      <pre><code># Generate a random face that always has blue skin
+const face = generate({ body: { color: &quot;blue&quot; } });
+
+# Display a face, but impose that it has blue skin
+display(&quot;my-div-id&quot;, face, { body: { color: &quot;blue&quot; } });</code></pre>
+      <h3 id="options">Options</h3>
+      <p>The <code>generate</code> function takes a second optional arguement,
+      which takes in extra parameters for player creation, in the form of an
+      object.</p>
+      <p>Generate a female/male face (default is male):</p>
+      <pre><code>const face = generate(null, { gender: &quot;female&quot; });</code></pre>
+      <p>Assign a race attribute that can be white, black, asian, or brown
+      (default is random):</p>
+      <pre><code>const face = generate(null, { race: &quot;white&quot; });</code></pre>
+      <p>Or both together:</p>
+      <pre><code>const face = generate(null, { gender: &quot;female&quot;, race: &quot;asian&quot; });</code></pre>
+      <h2 id="exporting-svgs">Exporting SVGs</h2>
+      <h3 id="api">API</h3>
+      <p>You can use <code>faceToSvgString</code> to convert a face object to
+      an SVG string.</p>
+      <pre><code>import { faceToSvgString, generate } from &quot;facesjs&quot;;
+
 const face = generate();
-
-// Display in a div with id "my-div-id"
-display("my-div-id", face);
-</code></pre>
-
-      <h2>More</h2>
-      <p>
-        See all the available facial features in
-        <a href="/facesjs/editor/">the faces.js editor</a>.
-      </p>
-      <p>
-        For more documentation and information (additional options, SVG export, CLI),
-        <a href="https://github.com/zengm-games/facesjs"
-          >see the README on GitHub</a
-        >.
-      </p>
+const svg = faceToSvgString(face);</code></pre>
+      <p>You can also specify overrides, similar to <code>display</code>:</p>
+      <pre><code>const svg = faceToSvgString(face, { body: { color: &quot;blue&quot; } });</code></pre>
+      <h3 id="cli">CLI</h3>
+      <p>You can also use <code>facesjs</code> as a CLI program. All of the
+      functionality from <code>generate</code> and <code>display</code> are
+      available on the CLI too.</p>
+      <h4 id="examples">Examples</h4>
+      <p>Output a random face to stdout:</p>
+      <pre><code>$ npx facesjs</code></pre>
+      <p>Generage a blue female face and output to stdout:</p>
+      <pre><code>$ npx facesjs -j &#39;{&quot;body&quot;:{&quot;color&quot;:&quot;blue&quot;}}&#39; -g female</code></pre>
+      <p>Generage a male white face and save it to test.svg:</p>
+      <pre><code>$ npx facesjs -r white -o test.svg</code></pre>
+      <h4 id="options-1">Options</h4>
+      <pre><code>-h, --help          Prints this help
+-o, --output        Output filename to use rather than stdout
+-f, --input-file    Path to a faces.js JSON file to convert to SVG
+-j, --input-json    String faces.js JSON object to convert to SVG
+-r, --race          Race - white/black/asian/brown, default is random
+-g, --gender        Gender - male/female, default is male</code></pre>
+      <p><code>--input-file</code> and <code>--input-json</code> can specify either an entire face object
+      or a partial face object. If it’s a partial face object, the other
+      features will be random.</p>
+      <h2 id="development">Development</h2>
+      <p>Running <code>yarn run dev</code> will do a few things:</p>
+      <ol type="1">
+      <li>Give you a URL to open the face editor UI in your browser</li>
+      <li>Watch for changes to the code</li>
+      <li>Watch for changes to the facial feature SVG files</li>
+      <li>Update the face editor UI when any code or SVG changes</li>
+      </ol>
+      <p>This lets you immediately see your changes as you work.</p>
+      <h2 id="adding-new-facial-features">Adding new facial features</h2>
+      <p>Each face is assembled from multiple SVGs. You can see them within
+      the “svg” folder. If you want to add another feature, just create an SVG
+      (using a vector graphics editor like <a
+      href="https://inkscape.org/">Inkscape</a>) and put it in the appropriate
+      folder. It should automatically work. If not, it’s a bug, please let me
+      know!</p>
+      <p>When creating SVGs, assume the size of the canvas is 400x600. For
+      most features, it doesn’t mater where you draw on the canvas because it
+      will automatically identify your object and position it in the
+      appropriate place. But for head and hair SVGs, position does matter. For
+      those you do need to make sure they are in the correct place on a
+      400x600 canvas, same as the existing head and hair SVGs. Otherwise it
+      won’t know where to place the other facial features relative to the head
+      and hair.</p>
+      <p>If you find it not quite placing a facial feature exactly where you
+      want, it’s because by default it finds the center of the
+      eye/eyebrow/mouth/nose SVG and places that in a specific location. If
+      that’s not good for a certain facial feature, that behavior can be
+      overridden in code. For instance, see how it’s done in display.js for
+      the “pinocchio” nose which uses the left side of the SVG rather than the
+      center to place it.</p>
+      <p>If you want a brand new “class” of facial features (like facial hair,
+      or earrings, or hats) you’ll have to create a new subfolder within the
+      “svg” folder and edit the code to recognize your new feature.</p>
+      <p>If you find any of this confusing, feel free to reach out to me for
+      help! I would love for someone to help me make better looking faces
+      :)</p>
+      <h2 id="technical-details">Technical details</h2>
+      <h3 id="minimizing-import-size">Minimizing import size</h3>
+      <p>If you generate and display faces in separate bundles, you can
+      decrease file size by only including the <code>display</code> or
+      <code>generate</code> function in each bundle. You can import the
+      <code>display</code> and <code>generate</code> functions individually
+      and rely on tree shaking from your bundler. ES modules:</p>
+      <pre><code>import { display } from &quot;facesjs&quot;;</code></pre>
+      <p>or CommonJS:</p>
+      <pre><code>const { generate } = require(&quot;facesjs&quot;);</code></pre>
+      <p>Or, import them directly if you don’t trust your bundler :). ES
+      modules:</p>
+      <pre><code>import generate from &quot;facesjs/build/esmodules/generate&quot;;</code></pre>
+      <p>or CommonJS:</p>
+      <pre><code>const display = require(&quot;facesjs/build/commonjs/display&quot;);</code></pre>
+      <h2 id="credits">Credits</h2>
+      <p><a href="https://github.com/dumbmatter">dumbmatter</a> wrote most of
+      the code, <a href="https://github.com/TravisJB89">TravisJB89</a> made
+      most of the graphics, <a href="https://liacui.carrd.co/">Lia Cui</a>
+      made most of the female graphics, <a
+      href="https://github.com/gurushida">gurushida</a> wrote the code to
+      export faces as SVG strings, and <a
+      href="https://github.com/tomkennedy22">tomkennedy22</a> wrote most of
+      the editor UI code.</p>
     </div>
   </body>
 </html>

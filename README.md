@@ -2,25 +2,17 @@
 
 A JavaScript library for generating vector-based cartoon faces
 
-[![](examples.png)](http://zengm.com/facesjs/)
+[![](examples.png)](https://zengm.com/facesjs/)
 
-[See a live demo here.](http://zengm.com/facesjs/)
+[See a live demo here.](https://zengm.com/facesjs/)
 
-## Why?
+faces.js is a JavaScript library that generates and displays cartoon faces, somewhat reminiscent of Nintendo's Miis. Faces are drawn as SVGs and are also be represented by a small JavaScript object, which allows you to store that object and then draw the same face again later. There is also a [fancy web-based editor](https://zengm.com/facesjs/editor/) you can use to design faces.
 
-I wrote this to generate random cartoon faces for players in [Basketball GM](https://basketball-gm.com/) and [other games](https://zengm.com/). You can use it for similar purposes, or [other purposes](https://biowiki.org/wiki/index.php/Main_Page).
-
-## Help wanted!
-
-I am not an artist! The faces look kind of shitty! If you would like to help, please keep reading. With version 2 of faces.js, it will hopefully be easier for people to contribute. Even if you're new to programming or to JavaScript, I am happy to help you.
+Originally faces.js was made for [Basketball GM](https://basketball-gm.com/) and other games by [ZenGM](https://zengm.com/), but now it is used in several other projects.
 
 ## Installation
 
     npm install --save facesjs
-
-or
-
-    yarn add facesjs
 
 ## Use
 
@@ -115,7 +107,7 @@ Generage a male white face and save it to test.svg:
     -r, --race          Race - white/black/asian/brown, default is random
     -g, --gender        Gender - male/female, default is male
 
---input-file and --input-json can specify either an entire face object or a partial face object. If it's a partial face object, the other features will be random.
+`--input-file` and `--input-json` can specify either an entire face object or a partial face object. If it's a partial face object, the other features will be random.
 
 ## Development
 
