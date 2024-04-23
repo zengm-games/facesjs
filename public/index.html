@@ -16,8 +16,9 @@
 body {
   background-color: #ddd;
   color: #222;
-  font-family: "Arvo", serif;
   margin: 8px;
+  font-family: "Arvo", serif;
+  font-size: 16px;
   line-height: 1.5rem;
 }
 
@@ -67,6 +68,7 @@ pre {
   color: #000;
   padding: 12px 16px;
   border-radius: 4px;
+  overflow-x: auto;
 }
 
 code {
@@ -180,6 +182,8 @@ a:visited {
 
       <h1>For developers</h1>
 
+      (This is just a copy of <a href="https://github.com/zengm-games/facesjs">the README from the GitHub repo</a>.)
+
       <h2 id="installation">Installation</h2>
       <pre><code>npm install --save facesjs</code></pre>
       <h2 id="use">Use</h2>
@@ -230,6 +234,11 @@ const face = generate();
 const svg = faceToSvgString(face);</code></pre>
       <p>You can also specify overrides, similar to <code>display</code>:</p>
       <pre><code>const svg = faceToSvgString(face, { body: { color: &quot;blue&quot; } });</code></pre>
+      <p><code>faceToSvgString</code> is intended to be used in Node.js If you
+      are doing client-side JS, it would be more efficient to render a face to
+      the DOM using <code>display</code> and then <a
+      href="https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64">convert
+      it to a blob like this</a>.</p>
       <h3 id="cli">CLI</h3>
       <p>You can also use <code>facesjs</code> as a CLI program. All of the
       functionality from <code>generate</code> and <code>display</code> are
