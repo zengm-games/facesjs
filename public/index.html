@@ -9,13 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style type="text/css">
-/*
-  Josh's Custom CSS Reset
-  https://www.joshwcomeau.com/css/custom-css-reset/
-*/
+:root {
+  --main-bg-color: #f3f4f6;
+  --main-font-color: #1f2937;
+  --code-bg-color: #e5e7eb;
+  --code-font-color: #000;
+}
+
 body {
-  background-color: #ddd;
-  color: #222;
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
   margin: 8px;
   font-family: "Arvo", serif;
   font-size: 16px;
@@ -50,7 +53,7 @@ h1, h2, h3, h4 {
     text-decoration: none;
   }
   .navbar-button:hover{
-    box-shadow: 6px 6px 0px black;
+    box-shadow: 6px 6px 0px #000;
   }
 
   .editor {
@@ -70,8 +73,8 @@ h1, h2, h3, h4 {
 }
 
 pre {
-  background-color: #ccc;
-  color: #000;
+  background-color: var(--code-bg-color);
+  color: var(--code-font-color);
   padding: 12px 16px;
   border-radius: 4px;
   overflow-x: auto;
@@ -82,12 +85,15 @@ code {
 }
 
 p code {
-  background-color: #ccc;
-  color: #000;
+  background-color: var(--code-bg-color);
+  color: var(--code-font-color);
   padding: 2px 5px;
   border-radius: 4px;
 }
 
+a {
+  color: #00f;
+}
 a:hover {
   text-decoration: none;
 }
@@ -112,7 +118,7 @@ a:visited {
     cursor: pointer;
     user-select: none;
 
-    background: linear-gradient(#bbb , #ddd);
+    background: linear-gradient(#bbb , var(--main-bg-color));
 
     svg {
       display: block;
@@ -120,7 +126,7 @@ a:visited {
   }
 
   div:hover {
-    background: linear-gradient(#aaa , #ccc);
+    background: linear-gradient(#aaa , var(--main-bg-color));
   }
 
   .big {
