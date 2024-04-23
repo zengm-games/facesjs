@@ -91,17 +91,6 @@ const gallerySectionInfos: (Pick<
     flip: { key: "mouth.flip" },
   },
   {
-    key: "mouth.size",
-    text: "Mouth Size",
-    selectionType: "range",
-    renderOptions: {
-      rangeConfig: {
-        min: 0.8,
-        max: 1.2,
-      },
-    },
-  },
-  {
     key: "eye.id",
     text: "Eye Shape",
     selectionType: "svgs",
