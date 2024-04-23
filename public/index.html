@@ -105,12 +105,10 @@ a:visited {
   grid-gap: 2px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
-  /* Appropximate, tricky because of gap */
-  aspect-ratio: 4 / 3.15;
-
   div {
     cursor: pointer;
     user-select: none;
+    aspect-ratio: 2 / 3;
 
     background: linear-gradient(#bbb , #ddd);
   }
@@ -126,9 +124,6 @@ a:visited {
 
   @media (min-width: 666px) {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    aspect-ratio: unset;
-    width: 650px;
-    height: 603px;
 
     .big {
       grid-column: 4 / 6;
