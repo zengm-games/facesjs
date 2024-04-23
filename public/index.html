@@ -235,12 +235,12 @@ display(&quot;my-div-id&quot;, face, { body: { color: &quot;blue&quot; } });</co
       which takes in extra parameters for player creation, in the form of an
       object.</p>
       <p>Generate a female/male face (default is male):</p>
-      <pre><code>const face = generate(null, { gender: &quot;female&quot; });</code></pre>
+      <pre><code>const face = generate(undefined, { gender: &quot;female&quot; });</code></pre>
       <p>Assign a race attribute that can be white, black, asian, or brown
       (default is random):</p>
-      <pre><code>const face = generate(null, { race: &quot;white&quot; });</code></pre>
+      <pre><code>const face = generate(undefined, { race: &quot;white&quot; });</code></pre>
       <p>Or both together:</p>
-      <pre><code>const face = generate(null, { gender: &quot;female&quot;, race: &quot;asian&quot; });</code></pre>
+      <pre><code>const face = generate(undefined, { gender: &quot;female&quot;, race: &quot;asian&quot; });</code></pre>
       <h2 id="exporting-svgs">Exporting SVGs</h2>
       <h3 id="api">API</h3>
       <p>You can use <code>faceToSvgString</code> to convert a face object to

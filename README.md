@@ -55,15 +55,15 @@ The `generate` function takes a second optional arguement, which takes in extra 
 
 Generate a female/male face (default is male):
 
-    const face = generate(null, { gender: "female" });
+    const face = generate(undefined, { gender: "female" });
 
 Assign a race attribute that can be white, black, asian, or brown (default is random):
 
-    const face = generate(null, { race: "white" });
+    const face = generate(undefined, { race: "white" });
 
 Or both together:
 
-    const face = generate(null, { gender: "female", race: "asian" });
+    const face = generate(undefined, { gender: "female", race: "asian" });
 
 ## Exporting SVGs
 
