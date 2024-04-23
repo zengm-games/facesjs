@@ -1,0 +1,35 @@
+.navBar{
+
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+
+}
+
+a{
+    display: flex;
+}
+
+a>button{
+display: flex;
+gap: 5px;
+background-color: #dda15e;
+justify-content: center;
+align-items: center;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+border-radius: 4px;
+}
+a{
+    text-decoration: none;
+
+}
+
+a>button:hover{
+
+
+    box-shadow: 6px 6px 0px black;
+
+}
