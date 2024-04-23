@@ -320,8 +320,13 @@ const applyValuesToGallerySectionConfigList = (
   }
 };
 
+const updateUrlHash = (face: Face) => {
+  history.replaceState(undefined, "", `#${btoa(JSON.stringify(face))}`);
+};
+
 const initialFace = generateInitialFace();
 applyValuesToGallerySectionConfigList(gallerySectionConfigList, initialFace);
+updateUrlHash(initialFace);
 
 const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   set,
@@ -332,6 +337,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
 
       applyValuesToGallerySectionConfigList(gallerySectionConfigList, newFace);
+      updateUrlHash(newFace);
 
       return {
         ...state,
