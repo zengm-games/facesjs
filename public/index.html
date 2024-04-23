@@ -1,49 +1,57 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>
-      faces.js - A JavaScript library for generating vector-based cartoon faces
-    </title>
+    <title>faces.js - A JavaScript library for generating vector-based cartoon faces</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" async src="index.ts"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style type="text/css">
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
 body {
   background-color: #ddd;
   font-family: "Arvo", serif;
+  margin: 8px;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 18px;
+
+  h1 {
+    font-size: 32px;
+    margin: 0;
+  }
+
+  .github-link {
+    display: flex;
+    gap: 5px;
+    background-color: #89bfd3;
+    color: #000;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .github-link:hover{
+    box-shadow: 6px 6px 0px black;
+  }
 }
 
-.github-link {
-  display: flex;
-  gap: 5px;
-  background-color: #89bfd3;
-  color: #000;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  text-decoration: none;
-}
 
-.github-link:hover{
-  box-shadow: 6px 6px 0px black;
-}
-
-h1 {
-  margin-bottom: 12px;
-}
-h3 {
-  margin: 0 0 12px 0;
+.subtitle {
+  font-size: 20px;
+  margin: 0 0 18px 0;
 }
 
 pre {
@@ -64,24 +72,47 @@ a:visited {
 
 #container {
   margin: 0 auto;
-  width: 608px;
+  max-width: 650px;
 }
 
 #faces {
-  margin: 0 -1px 0 -1px;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  div {
+    cursor: pointer;
+    user-select: none;
+
+    background: linear-gradient(#bbb , #ddd);
+  }
+
+  div:hover {
+    background: linear-gradient(#aaa , #ccc);
+  }
+
+  .big {
+    grid-column: 3 / 5;
+    grid-row: 1 / 3;
+  }
+
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    .big {
+      grid-column: 4 / 6;
+      grid-row: 1 / 3;
+    }
+  }
 }
-#faces div {
-  cursor: pointer;
-  user-select: none;
-  height: 180px;
-  float: left;
-  margin: 1px;
-  width: 120px;
+
+.hide-sm {
+  display: none;
 }
-#faces div.big {
-  height: 362px;
-  float: right;
-  width: 242px;
+@media (min-width: 640px) {
+  .hide-sm {
+    display: block;
+  }
 }
     </style>
   </head>
@@ -90,7 +121,7 @@ a:visited {
     <div class="navbar">
       <h1>faces.js</h1>
       <a href="https://github.com/zengm-games/facesjs" class="github-link">
-        Fork me on GitHub
+        Fork me<span class="hide-sm"> on GitHub</span>
         <svg width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g transform="translate(-140.000000, -7559.000000)" fill="#000000">
             <g transform="translate(56.000000, 160.000000)">
@@ -99,9 +130,8 @@ a:visited {
           </g>
         </svg>
       </a>
-
   </div>
-      <h3>A JavaScript library for generating vector-based cartoon faces</h3>
+  <h2 class="subtitle">A JavaScript library for generating vector-based cartoon faces</h2>
     
       <div id="faces">
         <div id="c0" class="big" onclick="javascript:newFace(0)"></div>
@@ -109,15 +139,15 @@ a:visited {
         <div id="c2" onclick="javascript:newFace(2)"></div>
         <div id="c3" onclick="javascript:newFace(3)"></div>
         <div id="c4" onclick="javascript:newFace(4)"></div>
-        <div id="c5" onclick="javascript:newFace(5)"></div>
-        <div id="c6" onclick="javascript:newFace(6)"></div>
-        <div id="c7" onclick="javascript:newFace(7)"></div>
-        <div id="c8" onclick="javascript:newFace(8)"></div>
-        <div id="c9" onclick="javascript:newFace(9)"></div>
-        <div id="c10" onclick="javascript:newFace(10)"></div>
-        <div id="c11" onclick="javascript:newFace(11)"></div>
+        <div id="c5" class="hide-sm" onclick="javascript:newFace(5)"></div>
+        <div id="c6" class="hide-sm" onclick="javascript:newFace(6)"></div>
+        <div id="c7" class="hide-sm" onclick="javascript:newFace(7)"></div>
+        <div id="c8" class="hide-sm" onclick="javascript:newFace(8)"></div>
+        <div id="c9" class="hide-sm" onclick="javascript:newFace(9)"></div>
+        <div id="c10" class="hide-sm" onclick="javascript:newFace(10)"></div>
+        <div id="c11" class="hide-sm" onclick="javascript:newFace(11)"></div>
       </div>
-      <p>
+      <p style="margin-top: 0.5em">
         <i
           >To load new random faces,
           <a href="javascript:newFaces()">click here</a> or press "r" on your

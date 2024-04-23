@@ -2,8 +2,6 @@ import { display } from "../src/display";
 import { generate } from "../src/generate";
 
 const newFace = (i: number) => {
-  document.getElementById(`c${i}`)!.style.backgroundImage =
-    "linear-gradient(0deg, rgba(240, 240, 240, 0.25) , rgba(125, 125, 125, 0.25))";
   const face = generate(undefined, {
     gender: Math.random() < 0.5 ? "male" : "female",
   });
