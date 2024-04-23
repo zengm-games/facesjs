@@ -1,3 +1,4 @@
+import "./index.css";
 import { display } from "../src/display";
 import { generate } from "../src/generate";
 
