@@ -51,7 +51,7 @@ Both `display` and `generate` accept an optional argument, specifying values to 
 
 ### Options
 
-The `generate` function takes a second optional arguement, which takes in extra parameters for player creation, in the form of an object.
+The `generate` function takes a second optional argument, which takes in extra parameters for player creation, in the form of an object.
 
 Generate a female/male face (default is male):
 
@@ -92,11 +92,11 @@ Output a random face to stdout:
 
     $ npx facesjs
 
-Generage a blue female face and output to stdout:
+Generate a blue female face and output to stdout:
 
     $ npx facesjs -j '{"body":{"color":"blue"}}' -g female
 
-Generage a male white face and save it to test.svg:
+Generate a male white face and save it to test.svg:
 
     $ npx facesjs -r white -o test.svg
 
