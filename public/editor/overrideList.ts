@@ -13,7 +13,9 @@ export const getOverrideListForItem = (
     if (gallerySectionConfig.key.includes("id")) {
       const featureName = gallerySectionConfig.key.split(".")[0];
 
-      const svgNames = (svgsIndex as Record<string, string[]>)[featureName];
+      const svgNames = [
+        ...(svgsIndex as Record<string, string[]>)[featureName],
+      ];
       svgNames.sort((a, b) => {
         if (a === "none" || a === "bald") return -1;
         if (b === "none" || b === "bald") return 1;
