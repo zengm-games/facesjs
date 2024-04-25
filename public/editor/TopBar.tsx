@@ -89,7 +89,7 @@ export const TopBar = () => {
                     >
                       {genders.map((gender) => {
                         return (
-                          <Checkbox value={gender}>
+                          <Checkbox key={gender} value={gender}>
                             {capitalizeFirstLetter(gender)}
                           </Checkbox>
                         );
@@ -109,7 +109,7 @@ export const TopBar = () => {
                     >
                       {races.map((race) => {
                         return (
-                          <Checkbox value={race}>
+                          <Checkbox key={race} value={race}>
                             {capitalizeFirstLetter(race)}
                           </Checkbox>
                         );
