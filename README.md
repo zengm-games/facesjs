@@ -51,7 +51,7 @@ Both `display` and `generate` accept an optional argument, specifying values to 
 
 ### Options
 
-The `generate` function takes a second optional arguement, which takes in extra parameters for player creation, in the form of an object.
+The `generate` function takes a second optional argument, which takes in extra parameters for player creation, in the form of an object.
 
 Generate a female/male face (default is male):
 
@@ -92,11 +92,11 @@ Output a random face to stdout:
 
     $ npx facesjs
 
-Generage a blue female face and output to stdout:
+Generate a blue female face and output to stdout:
 
     $ npx facesjs -j '{"body":{"color":"blue"}}' -g female
 
-Generage a male white face and save it to test.svg:
+Generate a male white face and save it to test.svg:
 
     $ npx facesjs -r white -o test.svg
 
@@ -126,7 +126,7 @@ This lets you immediately see your changes as you work.
 
 Each face is assembled from multiple SVGs. You can see them within the "svg" folder. If you want to add another feature, just create an SVG (using a vector graphics editor like [Inkscape](https://inkscape.org/)) and put it in the appropriate folder. It should automatically work. If not, it's a bug, please let me know!
 
-When creating SVGs, assume the size of the canvas is 400x600. For most features, it doesn't mater where you draw on the canvas because it will automatically identify your object and position it in the appropriate place. But for head and hair SVGs, position does matter. For those you do need to make sure they are in the correct place on a 400x600 canvas, same as the existing head and hair SVGs. Otherwise it won't know where to place the other facial features relative to the head and hair.
+When creating SVGs, assume the size of the canvas is 400x600. For most features, it doesn't matter where you draw on the canvas because it will automatically identify your object and position it in the appropriate place. But for head and hair SVGs, position does matter. For those you do need to make sure they are in the correct place on a 400x600 canvas, same as the existing head and hair SVGs. Otherwise it won't know where to place the other facial features relative to the head and hair.
 
 If you find it not quite placing a facial feature exactly where you want, it's because by default it finds the center of the eye/eyebrow/mouth/nose SVG and places that in a specific location. If that's not good for a certain facial feature, that behavior can be overridden in code. For instance, see how it's done in display.js for the "pinocchio" nose which uses the left side of the SVG rather than the center to place it.
 
