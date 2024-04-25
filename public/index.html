@@ -87,7 +87,7 @@ const face = generate({ body: { color: &quot;blue&quot; } });
 # Display a face, but impose that it has blue skin
 display(&quot;my-div-id&quot;, face, { body: { color: &quot;blue&quot; } });</code></pre>
       <h3 id="options">Options</h3>
-      <p>The <code>generate</code> function takes a second optional arguement,
+      <p>The <code>generate</code> function takes a second optional argument,
       which takes in extra parameters for player creation, in the form of an
       object.</p>
       <p>Generate a female/male face (default is male):</p>
@@ -119,9 +119,9 @@ const svg = faceToSvgString(face);</code></pre>
       <h4 id="examples">Examples</h4>
       <p>Output a random face to stdout:</p>
       <pre><code>$ npx facesjs</code></pre>
-      <p>Generage a blue female face and output to stdout:</p>
+      <p>Generate a blue female face and output to stdout:</p>
       <pre><code>$ npx facesjs -j &#39;{&quot;body&quot;:{&quot;color&quot;:&quot;blue&quot;}}&#39; -g female</code></pre>
-      <p>Generage a male white face and save it to test.svg:</p>
+      <p>Generate a male white face and save it to test.svg:</p>
       <pre><code>$ npx facesjs -r white -o test.svg</code></pre>
       <h4 id="options-1">Options</h4>
       <pre><code>-h, --help          Prints this help
@@ -150,7 +150,7 @@ const svg = faceToSvgString(face);</code></pre>
       folder. It should automatically work. If not, it’s a bug, please let me
       know!</p>
       <p>When creating SVGs, assume the size of the canvas is 400x600. For
-      most features, it doesn’t mater where you draw on the canvas because it
+      most features, it doesn’t matter where you draw on the canvas because it
       will automatically identify your object and position it in the
       appropriate place. But for head and hair SVGs, position does matter. For
       those you do need to make sure they are in the correct place on a
