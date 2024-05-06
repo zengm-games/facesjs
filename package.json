@@ -25,8 +25,8 @@
     "dev": "vite",
     "test": "tsc --noEmit --emitDeclarationOnly false && eslint && vitest run",
     "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc -p tsconfig-esmodules.json && yarn run tsc -p tsconfig-commonjs.json",
-    "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs",
-    "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules && echo '{\"type\": \"module\"}' > build/esmodules/package.json",
+    "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.ts,.js' --out-dir build/commonjs && echo '{\"type\": \"commonjs\"}' > build/commonjs/package.json",
+    "build-esmodules": "babel src --extensions '.ts,.js' --out-dir build/esmodules",
     "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
     "prepublishOnly": "yarn test && yarn run build"
