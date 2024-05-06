@@ -1,6 +1,6 @@
 {
   "name": "facesjs",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "A JavaScript library for generating vector-based cartoon faces",
   "repository": {
     "type": "git",
