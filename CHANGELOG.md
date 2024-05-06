@@ -1,3 +1,7 @@
+# 4.1.0 (2024-05-06)
+
+- Fixed the CommonJS build.
+
 # 4.1.0 (2024-04-23)
 
 - #35 - @tomkennedy22 rewrote the editor UI and added a ton of functionality. The main new features are a gallery of faces showing previews of all features you can select, and the ability to export a face in SVG or PNG format.
