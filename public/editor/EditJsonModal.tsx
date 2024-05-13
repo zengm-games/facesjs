@@ -12,7 +12,8 @@ import {
   ModalFooter,
   type useDisclosure,
 } from "@nextui-org/react";
-import { deepCopy, isValidJSON } from "./utils";
+import { isValidJSON } from "./utils";
+import { deepCopy } from "../../src/utils";
 
 export const EditJsonModal = ({
   modalDisclosure,

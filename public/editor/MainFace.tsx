@@ -14,7 +14,7 @@ import {
   DropdownItem,
   type useDisclosure,
 } from "@nextui-org/react";
-import { Face } from "./Face";
+import { Face } from "../../src/Face";
 import {
   downloadFacePng,
   downloadFaceSvg,

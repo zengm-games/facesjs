@@ -11,19 +11,15 @@ import {
   Switch,
   Tooltip,
 } from "@nextui-org/react";
-import {
-  getFromDict,
-  roundTwoDecimals,
-  doesStrLookLikeColor,
-  deepCopy,
-} from "./utils";
+import { getFromDict, roundTwoDecimals, doesStrLookLikeColor } from "./utils";
 import { shuffleFeature } from "./shuffleFace";
 import {
   getOverrideListForItem,
   newFaceConfigFromOverride,
 } from "./overrideList";
 import { CombinedState, GallerySectionConfig, OverrideListItem } from "./types";
-import { Face } from "./Face";
+import { Face } from "../../src/Face";
+import { deepCopy } from "../../src/utils";
 
 const inputOnChange = ({
   chosenValue,

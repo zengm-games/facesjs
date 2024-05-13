@@ -195,7 +195,3 @@ export const getCurrentTimestampAsString = (): string => {
 export const capitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-
-export const deepCopy = <T>(object: T): T => {
-  return JSON.parse(JSON.stringify(object));
-};

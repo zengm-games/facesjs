@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef, type CSSProperties } from "react";
-import { Face as FaceType, Overrides } from "../../src/types";
+import { Face as FaceType, Overrides } from "./types";
 import { useInView } from "react-intersection-observer";
-import { display } from "../../src/display";
+import { display } from "./display";
 import { deepCopy } from "./utils";
 
 export const Face = forwardRef<
