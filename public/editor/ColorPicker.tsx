@@ -51,8 +51,6 @@ export const ColorPicker = ({
           allowAlpha={allowAlpha}
           presetColors={presetColors}
           onChange={(color) => {
-            console.log("Sketch change", { color });
-
             if (colorFormat === "rgba") {
               onChange(rgbaObjToRgbaStr(color.rgba));
             } else {

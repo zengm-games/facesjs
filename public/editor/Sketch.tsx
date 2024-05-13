@@ -117,8 +117,6 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
       ...other
     } = props;
 
-    console.log("Sketch", { color, props });
-
     const [hsva, setHsva] = useState({ h: 209, s: 36, v: 90, a: 1 });
     useEffect(() => {
       if (typeof color === "string" && validHex(color)) {
@@ -210,7 +208,6 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
                     style: { marginLeft: 1, marginRight: 5 },
                   }}
                   onChange={(newHvsa) => {
-                    console.log("newAlpha", { newHvsa });
                     handleChange({ ...hsva, ...newHvsa });
                   }}
                 />
