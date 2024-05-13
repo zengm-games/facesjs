@@ -7,7 +7,7 @@ import {
   distinctSkinColors,
   jerseyColorOptions,
 } from "./defaultColors";
-import { Face, Gender, Race } from "../../src/types";
+import { FaceConfig, Gender, Race } from "../../src/types";
 
 const gallerySectionInfos: (Pick<
   GallerySectionConfig,
@@ -293,7 +293,7 @@ const gallerySectionConfigList: GallerySectionConfig[] =
   });
 
 const generateInitialFace = () => {
-  let faceConfig: Face;
+  let faceConfig: FaceConfig;
   if (location.hash.length <= 1) {
     faceConfig = generate();
   } else {
@@ -309,7 +309,7 @@ const generateInitialFace = () => {
 
 const applyValuesToGallerySectionConfigList = (
   gallerySectionConfigList: GallerySectionConfig[],
-  face: Face,
+  face: FaceConfig,
 ) => {
   for (const row of gallerySectionConfigList) {
     row.selectedValue = getFromDict(face, row.key);
@@ -320,7 +320,7 @@ const applyValuesToGallerySectionConfigList = (
   }
 };
 
-const updateUrlHash = (face: Face) => {
+const updateUrlHash = (face: FaceConfig) => {
   history.replaceState(undefined, "", `#${btoa(JSON.stringify(face))}`);
 };
 
@@ -332,7 +332,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   set,
 ) => ({
   faceConfig: initialFace,
-  setFaceStore: (newFace: Face) =>
+  setFaceStore: (newFace: FaceConfig) =>
     set((state: CombinedState) => {
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
 

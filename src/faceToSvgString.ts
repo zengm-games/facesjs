@@ -1,6 +1,6 @@
 import svgPathBbox from "svg-path-bbox";
 import { display } from "./display.js";
-import { Face, Overrides } from "./types.js";
+import { FaceConfig, Overrides } from "./types.js";
 
 /**
  * An instance of this object can pretend to be the global "document"
@@ -138,7 +138,10 @@ class SvgNode {
  * Renders the given face in a pseudo DOM element and then returns the
  * SVG image as an XML string.
  */
-export const faceToSvgString = (face: Face, overrides?: Overrides): string => {
+export const faceToSvgString = (
+  face: FaceConfig,
+  overrides?: Overrides,
+): string => {
   const svgDocument = new SvgDocument();
   // Even though we will provide a pseudo HTML elment, display() accesses
   // document.createElementNS() so we need to inject our own code there.

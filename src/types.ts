@@ -37,4 +37,4 @@ export type FeatureInfo = {
   opaqueLines?: boolean;
 };
 
-export type Face = ReturnType<typeof generate>;
+export type FaceConfig = ReturnType<typeof generate>;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import override from "../../src/override";
-import { Face as FaceType } from "../../src/types";
+import { FaceConfig } from "../../src/types";
 import { useStateStore } from "./stateStore";
 import { Shuffle, LockSimpleOpen, LockSimple } from "@phosphor-icons/react";
 import {
@@ -30,7 +30,7 @@ const inputOnChange = ({
   stateStoreProps,
 }: {
   chosenValue: unknown;
-  faceConfig: FaceType;
+  faceConfig: FaceConfig;
   key: string;
   overrideList: OverrideListItem[];
   sectionIndex: number;
@@ -302,7 +302,7 @@ const updateStores = ({
   sectionIndex,
   stateStoreProps,
 }: {
-  faceConfig: FaceType;
+  faceConfig: FaceConfig;
   faceIndex: number;
   sectionIndex: number;
   stateStoreProps: CombinedState;

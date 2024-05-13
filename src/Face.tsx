@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useRef, type CSSProperties } from "react";
-import { Face as FaceType, Overrides } from "./types";
+import { forwardRef, useLayoutEffect, useRef, type CSSProperties } from "react";
+import { FaceConfig, Overrides } from "./types";
 import { useInView } from "react-intersection-observer";
 import { display } from "./display";
 import { deepCopy } from "./utils";
@@ -7,18 +7,19 @@ import { deepCopy } from "./utils";
 export const Face = forwardRef<
   HTMLDivElement,
   {
-    face: FaceType;
+    className?: string;
+    face: FaceConfig;
     ignoreDisplayErrors?: boolean;
     lazy?: boolean;
     overrides?: Overrides;
     style?: CSSProperties;
   }
->(({ face, ignoreDisplayErrors, lazy, overrides, style }, ref) => {
+>(({ className, face, ignoreDisplayErrors, lazy, overrides, style }, ref) => {
   const [inViewRef, inView] = useInView();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if ((inView || !lazy) && faceRef.current) {
       try {
         if (overrides) {
@@ -37,6 +38,7 @@ export const Face = forwardRef<
 
   return (
     <div
+      className={className}
       ref={(node: HTMLDivElement) => {
         if (ref) {
           // @ts-expect-error

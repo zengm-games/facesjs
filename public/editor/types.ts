@@ -1,4 +1,4 @@
-import { Face, Gender, Overrides, Race } from "../../src";
+import { FaceConfig, Gender, Overrides, Race } from "../../src";
 
 export type GallerySize = "sm" | "md" | "lg";
 

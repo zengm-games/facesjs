@@ -1,4 +1,4 @@
-import { Face, Overrides } from "../../src/types";
+import { FaceConfig, Overrides } from "../../src/types";
 import { generate } from "../../src/generate";
 import { CombinedState, GallerySectionConfig } from "./types";
 import { deepCopy, deleteFromDict, pickRandom } from "./utils";
@@ -7,7 +7,7 @@ import { jerseyColorOptions } from "./defaultColors";
 type GenerateOptions = Parameters<typeof generate>[1];
 
 export const shuffleEntireFace = (
-  faceConfig: Face,
+  faceConfig: FaceConfig,
   gallerySectionConfigList: GallerySectionConfig[],
   stateStore: CombinedState,
 ) => {
@@ -59,7 +59,7 @@ export const shuffleEntireFace = (
 export const shuffleFeature = (
   gallerySectionConfig: GallerySectionConfig,
   stateStore: CombinedState,
-  faceConfig: Face,
+  faceConfig: FaceConfig,
 ) => {
   const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
     stateStore;

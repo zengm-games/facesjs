@@ -1,6 +1,6 @@
 import override from "./override.js";
 import svgs from "./svgs.js";
-import { Face, Overrides } from "./types.js";
+import { FaceConfig, Overrides } from "./types.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
@@ -96,12 +96,16 @@ const translate = (
 const fatScale = (fatness: number) => 0.8 + 0.2 * fatness;
 
 type FeatureInfo = {
-  name: Exclude<keyof Face, "fatness" | "teamColors">;
+  name: Exclude<keyof FaceConfig, "fatness" | "teamColors">;
   positions: [null] | [number, number][];
   scaleFatness?: true;
 };
 
-const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
+const drawFeature = (
+  svg: SVGSVGElement,
+  face: FaceConfig,
+  info: FeatureInfo,
+) => {
   const feature = face[info.name];
   if (!feature || !svgs[info.name]) {
     return;
@@ -252,7 +256,7 @@ const drawFeature = (svg: SVGSVGElement, face: Face, info: FeatureInfo) => {
 
 export const display = (
   container: HTMLElement | string | null,
-  face: Face,
+  face: FaceConfig,
   overrides?: Overrides,
 ): void => {
   override(face, overrides);

@@ -1,6 +1,6 @@
 import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
-import { Face as FaceType, Overrides } from "../../src/types";
+import { FaceConfig as FaceType, Overrides } from "../../src/types";
 import { GallerySectionConfig, OverrideListItem } from "./types";
 import { deepCopy, doesStrLookLikeColor, luma, setToDict } from "./utils";
 
