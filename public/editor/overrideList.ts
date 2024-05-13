@@ -1,8 +1,9 @@
 import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
 import { FaceConfig as FaceType, Overrides } from "../../src/types";
+import { deepCopy } from "../../src/utils";
 import { GallerySectionConfig, OverrideListItem } from "./types";
-import { deepCopy, doesStrLookLikeColor, luma, setToDict } from "./utils";
+import { doesStrLookLikeColor, luma, setToDict } from "./utils";
 
 export const getOverrideListForItem = (
   gallerySectionConfig: GallerySectionConfig,

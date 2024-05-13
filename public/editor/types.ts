@@ -3,8 +3,8 @@ import { FaceConfig, Gender, Overrides, Race } from "../../src";
 export type GallerySize = "sm" | "md" | "lg";
 
 export type FaceState = {
-  faceConfig: Face;
-  setFaceStore: (newFace: Face) => void;
+  faceConfig: FaceConfig;
+  setFaceStore: (newFace: FaceConfig) => void;
 };
 
 export type GalleryState = {

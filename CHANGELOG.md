@@ -1,4 +1,10 @@
-# 4.1.0 (2024-05-06)
+# 4.2.0 ()
+
+- Added a `Face` React component for easier integration with React.
+
+- Renamed the `Face` type to `FaceConfig`.
+
+# 4.1.1 (2024-05-06)
 
 - Fixed the CommonJS build.
 

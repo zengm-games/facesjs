@@ -1,8 +1,9 @@
 import { FaceConfig, Overrides } from "../../src/types";
 import { generate } from "../../src/generate";
 import { CombinedState, GallerySectionConfig } from "./types";
-import { deepCopy, deleteFromDict, pickRandom } from "./utils";
+import { deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
+import { deepCopy } from "../../src/utils";
 
 type GenerateOptions = Parameters<typeof generate>[1];
 
