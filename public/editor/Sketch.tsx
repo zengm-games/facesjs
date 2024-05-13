@@ -15,6 +15,7 @@ import {
 } from "@uiw/color-convert";
 import Swatch from "@uiw/react-color-swatch";
 import { useEffect } from "react";
+import { roundTwoDecimals } from "./utils";
 
 // Similar to https://github.com/uiwjs/react-color/blob/632d4e9201e26b42ee7d5bfeda407144e9a6e2f3/packages/color-sketch/src/index.tsx but with EyeDropper added
 
@@ -131,6 +132,9 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
     }, [color]);
 
     const handleChange = (hsv: HsvaColor) => {
+      for (const [key, value] of Object.entries(hsv)) {
+        hsv[key as keyof HsvaColor] = roundTwoDecimals(value);
+      }
       setHsva(hsv);
       onChange && onChange(handleColor(hsv));
     };
