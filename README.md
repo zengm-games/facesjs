@@ -65,23 +65,6 @@ Or both together:
 
     const face = generate(undefined, { gender: "female", race: "asian" });
 
-## Exporting SVGs
-
-### API
-
-You can use `faceToSvgString` to convert a face object to an SVG string.
-
-    import { faceToSvgString, generate } from "facesjs";
-
-    const face = generate();
-    const svg = faceToSvgString(face);
-
-You can also specify overrides, similar to `display`:
-
-    const svg = faceToSvgString(face, { body: { color: "blue" } });
-
-`faceToSvgString` is intended to be used in Node.js If you are doing client-side JS, it would be more efficient to render a face to the DOM using `display` and then [convert it to a blob like this](https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64).
-
 ### React integration
 
 You can use the `display` function within any frontend JS framework, but for ease of use with the most popular one, this package includes a `Face` component for React.
@@ -105,10 +88,27 @@ Props of the `Face` component:
 | - | - | - | - | - |
 |`face` | Y | `FaceConfig` || Face object, output of `generate`. |
 |`overrides` || `Overrides` || Optional overrides object, as described above. |
-|`ignoreDisplayErrors` || `boolean` | `false` | If true, then any errors when internally running `display` will be suppressed. This is useful if you accept user-defined faces and you don't want errors from them to clog up your error logs. |
-|`lazy` || `boolean` | `false` | If true, then application of overrides and rendering of the face will be delayed until this component is actually visible (as determined by an intersection observer). |
+|`ignoreDisplayErrors` || `boolean` | `false` | If `true`, then any errors when internally running `display` will be suppressed. This is useful if you accept user-defined faces and you don't want errors from them to clog up your error logs. |
+|`lazy` || `boolean` | `false` | If `true`, then application of overrides and rendering of the face will be delayed until this component is actually visible (as determined by an intersection observer). |
 |`className` || `string` || If provided, will be put on the wrapper div. |
 |`style` || `CSSProperties` || If provided, will be put on the wrapper div. |
+
+## Exporting SVGs
+
+### API
+
+You can use `faceToSvgString` to convert a face object to an SVG string.
+
+    import { faceToSvgString, generate } from "facesjs";
+
+    const face = generate();
+    const svg = faceToSvgString(face);
+
+You can also specify overrides, similar to `display`:
+
+    const svg = faceToSvgString(face, { body: { color: "blue" } });
+
+`faceToSvgString` is intended to be used in Node.js If you are doing client-side JS, it would be more efficient to render a face to the DOM using `display` and then [convert it to a blob like this](https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64).
 
 ### CLI
 
