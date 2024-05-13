@@ -85,15 +85,70 @@ const gallerySectionInfos: (Pick<
     },
   },
   {
+    key: "height",
+    text: "Face Height",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: 0,
+        max: 1,
+      },
+    },
+  },
+  {
     key: "mouth.id",
     text: "Mouth Shape",
     selectionType: "svgs",
     flip: { key: "mouth.flip" },
   },
   {
+    key: "mouth.size",
+    text: "Mouth Size",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: 0.6,
+        max: 1.2,
+      },
+    },
+  },
+  {
     key: "eye.id",
     text: "Eye Shape",
     selectionType: "svgs",
+  },
+  {
+    key: "eye.size",
+    text: "Eye Size",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: 0.75,
+        max: 1.25,
+      },
+    },
+  },
+  {
+    key: "eye.distance",
+    text: "Eye Distance",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: -6,
+        max: 2,
+      },
+    },
+  },
+  {
+    key: "eye.height",
+    text: "Eye Height",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: -10,
+        max: 10,
+      },
+    },
   },
   {
     key: "eye.angle",
@@ -176,6 +231,17 @@ const gallerySectionInfos: (Pick<
       rangeConfig: {
         min: 0.5,
         max: 1.25,
+      },
+    },
+  },
+  {
+    key: "nose.angle",
+    text: "Nose Angle",
+    selectionType: "range",
+    renderOptions: {
+      rangeConfig: {
+        min: -3,
+        max: 3,
       },
     },
   },

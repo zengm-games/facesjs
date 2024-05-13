@@ -22,7 +22,8 @@ export type Feature =
   | "miscLine"
   | "mouth"
   | "nose"
-  | "smileLine";
+  | "smileLine"
+  | "earring";
 
 export type Race = "asian" | "black" | "brown" | "white";
 
@@ -35,6 +36,23 @@ export type FeatureInfo = {
   scaleFatness?: boolean;
   shiftWithEyes?: boolean;
   opaqueLines?: boolean;
+  placeBeginning?: boolean;
+  flip?: boolean;
+  size?: number;
 };
 
 export type Face = ReturnType<typeof generate>;
+
+export type HSL = {
+  h: number;
+  s: number;
+  l: number;
+};
+
+export type RGB = {
+  r: number;
+  g: number;
+  b: number;
+};
+
+export type HEX = string;

@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" viewBox="0 0 79 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,-99.3441,-256.103)">
+        <g transform="matrix(0.898794,0.438371,-0.438371,0.898794,98.8836,247.191)">
+            <g transform="matrix(0.97437,-0.224951,0.224951,0.97437,1.92818,0.915251)">
+                <g transform="matrix(0.97437,-0.224951,0.224951,0.97437,0.928911,5.16092)">
+                    <path d="M24.179,17.551C30.625,16.956 37.103,16.347 41.595,16.197C51.397,15.871 68.001,16.323 72.888,12.598C78.159,8.582 75.454,4.331 75.454,4.331C74.436,3.471 48.447,4.994 39.64,5.09C35.189,5.138 26.665,7.466 18.769,10.198L24.179,17.551Z" fill='$[hairColor]' style="stroke:black;stroke-width:1px;"/>
+                </g>
+                <g transform="matrix(0.97437,-0.224951,0.224951,0.97437,0.928911,5.16092)">
+                    <path d="M14.548,11.748C8.995,13.915 2.594,16.746 1.446,17.93C1.441,19.242 10.209,18.785 18.665,18.078L14.548,11.748Z" fill='$[hairColor]' style="stroke:black;stroke-width:1px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -355,4 +355,7 @@ export const genders = {
     line4: "both",
     none: "both",
   },
+  earring: {
+    "earring-hanging-diamond": "female",
+  },
 };
