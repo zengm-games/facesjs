@@ -8,22 +8,29 @@ export const Face = forwardRef<
   HTMLDivElement,
   {
     face: FaceType;
-    overrides?: Overrides;
+    ignoreDisplayErrors?: boolean;
     lazy?: boolean;
+    overrides?: Overrides;
     style?: CSSProperties;
   }
->(({ face, overrides, lazy, style }, ref) => {
+>(({ face, ignoreDisplayErrors, lazy, overrides, style }, ref) => {
   const [inViewRef, inView] = useInView();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if ((inView || !lazy) && faceRef.current) {
-      if (overrides) {
-        // Only apply overrides if face is in viewport
-        display(faceRef.current, deepCopy(face), overrides);
-      } else {
-        display(faceRef.current, face);
+      try {
+        if (overrides) {
+          // Only apply overrides if face is in viewport
+          display(faceRef.current, deepCopy(face), overrides);
+        } else {
+          display(faceRef.current, face);
+        }
+      } catch (error) {
+        if (!ignoreDisplayErrors) {
+          throw error;
+        }
       }
     }
   }, [inView, face, overrides]);
