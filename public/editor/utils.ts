@@ -161,7 +161,8 @@ export const luma = (colorHex: string): number => {
 };
 
 export const doesStrLookLikeColor = (str: string): boolean => {
-  const regex = /^#([0-9A-F]{3}){1,2}$/i;
+  const regex =
+    /^(#([0-9A-F]{3,4}){1,2}$|rgba?\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(,\s*((0?\.\d+)|(1\.0?)|1))?\))$/i;
 
   return regex.test(str);
 };

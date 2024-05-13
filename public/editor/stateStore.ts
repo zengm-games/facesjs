@@ -16,12 +16,16 @@ const gallerySectionInfos: (Pick<
   (
     | {
         selectionType: "color";
+        colorFormat: "rgba" | "hex";
+        allowAlpha: boolean;
         renderOptions: {
           valuesToRender: string[];
         };
       }
     | {
         selectionType: "colors";
+        colorFormat: "rgba" | "hex";
+        allowAlpha: boolean;
         renderOptions: {
           colorCount: number;
           valuesToRender: string[][];
@@ -48,6 +52,8 @@ const gallerySectionInfos: (Pick<
     text: "Skin Color",
     isSelected: true,
     selectionType: "color",
+    colorFormat: "hex",
+    allowAlpha: false,
     renderOptions: {
       valuesToRender: distinctSkinColors,
     },
@@ -132,6 +138,8 @@ const gallerySectionInfos: (Pick<
     key: "hair.color",
     text: "Hair Color",
     selectionType: "color",
+    colorFormat: "hex",
+    allowAlpha: false,
     renderOptions: {
       valuesToRender: distinctHairColors,
     },
@@ -145,6 +153,23 @@ const gallerySectionInfos: (Pick<
     key: "facialHair.id",
     text: "Facial Hair Style",
     selectionType: "svgs",
+  },
+  {
+    key: "head.shave",
+    text: "Shave Style",
+    selectionType: "color",
+    colorFormat: "rgba",
+    allowAlpha: true,
+    renderOptions: {
+      valuesToRender: [
+        "rgba(0,0,0,0)",
+        "rgba(0,0,0,0.1)",
+        "rgba(0,0,0,0.2)",
+        "rgba(0,0,0,0.3)",
+        "rgba(0,0,0,0.4)",
+        "rgba(0,0,0,0.5)",
+      ],
+    },
   },
   {
     key: "eyebrow.id",
@@ -225,6 +250,8 @@ const gallerySectionInfos: (Pick<
     key: "teamColors",
     text: "Team Colors",
     selectionType: "colors",
+    colorFormat: "hex",
+    allowAlpha: false,
     renderOptions: {
       colorCount: 3,
       valuesToRender: jerseyColorOptions,

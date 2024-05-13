@@ -1,6 +1,7 @@
 import { FaceConfig, Gender, Overrides, Race } from "../../src";
 
 export type GallerySize = "sm" | "md" | "lg";
+export type ColorFormat = "hex" | "rgba";
 
 export type FaceState = {
   faceConfig: FaceConfig;
@@ -50,6 +51,8 @@ type GallerySectionConfigRange = GallerySectionConfigBase & {
 type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
   selectedValue: string;
+  colorFormat: ColorFormat;
+  allowAlpha: boolean;
   renderOptions: {
     valuesToRender: string[];
   };
@@ -58,6 +61,8 @@ type GallerySectionConfigColor = GallerySectionConfigBase & {
 type GallerySectionConfigColors = GallerySectionConfigBase & {
   selectionType: "colors";
   selectedValue: string[];
+  colorFormat: ColorFormat;
+  allowAlpha: boolean;
   renderOptions: {
     colorCount: number;
     valuesToRender: string[][];
