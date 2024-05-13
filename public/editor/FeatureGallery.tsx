@@ -431,10 +431,12 @@ export const FeatureGallery = () => {
                       }}
                     >
                       <Face
-                        faceConfig={faceConfig}
+                        face={faceConfig}
                         overrides={overrideToRun.override}
-                        width={faceWidth}
-                        lazyLoad={true}
+                        style={{
+                          width: faceWidth,
+                        }}
+                        lazy
                       />
                     </div>
                   );

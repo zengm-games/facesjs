@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  type CSSProperties,
-} from "react";
+import { forwardRef, useEffect, useRef, type CSSProperties } from "react";
 import { Face as FaceType, Overrides } from "../../src/types";
 import { useInView } from "react-intersection-observer";
 import { display } from "../../src/display";
@@ -13,54 +7,39 @@ import { deepCopy } from "./utils";
 export const Face = forwardRef<
   HTMLDivElement,
   {
-    faceConfig: FaceType;
+    face: FaceType;
     overrides?: Overrides;
-    maxWidth?: number;
-    width?: number;
-    lazyLoad?: boolean;
+    lazy?: boolean;
+    style?: CSSProperties;
   }
->(({ faceConfig, overrides, maxWidth, width = 400, lazyLoad }, ref) => {
+>(({ face, overrides, lazy, style }, ref) => {
   const [inViewRef, inView] = useInView();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if ((inView || !lazyLoad) && faceRef.current) {
+    if ((inView || !lazy) && faceRef.current) {
       if (overrides) {
         // Only apply overrides if face is in viewport
-        display(faceRef.current, deepCopy(faceConfig), overrides);
+        display(faceRef.current, deepCopy(face), overrides);
       } else {
-        display(faceRef.current, faceConfig);
+        display(faceRef.current, face);
       }
     }
-  }, [inView, faceConfig, overrides]);
+  }, [inView, face, overrides]);
 
-  const style: CSSProperties = {
-    aspectRatio: "2/3",
-    minWidth: 60,
-    minHeight: 90,
-  };
-
-  if (maxWidth !== undefined) {
-    style.maxWidth = maxWidth;
-    style.maxHeight = maxWidth * 1.5;
-  } else {
-    style.width = width;
-    style.height = width * 1.5;
-  }
-
-  const setRefs = useCallback(
-    (node: HTMLDivElement) => {
-      if (ref) {
+  return (
+    <div
+      ref={(node: HTMLDivElement) => {
+        if (ref) {
+          // @ts-expect-error
+          ref.current = node;
+        }
         // @ts-expect-error
-        ref.current = node;
-      }
-      // @ts-expect-error
-      faceRef.current = node;
-      inViewRef(node);
-    },
-    [inViewRef],
+        faceRef.current = node;
+        inViewRef(node);
+      }}
+      style={style}
+    />
   );
-
-  return <div ref={setRefs} style={style} />;
 });

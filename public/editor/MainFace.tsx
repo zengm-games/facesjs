@@ -166,7 +166,7 @@ export const MainFace = ({
 
   return (
     <div className="border-5 border-slate-800 rounded-lg shadow-medium">
-      <Face faceConfig={faceConfig} maxWidth={400} ref={ref} />
+      <Face face={faceConfig} ref={ref} />
       <MainFaceActionBar modalDisclosure={modalDisclosure} faceRef={ref} />
     </div>
   );
