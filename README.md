@@ -72,7 +72,7 @@ You can use the `display` function within any frontend JS framework, but for eas
     import { Face, generate } from "facesjs";
     import { useEffect } from "react";
 
-    export const My = ({ face }) => {
+    export const MyFace = ({ face }) => {
         return <Face
             face={face}
             lazy
