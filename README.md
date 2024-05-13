@@ -93,9 +93,9 @@ You can use the `display` function within any frontend JS framework, but for eas
         return <Face
             face={face}
             lazy
-            style: {
+            style={{
                 width: 100,
-            };
+            }}
         >;
     };
 
