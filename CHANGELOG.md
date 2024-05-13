@@ -1,4 +1,4 @@
-# 4.2.0 ()
+# 4.2.0 (2024-05-13)
 
 - Added a `Face` React component for easier integration with React.
 

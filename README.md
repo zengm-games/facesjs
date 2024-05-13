@@ -106,7 +106,7 @@ Props of the `Face` component:
 |`face` | Y | `FaceConfig` || Face object, output of `generate`. |
 |`overrides` || `Overrides` || Optional overrides object, as described above. |
 |`ignoreDisplayErrors` || `boolean` | `false` | If true, then any errors when internally running `display` will be suppressed. This is useful if you accept user-defined faces and you don't want errors from them to clog up your error logs. |
-|`lazy` || `boolean` | `true` | If true, then application of overrides and rendering of the face will be delayed until this component is actually visible (as determined by an intersection observer). |
+|`lazy` || `boolean` | `false` | If true, then application of overrides and rendering of the face will be delayed until this component is actually visible (as determined by an intersection observer). |
 |`className` || `string` || If provided, will be put on the wrapper div. |
 |`style` || `CSSProperties` || If provided, will be put on the wrapper div. |
 
