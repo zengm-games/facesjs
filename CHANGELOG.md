@@ -1,3 +1,7 @@
+# 4.2.1 (2024-05-15)
+
+- #47 - Restore the "shave" facial feature option to the editor, which was accidentally removed in v4.1.0.
+
 # 4.2.0 (2024-05-13)
 
 - Added a `Face` React component for easier integration with React.
