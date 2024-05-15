@@ -1,8 +1,37 @@
-import { forwardRef, useLayoutEffect, useRef, type CSSProperties } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { FaceConfig, Overrides } from "./types";
-import { useInView } from "react-intersection-observer";
 import { display } from "./display";
 import { deepCopy } from "./utils";
+
+const useIntersectionObserver = () => {
+  const [ref, setRef] = useState<HTMLElement | undefined>();
+  const [entry, setEntry] = useState<IntersectionObserverEntry | undefined>();
+
+  useEffect(() => {
+    if (!ref) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setEntry(entry);
+    });
+
+    observer.observe(ref);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref]);
+
+  return [setRef, entry] as const;
+};
 
 export const Face = forwardRef<
   HTMLDivElement,
@@ -15,12 +44,16 @@ export const Face = forwardRef<
     style?: CSSProperties;
   }
 >(({ className, face, ignoreDisplayErrors, lazy, overrides, style }, ref) => {
-  const [inViewRef, inView] = useInView();
+  const [intersectionObserverRef, intersectionObserverEntry] =
+    useIntersectionObserver();
 
   const faceRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if ((inView || !lazy) && faceRef.current) {
+    if (
+      (intersectionObserverEntry?.isIntersecting || !lazy) &&
+      faceRef.current
+    ) {
       try {
         if (overrides) {
           // Only apply overrides if face is in viewport
@@ -34,7 +67,7 @@ export const Face = forwardRef<
         }
       }
     }
-  }, [inView, face, overrides]);
+  }, [intersectionObserverEntry, face, overrides]);
 
   return (
     <div
@@ -46,7 +79,7 @@ export const Face = forwardRef<
         }
         // @ts-expect-error
         faceRef.current = node;
-        inViewRef(node);
+        intersectionObserverRef(node);
       }}
       style={style}
     />
