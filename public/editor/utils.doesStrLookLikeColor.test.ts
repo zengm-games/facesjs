@@ -14,15 +14,19 @@ describe("doesStrLookLikeColor function tests", () => {
     expect(doesStrLookLikeColor("FFFFFF")).toBe(false);
   });
 
-  test("returns false for invalid color with more than 6 digits", () => {
+  test("returns false for invalid color with weird number of digits", () => {
     expect(doesStrLookLikeColor("#FFFFFFF")).toBe(false);
-  });
-
-  test("returns false for invalid color with less than 3 digits", () => {
     expect(doesStrLookLikeColor("#FF")).toBe(false);
+    expect(doesStrLookLikeColor("#FFFF")).toBe(false);
   });
 
   test("returns false for invalid characters in color", () => {
     expect(doesStrLookLikeColor("#ZZZ999")).toBe(false);
+  });
+
+  test("works for rgba colors", () => {
+    expect(doesStrLookLikeColor("rgba(20,0,100,0.5)")).toBe(true);
+    expect(doesStrLookLikeColor("rgba(20, 0, 100, 0.5)")).toBe(true);
+    expect(doesStrLookLikeColor("rgba(20,0,100,0.5")).toBe(false);
   });
 });
