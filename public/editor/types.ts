@@ -52,7 +52,6 @@ type GallerySectionConfigColor = GallerySectionConfigBase & {
   selectionType: "color";
   selectedValue: string;
   colorFormat: ColorFormat;
-  allowAlpha: boolean;
   renderOptions: {
     valuesToRender: string[];
   };
@@ -62,7 +61,6 @@ type GallerySectionConfigColors = GallerySectionConfigBase & {
   selectionType: "colors";
   selectedValue: string[];
   colorFormat: ColorFormat;
-  allowAlpha: boolean;
   renderOptions: {
     colorCount: number;
     valuesToRender: string[][];

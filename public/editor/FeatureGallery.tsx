@@ -244,9 +244,7 @@ const FeatureSelector = ({
       });
     };
 
-    let colorFormat = gallerySectionConfig.colorFormat
-      ? gallerySectionConfig.colorFormat
-      : "hex";
+    const colorFormat = gallerySectionConfig.colorFormat || "hex";
 
     return (
       <div
@@ -284,7 +282,6 @@ const FeatureSelector = ({
                   }}
                   colorFormat={colorFormat}
                   presetColors={presetColors}
-                  allowAlpha={gallerySectionConfig.allowAlpha}
                   value={selectedColor}
                 />
                 <Input

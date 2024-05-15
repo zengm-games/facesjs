@@ -1,5 +1,10 @@
 import { create, StateCreator } from "zustand";
-import { CombinedState, GallerySectionConfig, GallerySize } from "./types";
+import {
+  ColorFormat,
+  CombinedState,
+  GallerySectionConfig,
+  GallerySize,
+} from "./types";
 import { generate } from "../../src/generate";
 import { generateRangeFromStep, getFromDict, roundTwoDecimals } from "./utils";
 import {
@@ -16,16 +21,14 @@ const gallerySectionInfos: (Pick<
   (
     | {
         selectionType: "color";
-        colorFormat: "rgba" | "hex";
-        allowAlpha: boolean;
+        colorFormat: ColorFormat;
         renderOptions: {
           valuesToRender: string[];
         };
       }
     | {
         selectionType: "colors";
-        colorFormat: "rgba" | "hex";
-        allowAlpha: boolean;
+        colorFormat: ColorFormat;
         renderOptions: {
           colorCount: number;
           valuesToRender: string[][];
@@ -53,7 +56,6 @@ const gallerySectionInfos: (Pick<
     isSelected: true,
     selectionType: "color",
     colorFormat: "hex",
-    allowAlpha: false,
     renderOptions: {
       valuesToRender: distinctSkinColors,
     },
@@ -139,7 +141,6 @@ const gallerySectionInfos: (Pick<
     text: "Hair Color",
     selectionType: "color",
     colorFormat: "hex",
-    allowAlpha: false,
     renderOptions: {
       valuesToRender: distinctHairColors,
     },
@@ -159,7 +160,6 @@ const gallerySectionInfos: (Pick<
     text: "Shave Style",
     selectionType: "color",
     colorFormat: "rgba",
-    allowAlpha: true,
     renderOptions: {
       valuesToRender: [
         "rgba(0,0,0,0)",
@@ -251,7 +251,6 @@ const gallerySectionInfos: (Pick<
     text: "Team Colors",
     selectionType: "colors",
     colorFormat: "hex",
-    allowAlpha: false,
     renderOptions: {
       colorCount: 3,
       valuesToRender: jerseyColorOptions,
