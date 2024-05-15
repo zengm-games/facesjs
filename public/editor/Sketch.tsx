@@ -9,6 +9,7 @@ import {
   type HsvaColor,
   rgbaStringToHsva,
   hsvaToHex,
+  hsvaToHexa,
   hexToHsva,
   color as handleColor,
   type ColorResult,
@@ -16,6 +17,7 @@ import {
 import Swatch from "@uiw/react-color-swatch";
 import { useEffect } from "react";
 import { roundTwoDecimals } from "./utils";
+import { ColorFormat } from "./types";
 
 // Similar to https://github.com/uiwjs/react-color/blob/632d4e9201e26b42ee7d5bfeda407144e9a6e2f3/packages/color-sketch/src/index.tsx but with EyeDropper added
 
@@ -62,7 +64,7 @@ const EyeDropperButton = ({
 
   return (
     <button
-      className="btn pt-0 ps-2 pe-1"
+      className="btn pt-1 ps-2 pe-1 h-fit"
       type="button"
       onClick={async () => {
         const eyeDropper = new window.EyeDropper!();
@@ -85,7 +87,7 @@ export interface SketchProps
   width?: number;
   color?: string | HsvaColor;
   presetColors: string[];
-  allowAlpha: boolean;
+  colorFormat: ColorFormat;
   onChange?: (newShade: ColorResult) => void;
 }
 
@@ -113,10 +115,17 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
       width = 240,
       color,
       style,
-      allowAlpha,
+      colorFormat,
       presetColors,
       ...other
     } = props;
+
+    let formattedPresetColors = presetColors;
+    if (colorFormat === "rgba") {
+      formattedPresetColors = presetColors.map((rgbaColor) =>
+        hsvaToHexa(rgbaStringToHsva(rgbaColor)),
+      );
+    }
 
     const [hsva, setHsva] = useState({ h: 209, s: 36, v: 90, a: 1 });
     useEffect(() => {
@@ -200,7 +209,7 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
               />
             </div>
           </div>
-          {allowAlpha && (
+          {colorFormat === "rgba" && (
             <div style={{ display: "flex", marginTop: 4 }}>
               <div style={{ flex: 1 }}>
                 <Alpha
@@ -229,14 +238,14 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
           <RGBA
             hsva={hsva}
             style={{ marginLeft: 6 }}
-            aProps={allowAlpha ? undefined : false}
+            aProps={colorFormat === "rgba" ? undefined : false}
             onChange={(result) => handleChange(result.hsva)}
           />
           <EyeDropperButton onChange={handleHex} />
         </div>
         <Swatch
           style={styleSwatch}
-          colors={presetColors}
+          colors={formattedPresetColors}
           color={hsvaToHex(hsva)}
           onChange={(hsvColor) => handleChange(hsvColor)}
           rectProps={{

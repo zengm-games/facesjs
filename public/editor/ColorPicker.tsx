@@ -6,6 +6,7 @@ import {
   PopoverContent,
   Popover,
 } from "@nextui-org/react";
+import { ColorFormat } from "./types";
 
 const rgbaObjToRgbaStr = (rgbaObj: {
   r: number;
@@ -22,15 +23,13 @@ export const ColorPicker = ({
   style,
   value,
   colorFormat = "hex",
-  allowAlpha = false,
   presetColors,
 }: {
   onClick?: () => void;
   onChange: (hex: string) => void;
   style?: CSSProperties;
   value: string;
-  colorFormat: "hex" | "rgba";
-  allowAlpha: boolean;
+  colorFormat: ColorFormat;
   presetColors: string[];
 }) => {
   return (
@@ -48,8 +47,8 @@ export const ColorPicker = ({
       <PopoverContent className="p-0">
         <Sketch
           color={value}
-          allowAlpha={allowAlpha}
           presetColors={presetColors}
+          colorFormat={colorFormat}
           onChange={(color) => {
             if (colorFormat === "rgba") {
               onChange(rgbaObjToRgbaStr(color.rgba));
