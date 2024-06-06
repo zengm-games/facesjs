@@ -1,4 +1,4 @@
-import svgPathBbox from "svg-path-bbox";
+import { svgPathBbox } from "svg-path-bbox";
 import { display } from "./display.js";
 import { FaceConfig, Overrides } from "./types.js";
 
