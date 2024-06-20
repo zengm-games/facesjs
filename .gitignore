@@ -3,5 +3,4 @@ build-site
 node_modules
 src/svgs.ts
 src/svgs-index.ts
-yarn-error.log
 *.DS_Store

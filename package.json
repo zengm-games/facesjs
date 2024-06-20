@@ -23,13 +23,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "tsc --noEmit --emitDeclarationOnly false && eslint && vitest run",
-    "build": "node tools/process-svgs.js && rm -rf build && yarn run build-commonjs && yarn run build-esmodules && yarn run tsc -p tsconfig-esmodules.json && yarn run tsc -p tsconfig-commonjs.json",
+    "test": "pnpm tsc --noEmit --emitDeclarationOnly false && eslint && vitest run",
+    "build": "node tools/process-svgs.js && rm -rf build && pnpm run build-commonjs && pnpm run build-esmodules && pnpm tsc -p tsconfig-esmodules.json && pnpm tsc -p tsconfig-commonjs.json",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build/commonjs && echo '{\"type\": \"commonjs\"}' > build/commonjs/package.json",
     "build-esmodules": "babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build/esmodules",
     "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
-    "prepublishOnly": "yarn test && yarn run build"
+    "prepublishOnly": "pnpm test && pnpm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.7",
@@ -45,6 +45,7 @@
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@uiw/color-convert": "^2.3.0",
     "@uiw/react-color-alpha": "^2.3.0",
     "@uiw/react-color-editable-input": "^2.3.0",
     "@uiw/react-color-editable-input-rgba": "^2.3.0",

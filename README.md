@@ -141,7 +141,7 @@ Generate a male white face and save it to test.svg:
 
 ## Development
 
-Running `yarn run dev` will do a few things:
+Running `pnpm run dev` will do a few things:
 
 1. Give you a URL to open the face editor UI in your browser
 2. Watch for changes to the code
