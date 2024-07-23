@@ -18,24 +18,32 @@ Originally faces.js was made for [Basketball GM](https://basketball-gm.com/) and
 
 Import it with ES modules:
 
-    import { display, generate } from "facesjs";
+```javascript
+import { display, generate } from "facesjs";
+```
 
 or CommonJS:
 
-    const { display, generate } = require("facesjs");
+```javascript
+const { display, generate } = require("facesjs");
+```
 
 Then, generate a random face:
 
-    const face = generate();
+```javascript
+const face = generate();
+```
 
 And display it:
 
-    // Display in a div with id "my-div-id"
-    display("my-div-id", face);
+```javascript
+// Display in a div with id "my-div-id"
+display("my-div-id", face);
 
-    // Display in a div you already have a reference to
-    const element = document.getElementById("my-div-id");
-    display(element, face);
+// Display in a div you already have a reference to
+const element = document.getElementById("my-div-id");
+display(element, face);
+```
 
 If you'd like a non-random face, look inside the `face` variable and you'll see all the available options for a manually constructed face.
 
@@ -43,11 +51,13 @@ If you'd like a non-random face, look inside the `face` variable and you'll see 
 
 Both `display` and `generate` accept an optional argument, specifying values to override either the randomly generated face (for `generate`) or the supplied face (for `display`). For instance:
 
-    # Generate a random face that always has blue skin
-    const face = generate({ body: { color: "blue" } });
+```javascript
+// Generate a random face that always has blue skin
+const face = generate({ body: { color: "blue" } });
 
-    # Display a face, but impose that it has blue skin
-    display("my-div-id", face, { body: { color: "blue" } });
+// Display a face, but impose that it has blue skin
+display("my-div-id", face, { body: { color: "blue" } });
+```
 
 ### Options
 
@@ -55,32 +65,40 @@ The `generate` function takes a second optional argument, which takes in extra p
 
 Generate a female/male face (default is male):
 
-    const face = generate(undefined, { gender: "female" });
+```javascript
+const face = generate(undefined, { gender: "female" });
+```
 
 Assign a race attribute that can be white, black, asian, or brown (default is random):
 
-    const face = generate(undefined, { race: "white" });
+```javascript
+const face = generate(undefined, { race: "white" });
+```
 
 Or both together:
 
-    const face = generate(undefined, { gender: "female", race: "asian" });
+```javascript
+const face = generate(undefined, { gender: "female", race: "asian" });
+```
 
 ### React integration
 
 You can use the `display` function within any frontend JS framework, but for ease of use with the most popular one, this package includes a `Face` component for React.
 
-    import { Face, generate } from "facesjs";
-    import { useEffect } from "react";
+```javascript
+import { Face, generate } from "facesjs";
+import { useEffect } from "react";
 
-    export const MyFace = ({ face }) => {
-        return <Face
-            face={face}
-            lazy
-            style={{
-                width: 100,
-            }}
-        >;
-    };
+export const MyFace = ({ face }) => {
+    return <Face
+        face={face}
+        lazy
+        style={{
+            width: 100,
+        }}
+    >;
+};
+```
 
 Props of the `Face` component:
 
@@ -99,14 +117,18 @@ Props of the `Face` component:
 
 You can use `faceToSvgString` to convert a face object to an SVG string.
 
-    import { faceToSvgString, generate } from "facesjs";
+```javascript
+import { faceToSvgString, generate } from "facesjs";
 
-    const face = generate();
-    const svg = faceToSvgString(face);
+const face = generate();
+const svg = faceToSvgString(face);
+```
 
 You can also specify overrides, similar to `display`:
 
-    const svg = faceToSvgString(face, { body: { color: "blue" } });
+```javascript
+const svg = faceToSvgString(face, { body: { color: "blue" } });
+```
 
 `faceToSvgString` is intended to be used in Node.js If you are doing client-side JS, it would be more efficient to render a face to the DOM using `display` and then [convert it to a blob like this](https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64).
 
