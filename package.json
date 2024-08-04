@@ -119,7 +119,7 @@
   ],
   "bin": "build/esmodules/cli.js",
   "lint-staged": {
-    "*.{js,cjs,mjs,jsx,json,scss,ts,tsx,html}": "prettier --write"
+    "*.{js,cjs,mjs,jsx,json,css,ts,tsx}": "prettier --write"
   },
   "sideEffects": false
 }
