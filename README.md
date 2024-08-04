@@ -86,7 +86,8 @@ const face = generate(undefined, { gender: "female", race: "asian" });
 You can use the `display` function within any frontend JS framework, but for ease of use with the most popular one, this package includes a `Face` component for React.
 
 ```javascript
-import { Face, generate } from "facesjs";
+import { generate } from "facesjs";
+import { Face } from "facesjs/react";
 import { useEffect } from "react";
 
 export const MyFace = ({ face }) => {

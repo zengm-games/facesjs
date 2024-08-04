@@ -91,13 +91,25 @@
     }
   },
   "exports": {
-    "import": {
-      "types": "./build/esmodules/index.d.ts",
-      "default": "./build/esmodules/index.js"
+    ".": {
+      "import": {
+        "types": "./build/esmodules/index.d.ts",
+        "default": "./build/esmodules/index.js"
+      },
+      "require": {
+        "types": "./build/commonjs/index.d.ts",
+        "default": "./build/commonjs/index.js"
+      }
     },
-    "require": {
-      "types": "./build/commonjs/index.d.ts",
-      "default": "./build/commonjs/index.js"
+    "./react": {
+      "import": {
+        "types": "./build/esmodules/Face.d.ts",
+        "default": "./build/esmodules/Face.js"
+      },
+      "require": {
+        "types": "./build/commonjs/Face.d.ts",
+        "default": "./build/commonjs/Face.js"
+      }
     }
   },
   "main": "./build/commonjs/index.js",

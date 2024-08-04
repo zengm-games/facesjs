@@ -1,3 +1,21 @@
+# 4.2.2 (2024-08-04)
+
+- The `Face` React component should now be imported as:
+
+  ```javascript
+  // New correct way
+  import { Face } from "facesjs/react";
+  ```
+
+  Rather than the way it was imported in version 4.2.0:
+
+  ```javascript
+  // Old wrong way
+  import { Face } from "facesjs";
+  ```
+
+  The reason is because version 4.2.0 broke importing other facesjs exports in some non-React projects.
+
 # 4.2.1 (2024-05-15)
 
 - #47 - Restore the "shave" facial feature option to the editor, which was accidentally removed in v4.1.0.
