@@ -4,7 +4,7 @@ import { CombinedState, GallerySectionConfig } from "./types";
 import { deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
 import { deepCopy, randChoice } from "../../src/utils";
-import { makeRelative } from "../../src/makeRelative";
+import { generateRelative } from "../../src/generateRelative";
 
 type GenerateOptions = Parameters<typeof generate>[1];
 
@@ -27,7 +27,7 @@ export const shuffleEntireFace = (
         ? shuffleGenderSettingObject[0]
         : randChoice(["male", "female"] as const);
 
-    const newFace = makeRelative({ gender, relative: faceConfig });
+    const newFace = generateRelative({ gender, relative: faceConfig });
     setFaceStore(newFace);
 
     return;

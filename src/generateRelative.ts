@@ -10,7 +10,7 @@ const imputeRace = (face: FaceConfig) => {
   return races.find((race) => colors[race].skin.includes(face.body.color));
 };
 
-export const makeRelative = ({
+export const generateRelative = ({
   gender,
   relative,
 }: {
@@ -38,7 +38,7 @@ export const makeRelative = ({
   face.head.shave = randomFace.head.shave;
 
   // Regenerate some properties with some probability
-  const probRegenerate = 0.5;
+  const probRegenerate = 0.25;
   const regenerateProperties = [
     "eyeLine",
     "miscLine",
