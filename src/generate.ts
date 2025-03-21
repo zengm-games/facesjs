@@ -2,16 +2,17 @@ import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 import { Feature, Gender, Overrides, Race, TeamColors } from "./types.js";
 
-function randomInt(
-  minInclusive: number,
-  max: number,
-  inclusiveMax: boolean = false,
-) {
-  if (inclusiveMax) {
-    max += 1;
-  }
-  return Math.floor(Math.random() * (max - minInclusive)) + minInclusive;
-}
+const randInt = (a: number, b: number): number => {
+  return Math.floor(Math.random() * (1 + b - a)) + a;
+};
+
+const randUniform = (a: number, b: number): number => {
+  return Math.random() * (b - a) + a;
+};
+
+const randChoice = <T>(array: T[]): T => {
+  return array[Math.floor(Math.random() * array.length)];
+};
 
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((_id, index) => {
@@ -20,7 +21,7 @@ const getID = (type: Feature, gender: Gender): string => {
     );
   });
 
-  return validIDs[randomInt(0, validIDs.length)];
+  return randChoice(validIDs);
 };
 
 export const colors = {
@@ -53,6 +54,49 @@ const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 
+export const numberRanges = {
+  "body.size": {
+    female: [0.8, 0.9],
+    male: [0.95, 1.05],
+  },
+  fatness: {
+    female: [0, 0.4],
+    male: [0, 1],
+  },
+  "ear.size": {
+    female: [0.5, 1],
+    male: [0.5, 1.5],
+  },
+  "eye.angle": {
+    female: [-10, 15],
+    male: [-10, 15],
+  },
+  "eyebrow.angle": {
+    female: [-15, 20],
+    male: [-15, 20],
+  },
+  "nose.size": {
+    female: [0.5, 1],
+    male: [0.5, 1.25],
+  },
+  "smileLine.size": {
+    female: [0.25, 2.25],
+    male: [0.25, 2.25],
+  },
+} as const;
+
+const getRandInt = (key: keyof typeof numberRanges, gender: Gender) => {
+  return randInt(numberRanges[key][gender][0], numberRanges[key][gender][1]);
+};
+
+const getRandUniform = (key: keyof typeof numberRanges, gender: Gender) => {
+  return roundTwoDecimals(
+    randUniform(numberRanges[key][gender][0], numberRanges[key][gender][1]),
+  );
+};
+
+export const races: Race[] = ["white", "black", "brown", "asian"];
+
 export const generate = (
   overrides?: Overrides,
   options?: { gender?: Gender; race?: Race },
@@ -61,21 +105,10 @@ export const generate = (
     if (options && options.race) {
       return options.race;
     }
-    switch (randomInt(0, 4)) {
-      case 0:
-        return "white";
-      case 1:
-        return "asian";
-      case 2:
-        return "brown";
-      default:
-        return "black";
-    }
+    return randChoice(races);
   })();
 
   const gender = options && options.gender ? options.gender : "male";
-
-  const eyeAngle = randomInt(-10, 15, true);
 
   const palette = (() => {
     switch (playerRace) {
@@ -89,12 +122,11 @@ export const generate = (
         return colors.black;
     }
   })();
-  const skinColor = palette.skin[randomInt(0, palette.skin.length)];
-  const hairColor = palette.hair[randomInt(0, palette.hair.length)];
-  const isFlipped = Math.random() < 0.5;
+  const skinColor = randChoice(palette.skin);
+  const hairColor = randChoice(palette.hair);
 
   const face = {
-    fatness: roundTwoDecimals((gender === "female" ? 0.4 : 1) * Math.random()),
+    fatness: getRandUniform("fatness", gender),
     teamColors: defaultTeamColors,
     hairBg: {
       id:
@@ -105,18 +137,14 @@ export const generate = (
     body: {
       id: getID("body", gender),
       color: skinColor,
-      size: roundTwoDecimals(
-        Math.random() * 0.1 + (gender === "female" ? 0.8 : 0.95),
-      ),
+      size: getRandUniform("body.size", gender),
     },
     jersey: {
       id: getID("jersey", gender),
     },
     ear: {
       id: getID("ear", gender),
-      size: roundTwoDecimals(
-        0.5 + (gender === "female" ? 0.5 : 1) * Math.random(),
-      ),
+      size: getRandUniform("ear.size", gender),
     },
     head: {
       id: getID("head", gender),
@@ -134,7 +162,7 @@ export const generate = (
         Math.random() < (gender === "male" ? 0.75 : 0.1)
           ? getID("smileLine", gender)
           : "none",
-      size: roundTwoDecimals(0.25 + 2 * Math.random()),
+      size: getRandUniform("smileLine.size", gender),
     },
     miscLine: {
       id: Math.random() < 0.5 ? getID("miscLine", gender) : "none",
@@ -142,26 +170,24 @@ export const generate = (
     facialHair: {
       id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
     },
-    eye: { id: getID("eye", gender), angle: eyeAngle },
+    eye: { id: getID("eye", gender), angle: getRandInt("eye.angle", gender) },
     eyebrow: {
       id: getID("eyebrow", gender),
-      angle: randomInt(-15, 20, true),
+      angle: getRandInt("eyebrow.angle", gender),
     },
     hair: {
       id: getID("hair", gender),
       color: hairColor,
-      flip: isFlipped,
+      flip: Math.random() < 0.5,
     },
     mouth: {
       id: getID("mouth", gender),
-      flip: isFlipped,
+      flip: Math.random() < 0.5,
     },
     nose: {
       id: getID("nose", gender),
-      flip: isFlipped,
-      size: roundTwoDecimals(
-        0.5 + Math.random() * (gender === "female" ? 0.5 : 0.75),
-      ),
+      flip: Math.random() < 0.5,
+      size: getRandUniform("nose.size", gender),
     },
     glasses: {
       id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
