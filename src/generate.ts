@@ -1,18 +1,7 @@
 import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 import { Feature, Gender, Overrides, Race, TeamColors } from "./types.js";
-
-const randInt = (a: number, b: number): number => {
-  return Math.floor(Math.random() * (1 + b - a)) + a;
-};
-
-const randUniform = (a: number, b: number): number => {
-  return Math.random() * (b - a) + a;
-};
-
-const randChoice = <T>(array: T[]): T => {
-  return array[Math.floor(Math.random() * array.length)];
-};
+import { randChoice, randInt, randUniform } from "./utils.js";
 
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((_id, index) => {
@@ -74,6 +63,10 @@ export const numberRanges = {
   "eyebrow.angle": {
     female: [-15, 20],
     male: [-15, 20],
+  },
+  "head.shave": {
+    female: [0, 0],
+    male: [0, 0.2],
   },
   "nose.size": {
     female: [0.5, 1],
@@ -150,7 +143,7 @@ export const generate = (
       id: getID("head", gender),
       shave: `rgba(0,0,0,${
         gender === "male" && Math.random() < 0.25
-          ? roundTwoDecimals(Math.random() / 5)
+          ? getRandUniform("head.shave", gender)
           : 0
       })`,
     },
