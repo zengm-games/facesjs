@@ -1,7 +1,7 @@
 import delve from "dlv";
 import { dset } from "dset";
 import { colors, generate, numberRanges } from "./generate";
-import { features, races, type FaceConfig, type Gender } from "./types";
+import { features, races, type FaceConfig, type Gender } from "./common";
 import { deepCopy } from "./utils";
 import { svgsGenders, svgsIndex } from "./svgs-index";
 

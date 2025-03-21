@@ -1,4 +1,4 @@
-import { FaceConfig, Overrides } from "../../src/types";
+import { FaceConfig, Overrides } from "../../src/common";
 import { generate } from "../../src/generate";
 import { CombinedState, GallerySectionConfig } from "./types";
 import { deleteFromDict, pickRandom } from "./utils";

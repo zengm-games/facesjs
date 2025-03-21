@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Gender, Race } from "../../src/types";
+import { Gender, Race } from "../../src/common";
 import { useStateStore } from "./stateStore";
 import {
   House,

@@ -6,7 +6,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { FaceConfig, Overrides } from "./types";
+import { FaceConfig, Overrides } from "./common";
 import { display } from "./display";
 import { deepCopy } from "./utils";
 

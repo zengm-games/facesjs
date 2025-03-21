@@ -7,7 +7,7 @@ import {
   type Race,
   races,
   type TeamColors,
-} from "./types.js";
+} from "./common.js";
 import { randChoice, randInt, randUniform } from "./utils.js";
 
 const getID = (type: Feature, gender: Gender): string => {

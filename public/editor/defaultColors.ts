@@ -1,5 +1,5 @@
 import { colors } from "../../src/generate";
-import { TeamColors } from "../../src/types";
+import { TeamColors } from "../../src/common";
 import { distinct } from "./utils";
 
 export const jerseyColorOptions: TeamColors[] = [

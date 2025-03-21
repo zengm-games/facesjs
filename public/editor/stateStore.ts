@@ -12,7 +12,7 @@ import {
   distinctSkinColors,
   jerseyColorOptions,
 } from "./defaultColors";
-import { FaceConfig } from "../../src/types";
+import { FaceConfig } from "../../src/common";
 
 const gallerySectionInfos: (Pick<
   GallerySectionConfig,

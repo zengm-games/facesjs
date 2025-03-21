@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import override from "../../src/override";
-import { FaceConfig } from "../../src/types";
+import { FaceConfig } from "../../src/common";
 import { useStateStore } from "./stateStore";
 import { Shuffle, LockSimpleOpen, LockSimple } from "@phosphor-icons/react";
 import {
