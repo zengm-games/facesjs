@@ -6,25 +6,28 @@ export type Overrides = {
 
 export type Gender = "male" | "female";
 
-export type Feature =
-  | "accessories"
-  | "body"
-  | "ear"
-  | "eye"
-  | "eyebrow"
-  | "eyeLine"
-  | "facialHair"
-  | "glasses"
-  | "hair"
-  | "hairBg"
-  | "head"
-  | "jersey"
-  | "miscLine"
-  | "mouth"
-  | "nose"
-  | "smileLine";
+export const features = [
+  "accessories",
+  "body",
+  "ear",
+  "eye",
+  "eyebrow",
+  "eyeLine",
+  "facialHair",
+  "glasses",
+  "hair",
+  "hairBg",
+  "head",
+  "jersey",
+  "miscLine",
+  "mouth",
+  "nose",
+  "smileLine",
+] as const;
+export type Feature = (typeof features)[number];
 
-export type Race = "asian" | "black" | "brown" | "white";
+export const races = ["white", "black", "brown", "asian"] as const;
+export type Race = (typeof races)[number];
 
 export type TeamColors = [string, string, string];
 

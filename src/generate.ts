@@ -1,6 +1,13 @@
 import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
-import { Feature, Gender, Overrides, Race, TeamColors } from "./types.js";
+import {
+  type Feature,
+  type Gender,
+  type Overrides,
+  type Race,
+  races,
+  type TeamColors,
+} from "./types.js";
 import { randChoice, randInt, randUniform } from "./utils.js";
 
 const getID = (type: Feature, gender: Gender): string => {
@@ -87,8 +94,6 @@ const getRandUniform = (key: keyof typeof numberRanges, gender: Gender) => {
     randUniform(numberRanges[key][gender][0], numberRanges[key][gender][1]),
   );
 };
-
-export const races: Race[] = ["white", "black", "brown", "asian"];
 
 export const generate = (
   overrides?: Overrides,

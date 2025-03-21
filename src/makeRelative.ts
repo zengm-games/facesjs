@@ -1,8 +1,9 @@
 import delve from "dlv";
 import { dset } from "dset";
-import { colors, generate, numberRanges, races } from "./generate";
-import type { FaceConfig, Gender } from "./types";
+import { colors, generate, numberRanges } from "./generate";
+import { features, races, type FaceConfig, type Gender } from "./types";
 import { deepCopy } from "./utils";
+import { svgsGenders, svgsIndex } from "./svgs-index";
 
 // Currently, race just affects skin color and hair color. Let's ignore hair color (since you could imagine it being dyed anyway) and figure out someone's race just based on skin color. If no race is found, return undefined.
 const imputeRace = (face: FaceConfig) => {
@@ -69,7 +70,20 @@ export const makeRelative = ({
     }
   }
 
-  // Override any properties that are not valid for the specified gender
+  // Override any ID properties that are not valid for the specified gender
+  for (const key of features) {
+    const svgIndex = svgsIndex[key].findIndex((id) => id === face[key].id);
+    const svgGender = svgsGenders[key][svgIndex];
+    if (
+      svgIndex < 0 ||
+      (svgGender === "male" && gender === "female") ||
+      (svgGender === "female" && gender === "male")
+    ) {
+      face[key].id = randomFace[key].id;
+    }
+  }
+
+  // Override any numeric properties that are not valid for the specified gender
   for (const [path, ranges] of Object.entries(numberRanges)) {
     const current = delve(face, path);
     const range = ranges[gender];
