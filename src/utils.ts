@@ -10,6 +10,6 @@ export const randUniform = (a: number, b: number): number => {
   return Math.random() * (b - a) + a;
 };
 
-export const randChoice = <T>(array: T[] | readonly T[]): T => {
+export const randChoice = <T>(array: readonly T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };
