@@ -26,47 +26,43 @@ export const generateRelative = ({
     race,
   });
 
-  // Always regenerate some properties
-  face.accessories = randomFace.accessories;
-  face.body.size = randomFace.body.size;
-  face.facialHair = randomFace.facialHair;
-  face.fatness = randomFace.fatness;
-  face.glasses = randomFace.glasses;
-  face.hair.id = randomFace.hair.id;
-  face.hair.flip = randomFace.hair.flip;
-  face.hairBg = randomFace.hairBg;
-  face.head.shave = randomFace.head.shave;
-
-  // Regenerate some properties with some probability
+  // Regenerate some properties always, and others with some probabilityF
   const probRegenerate = 0.25;
-  const regenerateProperties = [
-    "eyeLine",
-    "miscLine",
-    "mouth",
-    "nose",
-    "smileLine",
-    "eye.angle",
-    "eyebrow.angle",
-    "body.id",
-    "ear.id",
-    "eye.id",
-    "eyebrow.id",
-    "head.id",
-    "ear.size",
-  ] as const;
-  for (const path of regenerateProperties) {
-    if (Math.random() < probRegenerate) {
-      dset(face, path, delve(randomFace, path));
-    }
-  }
+  const regenerateProperties = {
+    accessories: "always",
+    "body.id": "sometimes",
+    "body.size": "always",
+    "ear.id": "sometimes",
+    "ear.size": "sometimes",
+    "eye.angle": "sometimes",
+    "eye.id": "sometimes",
+    "eyebrow.angle": "sometimes",
+    "eyebrow.id": "sometimes",
+    eyeLine: "sometimes",
+    "face.body.color": "sometimesIfRaceIsKnown",
+    "face.hair.color": "sometimesIfRaceIsKnown",
+    facialHair: "always",
+    fatness: "always",
+    glasses: "always",
+    "hair.flip": "always",
+    "hair.id": "always",
+    hairBg: "always",
+    "head.id": "sometimes",
+    "head.shave": "always",
+    miscLine: "sometimes",
+    mouth: "sometimes",
+    nose: "sometimes",
+    smileLine: "sometimes",
+  } as const;
 
-  // Maybe apply race-appropriate new colors, if we have been able to identify the original race
-  if (race !== undefined) {
-    if (Math.random() < probRegenerate) {
-      face.body.color = randomFace.body.color;
-    }
-    if (Math.random() < probRegenerate) {
-      face.hair.color = randomFace.hair.color;
+  for (const [path, regenerateType] of Object.entries(regenerateProperties)) {
+    if (
+      regenerateType === "always" ||
+      ((regenerateType === "sometimes" ||
+        (regenerateType === "sometimesIfRaceIsKnown" && race !== undefined)) &&
+        Math.random() < probRegenerate)
+    ) {
+      dset(face, path, delve(randomFace, path));
     }
   }
 
