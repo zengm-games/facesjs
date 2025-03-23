@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Gender, Race } from "../../src/types";
+import { Gender, genders, Race, races } from "../../src/common";
 import { useStateStore } from "./stateStore";
 import {
   House,
@@ -23,6 +23,7 @@ import {
 } from "@nextui-org/react";
 import { capitalizeFirstLetter } from "./utils";
 import { shuffleEntireFace } from "./shuffleFace";
+import { OtherSetting } from "./types";
 
 export const TopBar = () => {
   const stateStore = useStateStore();
@@ -33,11 +34,11 @@ export const TopBar = () => {
     gallerySectionConfigList,
     shuffleGenderSettingObject,
     shuffleRaceSettingObject,
+    shuffleOtherSettingObject,
     setShuffleGenderSettingObject,
     setShuffleRaceSettingObject,
+    setShuffleOtherSettingObject,
   } = stateStore;
-  const genders: Gender[] = ["male", "female"];
-  const races: Race[] = ["white", "black", "brown", "asian"];
 
   const [genderInvalidOptions, setGenderInvalidOptions] = useState(false);
   const [raceInvalidOptions, setRaceInvalidOptions] = useState(false);
@@ -114,6 +115,17 @@ export const TopBar = () => {
                           </Checkbox>
                         );
                       })}
+                    </CheckboxGroup>
+                    <CheckboxGroup
+                      label="Other"
+                      value={shuffleOtherSettingObject}
+                      onValueChange={(otherList) => {
+                        setShuffleOtherSettingObject(
+                          otherList as OtherSetting[],
+                        );
+                      }}
+                    >
+                      <Checkbox value="relative">Relative</Checkbox>
                     </CheckboxGroup>
                   </div>
                 </div>

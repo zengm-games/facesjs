@@ -1,6 +1,6 @@
 import override from "../../src/override";
 import { svgsIndex } from "../../src/svgs-index";
-import { FaceConfig as FaceType, Overrides } from "../../src/types";
+import { FaceConfig as FaceType, Overrides } from "../../src/common";
 import { deepCopy } from "../../src/utils";
 import { GallerySectionConfig, OverrideListItem } from "./types";
 import { doesStrLookLikeColor, luma, setToDict } from "./utils";
@@ -15,7 +15,7 @@ export const getOverrideListForItem = (
       const featureName = gallerySectionConfig.key.split(".")[0];
 
       const svgNames = [
-        ...(svgsIndex as Record<string, string[]>)[featureName],
+        ...(svgsIndex as Record<string, readonly string[]>)[featureName],
       ];
       svgNames.sort((a, b) => {
         if (a === "none" || a === "bald") return -1;

@@ -1,9 +1,10 @@
-import { FaceConfig, Overrides } from "../../src/types";
+import { FaceConfig, Overrides } from "../../src/common";
 import { generate } from "../../src/generate";
 import { CombinedState, GallerySectionConfig } from "./types";
 import { deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
-import { deepCopy } from "../../src/utils";
+import { deepCopy, randChoice } from "../../src/utils";
+import { generateRelative } from "../../src/generateRelative";
 
 type GenerateOptions = Parameters<typeof generate>[1];
 
@@ -12,8 +13,26 @@ export const shuffleEntireFace = (
   gallerySectionConfigList: GallerySectionConfig[],
   stateStore: CombinedState,
 ) => {
-  const { setFaceStore, shuffleGenderSettingObject, shuffleRaceSettingObject } =
-    stateStore;
+  const {
+    setFaceStore,
+    shuffleGenderSettingObject,
+    shuffleRaceSettingObject,
+    shuffleOtherSettingObject,
+  } = stateStore;
+
+  if (shuffleOtherSettingObject.includes("relative")) {
+    // Special case for relative - ignore randomizeEnabled and race
+    const gender =
+      shuffleGenderSettingObject.length === 1
+        ? shuffleGenderSettingObject[0]
+        : randChoice(["male", "female"] as const);
+
+    const newFace = generateRelative({ gender, relative: faceConfig });
+    setFaceStore(newFace);
+
+    return;
+  }
+
   const faceConfigCopy: Overrides = deepCopy(faceConfig);
 
   const options: GenerateOptions = {};

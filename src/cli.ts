@@ -4,7 +4,7 @@ import fs from "node:fs";
 import { parseArgs } from "node:util";
 import { faceToSvgString } from "./faceToSvgString.js";
 import { generate } from "./generate.js";
-import { Gender, Overrides, Race } from "./types.js";
+import { Gender, Overrides, Race } from "./common.js";
 
 const { values: options } = parseArgs({
   options: {

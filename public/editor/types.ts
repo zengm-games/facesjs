@@ -8,6 +8,8 @@ export type FaceState = {
   setFaceStore: (newFace: FaceConfig) => void;
 };
 
+export type OtherSetting = "relative";
+
 export type GalleryState = {
   gallerySize: GallerySize;
   gallerySectionConfigList: GallerySectionConfig[];
@@ -23,8 +25,10 @@ export type GalleryState = {
 
   shuffleGenderSettingObject: Gender[];
   shuffleRaceSettingObject: Race[];
+  shuffleOtherSettingObject: OtherSetting[];
   setShuffleGenderSettingObject: (options: Gender[]) => void;
   setShuffleRaceSettingObject: (options: Race[]) => void;
+  setShuffleOtherSettingObject: (options: OtherSetting[]) => void;
 };
 
 type GallerySectionConfigBase = {

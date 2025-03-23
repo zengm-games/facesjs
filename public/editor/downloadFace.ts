@@ -1,4 +1,4 @@
-import { FaceConfig } from "../../src/types";
+import { FaceConfig } from "../../src/common";
 import { getCurrentTimestampAsString } from "./utils";
 
 // https://blog.logrocket.com/programmatically-downloading-files-browser/

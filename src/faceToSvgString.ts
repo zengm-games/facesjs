@@ -1,6 +1,6 @@
 import { svgPathBbox } from "svg-path-bbox";
 import { display } from "./display.js";
-import { FaceConfig, Overrides } from "./types.js";
+import { FaceConfig, Overrides } from "./common.js";
 
 /**
  * An instance of this object can pretend to be the global "document"

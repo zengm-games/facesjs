@@ -74,7 +74,7 @@ const processSVGs = async () => {
     path.join(import.meta.dirname, "..", "..", "src", "svgs-index.ts"),
     `${warning}\n\nexport const svgsIndex = ${JSON.stringify(
       svgsIndex,
-    )};\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)};`,
+    )} as const;\n\nexport const svgsGenders = ${JSON.stringify(svgsGenders)} as const;`,
   );
 
   console.log(

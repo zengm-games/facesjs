@@ -1,6 +1,6 @@
 import { useState } from "react";
 import override from "../../src/override";
-import { Overrides } from "../../src/types";
+import { Overrides } from "../../src/common";
 import { useStateStore } from "./stateStore";
 import {
   Textarea,

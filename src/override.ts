@@ -1,4 +1,4 @@
-import { Overrides } from "./types";
+import { Overrides } from "./common";
 
 const override = (obj: Overrides, overrides?: Overrides) => {
   if (!overrides || !obj) {

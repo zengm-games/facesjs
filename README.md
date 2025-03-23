@@ -81,6 +81,18 @@ Or both together:
 const face = generate(undefined, { gender: "female", race: "asian" });
 ```
 
+### Relatives
+
+There is a separate `generateRelative` function to make a relative of an existing face object. Call it like:
+
+```javascript
+const { generate, generateRelative } = require("facesjs");
+const face1 = generate();
+const face2 = generateRelative({ gender: "male", relative: face1 });
+```
+
+This works by randomizing only some features of the existing face, so the new face is fairly similar to the existing one, like an immediate family member.
+
 ### React integration
 
 You can use the `display` function within any frontend JS framework, but for ease of use with the most popular one, this package includes a `Face` component for React.

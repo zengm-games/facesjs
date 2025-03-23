@@ -1,6 +1,6 @@
 import override from "./override.js";
 import svgs from "./svgs.js";
-import { FaceConfig, Overrides } from "./types.js";
+import { FaceConfig, Overrides } from "./common.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
