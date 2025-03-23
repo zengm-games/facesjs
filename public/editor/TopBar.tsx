@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Gender, Race } from "../../src/common";
+import { Gender, genders, Race, races } from "../../src/common";
 import { useStateStore } from "./stateStore";
 import {
   House,
@@ -39,8 +39,6 @@ export const TopBar = () => {
     setShuffleRaceSettingObject,
     setShuffleOtherSettingObject,
   } = stateStore;
-  const genders: Gender[] = ["male", "female"];
-  const races: Race[] = ["white", "black", "brown", "asian"];
 
   const [genderInvalidOptions, setGenderInvalidOptions] = useState(false);
   const [raceInvalidOptions, setRaceInvalidOptions] = useState(false);

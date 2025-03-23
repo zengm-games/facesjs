@@ -4,7 +4,8 @@ export type Overrides = {
   [key: string]: boolean | string | number | any[] | Overrides;
 };
 
-export type Gender = "male" | "female";
+export const genders = ["male", "female"] as const;
+export type Gender = (typeof genders)[number];
 
 export const features = [
   "accessories",
