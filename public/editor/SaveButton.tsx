@@ -2,9 +2,9 @@ import { Button } from "@nextui-org/react";
 import { useStateStore } from "./stateStore";
 
 export const SaveButton = () => {
-  const { faceConfig } = useStateStore();
+  const { faceConfig, fromParent } = useStateStore();
 
-  if (!window.opener) {
+  if (!fromParent) {
     return null;
   }
 
@@ -12,9 +12,10 @@ export const SaveButton = () => {
     <Button
       onClick={() => {
         console.log(JSON.stringify(faceConfig));
-        window.opener.postMessage(
+        fromParent.opener.postMessage(
           {
-            type: "face",
+            type: "facesjs",
+            key: fromParent.key,
             value: faceConfig,
           },
           "*",
