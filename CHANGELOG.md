@@ -1,3 +1,7 @@
+# Development
+
+- #58 - New `generateRelative` function to generate a face that is similar to an exisiting face, like a sibling/parent/child.
+
 # 4.2.2 (2024-08-04)
 
 - The `Face` React component should now be imported as:

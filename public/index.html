@@ -60,51 +60,87 @@
 <pre><code>npm install --save facesjs</code></pre>
 <h2 id="use">Use</h2>
 <p>Import it with ES modules:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="im">import</span> <span class="op">{</span> display<span class="op">,</span> generate <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { display<span class="op">,</span> generate } <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></span></code></pre></div>
 <p>or CommonJS:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">const</span> <span class="op">{</span> display<span class="op">,</span> generate <span class="op">}</span> <span class="op">=</span> <span class="at">require</span>(<span class="st">&quot;facesjs&quot;</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { display<span class="op">,</span> generate } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;facesjs&quot;</span>)<span class="op">;</span></span></code></pre></div>
 <p>Then, generate a random face:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>()<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>()<span class="op">;</span></span></code></pre></div>
 <p>And display it:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="co">// Display in a div with id &quot;my-div-id&quot;</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="at">display</span>(<span class="st">&quot;my-div-id&quot;</span><span class="op">,</span> face)<span class="op">;</span></a>
-<a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="co">// Display in a div you already have a reference to</span></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="kw">const</span> element <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">&quot;my-div-id&quot;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb5-6" title="6"><span class="at">display</span>(element<span class="op">,</span> face)<span class="op">;</span></a></code></pre></div>
-<p>If you’d like a non-random face, look inside the <code>face</code> variable and you’ll see all the available options for a manually constructed face.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Display in a div with id &quot;my-div-id&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="st">&quot;my-div-id&quot;</span><span class="op">,</span> face)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Display in a div you already have a reference to</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> element <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;my-div-id&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(element<span class="op">,</span> face)<span class="op">;</span></span></code></pre></div>
+<p>If you’d like a non-random face, look inside the <code>face</code>
+variable and you’ll see all the available options for a manually
+constructed face.</p>
 <h3 id="overrides">Overrides</h3>
-<p>Both <code>display</code> and <code>generate</code> accept an optional argument, specifying values to override either the randomly generated face (for <code>generate</code>) or the supplied face (for <code>display</code>). For instance:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="co">// Generate a random face that always has blue skin</span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>(<span class="op">{</span> <span class="dt">body</span><span class="op">:</span> <span class="op">{</span> <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> <span class="op">}</span> <span class="op">}</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">// Display a face, but impose that it has blue skin</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="at">display</span>(<span class="st">&quot;my-div-id&quot;</span><span class="op">,</span> face<span class="op">,</span> <span class="op">{</span> <span class="dt">body</span><span class="op">:</span> <span class="op">{</span> <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> <span class="op">}</span> <span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
+<p>Both <code>display</code> and <code>generate</code> accept an
+optional argument, specifying values to override either the randomly
+generated face (for <code>generate</code>) or the supplied face (for
+<code>display</code>). For instance:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate a random face that always has blue skin</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>({ <span class="dt">body</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> } })<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Display a face, but impose that it has blue skin</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="st">&quot;my-div-id&quot;</span><span class="op">,</span> face<span class="op">,</span> { <span class="dt">body</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> } })<span class="op">;</span></span></code></pre></div>
 <h3 id="options">Options</h3>
-<p>The <code>generate</code> function takes a second optional argument, which takes in extra parameters for player creation, in the form of an object.</p>
+<p>The <code>generate</code> function takes a second optional argument,
+which takes in extra parameters for player creation, in the form of an
+object.</p>
 <p>Generate a female/male face (default is male):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>(<span class="kw">undefined</span><span class="op">,</span> <span class="op">{</span> <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span> <span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
-<p>Assign a race attribute that can be white, black, asian, or brown (default is random):</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>(<span class="kw">undefined</span><span class="op">,</span> <span class="op">{</span> <span class="dt">race</span><span class="op">:</span> <span class="st">&quot;white&quot;</span> <span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>(<span class="kw">undefined</span><span class="op">,</span> { <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span> })<span class="op">;</span></span></code></pre></div>
+<p>Assign a race attribute that can be white, black, asian, or brown
+(default is random):</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>(<span class="kw">undefined</span><span class="op">,</span> { <span class="dt">race</span><span class="op">:</span> <span class="st">&quot;white&quot;</span> })<span class="op">;</span></span></code></pre></div>
 <p>Or both together:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>(<span class="kw">undefined</span><span class="op">,</span> <span class="op">{</span> <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span><span class="op">,</span> <span class="dt">race</span><span class="op">:</span> <span class="st">&quot;asian&quot;</span> <span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>(<span class="kw">undefined</span><span class="op">,</span> { <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span><span class="op">,</span> <span class="dt">race</span><span class="op">:</span> <span class="st">&quot;asian&quot;</span> })<span class="op">;</span></span></code></pre></div>
+<h3 id="relatives">Relatives</h3>
+<p>There is a separate <code>generateRelative</code> function to make a
+relative of an existing face object. Call it like:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { generate<span class="op">,</span> generateRelative } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;facesjs&quot;</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face1 <span class="op">=</span> <span class="fu">generate</span>()<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face2 <span class="op">=</span> <span class="fu">generateRelative</span>({ <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;male&quot;</span><span class="op">,</span> <span class="dt">relative</span><span class="op">:</span> face1 })<span class="op">;</span></span></code></pre></div>
+<p>This works by randomizing only some features of the existing face, so
+the new face is fairly similar to the existing one, like an immediate
+family member.</p>
 <h3 id="react-integration">React integration</h3>
-<p>You can use the <code>display</code> function within any frontend JS framework, but for ease of use with the most popular one, this package includes a <code>Face</code> component for React.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="im">import</span> <span class="op">{</span> generate <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="im">import</span> <span class="op">{</span> Face <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;facesjs/react&quot;</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="im">import</span> <span class="op">{</span> useEffect <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;react&quot;</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb10-4" title="4"></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="im">export</span> <span class="kw">const</span> MyFace <span class="op">=</span> (<span class="op">{</span> face <span class="op">}</span>) <span class="kw">=&gt;</span> <span class="op">{</span></a>
-<a class="sourceLine" id="cb10-6" title="6">    <span class="cf">return</span> <span class="op">&lt;</span>Face</a>
-<a class="sourceLine" id="cb10-7" title="7">        face<span class="op">={</span>face<span class="op">}</span></a>
-<a class="sourceLine" id="cb10-8" title="8">        lazy</a>
-<a class="sourceLine" id="cb10-9" title="9">        style<span class="op">={{</span></a>
-<a class="sourceLine" id="cb10-10" title="10">            <span class="dt">width</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></a>
-<a class="sourceLine" id="cb10-11" title="11">        <span class="op">}}</span></a>
-<a class="sourceLine" id="cb10-12" title="12">    <span class="op">&gt;;</span></a>
-<a class="sourceLine" id="cb10-13" title="13"><span class="op">};</span></a></code></pre></div>
+<p>You can use the <code>display</code> function within any frontend JS
+framework, but for ease of use with the most popular one, this package
+includes a <code>Face</code> component for React.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { generate } <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Face } <span class="im">from</span> <span class="st">&quot;facesjs/react&quot;</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { useEffect } <span class="im">from</span> <span class="st">&quot;react&quot;</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> MyFace <span class="op">=</span> ({ face }) <span class="kw">=&gt;</span> {</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">&lt;</span>Face</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        face<span class="op">=</span>{face}</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        lazy</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        style<span class="op">=</span>{{</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">width</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        }}</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
 <p>Props of the <code>Face</code> component:</p>
 <table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Prop</th>
@@ -134,14 +170,19 @@
 <td></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>If <code>true</code>, then any errors when internally running <code>display</code> will be suppressed. This is useful if you accept user-defined faces and you don’t want errors from them to clog up your error logs.</td>
+<td>If <code>true</code>, then any errors when internally running
+<code>display</code> will be suppressed. This is useful if you accept
+user-defined faces and you don’t want errors from them to clog up your
+error logs.</td>
 </tr>
 <tr class="even">
 <td><code>lazy</code></td>
 <td></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>If <code>true</code>, then application of overrides and rendering of the face will be delayed until this component is actually visible (as determined by an intersection observer).</td>
+<td>If <code>true</code>, then application of overrides and rendering of
+the face will be delayed until this component is actually visible (as
+determined by an intersection observer).</td>
 </tr>
 <tr class="odd">
 <td><code>className</code></td>
@@ -161,16 +202,25 @@
 </table>
 <h2 id="exporting-svgs">Exporting SVGs</h2>
 <h3 id="api">API</h3>
-<p>You can use <code>faceToSvgString</code> to convert a face object to an SVG string.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"><span class="im">import</span> <span class="op">{</span> faceToSvgString<span class="op">,</span> generate <span class="op">}</span> <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb11-2" title="2"></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="kw">const</span> face <span class="op">=</span> <span class="at">generate</span>()<span class="op">;</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="kw">const</span> svg <span class="op">=</span> <span class="at">faceToSvgString</span>(face)<span class="op">;</span></a></code></pre></div>
+<p>You can use <code>faceToSvgString</code> to convert a face object to
+an SVG string.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { faceToSvgString<span class="op">,</span> generate } <span class="im">from</span> <span class="st">&quot;facesjs&quot;</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>()<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> svg <span class="op">=</span> <span class="fu">faceToSvgString</span>(face)<span class="op">;</span></span></code></pre></div>
 <p>You can also specify overrides, similar to <code>display</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">const</span> svg <span class="op">=</span> <span class="at">faceToSvgString</span>(face<span class="op">,</span> <span class="op">{</span> <span class="dt">body</span><span class="op">:</span> <span class="op">{</span> <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> <span class="op">}</span> <span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
-<p><code>faceToSvgString</code> is intended to be used in Node.js If you are doing client-side JS, it would be more efficient to render a face to the DOM using <code>display</code> and then <a href="https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64">convert it to a blob like this</a>.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> svg <span class="op">=</span> <span class="fu">faceToSvgString</span>(face<span class="op">,</span> { <span class="dt">body</span><span class="op">:</span> { <span class="dt">color</span><span class="op">:</span> <span class="st">&quot;blue&quot;</span> } })<span class="op">;</span></span></code></pre></div>
+<p><code>faceToSvgString</code> is intended to be used in Node.js If you
+are doing client-side JS, it would be more efficient to render a face to
+the DOM using <code>display</code> and then <a
+href="https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64">convert
+it to a blob like this</a>.</p>
 <h3 id="cli">CLI</h3>
-<p>You can also use <code>facesjs</code> as a CLI program. All of the functionality from <code>generate</code> and <code>display</code> are available on the CLI too.</p>
+<p>You can also use <code>facesjs</code> as a CLI program. All of the
+functionality from <code>generate</code> and <code>display</code> are
+available on the CLI too.</p>
 <h4 id="examples">Examples</h4>
 <p>Output a random face to stdout:</p>
 <pre><code>$ npx facesjs</code></pre>
@@ -185,7 +235,9 @@
 -j, --input-json    String faces.js JSON object to convert to SVG
 -r, --race          Race - white/black/asian/brown, default is random
 -g, --gender        Gender - male/female, default is male</code></pre>
-<p><code>--input-file</code> and <code>--input-json</code> can specify either an entire face object or a partial face object. If it’s a partial face object, the other features will be random.</p>
+<p><code>--input-file</code> and <code>--input-json</code> can specify
+either an entire face object or a partial face object. If it’s a partial
+face object, the other features will be random.</p>
 <h2 id="development">Development</h2>
 <p>Running <code>pnpm run dev</code> will do a few things:</p>
 <ol type="1">
@@ -196,13 +248,42 @@
 </ol>
 <p>This lets you immediately see your changes as you work.</p>
 <h2 id="adding-new-facial-features">Adding new facial features</h2>
-<p>Each face is assembled from multiple SVGs. You can see them within the “svg” folder. If you want to add another feature, just create an SVG (using a vector graphics editor like <a href="https://inkscape.org/">Inkscape</a>) and put it in the appropriate folder. It should automatically work. If not, it’s a bug, please let me know!</p>
-<p>When creating SVGs, assume the size of the canvas is 400x600. For most features, it doesn’t matter where you draw on the canvas because it will automatically identify your object and position it in the appropriate place. But for head and hair SVGs, position does matter. For those you do need to make sure they are in the correct place on a 400x600 canvas, same as the existing head and hair SVGs. Otherwise it won’t know where to place the other facial features relative to the head and hair.</p>
-<p>If you find it not quite placing a facial feature exactly where you want, it’s because by default it finds the center of the eye/eyebrow/mouth/nose SVG and places that in a specific location. If that’s not good for a certain facial feature, that behavior can be overridden in code. For instance, see how it’s done in display.js for the “pinocchio” nose which uses the left side of the SVG rather than the center to place it.</p>
-<p>If you want a brand new “class” of facial features (like facial hair, or earrings, or hats) you’ll have to create a new subfolder within the “svg” folder and edit the code to recognize your new feature.</p>
-<p>If you find any of this confusing, feel free to reach out to me for help! I would love for someone to help me make better looking faces :)</p>
+<p>Each face is assembled from multiple SVGs. You can see them within
+the “svg” folder. If you want to add another feature, just create an SVG
+(using a vector graphics editor like <a
+href="https://inkscape.org/">Inkscape</a>) and put it in the appropriate
+folder. It should automatically work. If not, it’s a bug, please let me
+know!</p>
+<p>When creating SVGs, assume the size of the canvas is 400x600. For
+most features, it doesn’t matter where you draw on the canvas because it
+will automatically identify your object and position it in the
+appropriate place. But for head and hair SVGs, position does matter. For
+those you do need to make sure they are in the correct place on a
+400x600 canvas, same as the existing head and hair SVGs. Otherwise it
+won’t know where to place the other facial features relative to the head
+and hair.</p>
+<p>If you find it not quite placing a facial feature exactly where you
+want, it’s because by default it finds the center of the
+eye/eyebrow/mouth/nose SVG and places that in a specific location. If
+that’s not good for a certain facial feature, that behavior can be
+overridden in code. For instance, see how it’s done in display.js for
+the “pinocchio” nose which uses the left side of the SVG rather than the
+center to place it.</p>
+<p>If you want a brand new “class” of facial features (like facial hair,
+or earrings, or hats) you’ll have to create a new subfolder within the
+“svg” folder and edit the code to recognize your new feature.</p>
+<p>If you find any of this confusing, feel free to reach out to me for
+help! I would love for someone to help me make better looking faces
+:)</p>
 <h2 id="credits">Credits</h2>
-<p><a href="https://github.com/dumbmatter">dumbmatter</a> wrote most of the code, <a href="https://github.com/TravisJB89">TravisJB89</a> made most of the graphics, <a href="https://liacui.carrd.co/">Lia Cui</a> made most of the female graphics, <a href="https://github.com/gurushida">gurushida</a> wrote the code to export faces as SVG strings, and <a href="https://github.com/tomkennedy22">tomkennedy22</a> wrote most of the editor UI code.</p>
+<p><a href="https://github.com/dumbmatter">dumbmatter</a> wrote most of
+the code, <a href="https://github.com/TravisJB89">TravisJB89</a> made
+most of the graphics, <a href="https://liacui.carrd.co/">Lia Cui</a>
+made most of the female graphics, <a
+href="https://github.com/gurushida">gurushida</a> wrote the code to
+export faces as SVG strings, and <a
+href="https://github.com/tomkennedy22">tomkennedy22</a> wrote most of
+the editor UI code.</p>
     </div>
     <script type="module" src="index.ts"></script>
   </body>
