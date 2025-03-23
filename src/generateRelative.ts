@@ -26,45 +26,82 @@ export const generateRelative = ({
     race,
   });
 
-  // Regenerate some properties always, and others with some probabilityF
-  const probRegenerate = 0.25;
-  const regenerateProperties = {
+  // Regenerate some properties always, and others with some probability
+  type RegenerateType =
+    | "always"
+    | "never"
+    | "sometimes"
+    | "sometimesIfRaceIsKnown";
+  type ToRegenerateProperties<T, U> = T extends object
+    ? T extends any[]
+      ? U
+      : {
+          [K in keyof T]: T[K] extends object
+            ? ToRegenerateProperties<T[K], U> | U
+            : U;
+        }
+    : U;
+  type RegenerateProperties = ToRegenerateProperties<
+    FaceConfig,
+    RegenerateType
+  >;
+
+  const regenerateProperties: RegenerateProperties = {
     accessories: "always",
-    "body.id": "sometimes",
-    "body.size": "always",
-    "ear.id": "sometimes",
-    "ear.size": "sometimes",
-    "eye.angle": "sometimes",
-    "eye.id": "sometimes",
-    "eyebrow.angle": "sometimes",
-    "eyebrow.id": "sometimes",
+    body: {
+      color: "sometimesIfRaceIsKnown",
+      id: "sometimes",
+      size: "always",
+    },
+    ear: "sometimes",
+    eye: "sometimes",
+    eyebrow: "sometimes",
     eyeLine: "sometimes",
-    "face.body.color": "sometimesIfRaceIsKnown",
-    "face.hair.color": "sometimesIfRaceIsKnown",
     facialHair: "always",
     fatness: "always",
     glasses: "always",
-    "hair.flip": "always",
-    "hair.id": "always",
+    hair: {
+      color: "sometimesIfRaceIsKnown",
+      flip: "always",
+      id: "always",
+    },
     hairBg: "always",
-    "head.id": "sometimes",
-    "head.shave": "always",
+    head: {
+      id: "sometimes",
+      shave: "always",
+    },
+    jersey: "never",
     miscLine: "sometimes",
     mouth: "sometimes",
     nose: "sometimes",
     smileLine: "sometimes",
-  } as const;
+    teamColors: "never",
+  };
 
-  for (const [path, regenerateType] of Object.entries(regenerateProperties)) {
-    if (
-      regenerateType === "always" ||
-      ((regenerateType === "sometimes" ||
-        (regenerateType === "sometimesIfRaceIsKnown" && race !== undefined)) &&
-        Math.random() < probRegenerate)
-    ) {
-      dset(face, path, delve(randomFace, path));
+  const probRegenerate = 0.25;
+  const processRegenerateProperties = (
+    objOutput: any,
+    objRandom: any,
+    regeneratePropertiesLocal:
+      | RegenerateProperties
+      | Record<string, RegenerateType>,
+  ) => {
+    for (const [key, value] of Object.entries(regeneratePropertiesLocal)) {
+      if (typeof value === "string") {
+        if (
+          value === "always" ||
+          ((value === "sometimes" ||
+            (value === "sometimesIfRaceIsKnown" && race !== undefined)) &&
+            Math.random() < probRegenerate)
+        ) {
+          objOutput[key] = objRandom[key];
+        }
+      } else {
+        processRegenerateProperties(objOutput[key], objRandom[key], value);
+      }
     }
-  }
+  };
+  processRegenerateProperties(face, randomFace, regenerateProperties);
 
   // Override any ID properties that are not valid for the specified gender
   for (const key of features) {
