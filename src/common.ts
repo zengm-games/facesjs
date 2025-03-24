@@ -1,4 +1,4 @@
-import type { generate } from "./generate";
+import type { generate } from "./generate.js";
 
 export type Overrides = {
   [key: string]: boolean | string | number | any[] | Overrides;

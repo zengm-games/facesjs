@@ -1,9 +1,9 @@
 import delve from "dlv";
 import { dset } from "dset";
-import { colors, generate, numberRanges } from "./generate";
-import { features, races, type FaceConfig, type Gender } from "./common";
-import { deepCopy } from "./utils";
-import { svgsGenders, svgsIndex } from "./svgs-index";
+import { colors, generate, numberRanges } from "./generate.js";
+import { features, races, type FaceConfig, type Gender } from "./common.js";
+import { deepCopy } from "./utils.js";
+import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
 // Currently, race just affects skin color and hair color. Let's ignore hair color (since you could imagine it being dyed anyway) and figure out someone's race just based on skin color. If no race is found, return undefined.
 const imputeRace = (face: FaceConfig) => {

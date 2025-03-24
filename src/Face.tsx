@@ -6,9 +6,9 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { FaceConfig, Overrides } from "./common";
-import { display } from "./display";
-import { deepCopy } from "./utils";
+import { FaceConfig, Overrides } from "./common.js";
+import { display } from "./display.js";
+import { deepCopy } from "./utils.js";
 
 const useIntersectionObserver = () => {
   const [ref, setRef] = useState<HTMLElement | undefined>();

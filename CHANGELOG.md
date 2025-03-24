@@ -1,3 +1,7 @@
+# 4.3.1 (2025-03-23)
+
+- Fix issue with some bundlers.
+
 # 4.3.0 (2025-03-23)
 
 - #58 - New `generateRelative` function to generate a face that is similar to an exisiting face, like a sibling/parent/child.
