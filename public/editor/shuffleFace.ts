@@ -3,8 +3,7 @@ import { generate } from "../../src/generate";
 import { CombinedState, GallerySectionConfig } from "./types";
 import { deleteFromDict, pickRandom } from "./utils";
 import { jerseyColorOptions } from "./defaultColors";
-import { deepCopy, randChoice } from "../../src/utils";
-import { generateRelative } from "../../src/generateRelative";
+import { deepCopy } from "../../src/utils";
 
 type GenerateOptions = Parameters<typeof generate>[1];
 
@@ -19,19 +18,6 @@ export const shuffleEntireFace = (
     shuffleRaceSettingObject,
     shuffleOtherSettingObject,
   } = stateStore;
-
-  if (shuffleOtherSettingObject.includes("relative")) {
-    // Special case for relative - ignore randomizeEnabled and race
-    const gender =
-      shuffleGenderSettingObject.length === 1
-        ? shuffleGenderSettingObject[0]
-        : randChoice(["male", "female"] as const);
-
-    const newFace = generateRelative({ gender, relative: faceConfig });
-    setFaceStore(newFace);
-
-    return;
-  }
 
   const faceConfigCopy: Overrides = deepCopy(faceConfig);
 
@@ -63,8 +49,18 @@ export const shuffleEntireFace = (
     options.gender = pickRandom(shuffleGenderSettingObject);
   }
 
-  if (shuffleRaceSettingObject.length > 0) {
+  const relative = shuffleOtherSettingObject.includes("relative");
+
+  // Randomizing race when relative is selected is not great UI
+  if (
+    shuffleRaceSettingObject.length > 0 &&
+    (!relative || shuffleRaceSettingObject.length === 1)
+  ) {
     options.race = pickRandom(shuffleRaceSettingObject);
+  }
+
+  if (relative) {
+    options.relative = faceConfig;
   }
 
   // Special case for team colors

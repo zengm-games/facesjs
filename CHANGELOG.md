@@ -1,3 +1,7 @@
+# 4.3.3 (2025-03-23)
+
+- Get rid of `generateRelative` export and instead just have a `relative` option on the normal `generate` function.
+
 # 4.3.2 (2025-03-23)
 
 - Don't override jersey/teamColors when making relatives, it just produces weird results.

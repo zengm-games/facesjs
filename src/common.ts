@@ -1,5 +1,3 @@
-import type { generate } from "./generate.js";
-
 export type Overrides = {
   [key: string]: boolean | string | number | any[] | Overrides;
 };
@@ -41,4 +39,67 @@ export type FeatureInfo = {
   opaqueLines?: boolean;
 };
 
-export type FaceConfig = ReturnType<typeof generate>;
+export type FaceConfig = {
+  fatness: number;
+  teamColors: TeamColors;
+  hairBg: {
+    id: string;
+  };
+  body: {
+    id: string;
+    color: string;
+    size: number;
+  };
+  jersey: {
+    id: string;
+  };
+  ear: {
+    id: string;
+    size: number;
+  };
+  head: {
+    id: string;
+    shave: string;
+  };
+  eyeLine: {
+    id: string;
+  };
+  smileLine: {
+    id: string;
+    size: number;
+  };
+  miscLine: {
+    id: string;
+  };
+  facialHair: {
+    id: string;
+  };
+  eye: {
+    id: string;
+    angle: number;
+  };
+  eyebrow: {
+    id: string;
+    angle: number;
+  };
+  hair: {
+    id: string;
+    color: string;
+    flip: boolean;
+  };
+  mouth: {
+    id: string;
+    flip: boolean;
+  };
+  nose: {
+    id: string;
+    flip: boolean;
+    size: number;
+  };
+  glasses: {
+    id: string;
+  };
+  accessories: {
+    id: string;
+  };
+};

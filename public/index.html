@@ -104,16 +104,13 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 <p>Or both together:</p>
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face <span class="op">=</span> <span class="fu">generate</span>(<span class="kw">undefined</span><span class="op">,</span> { <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span><span class="op">,</span> <span class="dt">race</span><span class="op">:</span> <span class="st">&quot;asian&quot;</span> })<span class="op">;</span></span></code></pre></div>
-<h3 id="relatives">Relatives</h3>
-<p>There is a separate <code>generateRelative</code> function to make a
-relative of an existing face object. Call it like:</p>
+<p>There is also an option to create a relative of an existing face
+object. This works by randomizing only some features of the existing
+face, so the new face is fairly similar to the existing one, like an
+immediate family member.</p>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { generate<span class="op">,</span> generateRelative } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;facesjs&quot;</span>)<span class="op">;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face1 <span class="op">=</span> <span class="fu">generate</span>()<span class="op">;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face2 <span class="op">=</span> <span class="fu">generateRelative</span>({ <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;male&quot;</span><span class="op">,</span> <span class="dt">relative</span><span class="op">:</span> face1 })<span class="op">;</span></span></code></pre></div>
-<p>This works by randomizing only some features of the existing face, so
-the new face is fairly similar to the existing one, like an immediate
-family member.</p>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face1 <span class="op">=</span> <span class="fu">generate</span>()<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> face2 <span class="op">=</span> <span class="fu">generate</span>(<span class="kw">undefined</span><span class="op">,</span> { <span class="dt">gender</span><span class="op">:</span> <span class="st">&quot;female&quot;</span><span class="op">,</span> <span class="dt">relative</span><span class="op">:</span> face1 })<span class="op">;</span></span></code></pre></div>
 <h3 id="react-integration">React integration</h3>
 <p>You can use the <code>display</code> function within any frontend JS
 framework, but for ease of use with the most popular one, this package

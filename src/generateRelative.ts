@@ -1,7 +1,13 @@
 import delve from "dlv";
 import { dset } from "dset";
 import { colors, generate, numberRanges } from "./generate.js";
-import { features, races, type FaceConfig, type Gender } from "./common.js";
+import {
+  features,
+  Race,
+  races,
+  type FaceConfig,
+  type Gender,
+} from "./common.js";
 import { deepCopy } from "./utils.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 
@@ -12,14 +18,16 @@ const imputeRace = (face: FaceConfig) => {
 
 export const generateRelative = ({
   gender,
+  race: inputRace,
   relative,
 }: {
   gender: Gender;
+  race?: Race;
   relative: FaceConfig;
 }) => {
   const face = deepCopy(relative);
 
-  const race = imputeRace(face);
+  const race = inputRace ?? imputeRace(face);
 
   const randomFace = generate(undefined, {
     gender,
@@ -49,7 +57,7 @@ export const generateRelative = ({
   const regenerateProperties: RegenerateProperties = {
     accessories: "always",
     body: {
-      color: "sometimesIfRaceIsKnown",
+      color: inputRace !== undefined ? "always" : "sometimesIfRaceIsKnown",
       id: "sometimes",
       size: "always",
     },
@@ -61,7 +69,7 @@ export const generateRelative = ({
     fatness: "always",
     glasses: "always",
     hair: {
-      color: "sometimesIfRaceIsKnown",
+      color: inputRace !== undefined ? "always" : "sometimesIfRaceIsKnown",
       flip: "always",
       id: "always",
     },

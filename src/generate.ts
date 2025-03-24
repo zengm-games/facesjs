@@ -1,6 +1,7 @@
 import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 import {
+  type FaceConfig,
   type Feature,
   type Gender,
   type Overrides,
@@ -9,6 +10,7 @@ import {
   type TeamColors,
 } from "./common.js";
 import { randChoice, randInt, randUniform } from "./utils.js";
+import { generateRelative } from "./generateRelative.js";
 
 const getID = (type: Feature, gender: Gender): string => {
   const validIDs = svgsIndex[type].filter((_id, index) => {
@@ -97,103 +99,96 @@ const getRandUniform = (key: keyof typeof numberRanges, gender: Gender) => {
 
 export const generate = (
   overrides?: Overrides,
-  options?: { gender?: Gender; race?: Race },
-) => {
-  const playerRace: Race = (() => {
-    if (options && options.race) {
-      return options.race;
-    }
-    return randChoice(races);
-  })();
+  options?: { gender?: Gender; race?: Race; relative?: FaceConfig },
+): FaceConfig => {
+  const gender = options?.gender ?? "male";
 
-  const gender = options && options.gender ? options.gender : "male";
+  let face;
+  if (options?.relative) {
+    face = generateRelative({
+      gender,
+      race: options.race,
+      relative: options.relative,
+    });
+  } else {
+    const race = options?.race ?? randChoice(races);
 
-  const palette = (() => {
-    switch (playerRace) {
-      case "white":
-        return colors.white;
-      case "asian":
-        return colors.asian;
-      case "brown":
-        return colors.brown;
-      case "black":
-        return colors.black;
-    }
-  })();
-  const skinColor = randChoice(palette.skin);
-  const hairColor = randChoice(palette.hair);
+    const palette = colors[race];
+    const skinColor = randChoice(palette.skin);
+    const hairColor = randChoice(palette.hair);
 
-  const face = {
-    fatness: getRandUniform("fatness", gender),
-    teamColors: defaultTeamColors,
-    hairBg: {
-      id:
-        Math.random() < (gender === "male" ? 0.1 : 0.9)
-          ? getID("hairBg", gender)
-          : "none",
-    },
-    body: {
-      id: getID("body", gender),
-      color: skinColor,
-      size: getRandUniform("body.size", gender),
-    },
-    jersey: {
-      id: getID("jersey", gender),
-    },
-    ear: {
-      id: getID("ear", gender),
-      size: getRandUniform("ear.size", gender),
-    },
-    head: {
-      id: getID("head", gender),
-      shave: `rgba(0,0,0,${
-        gender === "male" && Math.random() < 0.25
-          ? getRandUniform("head.shave", gender)
-          : 0
-      })`,
-    },
-    eyeLine: {
-      id: Math.random() < 0.75 ? getID("eyeLine", gender) : "none",
-    },
-    smileLine: {
-      id:
-        Math.random() < (gender === "male" ? 0.75 : 0.1)
-          ? getID("smileLine", gender)
-          : "none",
-      size: getRandUniform("smileLine.size", gender),
-    },
-    miscLine: {
-      id: Math.random() < 0.5 ? getID("miscLine", gender) : "none",
-    },
-    facialHair: {
-      id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
-    },
-    eye: { id: getID("eye", gender), angle: getRandInt("eye.angle", gender) },
-    eyebrow: {
-      id: getID("eyebrow", gender),
-      angle: getRandInt("eyebrow.angle", gender),
-    },
-    hair: {
-      id: getID("hair", gender),
-      color: hairColor,
-      flip: Math.random() < 0.5,
-    },
-    mouth: {
-      id: getID("mouth", gender),
-      flip: Math.random() < 0.5,
-    },
-    nose: {
-      id: getID("nose", gender),
-      flip: Math.random() < 0.5,
-      size: getRandUniform("nose.size", gender),
-    },
-    glasses: {
-      id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
-    },
-    accessories: {
-      id: Math.random() < 0.2 ? getID("accessories", gender) : "none",
-    },
-  };
+    face = {
+      fatness: getRandUniform("fatness", gender),
+      teamColors: defaultTeamColors,
+      hairBg: {
+        id:
+          Math.random() < (gender === "male" ? 0.1 : 0.9)
+            ? getID("hairBg", gender)
+            : "none",
+      },
+      body: {
+        id: getID("body", gender),
+        color: skinColor,
+        size: getRandUniform("body.size", gender),
+      },
+      jersey: {
+        id: getID("jersey", gender),
+      },
+      ear: {
+        id: getID("ear", gender),
+        size: getRandUniform("ear.size", gender),
+      },
+      head: {
+        id: getID("head", gender),
+        shave: `rgba(0,0,0,${
+          gender === "male" && Math.random() < 0.25
+            ? getRandUniform("head.shave", gender)
+            : 0
+        })`,
+      },
+      eyeLine: {
+        id: Math.random() < 0.75 ? getID("eyeLine", gender) : "none",
+      },
+      smileLine: {
+        id:
+          Math.random() < (gender === "male" ? 0.75 : 0.1)
+            ? getID("smileLine", gender)
+            : "none",
+        size: getRandUniform("smileLine.size", gender),
+      },
+      miscLine: {
+        id: Math.random() < 0.5 ? getID("miscLine", gender) : "none",
+      },
+      facialHair: {
+        id: Math.random() < 0.5 ? getID("facialHair", gender) : "none",
+      },
+      eye: { id: getID("eye", gender), angle: getRandInt("eye.angle", gender) },
+      eyebrow: {
+        id: getID("eyebrow", gender),
+        angle: getRandInt("eyebrow.angle", gender),
+      },
+      hair: {
+        id: getID("hair", gender),
+        color: hairColor,
+        flip: Math.random() < 0.5,
+      },
+      mouth: {
+        id: getID("mouth", gender),
+        flip: Math.random() < 0.5,
+      },
+      nose: {
+        id: getID("nose", gender),
+        flip: Math.random() < 0.5,
+        size: getRandUniform("nose.size", gender),
+      },
+      glasses: {
+        id: Math.random() < 0.1 ? getID("glasses", gender) : "none",
+      },
+      accessories: {
+        id: Math.random() < 0.2 ? getID("accessories", gender) : "none",
+      },
+    };
+  }
 
   override(face, overrides);
 
