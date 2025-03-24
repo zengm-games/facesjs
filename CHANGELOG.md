@@ -1,8 +1,8 @@
-# Development
+# 4.3.0 (2025-03-23)
 
 - #58 - New `generateRelative` function to generate a face that is similar to an exisiting face, like a sibling/parent/child.
 
-- #5 - faces.js recognizes if it has been opened from a ZenGM game, and in that case it displays a "Save" button in the bottom right corner that sends face data back to the page that opened it. (Other apps can use the same mechanism if they want, there's nothing specific to ZenGM in the code here.)
+- #57 - faces.js recognizes if it has been opened from a ZenGM game, and in that case it displays a "Save" button in the bottom right corner that sends face data back to the page that opened it. (Other apps can use the same mechanism if they want, there's nothing specific to ZenGM in the code here.)
 
 # 4.2.2 (2024-08-04)
 
