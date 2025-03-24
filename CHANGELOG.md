@@ -1,3 +1,7 @@
+# 4.3.2 (2025-03-23)
+
+- Don't override jersey/teamColors when making relatives, it just produces weird results.
+
 # 4.3.1 (2025-03-23)
 
 - Fix issue with some bundlers.

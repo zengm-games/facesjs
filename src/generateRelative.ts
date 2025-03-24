@@ -27,7 +27,11 @@ export const generateRelative = ({
   });
 
   // Regenerate some properties always, and others with some probability
-  type RegenerateType = "always" | "sometimes" | "sometimesIfRaceIsKnown";
+  type RegenerateType =
+    | "always"
+    | "never"
+    | "sometimes"
+    | "sometimesIfRaceIsKnown";
   type ToRegenerateProperties<T, U> = T extends object
     ? T extends any[]
       ? U
@@ -66,12 +70,12 @@ export const generateRelative = ({
       id: "sometimes",
       shave: "always",
     },
-    jersey: "always",
+    jersey: "never",
     miscLine: "sometimes",
     mouth: "sometimes",
     nose: "sometimes",
     smileLine: "sometimes",
-    teamColors: "always",
+    teamColors: "never",
   };
 
   const probRegenerate = 0.25;
