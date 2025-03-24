@@ -4,8 +4,11 @@ import { TopBar } from "./TopBar";
 import { MainFace } from "./MainFace";
 import { EditJsonModal } from "./EditJsonModal";
 import { Credits } from "./Credits";
+import { SaveButton } from "./SaveButton";
 
 const App = () => {
+  const showSaveButton = window.opener !== undefined;
+
   const modalDisclosure = useDisclosure();
 
   return (
@@ -22,9 +25,12 @@ const App = () => {
         </div>
       </div>
       <EditJsonModal modalDisclosure={modalDisclosure} />
-      <div className="md:hidden mb-2 mx-2">
+      <div
+        className={`md:hidden mx-2 ${showSaveButton ? "mb-[64px]" : "mb-2"}`}
+      >
         <Credits />
       </div>
+      <SaveButton />
     </NextUIProvider>
   );
 };

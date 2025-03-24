@@ -86,7 +86,10 @@ export type GallerySectionConfig =
   | GallerySectionConfigColors
   | GallerySectionConfigSvgs;
 
-export type CombinedState = FaceState & GalleryState;
+export type CombinedState = FaceState &
+  GalleryState & {
+    fromParent: { key: number; opener: (typeof window)["opener"] } | undefined;
+  };
 
 export type OverrideListItem = {
   override: Overrides;

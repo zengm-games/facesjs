@@ -318,19 +318,27 @@ const gallerySectionConfigList: GallerySectionConfig[] =
     }
   });
 
-const generateInitialFace = () => {
-  let faceConfig: FaceConfig;
+const generateInitialFaceAndParseHash = () => {
+  let initialFace: FaceConfig;
+  let fromParent: CombinedState["fromParent"];
   if (location.hash.length <= 1) {
-    faceConfig = generate();
+    initialFace = generate();
   } else {
     try {
-      faceConfig = JSON.parse(atob(location.hash.slice(1)));
+      const parts = location.hash.slice(1).split(",");
+      if (parts.length === 2 && window.opener) {
+        fromParent = {
+          key: parseInt(parts[0]),
+          opener: window.opener,
+        };
+      }
+      initialFace = JSON.parse(atob(parts.at(-1)!));
     } catch (error) {
       console.error(error);
-      faceConfig = generate();
+      initialFace = generate();
     }
   }
-  return faceConfig;
+  return { fromParent, initialFace };
 };
 
 const applyValuesToGallerySectionConfigList = (
@@ -346,11 +354,17 @@ const applyValuesToGallerySectionConfigList = (
   }
 };
 
+const { fromParent, initialFace } = generateInitialFaceAndParseHash();
+
 const updateUrlHash = (face: FaceConfig) => {
-  history.replaceState(undefined, "", `#${btoa(JSON.stringify(face))}`);
+  const prefix = fromParent ? `${fromParent.key},` : "";
+  history.replaceState(
+    undefined,
+    "",
+    `#${prefix}${btoa(JSON.stringify(face))}`,
+  );
 };
 
-const initialFace = generateInitialFace();
 applyValuesToGallerySectionConfigList(gallerySectionConfigList, initialFace);
 updateUrlHash(initialFace);
 
@@ -358,6 +372,7 @@ const createGallerySlice: StateCreator<CombinedState, [], [], CombinedState> = (
   set,
 ) => ({
   faceConfig: initialFace,
+  fromParent,
   setFaceStore: (newFace: FaceConfig) =>
     set((state: CombinedState) => {
       history.replaceState(undefined, "", `#${btoa(JSON.stringify(newFace))}`);
