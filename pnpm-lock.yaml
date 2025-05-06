@@ -87,9 +87,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
-      babel-plugin-add-module-exports:
-        specifier: ^1.0.4
-        version: 1.0.4
       chokidar:
         specifier: ^3.6.0
         version: 3.6.0
@@ -2327,9 +2324,6 @@ packages:
     hasBin: true
     peerDependencies:
       postcss: ^8.1.0
-
-  babel-plugin-add-module-exports@1.0.4:
-    resolution: {integrity: sha512-g+8yxHUZ60RcyaUpfNzy56OtWW+x9cyEe9j+CranqLiqbju2yf/Cy6ZtYK40EZxtrdHllzlVZgLmcOUCTlJ7Jg==}
 
   babel-plugin-polyfill-corejs2@0.4.11:
     resolution: {integrity: sha512-sMEJ27L0gRHShOh5G54uAAPaiCOygY/5ratXuiyb2G46FmlSpc9eFCzYVyDiPxfNbwzA7mYahmjQc5q+CZQ09Q==}
@@ -6868,8 +6862,6 @@ snapshots:
       picocolors: 1.0.1
       postcss: 8.4.38
       postcss-value-parser: 4.2.0
-
-  babel-plugin-add-module-exports@1.0.4: {}
 
   babel-plugin-polyfill-corejs2@0.4.11(@babel/core@7.24.7):
     dependencies:

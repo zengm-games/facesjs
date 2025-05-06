@@ -1,3 +1,7 @@
+# 5.0.0 (2025-05-06)
+
+- Got rid of CommonJS build and switched to ESM only, since Node 20+ can require(ESM).
+
 # 4.3.3 (2025-03-23)
 
 - Get rid of `generateRelative` export and instead just have a `relative` option on the normal `generate` function.

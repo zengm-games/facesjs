@@ -24,9 +24,7 @@
   "scripts": {
     "dev": "vite",
     "test": "pnpm tsc --noEmit --emitDeclarationOnly false && eslint && vitest run",
-    "build": "node tools/process-svgs.js && rm -rf build && pnpm run build-commonjs && pnpm run build-esmodules && pnpm tsc -p tsconfig-esmodules.json && pnpm tsc -p tsconfig-commonjs.json",
-    "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build/commonjs && echo '{\"type\": \"commonjs\"}' > build/commonjs/package.json",
-    "build-esmodules": "babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build/esmodules",
+    "build": "node tools/process-svgs.js && rm -rf build && babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build && tsc",
     "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
     "prepublishOnly": "pnpm test && pnpm run build"
@@ -55,7 +53,6 @@
     "@uiw/react-color-swatch": "^2.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "autoprefixer": "^10.4.19",
-    "babel-plugin-add-module-exports": "^1.0.4",
     "chokidar": "^3.6.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.5.0",
@@ -95,32 +92,20 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "types": "./build/esmodules/index.d.ts",
-        "default": "./build/esmodules/index.js"
-      },
-      "require": {
-        "types": "./build/commonjs/index.d.ts",
-        "default": "./build/commonjs/index.js"
-      }
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
     },
     "./react": {
-      "import": {
-        "types": "./build/esmodules/Face.d.ts",
-        "default": "./build/esmodules/Face.js"
-      },
-      "require": {
-        "types": "./build/commonjs/Face.d.ts",
-        "default": "./build/commonjs/Face.js"
-      }
+      "types": "./build/Face.d.ts",
+      "default": "./build/Face.js"
     }
   },
-  "main": "./build/commonjs/index.js",
-  "types": "./build/commonjs/index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "files": [
     "build"
   ],
-  "bin": "build/esmodules/cli.js",
+  "bin": "build/cli.js",
   "lint-staged": {
     "*.{js,cjs,mjs,jsx,json,css,ts,tsx}": "prettier --write"
   },

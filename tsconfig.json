@@ -6,7 +6,7 @@
     "strict": true,
     "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "build/esmodules",
+    "declarationDir": "build",
     "useDefineForClassFields": true,
     "lib": ["esnext", "ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
