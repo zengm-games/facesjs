@@ -1,3 +1,7 @@
+# 5.0.1 (2025-05-06)
+
+- Remove extra files from build.
+
 # 5.0.0 (2025-05-06)
 
 - Got rid of CommonJS build and switched to ESM only, since Node 20+ can require(ESM).
