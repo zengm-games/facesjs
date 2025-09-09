@@ -6,7 +6,6 @@
 		</linearGradient>
 	</defs>
 	<style>
-		tspan { white-space:pre }
 		.cornrows { fill: url(#grd1);stroke: none} 
 	</style>
 	<path id="Short Fade" class="cornrows" d="M60 300L50 300C50 160 100 100 200 100C300 100 350 160 350 300L340 300C340 300 340 295 340 290C340 285 330 270 325 265C320 260 320 210 310 200C270 160 250 200 200 200C150 200 130 160 90 200C80 210 80 260 75 265C70 270 60 285 60 290C60 295 60 300 60 300Z" />

@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 50" width="75" height="50">
 	<style>
-		tspan { white-space:pre }
 		.shp0 { fill: #ffffff;stroke: #000000;stroke-width: 5 } 
 		.shp1 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-linejoin:round;stroke-width: 4 } 
 	</style>

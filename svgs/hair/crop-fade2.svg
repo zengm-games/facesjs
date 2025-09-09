@@ -67,7 +67,6 @@
   </defs>
   <style
      id="style125">
-		tspan { white-space:pre }
 		.short_fade { fill: url(#shortfade);stroke: none} 
 	</style>
   <g

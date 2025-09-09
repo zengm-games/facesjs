@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
 	<g id="basketball 2">
-		<path id="primary" class="primary" d="M80 610C80 610 90 580 90 520C110 510 110 510 110 510C110 510 120 590 200 590C280 590 290 510 290 510C290 510 290 510 310 520C310 580 320 610 320 610L80 610Z" fill="$[primary]" stroke="#000000" stroke-width="6"/>
-		<path id="secondary" class="secondary" d="M85 575L85 600L315 600L315 575L250 575C250 575 230 590 200 590C170 590 150 575 150 575L85 575Z" fill="$[secondary]" stroke="none"/>
-		<path id="outline" class="outline" d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="#000000" stroke-width="16"/>
-		<path id="stripe-primary" class="stripe-primary" d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="$[primary]" stroke-width="12"/>
-		<path id="stripe-accent" class="stripe-accent" d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="$[accent]" stroke-width="6"/>
+		<path d="M80 610C80 610 90 580 90 520C110 510 110 510 110 510C110 510 120 590 200 590C280 590 290 510 290 510C290 510 290 510 310 520C310 580 320 610 320 610L80 610Z" fill="$[primary]" stroke="#000000" stroke-width="6"/>
+		<path d="M85 575L85 600L315 600L315 575L250 575C250 575 230 590 200 590C170 590 150 575 150 575L85 575Z" fill="$[secondary]" stroke="none"/>
+		<path d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="#000000" stroke-width="16"/>
+		<path d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="$[primary]" stroke-width="12"/>
+		<path d="M90 520C90 580 80 610 80 610M310 520C310 580 320 610 320 610M110 510C110 510 120 590 200 590C280 590 290 510 290 510" fill="none" stroke="$[accent]" stroke-width="6"/>
 	</g>
 </svg>

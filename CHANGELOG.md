@@ -1,3 +1,7 @@
+# 5.0.2 (2025-09-09)
+
+- Remove extra class names from some SVG elements, as they were not doing anything and had the potential to conflict with other class names (such as "outline" from Tailwind).
+
 # 5.0.1 (2025-05-06)
 
 - Remove extra files from build.

@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 25" width="66" height="25">
 	<style>
-		tspan { white-space:pre }
 		.side { fill: none;stroke: #000000;stroke-width: 5 } 
 	</style>
 	<path id="side" class="side" d="M1 22L61 12L51 2" />

@@ -6,7 +6,6 @@
 		</linearGradient>
 	</defs>
 	<style>
-		tspan { white-space:pre }
 		.cornrows { fill: url(#grd1);stroke: none} 
 	</style>
 	<g id="cornrows">

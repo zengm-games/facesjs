@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 28" width="70" height="28">
 	<style>
-		tspan { white-space:pre }
 		.lips { opacity: 0.05;mix-blend-mode: multiply;fill: #501414 } 
 		.teeth { fill: #ffffff } 
 		.mouth-03-stroke { fill: none;stroke: #000000;stroke-width: 4 } 

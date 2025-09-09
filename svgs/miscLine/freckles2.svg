@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
 	<style>
-		tspan { white-space:pre }
 		.shp0 { opacity: 0.251;mix-blend-mode: multiply;fill: none;stroke: #8b6135;stroke-width: 4.4 } 
 	</style>
 	<path id="Shape 1" class="shp0" d="M102 385L111.08 360M124.7 360L115.62 385M129.24 385L138.31 360M151.93 360L142.85 385M249.07 385L258.15 360M271.76 360L262.69 385M276.3 385L285.38 360M299 360L289.92 385" />

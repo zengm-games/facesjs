@@ -34,6 +34,14 @@ const processSVGs = async () => {
               onlyMatchedOnce: false,
             },
           },
+
+          // After inlineStyles, and remaining classes are extraneous ones that should be deleted to avoid conflict
+          {
+            name: "removeAttrs",
+            params: {
+              attrs: "(class)",
+            },
+          },
         ],
       });
 

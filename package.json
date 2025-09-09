@@ -27,7 +27,7 @@
     "build": "node tools/process-svgs.js && rm -rf build && babel src --extensions '.js,.jsx,.ts,.tsx' --out-dir build && tsc -p tsconfig-build.json",
     "build-site": "vite build",
     "prepare": "node tools/process-svgs.js && husky",
-    "prepublishOnly": "pnpm test && pnpm run build"
+    "prepack": "pnpm test && pnpm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.7",

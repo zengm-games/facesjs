@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 50" width="75" height="50">
 	<style>
-		tspan { white-space:pre }
 		.white { fill: #f5f3ee } 
 		.shp1 { fill: #000000 } 
 	</style>

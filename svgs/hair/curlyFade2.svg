@@ -6,7 +6,6 @@
 		</linearGradient>
 	</defs>
 	<style>
-		tspan { white-space:pre }
 		.short_fade { fill: url(#shortfade);stroke: none} 
 	</style>
 	<g id="short fade">
