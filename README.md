@@ -138,7 +138,7 @@ You can also specify overrides, similar to `display`:
 const svg = faceToSvgString(face, { body: { color: "blue" } });
 ```
 
-`faceToSvgString` is intended to be used in Node.js If you are doing client-side JS, it would be more efficient to render a face to the DOM using `display` and then [convert it to a blob like this](https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64).
+`faceToSvgString` is intended to be used in Node.js. If you are doing client-side JS, it would be more efficient to render a face to the DOM using `display` and then [convert it to a blob like this](https://github.com/zengm-games/facesjs/blob/19ce236af6adbf76db29c4e669210b30e1de0e1a/public/editor/downloadFace.ts#L61-L64).
 
 ### CLI
 
