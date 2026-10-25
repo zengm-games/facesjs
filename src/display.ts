@@ -164,33 +164,19 @@ const drawFeature = (
 
   // @ts-expect-error
   if (feature.shave) {
-    // @ts-expect-error
-    featureSVGString = featureSVGString.replace("$[faceShave]", feature.shave);
+    featureSVGString = featureSVGString
+      // @ts-expect-error
+      .replaceAll("$[faceShave]", feature.shave)
+      // @ts-expect-error
+      .replaceAll("$[headShave]", feature.shave);
   }
 
-  // @ts-expect-error
-  if (feature.shave) {
-    // @ts-expect-error
-    featureSVGString = featureSVGString.replace("$[headShave]", feature.shave);
-  }
-
-  featureSVGString = featureSVGString.replace("$[skinColor]", face.body.color);
-  featureSVGString = featureSVGString.replace(
-    /\$\[hairColor\]/g,
-    face.hair.color,
-  );
-  featureSVGString = featureSVGString.replace(
-    /\$\[primary\]/g,
-    face.teamColors[0],
-  );
-  featureSVGString = featureSVGString.replace(
-    /\$\[secondary\]/g,
-    face.teamColors[1],
-  );
-  featureSVGString = featureSVGString.replace(
-    /\$\[accent\]/g,
-    face.teamColors[2],
-  );
+  featureSVGString = featureSVGString
+    .replaceAll("$[skinColor]", face.body.color)
+    .replaceAll("$[hairColor]", face.hair.color)
+    .replaceAll("$[primary]", face.teamColors[0])
+    .replaceAll("$[secondary]", face.teamColors[1])
+    .replaceAll("$[accent]", face.teamColors[2]);
 
   const bodySize = face.body.size !== undefined ? face.body.size : 1;
 

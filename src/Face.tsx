@@ -61,7 +61,7 @@ export const Face = forwardRef<
         }
       }
     }
-  }, [intersectionObserverEntry, face, overrides]);
+  }, [face, ignoreDisplayErrors, intersectionObserverEntry, lazy, overrides]);
 
   return (
     <div
