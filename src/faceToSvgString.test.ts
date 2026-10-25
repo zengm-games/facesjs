@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
-import { generate } from "./generate.js";
+import { defaultTeamColors } from "./common.js";
+import { colors, generate } from "./generate.js";
 import { faceToSvgString, getShapesBBox } from "./faceToSvgString.js";
 import { deepCopy } from "./utils.js";
 
@@ -10,14 +11,23 @@ test("does not modify the input face", () => {
   expect(face).toEqual(original);
 });
 
-test("throws on invalid colors", () => {
+test("replaces invalid colors with fallbacks", () => {
   const color = '"/><image href=x onerror=alert(1)>';
-  expect(() => faceToSvgString(generate({ body: { color } }))).toThrow(
-    "Invalid color",
+  const svg = faceToSvgString(
+    generate({
+      body: { color },
+      // Features that use the hair color and accent color, so the fallbacks show up in the SVG
+      hair: { id: "afro", color },
+      jersey: { id: "jersey2" },
+      accessories: { id: "none" },
+      head: { shave: color },
+      teamColors: ["#000", "#000", color],
+    }),
   );
-  expect(() =>
-    faceToSvgString(generate({ teamColors: ["#000", "#000", color] })),
-  ).toThrow("Invalid color");
+  expect(svg).not.toContain("<image");
+  expect(svg).toContain(colors.white.skin[0]);
+  expect(svg).toContain(colors.white.hair[0]);
+  expect(svg).toContain(defaultTeamColors[2]);
 });
 
 test("escapes attribute values", () => {

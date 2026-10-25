@@ -1,6 +1,12 @@
 import override from "./override.js";
 import svgs from "./svgs.js";
-import { FaceConfig, Overrides } from "./common.js";
+import {
+  defaultTeamColors,
+  type FaceConfig,
+  type Overrides,
+  type TeamColors,
+} from "./common.js";
+import { colors } from "./generate.js";
 import { deepCopy, isValidColor } from "./utils.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
@@ -250,17 +256,15 @@ export const display = (
   face = deepCopy(face);
   override(face, overrides);
 
-  // Colors get inserted into SVG markup, so make sure they can't inject anything else
-  for (const color of [
-    face.body.color,
-    face.hair.color,
-    face.head.shave,
-    ...face.teamColors,
-  ]) {
-    if (!isValidColor(color)) {
-      throw new Error(`Invalid color: ${JSON.stringify(color)}`);
-    }
-  }
+  // Colors get inserted into SVG markup, so replace any that could inject something else
+  const safeColor = (color: unknown, fallback: string) =>
+    isValidColor(color) ? color : fallback;
+  face.body.color = safeColor(face.body.color, colors.white.skin[0]);
+  face.hair.color = safeColor(face.hair.color, colors.white.hair[0]);
+  face.head.shave = safeColor(face.head.shave, "rgba(0,0,0,0)");
+  face.teamColors = defaultTeamColors.map((fallback, i) =>
+    safeColor(face.teamColors?.[i], fallback),
+  ) as TeamColors;
 
   const containerElement =
     typeof container === "string"

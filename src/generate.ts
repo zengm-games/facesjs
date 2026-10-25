@@ -1,6 +1,7 @@
 import override from "./override.js";
 import { svgsGenders, svgsIndex } from "./svgs-index.js";
 import {
+  defaultTeamColors,
   type FaceConfig,
   type Feature,
   type Gender,
@@ -47,8 +48,6 @@ export const colors = {
   },
   black: { skin: ["#ad6453", "#74453d", "#5c3937"], hair: ["#272421"] },
 };
-
-const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
 
 const roundTwoDecimals = (x: number) => Math.round(x * 100) / 100;
 

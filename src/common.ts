@@ -30,6 +30,8 @@ export type Race = (typeof races)[number];
 
 export type TeamColors = [string, string, string];
 
+export const defaultTeamColors: TeamColors = ["#89bfd3", "#7a1319", "#07364f"];
+
 export type FeatureInfo = {
   id?: string;
   name: Feature;
