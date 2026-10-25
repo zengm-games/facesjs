@@ -1,4 +1,4 @@
-# Dev
+# 5.0.4 (2026-10-25)
 
 - Several small bug fixes
 
