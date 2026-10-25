@@ -1,3 +1,9 @@
+# Dev
+
+- New `isValidColor` export, to check if a color string is safe to use in a face (no quotes, angle brackets, etc. that could break out of the SVG)
+
+- Several small bug fixes
+
 # 5.0.3 (2026-04-14)
 
 - Added new short-fade-2 hair style and santa hat (#61 by @chrislardner)
