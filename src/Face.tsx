@@ -8,7 +8,6 @@ import {
 } from "react";
 import { FaceConfig, Overrides } from "./common.js";
 import { display } from "./display.js";
-import { deepCopy } from "./utils.js";
 
 const useIntersectionObserver = () => {
   const [ref, setRef] = useState<HTMLElement | undefined>();
@@ -55,12 +54,7 @@ export const Face = forwardRef<
       faceRef.current
     ) {
       try {
-        if (overrides) {
-          // Only apply overrides if face is in viewport
-          display(faceRef.current, deepCopy(face), overrides);
-        } else {
-          display(faceRef.current, face);
-        }
+        display(faceRef.current, face, overrides);
       } catch (error) {
         if (!ignoreDisplayErrors) {
           throw error;

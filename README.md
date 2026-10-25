@@ -16,16 +16,10 @@ Originally faces.js was made for [Basketball GM](https://basketball-gm.com/) and
 
 ## Use
 
-Import it with ES modules:
+Import it:
 
 ```javascript
 import { display, generate } from "facesjs";
-```
-
-or CommonJS:
-
-```javascript
-const { display, generate } = require("facesjs");
 ```
 
 Then, generate a random face:

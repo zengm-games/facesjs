@@ -19,4 +19,10 @@ describe("faceConfigSchema", () => {
     const face = { ...generate(), foo: { id: "bar" } };
     expect(faceConfigSchema.parse(face)).toEqual(face);
   });
+
+  test("rejects colors that could inject markup", () => {
+    const face = generate();
+    face.body.color = '"/><image href=x onerror=alert(1)>';
+    expect(faceConfigSchema.safeParse(face).success).toBe(false);
+  });
 });

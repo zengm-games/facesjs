@@ -146,13 +146,13 @@ export const faceToSvgString = (
   // Even though we will provide a pseudo HTML elment, display() accesses
   // document.createElementNS() so we need to inject our own code there.
   // Let's first save what's already there
-  const backup = global.document;
+  const backup = globalThis.document;
 
   try {
-    global.document = svgDocument as any;
+    globalThis.document = svgDocument as any;
     display(svgDocument as unknown as HTMLElement, face, overrides);
   } finally {
-    global.document = backup;
+    globalThis.document = backup;
   }
   return svgDocument.toXml();
 };

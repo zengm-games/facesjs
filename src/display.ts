@@ -1,6 +1,7 @@
 import override from "./override.js";
 import svgs from "./svgs.js";
 import { FaceConfig, Overrides } from "./common.js";
+import { deepCopy, isValidColor } from "./utils.js";
 
 const addWrapper = (svgString: string) => `<g>${svgString}</g>`;
 
@@ -259,7 +260,21 @@ export const display = (
   face: FaceConfig,
   overrides?: Overrides,
 ): void => {
+  // Copy so neither overrides nor the hat/hair logic in drawFeature modify the caller's object
+  face = deepCopy(face);
   override(face, overrides);
+
+  // Colors get inserted into SVG markup, so make sure they can't inject anything else
+  for (const color of [
+    face.body.color,
+    face.hair.color,
+    face.head.shave,
+    ...face.teamColors,
+  ]) {
+    if (!isValidColor(color)) {
+      throw new Error(`Invalid color: ${JSON.stringify(color)}`);
+    }
+  }
 
   const containerElement =
     typeof container === "string"

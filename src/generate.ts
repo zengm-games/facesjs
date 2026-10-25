@@ -119,7 +119,7 @@ export const generate = (
 
     face = {
       fatness: getRandUniform("fatness", gender),
-      teamColors: defaultTeamColors,
+      teamColors: [...defaultTeamColors] as TeamColors,
       hairBg: {
         id:
           Math.random() < (gender === "male" ? 0.1 : 0.9)
