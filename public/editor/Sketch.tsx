@@ -145,7 +145,7 @@ export const Sketch = React.forwardRef<HTMLDivElement, SketchProps>(
         hsv[key as keyof HsvaColor] = roundTwoDecimals(value);
       }
       setHsva(hsv);
-      onChange && onChange(handleColor(hsv));
+      onChange?.(handleColor(hsv));
     };
 
     const handleHex = (value: string | number) => {

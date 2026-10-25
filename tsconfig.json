@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "moduleResolution": "node",
-    "emitDeclarationOnly": true,
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["node"],
     "strict": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "declarationDir": "build",
     "useDefineForClassFields": true,
     "lib": ["esnext", "ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",

@@ -1,4 +1,4 @@
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import chokidar from "chokidar";
 import { resolve } from "node:path";
@@ -10,7 +10,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     emptyOutDir: true,
     outDir: "../build-site",
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         main: resolve(import.meta.dirname, "public/index.html"),
         editor: resolve(import.meta.dirname, "public/editor/index.html"),
