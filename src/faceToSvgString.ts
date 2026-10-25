@@ -2,6 +2,14 @@ import { svgPathBbox } from "svg-path-bbox";
 import { display } from "./display.js";
 import { FaceConfig, Overrides } from "./common.js";
 
+// Attribute values can contain data from the face config (like angle or size), so escape them like setAttribute effectively does in the browser
+const escapeAttribute = (value: string) =>
+  String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
 /**
  * An instance of this object can pretend to be the global "document"
  * variable used in a browser context so that the calls made by the display()
@@ -119,7 +127,7 @@ class SvgNode {
         openTag += ' xmlns="http://www.w3.org/2000/svg"';
       }
       for (const attributeName of Object.keys(this.attributes)) {
-        openTag += ` ${attributeName}="${this.attributes[attributeName]}"`;
+        openTag += ` ${attributeName}="${escapeAttribute(this.attributes[attributeName])}"`;
       }
       openTag += ">";
       s += openTag + "\n";
