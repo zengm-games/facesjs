@@ -16,25 +16,16 @@ Originally faces.js was made for [Basketball GM](https://basketball-gm.com/) and
 
 ## Use
 
-Import it:
-
 ```javascript
 import { display, generate } from "facesjs";
-```
 
-Then, generate a random face:
-
-```javascript
+// Generate a random face
 const face = generate();
-```
 
-And display it:
-
-```javascript
 // Display in a div with id "my-div-id"
 display("my-div-id", face);
 
-// Display in a div you already have a reference to
+// Alternatively, the first argumentcan be an `HTMLElement`
 const element = document.getElementById("my-div-id");
 display(element, face);
 ```
