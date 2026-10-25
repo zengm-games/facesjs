@@ -27,7 +27,20 @@ const processSVGs = async () => {
       const result = await optimize(contents, {
         multipass: true,
         plugins: [
-          "preset-default",
+          {
+            name: "preset-default",
+            params: {
+              overrides: {
+                // svgo 4 lowercases colors by default, which would break placeholders like $[skinColor]
+                convertColors: { convertCase: false },
+              },
+            },
+          },
+
+          // No longer in preset-default as of svgo 4
+          "removeTitle",
+          "removeViewBox",
+
           {
             name: "inlineStyles",
             params: {

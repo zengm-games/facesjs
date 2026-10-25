@@ -1,11 +1,9 @@
 import eslint from "@eslint/js";
+import { globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-// Merge the contents of eslint-config-prettier into every
 export default tseslint.config(
-  {
-    ignores: ["build/", "build-site/"],
-  },
+  globalIgnores(["build/", "build-site/"]),
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
