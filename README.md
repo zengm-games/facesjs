@@ -104,21 +104,6 @@ Props of the `Face` component:
 |`className` || `string` || If provided, will be put on the wrapper div. |
 |`style` || `CSSProperties` || If provided, will be put on the wrapper div. |
 
-### Validation with Zod
-
-If you accept faces from users (such as JSON uploads), you can validate them with [Zod](https://zod.dev/) (version 3.25+ or 4). Zod is an optional peer dependency, so you need to install it yourself.
-
-```javascript
-import { faceConfigSchema } from "facesjs/zod";
-
-const result = faceConfigSchema.safeParse(JSON.parse(json));
-if (result.success) {
-    // result.data is a valid FaceConfig
-}
-```
-
-All features are required, and unknown properties are kept.
-
 ## Exporting SVGs
 
 ### API

@@ -71,7 +71,6 @@
     "typescript-eslint": "^7.13.1",
     "vite": "^5.3.1",
     "vitest": "^1.6.0",
-    "zod": "^4.6.7",
     "zustand": "^4.5.2"
   },
   "dependencies": {
@@ -81,17 +80,13 @@
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "zod": "^3.25.0 || ^4.0.0"
+    "react-dom": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
       "optional": true
     },
     "react-dom": {
-      "optional": true
-    },
-    "zod": {
       "optional": true
     }
   },
@@ -103,10 +98,6 @@
     "./react": {
       "types": "./build/Face.d.ts",
       "default": "./build/Face.js"
-    },
-    "./zod": {
-      "types": "./build/zod.d.ts",
-      "default": "./build/zod.js"
     }
   },
   "main": "./build/index.js",

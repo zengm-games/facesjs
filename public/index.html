@@ -192,19 +192,6 @@ determined by an intersection observer).</td>
 </tr>
 </tbody>
 </table>
-<h3 id="validation-with-zod">Validation with Zod</h3>
-<p>If you accept faces from users (such as JSON uploads), you can
-validate them with <a href="https://zod.dev/">Zod</a> (version 3.25+ or
-4). Zod is an optional peer dependency, so you need to install it
-yourself.</p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { faceConfigSchema } <span class="im">from</span> <span class="st">&quot;facesjs/zod&quot;</span><span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result <span class="op">=</span> faceConfigSchema<span class="op">.</span><span class="fu">safeParse</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(json))<span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (result<span class="op">.</span><span class="at">success</span>) {</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// result.data is a valid FaceConfig</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>All features are required, and unknown properties are kept.</p>
 <h2 id="exporting-svgs">Exporting SVGs</h2>
 <h3 id="api">API</h3>
 <p>You can use <code>faceToSvgString</code> to convert a face object to

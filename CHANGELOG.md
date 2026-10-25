@@ -1,7 +1,3 @@
-# Dev
-
-- `import { faceConfigSchema } from "facesjs/zod";` gives you a Zod schema you can use to validate face objects.
-
 # 5.0.3 (2026-04-14)
 
 - Added new short-fade-2 hair style and santa hat (#61 by @chrislardner)
