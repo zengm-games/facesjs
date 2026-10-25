@@ -1,3 +1,5 @@
 allowBuilds:
   '@swc/core': false
   esbuild: false
+publicHoistPattern:
+  - "*@nextui-org/*"
